@@ -43,7 +43,7 @@ public class SetupWizardNavBar extends Fragment implements OnPreDrawListener {
     private static final String TAG = "SetupWizardNavBar";
     private static final int IMMERSIVE_FLAGS =
             View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
-    private int mSystemUiFlags = IMMERSIVE_FLAGS;
+    private int mSystemUiFlags = IMMERSIVE_FLAGS | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION;
 
     private ViewGroup mNavigationBarView;
     private Button mNextButton;
@@ -107,7 +107,19 @@ public class SetupWizardNavBar extends Fragment implements OnPreDrawListener {
      * @param useImmersiveMode True to activate immersive mode and hide the system navigation bar
      */
     public void setUseImmersiveMode(boolean useImmersiveMode) {
-        mSystemUiFlags = useImmersiveMode ? IMMERSIVE_FLAGS : View.SYSTEM_UI_FLAG_VISIBLE;
+        // By default, enable layoutHideNavigation if immersive mode is used
+        setUseImmersiveMode(useImmersiveMode, useImmersiveMode);
+    }
+
+    public void setUseImmersiveMode(boolean useImmersiveMode, boolean layoutHideNavigation) {
+        if (useImmersiveMode) {
+            mSystemUiFlags |= IMMERSIVE_FLAGS;
+            if (layoutHideNavigation) {
+                mSystemUiFlags |= View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION;
+            }
+        } else {
+            mSystemUiFlags &= ~(IMMERSIVE_FLAGS | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
+        }
         mNavigationBarView.setSystemUiVisibility(mSystemUiFlags);
     }
 
