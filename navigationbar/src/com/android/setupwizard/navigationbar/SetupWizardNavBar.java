@@ -35,9 +35,9 @@ import android.view.ViewTreeObserver.OnPreDrawListener;
 import android.widget.Button;
 
 /**
- * Fragment class for controlling the custom navigation bar shown during setup wizard.
- * The original copy is located under vendor/google/apps/SetupWizard/navigationbar. All changes
- * should be made there and copied to the other places.
+ * Fragment class for controlling the custom navigation bar shown during setup wizard. Apps in the
+ * Android tree can use this by including the common.mk makefile. Apps outside of the tree can
+ * create a library project out of the source.
  */
 public class SetupWizardNavBar extends Fragment implements OnPreDrawListener {
     private static final String TAG = "SetupWizardNavBar";
