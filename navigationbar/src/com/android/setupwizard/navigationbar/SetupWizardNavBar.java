@@ -23,7 +23,6 @@ import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,7 +37,7 @@ import android.widget.Button;
  * Android tree can use this by including the common.mk makefile. Apps outside of the tree can
  * create a library project out of the source.
  */
-public class SetupWizardNavBar extends Fragment implements OnPreDrawListener {
+public class SetupWizardNavBar extends Fragment implements OnPreDrawListener, OnClickListener {
     private static final String TAG = "SetupWizardNavBar";
     private static final int IMMERSIVE_FLAGS =
             View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
@@ -62,12 +61,7 @@ public class SetupWizardNavBar extends Fragment implements OnPreDrawListener {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        try {
-            mCallback = (NavigationBarListener) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
-                    + " must implement NavigationBarListener");
-        }
+        mCallback = (NavigationBarListener) activity;
     }
 
     @Override
@@ -77,7 +71,10 @@ public class SetupWizardNavBar extends Fragment implements OnPreDrawListener {
         inflater = LayoutInflater.from(context);
         mNavigationBarView = (ViewGroup) inflater.inflate(R.layout.setup_wizard_navbar_layout,
                 container, false);
-        init();
+        mNextButton = (Button) mNavigationBarView.findViewById(R.id.setup_wizard_navbar_next);
+        mBackButton = (Button) mNavigationBarView.findViewById(R.id.setup_wizard_navbar_back);
+        mNextButton.setOnClickListener(this);
+        mBackButton.setOnClickListener(this);
         return mNavigationBarView;
     }
 
@@ -123,6 +120,9 @@ public class SetupWizardNavBar extends Fragment implements OnPreDrawListener {
     }
 
     private int getNavbarTheme() {
+        // Normally we can automatically guess the theme by comparing the foreground color against
+        // the background color. But we also allow specifying explicitly using
+        // setup_wizard_navbar_theme.
         TypedArray attributes = getActivity().obtainStyledAttributes(
                 new int[] {
                         R.attr.setup_wizard_navbar_theme,
@@ -130,9 +130,8 @@ public class SetupWizardNavBar extends Fragment implements OnPreDrawListener {
                         android.R.attr.colorBackground });
         int theme = attributes.getResourceId(0, 0);
         if (theme == 0) {
-            // The theme is not set. Fallback to auto mode by comparing the value of the foreground
-            // against the background color to see if current theme is light-on-dark or
-            // dark-on-light.
+            // Compare the value of the foreground against the background color to see if current
+            // theme is light-on-dark or dark-on-light.
             float[] foregroundHsv = new float[3];
             float[] backgroundHsv = new float[3];
             Color.colorToHSV(attributes.getColor(1, 0), foregroundHsv);
@@ -140,28 +139,18 @@ public class SetupWizardNavBar extends Fragment implements OnPreDrawListener {
             boolean isDarkBg = foregroundHsv[2] > backgroundHsv[2];
             theme = isDarkBg ? R.style.setup_wizard_navbar_theme_dark :
                     R.style.setup_wizard_navbar_theme_light;
-            Log.v(TAG, "Theme is not set explicitly, falling back to auto mode");
         }
-        Log.v(TAG, "Using theme " + getResources().getResourceName(theme));
         attributes.recycle();
         return theme;
     }
 
-    private void init() {
-        mNextButton = (Button) mNavigationBarView.findViewById(R.id.setup_wizard_navbar_next);
-        mBackButton = (Button) mNavigationBarView.findViewById(R.id.setup_wizard_navbar_back);
-        mNextButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mCallback.onNavigateNext();
-            }
-        });
-        mBackButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mCallback.onNavigateBack();
-            }
-        });
+    @Override
+    public void onClick(View v) {
+        if (v == mBackButton) {
+            mCallback.onNavigateBack();
+        } else if (v == mNextButton) {
+            mCallback.onNavigateNext();
+        }
     }
 
     public Button getBackButton() {
