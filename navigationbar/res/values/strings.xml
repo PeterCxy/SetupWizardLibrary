@@ -6,7 +6,4 @@
     <!-- Button for going to the previous screen or step [CHAR LIMIT=40] -->
     <string name="setup_wizard_back_button_label">Back</string>
 
-    <!-- Button for scrolling down to reveal more content [CHAR LIMIT=40] -->
-    <string name="setup_wizard_more_button_label">More</string>
-
 </resources>
