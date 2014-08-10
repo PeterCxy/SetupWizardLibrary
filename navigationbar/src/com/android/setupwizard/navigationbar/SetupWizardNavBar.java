@@ -181,9 +181,10 @@ public class SetupWizardNavBar extends Fragment implements OnPreDrawListener, On
 
         @Override
         public void setEnabled(boolean enabled) {
-            // Dim the button (50% alpha) when disabled.
             super.setEnabled(enabled);
-            setAlpha(enabled ? 1.0f : 0.5f);
+            // The color of the button is #de000000 / #deffffff when enabled. When disabled, apply
+            // additional 23% alpha, so the overall opacity is 20%.
+            setAlpha(enabled ? 1.0f : 0.23f);
         }
     }
 
