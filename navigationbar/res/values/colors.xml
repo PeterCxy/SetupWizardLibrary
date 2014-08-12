@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="setup_wizard_navbar_bg_dark">#ff121212</color>
-    <color name="setup_wizard_navbar_bg_light">#fff5f5f5</color>
+    <color name="setup_wizard_navbar_bg_dark">#ff263238</color>
+    <color name="setup_wizard_navbar_bg_light">#ffeceff1</color>
     <color name="setup_wizard_navbar_text_dark">#deffffff</color>
     <color name="setup_wizard_navbar_text_light">#de000000</color>
 </resources>

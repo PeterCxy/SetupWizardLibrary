@@ -16,13 +16,13 @@
     </style>
 
     <style name="setup_wizard_navbar_theme_dark">
-        <item name="setup_wizard_navbar_bg_color">#ff121212</item>
-        <item name="setup_wizard_navbar_text_color">#deffffff</item>
+        <item name="setup_wizard_navbar_bg_color">@color/setup_wizard_navbar_bg_dark</item>
+        <item name="setup_wizard_navbar_text_color">@color/setup_wizard_navbar_text_dark</item>
     </style>
 
     <style name="setup_wizard_navbar_theme_light">
-        <item name="setup_wizard_navbar_bg_color">#fff5f5f5</item>
-        <item name="setup_wizard_navbar_text_color">#de000000</item>
+        <item name="setup_wizard_navbar_bg_color">@color/setup_wizard_navbar_bg_light</item>
+        <item name="setup_wizard_navbar_text_color">@color/setup_wizard_navbar_text_light</item>
     </style>
 
     <style name="setup_wizard_navbar_button_style" parent="@android:style/Widget.Material.Button.Borderless">
