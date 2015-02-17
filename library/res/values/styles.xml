@@ -16,9 +16,9 @@
 -->
 
 <resources>
-    <!-- Button for going to the next screen or step [CHAR LIMIT=40] -->
-    <string name="suw_next_button_label">Next</string>
 
-    <!-- Button for going to the previous screen or step [CHAR LIMIT=40] -->
-    <string name="suw_back_button_label">Back</string>
+    <attr name="suw_navbar_bg_color" format="color" />
+    <attr name="suw_navbar_text_color" format="color" />
+    <attr name="suw_navbar_theme" format="reference" />
+
 </resources>

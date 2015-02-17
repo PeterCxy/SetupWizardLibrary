@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-    Copyright (C) 2015 Google Inc
+    Copyright (C) 2015 The Android Open Source Project
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
     You may obtain a copy of the License at
 
-         http://www.apache.org/licenses/LICENSE-2.0
+        http://www.apache.org/licenses/LICENSE-2.0
 
     Unless required by applicable law or agreed to in writing, software
     distributed under the License is distributed on an "AS IS" BASIS,
@@ -15,10 +15,15 @@
     limitations under the License.
 -->
 
-<resources>
-    <!-- Button for going to the next screen or step [CHAR LIMIT=40] -->
-    <string name="suw_next_button_label">Next</string>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:autoMirrored="true"
+    android:width="@dimen/suw_navbar_ic_intrinsic_size"
+    android:height="@dimen/suw_navbar_ic_intrinsic_size"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
 
-    <!-- Button for going to the previous screen or step [CHAR LIMIT=40] -->
-    <string name="suw_back_button_label">Back</string>
-</resources>
+    <path
+        android:fillColor="?attr/suw_navbar_text_color"
+        android:pathData="M10,6 l-1.4,1.4 4.6,4.6 -4.6,4.6 1.4,1.4 6,-6z" />
+
+</vector>
