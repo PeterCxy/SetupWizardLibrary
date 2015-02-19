@@ -16,10 +16,8 @@
 -->
 
 <resources>
-    <dimen name="suw_navbar_button_drawable_padding">6dp</dimen>
-    <dimen name="suw_navbar_button_padding_sides">10dp</dimen>
-    <dimen name="suw_navbar_height">56dp</dimen>
-    <dimen name="suw_navbar_ic_intrinsic_size">24dp</dimen>
-    <dimen name="suw_navbar_padding_sides">24dp</dimen>
-    <dimen name="suw_navbar_text_size">16sp</dimen>
+
+    <!-- The duration (in milliseconds) of activity transitions -->
+    <integer name="suw_transition_duration">300</integer>
+
 </resources>
