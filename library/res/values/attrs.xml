@@ -17,8 +17,12 @@
 
 <resources>
 
+    <declare-styleable name="SuwIllustration">
+        <attr name="suwAspectRatio" format="float" />
+    </declare-styleable>
+
     <declare-styleable name="SuwStickyHeaderListView">
-        <attr name="suw_header" format="reference" />
+        <attr name="suwHeader" format="reference" />
     </declare-styleable>
 
 </resources>

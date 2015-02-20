@@ -72,7 +72,7 @@ public class StickyHeaderListView extends ListView {
         if (attrs != null) {
             final TypedArray a = context.obtainStyledAttributes(attrs,
                     R.styleable.SuwStickyHeaderListView, defStyleAttr, defStyleRes);
-            int headerResId = a.getResourceId(R.styleable.SuwStickyHeaderListView_suw_header, 0);
+            int headerResId = a.getResourceId(R.styleable.SuwStickyHeaderListView_suwHeader, 0);
             if (headerResId != 0) {
                 LayoutInflater inflater = LayoutInflater.from(context);
                 View header = inflater.inflate(headerResId, this, false);
