@@ -15,8 +15,11 @@
     limitations under the License.
 -->
 
-<translate xmlns:android="http://schemas.android.com/apk/res/android"
-    android:duration="@integer/suwTransitionDuration"
-    android:fromXDelta="100%"
-    android:toXDelta="0%"
-    android:interpolator="@android:anim/decelerate_interpolator" />
+<resources>
+
+    <item name="suw_template" type="layout">@layout/suw_template_card_wide</item>
+    <item name="suw_template_short" type="layout">@layout/suw_template_card_wide</item>
+    <item name="suw_list_template" type="layout">@layout/suw_list_template_card_wide</item>
+    <item name="suw_list_template_short" type="layout">@layout/suw_list_template_card_wide</item>
+
+</resources>

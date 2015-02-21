@@ -15,8 +15,12 @@
     limitations under the License.
 -->
 
-<translate xmlns:android="http://schemas.android.com/apk/res/android"
-    android:duration="@integer/suwTransitionDuration"
-    android:fromXDelta="100%"
-    android:toXDelta="0%"
-    android:interpolator="@android:anim/decelerate_interpolator" />
+<resources>
+
+    <!-- Card layout (for tablets) -->
+    <dimen name="suw_card_title_padding_end">32dp</dimen>
+    <dimen name="suw_card_title_padding_start">56dp</dimen>
+    <dimen name="suw_card_title_padding_top">24dp</dimen>
+    <dimen name="suw_card_title_padding_bottom">0dp</dimen>
+
+</resources>

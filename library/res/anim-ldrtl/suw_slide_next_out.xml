@@ -16,7 +16,7 @@
 -->
 
 <translate xmlns:android="http://schemas.android.com/apk/res/android"
-    android:duration="@integer/suw_transition_duration"
+    android:duration="@integer/suwTransitionDuration"
     android:fromXDelta="0%"
     android:toXDelta="100%"
     android:interpolator="@android:anim/decelerate_interpolator" />
