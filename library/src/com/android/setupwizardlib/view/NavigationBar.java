@@ -30,7 +30,12 @@ import android.widget.LinearLayout;
 import com.android.setupwizardlib.R;
 
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-public class NavigationBar extends LinearLayout {
+public class NavigationBar extends LinearLayout implements View.OnClickListener {
+
+    public interface NavigationBarListener {
+        void onNavigateBack();
+        void onNavigateNext();
+    }
 
     private static int getNavbarTheme(Context context) {
         // Normally we can automatically guess the theme by comparing the foreground color against
@@ -62,6 +67,7 @@ public class NavigationBar extends LinearLayout {
 
     private Button mNextButton;
     private Button mBackButton;
+    private NavigationBarListener mListener;
 
     public NavigationBar(Context context) {
         this(context, null);
@@ -89,6 +95,25 @@ public class NavigationBar extends LinearLayout {
 
     public Button getNextButton() {
         return mNextButton;
+    }
+
+    public void setNavigationBarListener(NavigationBarListener listener) {
+        mListener = listener;
+        if (mListener != null) {
+            getBackButton().setOnClickListener(this);
+            getNextButton().setOnClickListener(this);
+        }
+    }
+
+    @Override
+    public void onClick(View view) {
+        if (mListener != null) {
+            if (view == getBackButton()) {
+                mListener.onNavigateBack();
+            } else if (view == getNextButton()) {
+                mListener.onNavigateNext();
+            }
+        }
     }
 
     public static class NavButton extends Button {
