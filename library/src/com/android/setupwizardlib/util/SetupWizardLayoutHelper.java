@@ -16,12 +16,20 @@
 
 package com.android.setupwizardlib.util;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
+import android.graphics.Shader.TileMode;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.LayerDrawable;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.TextView;
 
 import com.android.setupwizardlib.R;
 import com.android.setupwizardlib.SetupWizardLayout;
+import com.android.setupwizardlib.view.Illustration;
 
 /**
  * This layout helper works with SetupWizardLayout and manages the templates for suw_template and
@@ -68,6 +76,91 @@ public class SetupWizardLayoutHelper {
         TextView titleView = (TextView) mLayout.findViewById(R.id.suw_layout_title);
         if (titleView != null) {
             titleView.setText(title);
+        }
+    }
+
+    /**
+     * Set the illustration of the layout. The drawable will be applied as is, and the bounds will
+     * be set as implemented in {@link com.android.setupwizardlib.view.Illustration}. To create
+     * a suitable drawable from an asset and a horizontal repeating tile, use
+     * {@link #setIllustration(int, int)} instead.
+     *
+     * @param drawable The drawable specifying the illustration.
+     */
+    public void setIllustration(Drawable drawable) {
+        View view = mLayout.findViewById(R.id.suw_layout_decor);
+        if (view instanceof Illustration) {
+            Illustration illustration = (Illustration) view;
+            illustration.setIllustration(drawable);
+        }
+    }
+
+    /**
+     * Set the illustration of the layout, which will be created asset and the horizontal tile as
+     * suitable. On phone layouts (not sw600dp), the asset will be scaled, maintaining aspect ratio.
+     * On tablets (sw600dp), the assets will always have 256dp height and the rest of the
+     * illustration area that the asset doesn't fill will be covered by the horizontalTile.
+     *
+     * @param asset Resource ID of the illustration asset.
+     * @param horizontalTile Resource ID of the horizontally repeating tile for tablet layout.
+     */
+    public void setIllustration(int asset, int horizontalTile) {
+        View view = mLayout.findViewById(R.id.suw_layout_decor);
+        if (view instanceof Illustration) {
+            final Illustration illustration = (Illustration) view;
+            final Drawable illustrationDrawable = getIllustration(asset, horizontalTile);
+            illustration.setIllustration(illustrationDrawable);
+        }
+    }
+
+    /**
+     * Set the background of the layout, which is expected to be able to extend infinitely. If it is
+     * a bitmap tile and you want it to repeat, use {@link #setBackgroundTile(int)} instead.
+     */
+    public void setBackground(Drawable background) {
+        View view = mLayout.findViewById(R.id.suw_layout_decor);
+        if (view != null) {
+            view.setBackground(background);
+        }
+    }
+
+    /**
+     * Set the background of the layout to a repeating bitmap tile. To use a different kind of
+     * drawable, use {@link #setBackground(android.graphics.drawable.Drawable)} instead.
+     */
+    public void setBackgroundTile(int backgroundTile) {
+        Drawable background = mLayout.getContext().getDrawable(backgroundTile);
+        if (background instanceof BitmapDrawable) {
+            ((BitmapDrawable) background).setTileModeXY(TileMode.REPEAT, TileMode.REPEAT);
+        }
+        View view = mLayout.findViewById(R.id.suw_layout_decor);
+        if (view != null) {
+            view.setBackground(background);
+        }
+    }
+
+    @SuppressLint("RtlHardcoded")
+    private Drawable getIllustration(int asset, int horizontalTile) {
+        final Context context = mLayout.getContext();
+        final Drawable illustration = context.getDrawable(asset);
+        if (context.getResources().getBoolean(R.bool.suwUseTabletLayout)) {
+            // If it is a "tablet" (sw600dp), create a LayerDrawable with the horizontal tile.
+            final Drawable tile = context.getDrawable(horizontalTile);
+            if (tile instanceof BitmapDrawable) {
+                ((BitmapDrawable) tile).setTileModeX(TileMode.REPEAT);
+                ((BitmapDrawable) tile).setGravity(Gravity.TOP);
+            }
+            if (illustration instanceof BitmapDrawable) {
+                // Always specify TOP | LEFT, Illustration will flip the entire LayerDrawable.
+                ((BitmapDrawable) illustration).setGravity(Gravity.TOP | Gravity.LEFT);
+            }
+            final LayerDrawable layers = new LayerDrawable(new Drawable[] { tile, illustration });
+            layers.setAutoMirrored(true);
+            return layers;
+        } else {
+            // If it is a "phone" (not sw600dp), simply return the illustration
+            illustration.setAutoMirrored(true);
+            return illustration;
         }
     }
 }
