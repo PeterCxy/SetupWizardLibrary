@@ -25,4 +25,8 @@
         <attr name="suwHeader" format="reference" />
     </declare-styleable>
 
+    <declare-styleable name="SuwSetupWizardLayout">
+        <attr name="android:layout" />
+    </declare-styleable>
+
 </resources>
