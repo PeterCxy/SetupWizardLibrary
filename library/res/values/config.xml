@@ -18,6 +18,6 @@
 <resources>
 
     <!-- The duration (in milliseconds) of activity transitions -->
-    <integer name="suw_transition_duration">300</integer>
+    <integer name="suwTransitionDuration">300</integer>
 
 </resources>

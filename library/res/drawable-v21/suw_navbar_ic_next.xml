@@ -23,7 +23,7 @@
     android:viewportHeight="24">
 
     <path
-        android:fillColor="?attr/suw_navbar_text_color"
+        android:fillColor="?attr/suwNavBarTextColor"
         android:pathData="M10,6 l-1.4,1.4 4.6,4.6 -4.6,4.6 1.4,1.4 6,-6z" />
 
 </vector>
