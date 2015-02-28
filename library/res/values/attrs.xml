@@ -17,6 +17,8 @@
 
 <resources>
 
+    <attr name="suwLayoutTheme" format="reference" />
+
     <attr name="suwNavBarBackgroundColor" format="color" />
     <attr name="suwNavBarTextColor" format="color" />
     <attr name="suwNavBarTheme" format="reference" />
@@ -31,6 +33,12 @@
 
     <declare-styleable name="SuwSetupWizardLayout">
         <attr name="android:layout" />
+        <attr name="suwBackground" format="color|reference" />
+        <attr name="suwBackgroundTile" format="color|reference" />
+        <attr name="suwHeaderText" format="string" localization="suggested" />
+        <attr name="suwIllustration" format="color|reference" />
+        <attr name="suwIllustrationHorizontalTile" format="color|reference" />
+        <attr name="suwIllustrationImage" format="color|reference" />
     </declare-styleable>
 
 </resources>

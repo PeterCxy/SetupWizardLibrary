@@ -16,14 +16,28 @@
 
 package com.android.setupwizardlib;
 
+import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.res.Resources.Theme;
 import android.content.res.TypedArray;
+import android.graphics.Shader.TileMode;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.LayerDrawable;
+import android.os.Build;
 import android.util.AttributeSet;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 
+import com.android.setupwizardlib.view.Illustration;
+
+@TargetApi(Build.VERSION_CODES.LOLLIPOP)
 public class SetupWizardLayout extends FrameLayout {
 
     private static final String TAG = "SetupWizardLayout";
@@ -52,11 +66,52 @@ public class SetupWizardLayout extends FrameLayout {
     public SetupWizardLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         if (attrs != null) {
-            final TypedArray a = context.obtainStyledAttributes(attrs,
+            final TypedValue outValue = new TypedValue();
+            getContext().getTheme().resolveAttribute(R.attr.suwLayoutTheme, outValue, true);
+            final Theme layoutTheme = getResources().newTheme();
+            layoutTheme.applyStyle(outValue.resourceId, true);
+
+            final TypedArray a = layoutTheme.obtainStyledAttributes(attrs,
                     R.styleable.SuwSetupWizardLayout, defStyleAttr, 0);
             final int template = a.getResourceId(
                     R.styleable.SuwSetupWizardLayout_android_layout, 0);
             inflateTemplate(template);
+
+            // Set the background from XML, either directly or built from a bitmap tile
+            final Drawable background =
+                    a.getDrawable(R.styleable.SuwSetupWizardLayout_suwBackground);
+            if (background != null) {
+                setBackground(background);
+            } else {
+                final Drawable backgroundTile =
+                        a.getDrawable(R.styleable.SuwSetupWizardLayout_suwBackgroundTile);
+                if (backgroundTile != null) {
+                    setBackgroundTile(backgroundTile);
+                }
+            }
+
+            // Set the illustration from XML, either directly or built from image + horizontal tile
+            final Drawable illustration =
+                    a.getDrawable(R.styleable.SuwSetupWizardLayout_suwIllustration);
+            if (illustration != null) {
+                setIllustration(illustration);
+            } else {
+                final Drawable illustrationImage =
+                        a.getDrawable(R.styleable.SuwSetupWizardLayout_suwIllustrationImage);
+                final Drawable horizontalTile = a.getDrawable(
+                        R.styleable.SuwSetupWizardLayout_suwIllustrationHorizontalTile);
+                if (illustrationImage != null && horizontalTile != null) {
+                    setIllustration(illustrationImage, horizontalTile);
+                }
+            }
+
+            // Set the header text
+            final CharSequence headerText =
+                    a.getText(R.styleable.SuwSetupWizardLayout_suwHeaderText);
+            if (headerText != null) {
+                setHeaderText(headerText);
+            }
+
             a.recycle();
         } else {
             inflateTemplate(0);
@@ -110,5 +165,120 @@ public class SetupWizardLayout extends FrameLayout {
 
     protected int getContainerId() {
         return R.id.suw_layout_content;
+    }
+
+    public void setHeaderText(int title) {
+        final TextView titleView = (TextView) findViewById(R.id.suw_layout_title);
+        if (titleView != null) {
+            titleView.setText(title);
+        }
+    }
+
+    public void setHeaderText(CharSequence title) {
+        final TextView titleView = (TextView) findViewById(R.id.suw_layout_title);
+        if (titleView != null) {
+            titleView.setText(title);
+        }
+    }
+
+    /**
+     * Set the illustration of the layout. The drawable will be applied as is, and the bounds will
+     * be set as implemented in {@link com.android.setupwizardlib.view.Illustration}. To create
+     * a suitable drawable from an asset and a horizontal repeating tile, use
+     * {@link #setIllustration(int, int)} instead.
+     *
+     * @param drawable The drawable specifying the illustration.
+     */
+    public void setIllustration(Drawable drawable) {
+        final View view = findViewById(R.id.suw_layout_decor);
+        if (view instanceof Illustration) {
+            final Illustration illustration = (Illustration) view;
+            illustration.setIllustration(drawable);
+        }
+    }
+
+    /**
+     * Set the illustration of the layout, which will be created asset and the horizontal tile as
+     * suitable. On phone layouts (not sw600dp), the asset will be scaled, maintaining aspect ratio.
+     * On tablets (sw600dp), the assets will always have 256dp height and the rest of the
+     * illustration area that the asset doesn't fill will be covered by the horizontalTile.
+     *
+     * @param asset Resource ID of the illustration asset.
+     * @param horizontalTile Resource ID of the horizontally repeating tile for tablet layout.
+     */
+    public void setIllustration(int asset, int horizontalTile) {
+        final View view = findViewById(R.id.suw_layout_decor);
+        if (view instanceof Illustration) {
+            final Illustration illustration = (Illustration) view;
+            final Drawable illustrationDrawable = getIllustration(asset, horizontalTile);
+            illustration.setIllustration(illustrationDrawable);
+        }
+    }
+
+    private void setIllustration(Drawable asset, Drawable horizontalTile) {
+        final View view = findViewById(R.id.suw_layout_decor);
+        if (view instanceof Illustration) {
+            final Illustration illustration = (Illustration) view;
+            final Drawable illustrationDrawable = getIllustration(asset, horizontalTile);
+            illustration.setIllustration(illustrationDrawable);
+        }
+    }
+
+    /**
+     * Set the background of the layout, which is expected to be able to extend infinitely. If it is
+     * a bitmap tile and you want it to repeat, use {@link #setBackgroundTile(int)} instead.
+     */
+    public void setBackground(Drawable background) {
+        final View view = findViewById(R.id.suw_layout_decor);
+        if (view != null) {
+            view.setBackground(background);
+        }
+    }
+
+    /**
+     * Set the background of the layout to a repeating bitmap tile. To use a different kind of
+     * drawable, use {@link #setBackground(android.graphics.drawable.Drawable)} instead.
+     */
+    public void setBackgroundTile(int backgroundTile) {
+        final Drawable backgroundTileDrawable = getContext().getDrawable(backgroundTile);
+        setBackgroundTile(backgroundTileDrawable);
+    }
+
+    private void setBackgroundTile(Drawable backgroundTile) {
+        if (backgroundTile instanceof BitmapDrawable) {
+            ((BitmapDrawable) backgroundTile).setTileModeXY(TileMode.REPEAT, TileMode.REPEAT);
+        }
+        setBackground(backgroundTile);
+    }
+
+    private Drawable getIllustration(int asset, int horizontalTile) {
+        final Context context = getContext();
+        final Drawable assetDrawable = context.getResources().getDrawable(asset);
+        final Drawable tile = context.getResources().getDrawable(horizontalTile);
+        return getIllustration(assetDrawable, tile);
+    }
+
+    @SuppressLint("RtlHardcoded")
+    private Drawable getIllustration(Drawable asset, Drawable horizontalTile) {
+        final Context context = getContext();
+        if (context.getResources().getBoolean(R.bool.suwUseTabletLayout)) {
+            // If it is a "tablet" (sw600dp), create a LayerDrawable with the horizontal tile.
+            if (horizontalTile instanceof BitmapDrawable) {
+                ((BitmapDrawable) horizontalTile).setTileModeX(TileMode.REPEAT);
+                ((BitmapDrawable) horizontalTile).setGravity(Gravity.TOP);
+            }
+            if (asset instanceof BitmapDrawable) {
+                // Always specify TOP | LEFT, Illustration will flip the entire LayerDrawable.
+                ((BitmapDrawable) asset).setGravity(Gravity.TOP | Gravity.LEFT);
+            }
+            final LayerDrawable layers =
+                    new LayerDrawable(new Drawable[] { horizontalTile, asset });
+            layers.setAutoMirrored(true);
+            return layers;
+        } else {
+            // If it is a "phone" (not sw600dp), simply return the illustration
+            asset.setAutoMirrored(true);
+            return asset;
+        }
     }
 }
