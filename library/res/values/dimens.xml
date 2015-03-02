@@ -20,6 +20,15 @@
     <!-- General -->
     <dimen name="suw_layout_margin_sides">40dp</dimen>
 
+    <!-- Content styles -->
+    <dimen name="suw_content_frame_padding_top">0dp</dimen>
+    <dimen name="suw_content_frame_padding_bottom">16dp</dimen>
+
+    <dimen name="suw_description_margin_top">24dp</dimen>
+    <dimen name="suw_description_margin_bottom">12dp</dimen>
+    <dimen name="suw_description_line_spacing_extra">4sp</dimen>
+    <dimen name="suw_description_text_size">16sp</dimen>
+
     <!-- Card layout (for tablets) -->
     <dimen name="suw_card_corner_radius">2dp</dimen>
     <dimen name="suw_card_elevation">5dp</dimen>
