@@ -76,13 +76,13 @@
     <!-- Navigation bar styles -->
 
     <style name="SuwNavBarThemeDark">
-        <item name="suw_navbar_bg_color">@color/suw_navbar_bg_dark</item>
-        <item name="suw_navbar_text_color">@color/suw_navbar_text_dark</item>
+        <item name="suwNavBarBackgroundColor">@color/suw_navbar_bg_dark</item>
+        <item name="suwNavBarTextColor">@color/suw_navbar_text_dark</item>
     </style>
 
     <style name="SuwNavBarThemeLight">
-        <item name="suw_navbar_bg_color">@color/suw_navbar_bg_light</item>
-        <item name="suw_navbar_text_color">@color/suw_navbar_text_light</item>
+        <item name="suwNavBarBackgroundColor">@color/suw_navbar_bg_light</item>
+        <item name="suwNavBarTextColor">@color/suw_navbar_text_light</item>
     </style>
 
     <style name="SuwNavBarButtonStyle" parent="@android:style/Widget.Material.Button.Borderless">
@@ -93,7 +93,7 @@
         <item name="android:paddingEnd">@dimen/suw_navbar_button_padding_sides</item>
         <item name="android:paddingStart">@dimen/suw_navbar_button_padding_sides</item>
         <item name="android:textAllCaps">true</item>
-        <item name="android:textColor">?attr/suw_navbar_text_color</item>
+        <item name="android:textColor">?attr/suwNavBarTextColor</item>
         <item name="android:textSize">@dimen/suw_navbar_text_size</item>
     </style>
 
@@ -104,7 +104,7 @@
         <item name="android:layout_height">@dimen/suw_navbar_height</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_alignParentBottom">true</item>
-        <item name="android:background">?attr/suw_navbar_bg_color</item>
+        <item name="android:background">?attr/suwNavBarBackgroundColor</item>
         <item name="android:paddingStart">@dimen/suw_navbar_padding_sides</item>
         <item name="android:paddingEnd">@dimen/suw_navbar_padding_sides</item>
     </style>
