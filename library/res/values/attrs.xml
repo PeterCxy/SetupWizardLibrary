@@ -33,7 +33,4 @@
         <attr name="android:layout" />
     </declare-styleable>
 
-    <!-- deprecated -->
-    <attr name="suw_navbar_text_color" format="color" />
-
 </resources>
