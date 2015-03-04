@@ -19,7 +19,6 @@ package com.android.setupwizardlib;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.Context;
-import android.content.res.Resources.Theme;
 import android.content.res.TypedArray;
 import android.graphics.Shader.TileMode;
 import android.graphics.drawable.BitmapDrawable;
@@ -27,7 +26,6 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.os.Build;
 import android.util.AttributeSet;
-import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -55,67 +53,62 @@ public class SetupWizardLayout extends FrameLayout {
     }
 
     public SetupWizardLayout(Context context, int template) {
-        super(context);
-        inflateTemplate(template);
+        this(context, template, null, 0);
     }
 
     public SetupWizardLayout(Context context, AttributeSet attrs) {
-        this(context, attrs, 0);
+        this(context, attrs, R.attr.suwLayoutTheme);
     }
 
     public SetupWizardLayout(Context context, AttributeSet attrs, int defStyleAttr) {
+        this(context, 0, attrs, defStyleAttr);
+    }
+
+    public SetupWizardLayout(Context context, int template, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        if (attrs != null) {
-            final TypedValue outValue = new TypedValue();
-            getContext().getTheme().resolveAttribute(R.attr.suwLayoutTheme, outValue, true);
-            final Theme layoutTheme = getResources().newTheme();
-            layoutTheme.applyStyle(outValue.resourceId, true);
-
-            final TypedArray a = layoutTheme.obtainStyledAttributes(attrs,
-                    R.styleable.SuwSetupWizardLayout, defStyleAttr, 0);
-            final int template = a.getResourceId(
-                    R.styleable.SuwSetupWizardLayout_android_layout, 0);
-            inflateTemplate(template);
-
-            // Set the background from XML, either directly or built from a bitmap tile
-            final Drawable background =
-                    a.getDrawable(R.styleable.SuwSetupWizardLayout_suwBackground);
-            if (background != null) {
-                setBackground(background);
-            } else {
-                final Drawable backgroundTile =
-                        a.getDrawable(R.styleable.SuwSetupWizardLayout_suwBackgroundTile);
-                if (backgroundTile != null) {
-                    setBackgroundTile(backgroundTile);
-                }
-            }
-
-            // Set the illustration from XML, either directly or built from image + horizontal tile
-            final Drawable illustration =
-                    a.getDrawable(R.styleable.SuwSetupWizardLayout_suwIllustration);
-            if (illustration != null) {
-                setIllustration(illustration);
-            } else {
-                final Drawable illustrationImage =
-                        a.getDrawable(R.styleable.SuwSetupWizardLayout_suwIllustrationImage);
-                final Drawable horizontalTile = a.getDrawable(
-                        R.styleable.SuwSetupWizardLayout_suwIllustrationHorizontalTile);
-                if (illustrationImage != null && horizontalTile != null) {
-                    setIllustration(illustrationImage, horizontalTile);
-                }
-            }
-
-            // Set the header text
-            final CharSequence headerText =
-                    a.getText(R.styleable.SuwSetupWizardLayout_suwHeaderText);
-            if (headerText != null) {
-                setHeaderText(headerText);
-            }
-
-            a.recycle();
-        } else {
-            inflateTemplate(0);
+        final TypedArray a = context.obtainStyledAttributes(attrs,
+                R.styleable.SuwSetupWizardLayout, defStyleAttr, 0);
+        if (template == 0) {
+            template = a.getResourceId(R.styleable.SuwSetupWizardLayout_android_layout, 0);
         }
+        inflateTemplate(template);
+
+        // Set the background from XML, either directly or built from a bitmap tile
+        final Drawable background =
+                a.getDrawable(R.styleable.SuwSetupWizardLayout_suwBackground);
+        if (background != null) {
+            setBackground(background);
+        } else {
+            final Drawable backgroundTile =
+                    a.getDrawable(R.styleable.SuwSetupWizardLayout_suwBackgroundTile);
+            if (backgroundTile != null) {
+                setBackgroundTile(backgroundTile);
+            }
+        }
+
+        // Set the illustration from XML, either directly or built from image + horizontal tile
+        final Drawable illustration =
+                a.getDrawable(R.styleable.SuwSetupWizardLayout_suwIllustration);
+        if (illustration != null) {
+            setIllustration(illustration);
+        } else {
+            final Drawable illustrationImage =
+                    a.getDrawable(R.styleable.SuwSetupWizardLayout_suwIllustrationImage);
+            final Drawable horizontalTile = a.getDrawable(
+                    R.styleable.SuwSetupWizardLayout_suwIllustrationHorizontalTile);
+            if (illustrationImage != null && horizontalTile != null) {
+                setIllustration(illustrationImage, horizontalTile);
+            }
+        }
+
+        // Set the header text
+        final CharSequence headerText =
+                a.getText(R.styleable.SuwSetupWizardLayout_suwHeaderText);
+        if (headerText != null) {
+            setHeaderText(headerText);
+        }
+
+        a.recycle();
     }
 
     @Override

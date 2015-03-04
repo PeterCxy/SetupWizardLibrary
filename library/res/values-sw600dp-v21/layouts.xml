@@ -19,6 +19,8 @@
 
     <item name="suw_template" type="layout">@layout/suw_template_card</item>
     <item name="suw_template_short" type="layout">@layout/suw_template_card</item>
+    <item name="suw_list_template" type="layout">@layout/suw_list_template_card</item>
+    <item name="suw_list_template_short" type="layout">@layout/suw_list_template_card</item>
 
 </resources>
 
