@@ -16,43 +16,32 @@
 -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.android.setupwizardlib.view.Illustration
+    <FrameLayout
         android:id="@+id/suw_layout_decor"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:background="@drawable/suw_layout_background">
+        android:layout_height="wrap_content"
+        android:background="@drawable/suw_layout_background"
+        android:elevation="@dimen/suw_title_area_elevation"
+        tools:ignore="UnusedAttribute">
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/suw_layout_title"
+            style="@style/SuwHeaderTitle"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="start|top"
-            android:weightSum="16">
+            android:layout_height="wrap_content" />
 
-            <TextView
-                android:id="@+id/suw_layout_title"
-                style="@style/SuwCardTitle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/suw_tablet_illustration_height"
-                android:layout_weight="6" />
+    </FrameLayout>
 
-            <ListView
-                android:id="@android:id/list"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginTop="@dimen/suw_card_land_margin_top"
-                android:layout_weight="8"
-                android:background="@drawable/suw_card_bg"
-                android:elevation="@dimen/suw_card_elevation" />
-
-        </LinearLayout>
-
-    </com.android.setupwizardlib.view.Illustration>
+    <ListView
+        android:id="@android:id/list"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
 
     <com.android.setupwizardlib.view.NavigationBar
         android:id="@+id/suw_layout_navigation_bar"

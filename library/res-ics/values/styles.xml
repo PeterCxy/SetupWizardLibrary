@@ -15,5 +15,79 @@
     limitations under the License.
 -->
 
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- General styles -->
+
+    <style name="SuwThemeMaterial" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:textColorLink">@color/suw_link_color_dark</item>
+        <item name="android:textColorSecondary">@color/suw_color_secondary_dark</item>
+        <item name="android:windowAnimationStyle">@style/Animation.SuwWindowAnimation</item>
+        <item name="android:windowSoftInputMode">adjustPan</item>
+
+        <item name="colorAccent">@color/suw_color_accent_dark</item>
+        <item name="suwCardBackground">@drawable/suw_card_bg_dark</item>
+        <item name="suwNavBarTheme">@style/SuwNavBarThemeDark</item>
+    </style>
+
+    <style name="SuwThemeMaterial.Light" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:textColorLink">@color/suw_link_color_light</item>
+        <item name="android:textColorSecondary">@color/suw_color_secondary_light</item>
+        <item name="android:windowAnimationStyle">@style/Animation.SuwWindowAnimation</item>
+        <item name="android:windowSoftInputMode">adjustPan</item>
+
+        <item name="colorAccent">@color/suw_color_accent_light</item>
+        <item name="suwCardBackground">@drawable/suw_card_bg_light</item>
+        <item name="suwNavBarTheme">@style/SuwNavBarThemeLight</item>
+    </style>
+
+    <!-- Content styles -->
+
+    <style name="SuwDescription">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginBottom">@dimen/suw_description_margin_bottom</item>
+        <item name="android:layout_marginTop">@dimen/suw_description_margin_top</item>
+        <item name="android:lineSpacingExtra">@dimen/suw_description_line_spacing_extra</item>
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Medium</item>
+        <item name="android:textColor">?android:attr/textColorPrimary</item>
+        <item name="android:textSize">@dimen/suw_description_text_size</item>
+    </style>
+
+    <!-- Card layout (for tablets) -->
+
+    <style name="TextAppearance.SuwCardTitle" parent="@style/TextAppearance.AppCompat.Display1">
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <!-- Navigation bar styles -->
+
+    <style name="SuwNavBarButtonStyle" parent="@android:style/Widget.Holo.Button.Borderless">
+        <item name="android:background">?attr/suwNavBarButtonBackground</item>
+        <item name="android:drawablePadding">@dimen/suw_navbar_button_drawable_padding</item>
+        <item name="android:fontFamily" tools:ignore="NewApi">sans-serif</item>
+        <item name="android:minWidth">0dp</item>
+        <item name="android:paddingLeft">@dimen/suw_navbar_button_padding_sides</item>
+        <item name="android:paddingRight">@dimen/suw_navbar_button_padding_sides</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textColor">?attr/suwNavBarTextColor</item>
+        <item name="android:textSize">@dimen/suw_navbar_text_size</item>
+    </style>
+
+    <style name="SuwNavBarThemeDark" parent="SuwNavBarTheme">
+        <item name="suwNavBarBackButton">@drawable/suw_navbar_ic_back_dark</item>
+        <item name="suwNavBarBackgroundColor">@color/suw_navbar_bg_dark</item>
+        <item name="suwNavBarButtonBackground">@drawable/suw_navbar_btn_bg_dark</item>
+        <item name="suwNavBarNextButton">@drawable/suw_navbar_ic_next_dark</item>
+        <item name="suwNavBarTextColor">@color/suw_navbar_text_dark</item>
+    </style>
+
+    <style name="SuwNavBarThemeLight" parent="SuwNavBarTheme">
+        <item name="suwNavBarBackButton">@drawable/suw_navbar_ic_back_light</item>
+        <item name="suwNavBarBackgroundColor">@color/suw_navbar_bg_light</item>
+        <item name="suwNavBarButtonBackground">@drawable/suw_navbar_btn_bg_light</item>
+        <item name="suwNavBarNextButton">@drawable/suw_navbar_ic_next_light</item>
+        <item name="suwNavBarTextColor">@color/suw_navbar_text_light</item>
+    </style>
+
 </resources>
