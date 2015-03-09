@@ -39,10 +39,10 @@ public class NavigationBar extends LinearLayout implements View.OnClickListener 
 
     private static int getNavbarTheme(Context context) {
         // Normally we can automatically guess the theme by comparing the foreground color against
-        // the background color. But we also allow specifying explicitly using suw_navbar_theme.
+        // the background color. But we also allow specifying explicitly using suwNavBarTheme.
         TypedArray attributes = context.obtainStyledAttributes(
                 new int[] {
-                        R.attr.suw_navbar_theme,
+                        R.attr.suwNavBarTheme,
                         android.R.attr.colorForeground,
                         android.R.attr.colorBackground });
         int theme = attributes.getResourceId(0, 0);

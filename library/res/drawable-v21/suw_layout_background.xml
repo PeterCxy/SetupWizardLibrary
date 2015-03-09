@@ -15,8 +15,10 @@
     limitations under the License.
 -->
 
-<translate xmlns:android="http://schemas.android.com/apk/res/android"
-    android:duration="@integer/suwTransitionDuration"
-    android:fromXDelta="100%"
-    android:toXDelta="0%"
-    android:interpolator="@android:anim/decelerate_interpolator" />
+<!-- This is a fallback for the background of the Setup Wizard layout. Clients should replace this
+     with a suitable tileable background. -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <solid android:color="?android:attr/colorAccent" />
+
+</shape>
