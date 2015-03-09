@@ -16,11 +16,9 @@
 
 package com.android.setupwizardlib.view;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
-import android.os.Build;
 import android.util.AttributeSet;
 import android.view.ContextThemeWrapper;
 import android.view.View;
@@ -29,7 +27,6 @@ import android.widget.LinearLayout;
 
 import com.android.setupwizardlib.R;
 
-@TargetApi(Build.VERSION_CODES.LOLLIPOP)
 public class NavigationBar extends LinearLayout implements View.OnClickListener {
 
     public interface NavigationBarListener {
@@ -78,12 +75,7 @@ public class NavigationBar extends LinearLayout implements View.OnClickListener 
     }
 
     public NavigationBar(Context context, AttributeSet attrs, int defStyleAttr) {
-        this(context, attrs, defStyleAttr, R.style.SuwNavBarStyle);
-    }
-
-    public NavigationBar(Context context, AttributeSet attrs, int defStyleAttr,
-            int defStyleRes) {
-        super(getThemedContext(context), attrs, defStyleAttr, defStyleRes);
+        super(getThemedContext(context), attrs, defStyleAttr);
         View.inflate(getContext(), R.layout.suw_navbar_view, this);
         mNextButton = (Button) findViewById(R.id.suw_navbar_next);
         mBackButton = (Button) findViewById(R.id.suw_navbar_back);
