@@ -17,14 +17,14 @@
 package com.android.setupwizardlib;
 
 import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Shader.TileMode;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
-import android.os.Build;
+import android.os.Build.VERSION;
+import android.os.Build.VERSION_CODES;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -35,7 +35,6 @@ import android.widget.TextView;
 
 import com.android.setupwizardlib.view.Illustration;
 
-@TargetApi(Build.VERSION_CODES.LOLLIPOP)
 public class SetupWizardLayout extends FrameLayout {
 
     private static final String TAG = "SetupWizardLayout";
@@ -224,7 +223,8 @@ public class SetupWizardLayout extends FrameLayout {
     public void setLayoutBackground(Drawable background) {
         final View view = findViewById(R.id.suw_layout_decor);
         if (view != null) {
-            view.setBackground(background);
+            //noinspection deprecation
+            view.setBackgroundDrawable(background);
         }
     }
 
@@ -233,7 +233,8 @@ public class SetupWizardLayout extends FrameLayout {
      * drawable, use {@link #setLayoutBackground(android.graphics.drawable.Drawable)} instead.
      */
     public void setBackgroundTile(int backgroundTile) {
-        final Drawable backgroundTileDrawable = getContext().getDrawable(backgroundTile);
+        final Drawable backgroundTileDrawable =
+                getContext().getResources().getDrawable(backgroundTile);
         setBackgroundTile(backgroundTileDrawable);
     }
 
@@ -266,11 +267,15 @@ public class SetupWizardLayout extends FrameLayout {
             }
             final LayerDrawable layers =
                     new LayerDrawable(new Drawable[] { horizontalTile, asset });
-            layers.setAutoMirrored(true);
+            if (VERSION.SDK_INT >= VERSION_CODES.KITKAT) {
+                layers.setAutoMirrored(true);
+            }
             return layers;
         } else {
             // If it is a "phone" (not sw600dp), simply return the illustration
-            asset.setAutoMirrored(true);
+            if (VERSION.SDK_INT >= VERSION_CODES.KITKAT) {
+                asset.setAutoMirrored(true);
+            }
             return asset;
         }
     }
