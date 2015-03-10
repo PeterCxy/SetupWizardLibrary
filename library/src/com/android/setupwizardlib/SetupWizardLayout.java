@@ -77,7 +77,7 @@ public class SetupWizardLayout extends FrameLayout {
         final Drawable background =
                 a.getDrawable(R.styleable.SuwSetupWizardLayout_suwBackground);
         if (background != null) {
-            setBackground(background);
+            setLayoutBackground(background);
         } else {
             final Drawable backgroundTile =
                     a.getDrawable(R.styleable.SuwSetupWizardLayout_suwBackgroundTile);
@@ -221,7 +221,7 @@ public class SetupWizardLayout extends FrameLayout {
      * Set the background of the layout, which is expected to be able to extend infinitely. If it is
      * a bitmap tile and you want it to repeat, use {@link #setBackgroundTile(int)} instead.
      */
-    public void setBackground(Drawable background) {
+    public void setLayoutBackground(Drawable background) {
         final View view = findViewById(R.id.suw_layout_decor);
         if (view != null) {
             view.setBackground(background);
@@ -230,7 +230,7 @@ public class SetupWizardLayout extends FrameLayout {
 
     /**
      * Set the background of the layout to a repeating bitmap tile. To use a different kind of
-     * drawable, use {@link #setBackground(android.graphics.drawable.Drawable)} instead.
+     * drawable, use {@link #setLayoutBackground(android.graphics.drawable.Drawable)} instead.
      */
     public void setBackgroundTile(int backgroundTile) {
         final Drawable backgroundTileDrawable = getContext().getDrawable(backgroundTile);
@@ -241,7 +241,7 @@ public class SetupWizardLayout extends FrameLayout {
         if (backgroundTile instanceof BitmapDrawable) {
             ((BitmapDrawable) backgroundTile).setTileModeXY(TileMode.REPEAT, TileMode.REPEAT);
         }
-        setBackground(backgroundTile);
+        setLayoutBackground(backgroundTile);
     }
 
     private Drawable getIllustration(int asset, int horizontalTile) {
