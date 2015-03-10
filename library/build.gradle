@@ -1,12 +1,34 @@
 apply plugin: 'com.android.library'
 
 android {
+
+    publishNonDefault true
+
     sourceSets {
         main {
             manifest.srcFile 'AndroidManifest.xml'
             java.srcDirs = ['src']
             resources.srcDirs = ['src']
             res.srcDirs = ['res']
+        }
+
+        productFlavors {
+            // Platform version that will not include the compatibility libraries
+            platform {
+                minSdkVersion 21
+            }
+
+            // Compatibility build that provides the L layout for SDK versions ICS+
+            icsCompat {
+                minSdkVersion 14
+                dependencies {
+                    icsCompatCompile project(':support-appcompat-v7')
+                }
+            }
+        }
+
+        icsCompat {
+            res.srcDirs = ['res-ics']
         }
     }
 }
