@@ -58,6 +58,7 @@
 
     <com.android.setupwizardlib.view.NavigationBar
         android:id="@+id/suw_layout_navigation_bar"
+        style="@style/SuwNavBarTheme"
         android:layout_width="match_parent"
         android:layout_height="@dimen/suw_navbar_height" />
 
