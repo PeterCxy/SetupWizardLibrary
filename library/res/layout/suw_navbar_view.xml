@@ -23,7 +23,8 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:contentDescription="@string/suw_back_button_label"
-        android:drawableStart="@drawable/suw_navbar_ic_back" />
+        android:drawableLeft="?attr/suwNavBarBackButton"
+        android:drawableStart="?attr/suwNavBarBackButton" />
 
     <Space
         android:layout_width="0dp"
@@ -35,7 +36,8 @@
         style="@style/SuwNavBarButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:drawableEnd="@drawable/suw_navbar_ic_next"
+        android:drawableEnd="?attr/suwNavBarNextButton"
+        android:drawableRight="?attr/suwNavBarNextButton"
         android:gravity="end|center_vertical"
         android:text="@string/suw_next_button_label" />
 

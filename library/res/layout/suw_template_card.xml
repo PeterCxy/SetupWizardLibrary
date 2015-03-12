@@ -16,6 +16,7 @@
 -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -41,13 +42,23 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
-            <ListView
-                android:id="@android:id/list"
+            <com.android.setupwizardlib.view.BottomScrollView
+                android:id="@+id/suw_bottom_scroll_view"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:background="@drawable/suw_card_bg"
-                android:elevation="@dimen/suw_card_elevation" />
+                android:background="?attr/suwCardBackground"
+                android:elevation="@dimen/suw_card_elevation"
+                android:fillViewport="true"
+                tools:ignore="UnusedAttribute">
+
+                <FrameLayout
+                    android:id="@+id/suw_layout_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clipChildren="false" />
+
+            </com.android.setupwizardlib.view.BottomScrollView>
 
         </LinearLayout>
 
