@@ -18,13 +18,15 @@
 <com.android.setupwizardlib.view.Illustration
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/suw_layout_decor"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/suw_layout_background"
     android:elevation="@dimen/suw_title_area_elevation"
     android:tag="stickyContainer"
-    app:suwAspectRatio="2.22">
+    app:suwAspectRatio="2.22"
+    tools:ignore="UnusedAttribute">
 
     <TextView
         android:id="@+id/suw_layout_title"
