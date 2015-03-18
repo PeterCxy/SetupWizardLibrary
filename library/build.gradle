@@ -7,10 +7,10 @@ android {
 
     sourceSets {
         main {
-            manifest.srcFile 'AndroidManifest.xml'
-            java.srcDirs = ['src']
-            resources.srcDirs = ['src']
-            res.srcDirs = ['res']
+            manifest.srcFile 'main/AndroidManifest.xml'
+            java.srcDirs = ['main/src']
+            resources.srcDirs = ['main/src']
+            res.srcDirs = ['main/res']
         }
 
         productFlavors {
@@ -29,7 +29,7 @@ android {
         }
 
         icsCompat {
-            res.srcDirs = ['res-ics']
+            res.srcDirs = ['ics/res']
         }
 
         androidTest {
