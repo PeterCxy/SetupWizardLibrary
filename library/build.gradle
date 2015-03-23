@@ -28,6 +28,10 @@ android {
             }
         }
 
+        platform {
+            res.srcDirs = ['platform/res']
+        }
+
         icsCompat {
             res.srcDirs = ['ics/res']
         }
