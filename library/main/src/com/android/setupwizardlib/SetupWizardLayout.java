@@ -34,6 +34,7 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.android.setupwizardlib.view.Illustration;
+import com.android.setupwizardlib.view.NavigationBar;
 
 public class SetupWizardLayout extends FrameLayout {
 
@@ -157,6 +158,11 @@ public class SetupWizardLayout extends FrameLayout {
 
     protected int getContainerId() {
         return R.id.suw_layout_content;
+    }
+
+    public NavigationBar getNavigationBar() {
+        final View view = findViewById(R.id.suw_layout_navigation_bar);
+        return view instanceof NavigationBar ? (NavigationBar) view : null;
     }
 
     public void setHeaderText(int title) {

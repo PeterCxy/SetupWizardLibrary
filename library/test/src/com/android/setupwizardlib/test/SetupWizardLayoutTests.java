@@ -102,6 +102,22 @@ public class SetupWizardLayoutTests extends InstrumentationTestCase {
         layout.setLayoutBackground(new ColorDrawable(Color.RED));
     }
 
+    @SmallTest
+    public void testGetNavigationBar() {
+        final SetupWizardLayout layout = new SetupWizardLayout(mContext);
+        final NavigationBar navigationBar = layout.getNavigationBar();
+        assertEquals("Navigation bar should have ID = @id/suw_layout_navigation_bar",
+                R.id.suw_layout_navigation_bar, navigationBar.getId());
+    }
+
+    @SmallTest
+    public void testGetNavigationBarNull() {
+        // test_template does not have navigation bar so getNavigationBar() should return null.
+        final SetupWizardLayout layout = new SetupWizardLayout(mContext, R.layout.test_template);
+        final NavigationBar navigationBar = layout.getNavigationBar();
+        assertNull("getNavigationBar() in test_template should return null", navigationBar);
+    }
+
     private void assertDefaultTemplateInflated(SetupWizardLayout layout) {
         View decorView = layout.findViewById(R.id.suw_layout_decor);
         View navbar = layout.findViewById(R.id.suw_layout_navigation_bar);
