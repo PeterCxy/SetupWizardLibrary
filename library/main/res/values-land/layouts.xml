@@ -21,5 +21,7 @@
     <item name="suw_template_short" type="layout">@layout/suw_template_header_collapsed</item>
     <item name="suw_list_template" type="layout">@layout/suw_list_template_header_collapsed</item>
     <item name="suw_list_template_short" type="layout">@layout/suw_list_template_header_collapsed</item>
+    <item name="suw_no_scroll_template" type="layout">@layout/suw_no_scroll_template_header_collapsed</item>
+    <item name="suw_no_scroll_template_short" type="layout">@layout/suw_no_scroll_template_header_collapsed</item>
 
 </resources>
