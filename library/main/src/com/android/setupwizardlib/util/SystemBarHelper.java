@@ -129,9 +129,9 @@ public class SystemBarHelper {
     public static void setBackButtonVisible(final Window window, final boolean visible) {
         if (VERSION.SDK_INT >= VERSION_CODES.HONEYCOMB) {
             if (visible) {
-                addVisibilityFlag(window, STATUS_BAR_DISABLE_BACK);
-            } else {
                 removeVisibilityFlag(window, STATUS_BAR_DISABLE_BACK);
+            } else {
+                addVisibilityFlag(window, STATUS_BAR_DISABLE_BACK);
             }
         }
     }
