@@ -26,6 +26,14 @@ android {
                     icsCompatCompile project(':support-appcompat-v7')
                 }
             }
+
+            // Compatibility build that provides the L layout for SDK versions Eclair MR1+
+            eclairMr1Compat {
+                minSdkVersion 7
+                dependencies {
+                    eclairMr1CompatCompile project(':support-appcompat-v7')
+                }
+            }
         }
 
         platform {
@@ -33,7 +41,11 @@ android {
         }
 
         icsCompat {
-            res.srcDirs = ['ics/res']
+            res.srcDirs = ['eclair-mr1/res']
+        }
+
+        eclairMr1Compat {
+            res.srcDirs = ['eclair-mr1/res']
         }
 
         androidTest {

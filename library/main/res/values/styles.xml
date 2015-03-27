@@ -50,6 +50,8 @@
     <!-- Header layout (for phones) -->
 
     <style name="SuwHeaderTitle">
+        <!-- Before Honeycomb, layout_gravity is needed for FrameLayout to apply the margins -->
+        <item name="android:layout_gravity">top</item>
         <item name="android:layout_marginBottom">@dimen/suw_header_title_margin_bottom</item>
         <item name="android:layout_marginLeft">@dimen/suw_layout_margin_sides</item>
         <item name="android:layout_marginRight">@dimen/suw_layout_margin_sides</item>

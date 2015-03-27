@@ -17,6 +17,7 @@
 package com.android.setupwizardlib;
 
 import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Shader.TileMode;
@@ -49,24 +50,36 @@ public class SetupWizardLayout extends FrameLayout {
     private ViewGroup mContainer;
 
     public SetupWizardLayout(Context context) {
-        this(context, 0);
+        super(context);
+        init(0, null, R.attr.suwLayoutTheme);
     }
 
     public SetupWizardLayout(Context context, int template) {
-        this(context, template, null, 0);
+        super(context);
+        init(template, null, R.attr.suwLayoutTheme);
     }
 
     public SetupWizardLayout(Context context, AttributeSet attrs) {
-        this(context, attrs, R.attr.suwLayoutTheme);
+        super(context, attrs);
+        init(0, attrs, R.attr.suwLayoutTheme);
     }
 
+    @TargetApi(VERSION_CODES.HONEYCOMB)
     public SetupWizardLayout(Context context, AttributeSet attrs, int defStyleAttr) {
-        this(context, 0, attrs, defStyleAttr);
+        super(context, attrs, defStyleAttr);
+        init(0, attrs, defStyleAttr);
     }
 
+    @TargetApi(VERSION_CODES.HONEYCOMB)
     public SetupWizardLayout(Context context, int template, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        final TypedArray a = context.obtainStyledAttributes(attrs,
+        init(template, attrs, defStyleAttr);
+    }
+
+    // All the constructors delegate to this init method. The 3-argument constructor is not
+    // available in LinearLayout before v11, so call super with the exact same arguments.
+    private void init(int template, AttributeSet attrs, int defStyleAttr) {
+        final TypedArray a = getContext().obtainStyledAttributes(attrs,
                 R.styleable.SuwSetupWizardLayout, defStyleAttr, 0);
         if (template == 0) {
             template = a.getResourceId(R.styleable.SuwSetupWizardLayout_android_layout, 0);
