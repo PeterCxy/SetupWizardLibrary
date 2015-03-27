@@ -16,9 +16,12 @@
 
 package com.android.setupwizardlib.view;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.os.Build.VERSION_CODES;
 import android.util.AttributeSet;
 import android.view.ContextThemeWrapper;
 import android.view.View;
@@ -67,15 +70,24 @@ public class NavigationBar extends LinearLayout implements View.OnClickListener 
     private NavigationBarListener mListener;
 
     public NavigationBar(Context context) {
-        this(context, null);
+        super(getThemedContext(context));
+        init();
     }
 
     public NavigationBar(Context context, AttributeSet attrs) {
-        this(context, attrs, 0);
+        super(getThemedContext(context), attrs);
+        init();
     }
 
+    @TargetApi(VERSION_CODES.HONEYCOMB)
     public NavigationBar(Context context, AttributeSet attrs, int defStyleAttr) {
         super(getThemedContext(context), attrs, defStyleAttr);
+        init();
+    }
+
+    // All the constructors delegate to this init method. The 3-argument constructor is not
+    // available in LinearLayout before v11, so call super with the exact same arguments.
+    private void init() {
         View.inflate(getContext(), R.layout.suw_navbar_view, this);
         mNextButton = (Button) findViewById(R.id.suw_navbar_next);
         mBackButton = (Button) findViewById(R.id.suw_navbar_back);
@@ -111,7 +123,7 @@ public class NavigationBar extends LinearLayout implements View.OnClickListener 
     public static class NavButton extends Button {
 
         public NavButton(Context context) {
-            this(context, null);
+            super(context);
         }
 
         public NavButton(Context context, AttributeSet attrs) {
@@ -121,9 +133,14 @@ public class NavigationBar extends LinearLayout implements View.OnClickListener 
         @Override
         public void setEnabled(boolean enabled) {
             super.setEnabled(enabled);
-            // The color of the button is #de000000 / #deffffff when enabled. When disabled, apply
-            // additional 23% alpha, so the overall opacity is 20%.
-            setAlpha(enabled ? 1.0f : 0.23f);
+            // The color of the button is #de000000 / #deffffff when enabled. When disabled, the
+            // alpha value = 0x3b/0xff * 0xde/0xff = 20%.
+            final int alpha = enabled ? 0xff : 0x3b;
+            getTextColors().withAlpha(alpha);
+            final Drawable[] compoundDrawables = getCompoundDrawables();
+            for (Drawable d : compoundDrawables) {
+                d.setAlpha(alpha);
+            }
         }
     }
 

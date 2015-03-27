@@ -16,11 +16,9 @@
 
 package com.android.setupwizardlib.test;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.os.Build.VERSION_CODES;
 import android.test.InstrumentationTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 import android.view.ContextThemeWrapper;
@@ -56,16 +54,14 @@ public class SetupWizardLayoutTests extends InstrumentationTestCase {
         assertEquals("Header text should be \"Abracadabra\"", "Abracadabra", title.getText());
     }
 
-    @TargetApi(VERSION_CODES.JELLY_BEAN_MR1)
     @SmallTest
     public void testAddView() {
         SetupWizardLayout layout = new SetupWizardLayout(mContext);
         TextView tv = new TextView(mContext);
-        int id = View.generateViewId();
-        tv.setId(id);
+        tv.setId(R.id.test_view_id);
         layout.addView(tv);
         assertDefaultTemplateInflated(layout);
-        View view = layout.findViewById(id);
+        View view = layout.findViewById(R.id.test_view_id);
         assertSame("The view added should be the same text view", tv, view);
     }
 
@@ -78,7 +74,6 @@ public class SetupWizardLayoutTests extends InstrumentationTestCase {
         assertTrue("@id/test_content should be a TextView", content instanceof TextView);
     }
 
-    @TargetApi(VERSION_CODES.JELLY_BEAN_MR1)
     @SmallTest
     public void testCustomTemplate() {
         SetupWizardLayout layout = new SetupWizardLayout(mContext, R.layout.test_template);
@@ -86,13 +81,12 @@ public class SetupWizardLayoutTests extends InstrumentationTestCase {
         assertNotNull("@id/test_template_view should exist in template", templateView);
 
         TextView tv = new TextView(mContext);
-        int id = View.generateViewId();
-        tv.setId(id);
+        tv.setId(R.id.test_view_id);
         layout.addView(tv);
 
         templateView = layout.findViewById(R.id.test_template_view);
         assertNotNull("@id/test_template_view should exist in template", templateView);
-        View contentView = layout.findViewById(id);
+        View contentView = layout.findViewById(R.id.test_view_id);
         assertSame("The view added should be the same text view", tv, contentView);
 
         // The following methods should be no-ops because the custom template doesn't contain the

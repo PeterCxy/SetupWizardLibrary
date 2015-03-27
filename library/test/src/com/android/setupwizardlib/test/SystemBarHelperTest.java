@@ -21,6 +21,8 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build.VERSION;
+import android.os.Build.VERSION_CODES;
 import android.os.Bundle;
 import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
@@ -51,71 +53,94 @@ public class SystemBarHelperTest extends AndroidTestCase {
     public void testAddVisibilityFlagView() {
         final View view = createViewWithSystemUiVisibility(0x456);
         SystemBarHelper.addVisibilityFlag(view, 0x1400);
-        assertEquals("View visibility should be 0x1456", 0x1456, view.getSystemUiVisibility());
+        if (VERSION.SDK_INT >= VERSION_CODES.HONEYCOMB) {
+            // Check that result is 0x1456, because 0x1400 | 0x456 = 0x1456.
+            assertEquals("View visibility should be 0x1456", 0x1456, view.getSystemUiVisibility());
+        }
     }
 
     @SmallTest
     public void testRemoveVisibilityFlagView() {
         final View view = createViewWithSystemUiVisibility(0x456);
         SystemBarHelper.removeVisibilityFlag(view, 0x1400);
-        assertEquals("View visibility should be 0x56", 0x56, view.getSystemUiVisibility());
+        if (VERSION.SDK_INT >= VERSION_CODES.HONEYCOMB) {
+            // Check that result is 0x56, because 0x456 & ~0x1400 = 0x56.
+            assertEquals("View visibility should be 0x56", 0x56, view.getSystemUiVisibility());
+        }
     }
 
     @SmallTest
     public void testAddVisibilityFlagWindow() {
         final Window window = createWindowWithSystemUiVisibility(0x456);
         SystemBarHelper.addVisibilityFlag(window, 0x1400);
-        assertEquals("View visibility should be 0x1456", 0x1456,
-                window.getAttributes().systemUiVisibility);
+        if (VERSION.SDK_INT >= VERSION_CODES.HONEYCOMB) {
+            // Check that result is 0x1456 = 0x1400 | 0x456.
+            assertEquals("View visibility should be 0x1456", 0x1456,
+                    window.getAttributes().systemUiVisibility);
+        }
     }
 
     @SmallTest
     public void testRemoveVisibilityFlagWindow() {
         final Window window = createWindowWithSystemUiVisibility(0x456);
         SystemBarHelper.removeVisibilityFlag(window, 0x1400);
-        assertEquals("View visibility should be 0x56", 0x56,
-                window.getAttributes().systemUiVisibility);
+        if (VERSION.SDK_INT >= VERSION_CODES.HONEYCOMB) {
+            // Check that result is 0x56 = 0x456 & ~0x1400.
+            assertEquals("View visibility should be 0x56", 0x56,
+                    window.getAttributes().systemUiVisibility);
+        }
     }
 
     @SmallTest
     public void testHideSystemBarsWindow() {
         final Window window = createWindowWithSystemUiVisibility(0x456);
         SystemBarHelper.hideSystemBars(window);
-        assertEquals("DEFAULT_IMMERSIVE_FLAGS should be added to window's systemUiVisibility",
-                DEFAULT_IMMERSIVE_FLAGS | 0x456,
-                window.getAttributes().systemUiVisibility);
-        assertEquals("DEFAULT_IMMERSIVE_FLAGS should be added to decorView's systemUiVisibility",
-                DEFAULT_IMMERSIVE_FLAGS | 0x456,
-                window.getDecorView().getSystemUiVisibility());
+        if (VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP) {
+            assertEquals("DEFAULT_IMMERSIVE_FLAGS should be added to window's systemUiVisibility",
+                    DEFAULT_IMMERSIVE_FLAGS | 0x456,
+                    window.getAttributes().systemUiVisibility);
+            assertEquals(
+                    "DEFAULT_IMMERSIVE_FLAGS should be added to decorView's systemUiVisibility",
+                    DEFAULT_IMMERSIVE_FLAGS | 0x456,
+                    window.getDecorView().getSystemUiVisibility());
+        }
     }
 
     @SmallTest
     public void testSetBackButtonVisibleTrue() {
         final Window window = createWindowWithSystemUiVisibility(0x456);
         SystemBarHelper.setBackButtonVisible(window, true);
-        assertEquals("View visibility should be 0x456", 0x456,
-                window.getAttributes().systemUiVisibility);
+        if (VERSION.SDK_INT >= VERSION_CODES.HONEYCOMB) {
+            assertEquals("View visibility should be 0x456", 0x456,
+                    window.getAttributes().systemUiVisibility);
+        }
     }
 
     @SmallTest
     public void testSetBackButtonVisibleFalse() {
         final Window window = createWindowWithSystemUiVisibility(0x456);
         SystemBarHelper.setBackButtonVisible(window, false);
-        assertEquals("STATUS_BAR_DISABLE_BACK should be added to systemUiVisibility",
-                0x456 | STATUS_BAR_DISABLE_BACK, window.getAttributes().systemUiVisibility);
+        if (VERSION.SDK_INT >= VERSION_CODES.HONEYCOMB) {
+            assertEquals("STATUS_BAR_DISABLE_BACK should be added to systemUiVisibility",
+                    0x456 | STATUS_BAR_DISABLE_BACK, window.getAttributes().systemUiVisibility);
+        }
     }
 
     private View createViewWithSystemUiVisibility(int vis) {
         final View view = new View(getContext());
-        view.setSystemUiVisibility(vis);
+        if (VERSION.SDK_INT >= VERSION_CODES.HONEYCOMB) {
+            view.setSystemUiVisibility(vis);
+        }
         return view;
     }
 
     private Window createWindowWithSystemUiVisibility(int vis) {
         final Window window = new TestWindow(getContext(), createViewWithSystemUiVisibility(vis));
-        WindowManager.LayoutParams attrs = window.getAttributes();
-        attrs.systemUiVisibility = vis;
-        window.setAttributes(attrs);
+        if (VERSION.SDK_INT >= VERSION_CODES.HONEYCOMB) {
+            WindowManager.LayoutParams attrs = window.getAttributes();
+            attrs.systemUiVisibility = vis;
+            window.setAttributes(attrs);
+        }
         return window;
     }
 

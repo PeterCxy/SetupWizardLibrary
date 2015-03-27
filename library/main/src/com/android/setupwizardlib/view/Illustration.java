@@ -16,6 +16,7 @@
 
 package com.android.setupwizardlib.view;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.res.TypedArray;
@@ -52,17 +53,26 @@ public class Illustration extends FrameLayout {
     private float mAspectRatio = 0.0f;
 
     public Illustration(Context context) {
-        this(context, null);
+        super(context);
+        init(null, 0);
     }
 
     public Illustration(Context context, AttributeSet attrs) {
-        this(context, attrs, 0);
+        super(context, attrs);
+        init(attrs, 0);
     }
 
+    @TargetApi(VERSION_CODES.HONEYCOMB)
     public Illustration(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        init(attrs, defStyleAttr);
+    }
+
+    // All the constructors delegate to this init method. The 3-argument constructor is not
+    // available in FrameLayout before v11, so call super with the exact same arguments.
+    private void init(AttributeSet attrs, int defStyleAttr) {
         if (attrs != null) {
-            TypedArray a = context.obtainStyledAttributes(attrs,
+            TypedArray a = getContext().obtainStyledAttributes(attrs,
                     R.styleable.SuwIllustration, defStyleAttr, 0);
             mAspectRatio = a.getFloat(R.styleable.SuwIllustration_suwAspectRatio, 0.0f);
             a.recycle();
@@ -151,14 +161,14 @@ public class Illustration extends FrameLayout {
 
     @Override
     public void onDraw(Canvas canvas) {
-        final int layoutDirection = getLayoutDirection();
         if (mBackground != null) {
             // Draw the background filling parts not covered by the illustration
             canvas.save();
             canvas.translate(0, mIllustrationBounds.height());
             // Scale the background so its size matches the foreground
             canvas.scale(mScale, mScale, 0, 0);
-            if (shouldMirrorIllustration(layoutDirection)) {
+            if (VERSION.SDK_INT > VERSION_CODES.JELLY_BEAN_MR1 &&
+                    shouldMirrorIllustration(getLayoutDirection())) {
                 // Flip the illustration for RTL layouts
                 canvas.scale(-1, 1);
                 canvas.translate(-mBackground.getBounds().width(), 0);
@@ -168,7 +178,8 @@ public class Illustration extends FrameLayout {
         }
         if (mIllustration != null) {
             canvas.save();
-            if (shouldMirrorIllustration(layoutDirection)) {
+            if (VERSION.SDK_INT > VERSION_CODES.JELLY_BEAN_MR1 &&
+                    shouldMirrorIllustration(getLayoutDirection())) {
                 // Flip the illustration for RTL layouts
                 canvas.scale(-1, 1);
                 canvas.translate(-mIllustrationBounds.width(), 0);

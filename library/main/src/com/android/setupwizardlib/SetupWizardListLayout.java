@@ -16,7 +16,9 @@
 
 package com.android.setupwizardlib;
 
+import android.annotation.TargetApi;
 import android.content.Context;
+import android.os.Build.VERSION_CODES;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,21 +31,23 @@ public class SetupWizardListLayout extends SetupWizardLayout {
     private ListView mListView;
 
     public SetupWizardListLayout(Context context) {
-        this(context, 0);
+        super(context);
     }
 
     public SetupWizardListLayout(Context context, int template) {
-        this(context, template, null, 0);
+        super(context, template);
     }
 
     public SetupWizardListLayout(Context context, AttributeSet attrs) {
-        this(context, attrs, 0);
+        super(context, attrs);
     }
 
+    @TargetApi(VERSION_CODES.HONEYCOMB)
     public SetupWizardListLayout(Context context, AttributeSet attrs, int defStyleAttr) {
-        this(context, 0, attrs, defStyleAttr);
+        super(context, attrs, defStyleAttr);
     }
 
+    @TargetApi(VERSION_CODES.HONEYCOMB)
     public SetupWizardListLayout(Context context, int template, AttributeSet attrs,
             int defStyleAttr) {
         super(context, template, attrs, defStyleAttr);
