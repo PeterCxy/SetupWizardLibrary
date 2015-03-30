@@ -136,10 +136,12 @@ public class NavigationBar extends LinearLayout implements View.OnClickListener 
             // The color of the button is #de000000 / #deffffff when enabled. When disabled, the
             // alpha value = 0x3b/0xff * 0xde/0xff = 20%.
             final int alpha = enabled ? 0xff : 0x3b;
-            getTextColors().withAlpha(alpha);
+            setTextColor(getTextColors().withAlpha(alpha));
             final Drawable[] compoundDrawables = getCompoundDrawables();
             for (Drawable d : compoundDrawables) {
-                d.setAlpha(alpha);
+                if (d != null) {
+                    d.setAlpha(alpha);
+                }
             }
         }
     }
