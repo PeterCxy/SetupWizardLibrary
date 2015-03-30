@@ -16,7 +16,11 @@
 
 package com.android.setupwizardlib.util;
 
+import android.content.Context;
 import android.content.Intent;
+import android.os.Build.VERSION;
+import android.os.Build.VERSION_CODES;
+import android.provider.Settings;
 
 public class WizardManagerHelper {
 
@@ -25,9 +29,13 @@ public class WizardManagerHelper {
     private static final String EXTRA_SCRIPT_URI = "scriptUri";
     private static final String EXTRA_ACTION_ID = "actionId";
     private static final String EXTRA_RESULT_CODE = "com.android.setupwizard.ResultCode";
+    private static final String EXTRA_IS_FIRST_RUN = "firstRun";
 
     public static final String EXTRA_THEME = "theme";
     public static final String EXTRA_USE_IMMERSIVE_MODE = "useImmersiveMode";
+
+    public static final String SETTINGS_GLOBAL_DEVICE_PROVISIONED = "device_provisioned";
+    public static final String SETTINGS_SECURE_USER_SETUP_COMPLETE = "user_setup_complete";
 
     public static final String THEME_MATERIAL = "material";
     public static final String THEME_MATERIAL_LIGHT = "material_light";
@@ -65,5 +73,55 @@ public class WizardManagerHelper {
         }
         intent.putExtra(EXTRA_THEME, originalIntent.getStringExtra(EXTRA_THEME));
         return intent;
+    }
+
+    /**
+     * Check whether an intent is intended to be used within the setup wizard flow.
+     *
+     * @param intent The intent to be checked, usually from Activity.getIntent().
+     * @return true if the intent passed in was intended to be used with setup wizard.
+     */
+    public static boolean isSetupWizardIntent(Intent intent) {
+        return intent.getBooleanExtra(EXTRA_IS_FIRST_RUN, false);
+    }
+
+    /**
+     * Checks whether the current user has completed Setup Wizard. This is true if the current user
+     * has gone through Setup Wizard. The current user may or may not be the device owner and the
+     * device owner may have already completed setup wizard.
+     *
+     * @param context The context to retrieve the settings.
+     * @return true if the current user has completed Setup Wizard.
+     * @see #isDeviceProvisioned(android.content.Context)
+     */
+    public static boolean isUserSetupComplete(Context context) {
+        if (VERSION.SDK_INT >= VERSION_CODES.ICE_CREAM_SANDWICH) {
+            return Settings.Secure.getInt(context.getContentResolver(),
+                    SETTINGS_SECURE_USER_SETUP_COMPLETE, 0) == 1;
+        } else {
+            // For versions below JB MR1, there are no user profiles. Just return the global device
+            // provisioned state.
+            return Settings.Secure.getInt(context.getContentResolver(),
+                    SETTINGS_GLOBAL_DEVICE_PROVISIONED, 0) == 1;
+        }
+    }
+
+    /**
+     * Checks whether the device is provisioned. This means that the device has gone through Setup
+     * Wizard at least once. Note that the user can still be in Setup Wizard even if this is true,
+     * for a secondary user profile triggered through Settings > Add account.
+     *
+     * @param context The context to retrieve the settings.
+     * @return true if the device is provisioned.
+     * @see #isUserSetupComplete(android.content.Context)
+     */
+    public static boolean isDeviceProvisioned(Context context) {
+        if (VERSION.SDK_INT >= VERSION_CODES.JELLY_BEAN_MR1) {
+            return Settings.Global.getInt(context.getContentResolver(),
+                    SETTINGS_GLOBAL_DEVICE_PROVISIONED, 0) == 1;
+        } else {
+            return Settings.Secure.getInt(context.getContentResolver(),
+                    SETTINGS_GLOBAL_DEVICE_PROVISIONED, 0) == 1;
+        }
     }
 }
