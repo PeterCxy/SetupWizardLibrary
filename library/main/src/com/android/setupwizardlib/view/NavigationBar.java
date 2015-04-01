@@ -21,6 +21,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 import android.util.AttributeSet;
 import android.view.ContextThemeWrapper;
@@ -137,10 +138,18 @@ public class NavigationBar extends LinearLayout implements View.OnClickListener 
             // alpha value = 0x3b/0xff * 0xde/0xff = 20%.
             final int alpha = enabled ? 0xff : 0x3b;
             setTextColor(getTextColors().withAlpha(alpha));
+            if (VERSION.SDK_INT >= VERSION_CODES.JELLY_BEAN_MR1) {
+                final Drawable[] relativeDrawables = getCompoundDrawablesRelative();
+                for (Drawable d : relativeDrawables) {
+                    if (d != null) {
+                        d.mutate().setAlpha(alpha);
+                    }
+                }
+            }
             final Drawable[] compoundDrawables = getCompoundDrawables();
             for (Drawable d : compoundDrawables) {
                 if (d != null) {
-                    d.setAlpha(alpha);
+                    d.mutate().setAlpha(alpha);
                 }
             }
         }
