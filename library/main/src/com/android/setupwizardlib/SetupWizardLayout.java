@@ -26,11 +26,14 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewStub;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
@@ -122,6 +125,26 @@ public class SetupWizardLayout extends FrameLayout {
         }
 
         a.recycle();
+    }
+
+    @Override
+    protected Parcelable onSaveInstanceState() {
+        final Parcelable parcelable = super.onSaveInstanceState();
+        final SavedState ss = new SavedState(parcelable);
+        ss.isProgressBarShown = isProgressBarShown();
+        return ss;
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Parcelable state) {
+        final SavedState ss = (SavedState) state;
+        super.onRestoreInstanceState(ss.getSuperState());
+        final boolean isProgressBarShown = ss.isProgressBarShown;
+        if (isProgressBarShown) {
+            showProgressBar();
+        } else {
+            hideProgressBar();
+        }
     }
 
     @Override
@@ -297,5 +320,63 @@ public class SetupWizardLayout extends FrameLayout {
             }
             return asset;
         }
+    }
+
+    public boolean isProgressBarShown() {
+        final View progressBar = findViewById(R.id.suw_layout_progress);
+        return progressBar != null && progressBar.getVisibility() == View.VISIBLE;
+    }
+
+    public void showProgressBar() {
+        final View progressBar = findViewById(R.id.suw_layout_progress);
+        if (progressBar != null) {
+            progressBar.setVisibility(View.VISIBLE);
+        } else {
+            final ViewStub progressBarStub = (ViewStub) findViewById(R.id.suw_layout_progress_stub);
+            if (progressBarStub != null) {
+                progressBarStub.inflate();
+            }
+        }
+    }
+
+    public void hideProgressBar() {
+        final View progressBar = findViewById(R.id.suw_layout_progress);
+        if (progressBar != null) {
+            progressBar.setVisibility(View.GONE);
+        }
+    }
+
+    protected static class SavedState extends BaseSavedState {
+
+        boolean isProgressBarShown = false;
+
+        public SavedState(Parcelable parcelable) {
+            super(parcelable);
+        }
+
+        public SavedState(Parcel source) {
+            super(source);
+            isProgressBarShown = source.readInt() != 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            super.writeToParcel(dest, flags);
+            dest.writeInt(isProgressBarShown ? 1 : 0);
+        }
+
+        public static final Parcelable.Creator<SavedState> CREATOR =
+                new Parcelable.Creator<SavedState>() {
+
+                    @Override
+                    public SavedState createFromParcel(Parcel parcel) {
+                        return new SavedState(parcel);
+                    }
+
+                    @Override
+                    public SavedState[] newArray(int size) {
+                        return new SavedState[size];
+                    }
+                };
     }
 }

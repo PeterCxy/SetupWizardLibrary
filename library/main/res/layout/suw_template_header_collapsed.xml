@@ -37,6 +37,15 @@
 
     </FrameLayout>
 
+    <ViewStub
+        android:id="@+id/suw_layout_progress_stub"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/suw_progress_bar_margin_vertical"
+        android:layout_marginTop="@dimen/suw_progress_bar_margin_vertical"
+        android:inflatedId="@+id/suw_layout_progress"
+        android:layout="@layout/suw_progress_bar" />
+
     <com.android.setupwizardlib.view.BottomScrollView
         android:id="@+id/suw_bottom_scroll_view"
         android:layout_width="match_parent"
