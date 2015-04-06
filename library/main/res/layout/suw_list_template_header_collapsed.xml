@@ -37,6 +37,8 @@
 
     </FrameLayout>
 
+    <include layout="@layout/suw_progress_bar_stub" />
+
     <ListView
         android:id="@android:id/list"
         android:layout_width="match_parent"

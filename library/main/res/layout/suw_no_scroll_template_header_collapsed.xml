@@ -40,6 +40,8 @@
 
     </FrameLayout>
 
+    <include layout="@layout/suw_progress_bar_stub" />
+
     <FrameLayout android:id="@+id/suw_layout_content"
         android:layout_width="match_parent"
         android:layout_height="0dp"
