@@ -26,14 +26,18 @@ import android.content.pm.ResolveInfo;
 import android.content.res.Resources;
 import android.test.InstrumentationTestCase;
 import android.test.mock.MockPackageManager;
+import android.test.mock.MockResources;
 import android.test.suitebuilder.annotation.SmallTest;
+import android.util.SparseArray;
 
 import com.android.setupwizardlib.util.Partner;
 import com.android.setupwizardlib.util.Partner.ResourceEntry;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class PartnerTest extends InstrumentationTestCase {
 
@@ -76,6 +80,7 @@ public class PartnerTest extends InstrumentationTestCase {
         assertNull("Partner should be null", partner);
     }
 
+    @SmallTest
     public void testLoadPartnerValue() {
         mTestContext.partnerList = Arrays.asList(
                 createResolveInfo("hocus.pocus", false),
@@ -86,8 +91,10 @@ public class PartnerTest extends InstrumentationTestCase {
                 Partner.getResourceEntry(mTestContext, R.integer.suwTransitionDuration);
         int partnerValue = entry.resources.getInteger(entry.id);
         assertEquals("Partner value should be overlaid to 5000", 5000, partnerValue);
+        assertTrue("Partner value should come from overlay", entry.isOverlay);
     }
 
+    @SmallTest
     public void testLoadDefaultValue() {
         mTestContext.partnerList = Arrays.asList(
                 createResolveInfo("hocus.pocus", false),
@@ -98,6 +105,7 @@ public class PartnerTest extends InstrumentationTestCase {
                 Partner.getResourceEntry(mTestContext, R.color.suw_navbar_text_dark);
         int partnerValue = entry.resources.getColor(entry.id);
         assertEquals("Partner value should default to 0xdeffffff", 0xdeffffff, partnerValue);
+        assertFalse("Partner value should come from fallback", entry.isOverlay);
     }
 
     private ResolveInfo createResolveInfo(String packageName, boolean isSystem) {
@@ -114,18 +122,62 @@ public class PartnerTest extends InstrumentationTestCase {
         return info;
     }
 
+    private static class TestResources extends MockResources {
+
+        private static final Map<String, Integer> TEST_RESOURCE_IDS = new HashMap<>();
+        private static final SparseArray<Object> TEST_RESOURCES = new SparseArray<>();
+
+        private static void addItem(String name, int id, Object value) {
+            TEST_RESOURCE_IDS.put(name, id);
+            TEST_RESOURCES.put(id, value);
+        }
+
+        static {
+            addItem("integer/suwTransitionDuration", 0x7f010000, 5000);
+        }
+
+        @Override
+        public int getIdentifier(String name, String defType, String defPackage) {
+            String key = defType + "/" + name;
+            if (TEST_RESOURCE_IDS.containsKey(key)) {
+                return TEST_RESOURCE_IDS.get(key);
+            }
+            return 0;
+        }
+
+        @Override
+        public int getInteger(int id) throws NotFoundException {
+            if (TEST_RESOURCES.indexOfKey(id) >= 0) {
+                return (int) TEST_RESOURCES.get(id);
+            } else {
+                throw new NotFoundException();
+            }
+        }
+
+        @Override
+        public int getColor(int id) throws NotFoundException {
+            if (TEST_RESOURCES.indexOfKey(id) >= 0) {
+                return (int) TEST_RESOURCES.get(id);
+            } else {
+                throw new NotFoundException();
+            }
+        }
+    }
+
     private static class TestPackageManager extends MockPackageManager {
 
         private Context mTestContext;
+        private Resources mTestResources;
 
         public TestPackageManager(Context testContext) {
             mTestContext = testContext;
+            mTestResources = new TestResources();
         }
 
         @Override
         public Resources getResourcesForApplication(ApplicationInfo app) {
             if (app != null && "com.android.setupwizardlib.test".equals(app.packageName)) {
-                return mTestContext.getResources();
+                return mTestResources;
             } else {
                 return super.getResourcesForApplication(app);
             }
