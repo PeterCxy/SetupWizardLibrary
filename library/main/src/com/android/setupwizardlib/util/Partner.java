@@ -78,24 +78,27 @@ public class Partner {
      */
     public static ResourceEntry getResourceEntry(Context context, int id) {
         final Partner partner = Partner.get(context);
-        if (partner == null) {
-            return new ResourceEntry(context.getResources(), id);
-        } else {
+        if (partner != null) {
             final Resources ourResources = context.getResources();
             final String name = ourResources.getResourceEntryName(id);
             final String type = ourResources.getResourceTypeName(id);
             final int partnerId = partner.getIdentifier(name, type);
-            return new ResourceEntry(partner.mResources, partnerId);
+            if (partnerId != 0) {
+                return new ResourceEntry(partner.mResources, partnerId, true);
+            }
         }
+        return new ResourceEntry(context.getResources(), id, false);
     }
 
     public static class ResourceEntry {
         public Resources resources;
         public int id;
+        public boolean isOverlay;
 
-        ResourceEntry(Resources resources, int id) {
+        ResourceEntry(Resources resources, int id, boolean isOverlay) {
             this.resources = resources;
             this.id = id;
+            this.isOverlay = isOverlay;
         }
     }
 
