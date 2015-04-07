@@ -67,4 +67,71 @@ public class WizardManagerHelperTest extends AndroidTestCase {
         assertFalse("Is setup wizard should be true",
                 WizardManagerHelper.isSetupWizardIntent(intent));
     }
+
+    @SmallTest
+    public void testHoloIsNotLightTheme() {
+        final Intent intent = new Intent();
+        intent.putExtra("theme", "holo");
+        assertFalse("Theme holo should not be light theme",
+                WizardManagerHelper.isLightTheme(intent, true));
+    }
+
+    @SmallTest
+    public void testHoloLightIsLightTheme() {
+        final Intent intent = new Intent();
+        intent.putExtra("theme", "holo_light");
+        assertTrue("Theme holo_light should be light theme",
+                WizardManagerHelper.isLightTheme(intent, false));
+    }
+
+    @SmallTest
+    public void testMaterialIsNotLightTheme() {
+        final Intent intent = new Intent();
+        intent.putExtra("theme", "material");
+        assertFalse("Theme material should not be light theme",
+                WizardManagerHelper.isLightTheme(intent, true));
+    }
+
+    @SmallTest
+    public void testMaterialLightIsLightTheme() {
+        final Intent intent = new Intent();
+        intent.putExtra("theme", "material_light");
+        assertTrue("Theme material_light should be light theme",
+                WizardManagerHelper.isLightTheme(intent, false));
+    }
+
+    @SmallTest
+    public void testMaterialBlueIsNotLightTheme() {
+        final Intent intent = new Intent();
+        intent.putExtra("theme", "material_blue");
+        assertFalse("Theme material_blue should not be light theme",
+                WizardManagerHelper.isLightTheme(intent, true));
+    }
+
+    @SmallTest
+    public void testMaterialBlueLightIsLightTheme() {
+        final Intent intent = new Intent();
+        intent.putExtra("theme", "material_blue_light");
+        assertTrue("Theme material_blue_light should be light theme",
+                WizardManagerHelper.isLightTheme(intent, false));
+    }
+
+    @SmallTest
+    public void testIsLightThemeDefault() {
+        final Intent intent = new Intent();
+        intent.putExtra("theme", "abracadabra");
+        assertTrue("isLightTheme should return default value true",
+                WizardManagerHelper.isLightTheme(intent, true));
+        assertFalse("isLightTheme should return default value false",
+                WizardManagerHelper.isLightTheme(intent, false));
+    }
+
+    @SmallTest
+    public void testIsLightThemeUnspecified() {
+        final Intent intent = new Intent();
+        assertTrue("isLightTheme should return default value true",
+                WizardManagerHelper.isLightTheme(intent, true));
+        assertFalse("isLightTheme should return default value false",
+                WizardManagerHelper.isLightTheme(intent, false));
+    }
 }

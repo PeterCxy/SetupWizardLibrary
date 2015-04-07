@@ -37,8 +37,12 @@ public class WizardManagerHelper {
     public static final String SETTINGS_GLOBAL_DEVICE_PROVISIONED = "device_provisioned";
     public static final String SETTINGS_SECURE_USER_SETUP_COMPLETE = "user_setup_complete";
 
+    public static final String THEME_HOLO = "holo";
+    public static final String THEME_HOLO_LIGHT = "holo_light";
     public static final String THEME_MATERIAL = "material";
     public static final String THEME_MATERIAL_LIGHT = "material_light";
+    public static final String THEME_MATERIAL_BLUE = "material_blue";
+    public static final String THEME_MATERIAL_BLUE_LIGHT = "material_blue_light";
 
     /**
      * Get an intent that will invoke the next step of setup wizard.
@@ -122,6 +126,28 @@ public class WizardManagerHelper {
         } else {
             return Settings.Secure.getInt(context.getContentResolver(),
                     SETTINGS_GLOBAL_DEVICE_PROVISIONED, 0) == 1;
+        }
+    }
+
+    /**
+     * Checks the intent whether the extra indicates that the light theme should be used or not. If
+     * the theme is not specified in the intent, or the theme specified is unknown, the value def
+     * will be returned.
+     *
+     * @param intent The intent used to start the activity, which the theme extra will be read from.
+     * @param def The default value if the theme is not specified.
+     * @return True if the activity started by the given intent should use light theme.
+     */
+    public static boolean isLightTheme(Intent intent, boolean def) {
+        final String theme = intent.getStringExtra(EXTRA_THEME);
+        if (THEME_HOLO_LIGHT.equals(theme) || THEME_MATERIAL_LIGHT.equals(theme)
+                || THEME_MATERIAL_BLUE_LIGHT.equals(theme)) {
+            return true;
+        } else if (THEME_HOLO.equals(theme) || THEME_MATERIAL.equals(theme)
+                || THEME_MATERIAL_BLUE.equals(theme)) {
+            return false;
+        } else {
+            return def;
         }
     }
 }
