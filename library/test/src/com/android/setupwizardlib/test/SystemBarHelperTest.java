@@ -17,6 +17,7 @@
 package com.android.setupwizardlib.test;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
@@ -48,6 +49,11 @@ public class SystemBarHelperTest extends AndroidTestCase {
             | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
             | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
             | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION;
+
+    @SuppressLint("InlinedApi")
+    private static final int DIALOG_IMMERSIVE_FLAGS =
+            View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                    | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
 
     @SmallTest
     public void testAddVisibilityFlagView() {
@@ -103,6 +109,23 @@ public class SystemBarHelperTest extends AndroidTestCase {
                     "DEFAULT_IMMERSIVE_FLAGS should be added to decorView's systemUiVisibility",
                     DEFAULT_IMMERSIVE_FLAGS | 0x456,
                     window.getDecorView().getSystemUiVisibility());
+        }
+    }
+
+    @SmallTest
+    public void testHideSystemBarsDialog() {
+        final Dialog dialog = new Dialog(mContext);
+        if (VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP) {
+            final WindowManager.LayoutParams attrs = dialog.getWindow().getAttributes();
+            attrs.systemUiVisibility = 0x456;
+            dialog.getWindow().setAttributes(attrs);
+        }
+
+        SystemBarHelper.hideSystemBars(dialog);
+        if (VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP) {
+            assertEquals("DIALOG_IMMERSIVE_FLAGS should be added to window's systemUiVisibility",
+                    DIALOG_IMMERSIVE_FLAGS | 0x456,
+                    dialog.getWindow().getAttributes().systemUiVisibility);
         }
     }
 
