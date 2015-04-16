@@ -168,7 +168,7 @@ public class Illustration extends FrameLayout {
             // Scale the background so its size matches the foreground
             canvas.scale(mScale, mScale, 0, 0);
             if (VERSION.SDK_INT > VERSION_CODES.JELLY_BEAN_MR1 &&
-                    shouldMirrorIllustration(getLayoutDirection())) {
+                    shouldMirrorDrawable(mBackground, getLayoutDirection())) {
                 // Flip the illustration for RTL layouts
                 canvas.scale(-1, 1);
                 canvas.translate(-mBackground.getBounds().width(), 0);
@@ -179,7 +179,7 @@ public class Illustration extends FrameLayout {
         if (mIllustration != null) {
             canvas.save();
             if (VERSION.SDK_INT > VERSION_CODES.JELLY_BEAN_MR1 &&
-                    shouldMirrorIllustration(getLayoutDirection())) {
+                    shouldMirrorDrawable(mIllustration, getLayoutDirection())) {
                 // Flip the illustration for RTL layouts
                 canvas.scale(-1, 1);
                 canvas.translate(-mIllustrationBounds.width(), 0);
@@ -191,10 +191,10 @@ public class Illustration extends FrameLayout {
         super.onDraw(canvas);
     }
 
-    private boolean shouldMirrorIllustration(int layoutDirection) {
+    private boolean shouldMirrorDrawable(Drawable drawable, int layoutDirection) {
         if (layoutDirection == LayoutDirection.RTL) {
             if (VERSION.SDK_INT >= VERSION_CODES.KITKAT) {
-                return mIllustration.isAutoMirrored();
+                return drawable.isAutoMirrored();
             } else if (VERSION.SDK_INT >= VERSION_CODES.JELLY_BEAN_MR1) {
                 final int flags = getContext().getApplicationInfo().flags;
                 return (flags & ApplicationInfo.FLAG_SUPPORTS_RTL) != 0;
