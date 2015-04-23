@@ -29,6 +29,7 @@ import android.os.Build.VERSION_CODES;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -116,6 +117,26 @@ public class SetupWizardLayout extends FrameLayout {
                 setIllustration(illustrationImage, horizontalTile);
             }
         }
+
+        // Set the top padding of the illustration
+        int decorPaddingTop = a.getDimensionPixelSize(
+                R.styleable.SuwSetupWizardLayout_suwDecorPaddingTop, -1);
+        if (decorPaddingTop == -1) {
+            decorPaddingTop = getResources().getDimensionPixelSize(R.dimen.suw_decor_padding_top);
+        }
+        setDecorPaddingTop(decorPaddingTop);
+
+
+        // Set the illustration aspect ratio. See Illustration.setAspectRatio(float). This will
+        // override suwIllustrationPaddingTop if its value is not 0.
+        float illustrationAspectRatio = a.getFloat(
+                R.styleable.SuwSetupWizardLayout_suwIllustrationAspectRatio, -1f);
+        if (illustrationAspectRatio == -1f) {
+            final TypedValue out = new TypedValue();
+            getResources().getValue(R.dimen.suw_illustration_aspect_ratio, out, true);
+            illustrationAspectRatio = out.getFloat();
+        }
+        setIllustrationAspectRatio(illustrationAspectRatio);
 
         // Set the header text
         final CharSequence headerText =
@@ -255,6 +276,39 @@ public class SetupWizardLayout extends FrameLayout {
             final Illustration illustration = (Illustration) view;
             final Drawable illustrationDrawable = getIllustration(asset, horizontalTile);
             illustration.setIllustration(illustrationDrawable);
+        }
+    }
+
+    /**
+     * Sets the aspect ratio of the illustration. This will be the space (padding top) reserved
+     * above the header text. This will override the padding top of the illustration.
+     *
+     * @param aspectRatio The aspect ratio
+     * @see com.android.setupwizardlib.view.Illustration#setAspectRatio(float)
+     */
+    public void setIllustrationAspectRatio(float aspectRatio) {
+        final View view = findViewById(R.id.suw_layout_decor);
+        if (view instanceof Illustration) {
+            final Illustration illustration = (Illustration) view;
+            illustration.setAspectRatio(aspectRatio);
+        }
+    }
+
+    /**
+     * Set the top padding of the decor view. If the decor is an Illustration and the aspect ratio
+     * is set, this value will be overridden.
+     *
+     * Note: Currently the default top padding for tablet landscape is 128dp, which is the offset
+     * of the card from the top. This is likely to change in future versions so this value aligns
+     * with the height of the illustration instead.
+     *
+     * @param paddingTop The top padding in pixels.
+     */
+    public void setDecorPaddingTop(int paddingTop) {
+        final View view = findViewById(R.id.suw_layout_decor);
+        if (view != null) {
+            view.setPadding(view.getPaddingLeft(), paddingTop, view.getPaddingRight(),
+                    view.getPaddingBottom());
         }
     }
 

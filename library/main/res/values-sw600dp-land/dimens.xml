@@ -17,16 +17,10 @@
 
 <resources>
 
-    <!-- Card layout (for tablets) -->
-    <dimen name="suw_card_title_padding_end">32dp</dimen>
-    <dimen name="suw_card_title_padding_start">56dp</dimen>
-    <dimen name="suw_card_title_padding_top">24dp</dimen>
-    <dimen name="suw_card_title_padding_bottom">0dp</dimen>
-
     <!-- Decor view (illustration or the header without illustration) -->
-    <dimen name="suw_decor_padding_top">0dp</dimen>
+    <dimen name="suw_decor_padding_top">128dp</dimen>
 
     <!-- Illustration -->
-    <item name="suw_illustration_aspect_ratio" format="float" type="dimen">0</item>
+    <item name="suw_illustration_aspect_ratio" format="float" type="dimen">0.0</item>
 
 </resources>
