@@ -40,7 +40,9 @@
         <attr name="suwBackground" format="color|reference" />
         <attr name="suwBackgroundTile" format="color|reference" />
         <attr name="suwHeaderText" format="string" localization="suggested" />
+        <attr name="suwDecorPaddingTop" format="dimension|reference" />
         <attr name="suwIllustration" format="color|reference" />
+        <attr name="suwIllustrationAspectRatio" format="float|reference" />
         <attr name="suwIllustrationHorizontalTile" format="color|reference" />
         <attr name="suwIllustrationImage" format="color|reference" />
     </declare-styleable>

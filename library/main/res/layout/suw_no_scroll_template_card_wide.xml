@@ -42,13 +42,12 @@
                 style="@style/SuwCardTitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/suw_tablet_illustration_height"
+                android:layout_marginTop="@dimen/suw_card_land_header_text_margin_top"
                 android:layout_weight="6" />
 
             <FrameLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_marginTop="@dimen/suw_card_land_margin_top"
                 android:layout_weight="8"
                 android:background="?attr/suwCardBackground"
                 android:elevation="@dimen/suw_card_elevation"

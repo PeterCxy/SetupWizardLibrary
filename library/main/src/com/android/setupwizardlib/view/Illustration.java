@@ -112,6 +112,20 @@ public class Illustration extends FrameLayout {
         requestLayout();
     }
 
+    /**
+     * Set the aspect ratio reserved for the illustration. This overrides the top padding of the
+     * view according to the width of this view and the aspect ratio. Children views will start
+     * being laid out below this aspect ratio.
+     *
+     * @param aspectRatio A float value specifying the aspect ratio (= width / height). 0 to not
+     *                    override the top padding.
+     */
+    public void setAspectRatio(float aspectRatio) {
+        mAspectRatio = aspectRatio;
+        invalidate();
+        requestLayout();
+    }
+
     @Override
     @Deprecated
     public void setForeground(Drawable d) {
