@@ -50,8 +50,6 @@
                 android:elevation="@dimen/suw_card_elevation"
                 tools:ignore="UnusedAttribute">
 
-                <include layout="@layout/suw_progress_bar_stub" />
-
                 <com.android.setupwizardlib.view.BottomScrollView
                     android:id="@+id/suw_bottom_scroll_view"
                     android:layout_width="match_parent"
@@ -64,6 +62,8 @@
                         android:clipChildren="false" />
 
                 </com.android.setupwizardlib.view.BottomScrollView>
+
+                <include layout="@layout/suw_progress_bar_stub" />
 
             </FrameLayout>
 

@@ -52,12 +52,12 @@
                 android:elevation="@dimen/suw_card_elevation"
                 tools:ignore="UnusedAttribute">
 
-                <include layout="@layout/suw_progress_bar_stub" />
-
                 <FrameLayout
                     android:id="@+id/suw_layout_content"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
+
+                <include layout="@layout/suw_progress_bar_stub" />
 
             </FrameLayout>
 
