@@ -22,7 +22,6 @@ import android.graphics.Canvas;
 import android.graphics.RectF;
 import android.os.Build;
 import android.util.AttributeSet;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowInsets;
 
@@ -36,8 +35,7 @@ import android.view.WindowInsets;
  * 1. The two supported scenarios are StickyHeaderScrollView -> subview (stickyContainer) -> sticky,
  *    and StickyHeaderScrollView -> container -> subview (sticky).
  *    The arrow (->) represents parent/child relationship and must be immediate child.
- * 2. The view does not work well with padding. b/16190933
- * 3. If fitsSystemWindows is true, then this will offset the sticking position by the height of
+ * 2. If fitsSystemWindows is true, then this will offset the sticking position by the height of
  *    the system decorations at the top of the screen.
  *
  * @see StickyHeaderListView
@@ -47,7 +45,6 @@ public class StickyHeaderScrollView extends BottomScrollView {
     private View mSticky;
     private View mStickyContainer;
     private int mStatusBarInset = 0;
-    private RectF mStickyRect = new RectF();
 
     public StickyHeaderScrollView(Context context) {
         super(context);
@@ -75,20 +72,9 @@ public class StickyHeaderScrollView extends BottomScrollView {
     }
 
     @Override
-    public boolean dispatchTouchEvent(MotionEvent ev) {
-        if (mStickyRect.contains(ev.getX(), ev.getY())) {
-            ev.offsetLocation(-mStickyRect.left, -mStickyRect.top);
-            return mStickyContainer.dispatchTouchEvent(ev);
-        } else {
-            return super.dispatchTouchEvent(ev);
-        }
-    }
-
-    @Override
-    public void draw(Canvas canvas) {
-        super.draw(canvas);
+    protected void onScrollChanged(int l, int t, int oldl, int oldt) {
+        super.onScrollChanged(l, t, oldl, oldt);
         if (mSticky != null) {
-            final int saveCount = canvas.save();
             // The view to draw when sticking to the top
             final View drawTarget = mStickyContainer != null ? mStickyContainer : mSticky;
             // The offset to draw the view at when sticky
@@ -97,17 +83,11 @@ public class StickyHeaderScrollView extends BottomScrollView {
             final int drawTop = drawTarget.getTop() - getScrollY();
             if (drawTop + drawOffset < mStatusBarInset || !drawTarget.isShown()) {
                 // ScrollView translates the whole canvas so we have to compensate for that
-                mStickyRect.set(0, -drawOffset + mStatusBarInset, drawTarget.getWidth(),
-                        drawTarget.getHeight() - drawOffset + mStatusBarInset);
-                canvas.translate(0, -drawTop + mStickyRect.top);
-                canvas.clipRect(0, 0, drawTarget.getWidth(), drawTarget.getHeight());
-                drawTarget.draw(canvas);
+                drawTarget.setTranslationY(getScrollY() - drawOffset);
             } else {
-                mStickyRect.setEmpty();
+                drawTarget.setTranslationY(0);
             }
-            canvas.restoreToCount(saveCount);
         }
-        onDrawScrollBars(canvas);
     }
 
     @Override
