@@ -219,19 +219,27 @@ public class SystemBarHelper {
 
         @Override
         public WindowInsets onApplyWindowInsets(View view, WindowInsets insets) {
+            int bottomInset = insets.getSystemWindowInsetBottom();
 
             final int bottomMargin = Math.max(
                     insets.getSystemWindowInsetBottom() - mNavigationBarHeight, 0);
 
-            ViewGroup.MarginLayoutParams lp = (ViewGroup.MarginLayoutParams) view.getLayoutParams();
-            lp.setMargins(lp.leftMargin, lp.topMargin, lp.rightMargin, bottomMargin);
-            view.requestLayout();
+            final ViewGroup.MarginLayoutParams lp =
+                    (ViewGroup.MarginLayoutParams) view.getLayoutParams();
+            // Check that we have enough space to apply the bottom margins before applying it.
+            // Otherwise the framework may think that the view is empty and exclude it from layout.
+            if (bottomMargin < lp.bottomMargin + view.getHeight()) {
+                lp.setMargins(lp.leftMargin, lp.topMargin, lp.rightMargin, bottomMargin);
+                view.setLayoutParams(lp);
+                bottomInset = 0;
+            }
+
 
             return insets.replaceSystemWindowInsets(
                     insets.getSystemWindowInsetLeft(),
                     insets.getSystemWindowInsetTop(),
                     insets.getSystemWindowInsetRight(),
-                    0 /* bottom */
+                    bottomInset
             );
         }
     }
