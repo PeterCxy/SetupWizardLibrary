@@ -236,6 +236,11 @@ public class SetupWizardLayout extends FrameLayout {
         }
     }
 
+    public CharSequence getHeaderText() {
+        final TextView titleView = (TextView) findViewById(R.id.suw_layout_title);
+        return titleView != null ? titleView.getText() : null;
+    }
+
     /**
      * Set the illustration of the layout. The drawable will be applied as is, and the bounds will
      * be set as implemented in {@link com.android.setupwizardlib.view.Illustration}. To create
