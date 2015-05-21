@@ -16,6 +16,7 @@
 
 package com.android.setupwizardlib.test;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
@@ -35,7 +36,11 @@ public class IllustrationTest extends AndroidTestCase {
 
     @SmallTest
     public void testAspectRatio() {
-        final Illustration illustration = new Illustration(getContext());
+        final Context context = getContext();
+        // Force the context to be xhdpi
+        context.getResources().getDisplayMetrics().density = 2.0f;
+
+        final Illustration illustration = new Illustration(context);
         illustration.setAspectRatio(3.0f);
         final Drawable backgroundDrawable = new ColorDrawable(Color.RED);
         final Drawable illustrationDrawable = new ColorDrawable(Color.BLUE);
@@ -44,7 +49,7 @@ public class IllustrationTest extends AndroidTestCase {
 
         illustration.measure(View.MeasureSpec.makeMeasureSpec(300, View.MeasureSpec.EXACTLY),
                 View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
-        // (300 / 3) round down to nearest mod 8 = 96
+        // (300px / 3) round down to nearest mod (8dp = 16px) = 96px
         assertEquals("Top padding should be 96", 96, illustration.getPaddingTop());
     }
 }
