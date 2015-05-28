@@ -23,6 +23,7 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.ContextThemeWrapper;
 import android.view.View;
@@ -152,6 +153,14 @@ public class NavigationBar extends LinearLayout implements View.OnClickListener 
                     d.mutate().setAlpha(alpha);
                 }
             }
+        }
+
+        @Override
+        protected void onTextChanged(CharSequence text, int start, int lengthBefore,
+                int lengthAfter) {
+            super.onTextChanged(text, start, lengthBefore, lengthAfter);
+            setCompoundDrawablePadding(TextUtils.isEmpty(text) ? 0 : getResources()
+                    .getDimensionPixelSize(R.dimen.suw_navbar_button_drawable_padding));
         }
     }
 
