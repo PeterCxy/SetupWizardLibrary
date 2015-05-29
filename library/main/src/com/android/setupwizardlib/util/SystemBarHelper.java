@@ -147,6 +147,9 @@ public class SystemBarHelper {
      * view to be immediately above the keyboard, and assumes that the view sits immediately above
      * the navigation bar.
      *
+     * Note that you must set windowSoftInputMode to adjustResize for this class to work. Otherwise
+     * window insets are not dispatched and this method will have no effect.
+     *
      * This will only take effect in versions Lollipop or above. Otherwise this is a no-op.
      *
      * @param view The view to be resized when the keyboard is shown.
