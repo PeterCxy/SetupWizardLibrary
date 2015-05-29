@@ -29,6 +29,7 @@ import android.os.Build.VERSION_CODES;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -38,6 +39,8 @@ import android.view.ViewStub;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import com.android.setupwizardlib.util.RequireScrollHelper;
+import com.android.setupwizardlib.view.BottomScrollView;
 import com.android.setupwizardlib.view.Illustration;
 import com.android.setupwizardlib.view.NavigationBar;
 
@@ -220,6 +223,22 @@ public class SetupWizardLayout extends FrameLayout {
     public NavigationBar getNavigationBar() {
         final View view = findViewById(R.id.suw_layout_navigation_bar);
         return view instanceof NavigationBar ? (NavigationBar) view : null;
+    }
+
+    private BottomScrollView getScrollView() {
+        final View view = findViewById(R.id.suw_bottom_scroll_view);
+        return view instanceof BottomScrollView ? (BottomScrollView) view : null;
+    }
+
+    public void requireScrollToBottom() {
+        final NavigationBar navigationBar = getNavigationBar();
+        final BottomScrollView scrollView = getScrollView();
+        if (navigationBar != null && scrollView != null) {
+            RequireScrollHelper.requireScroll(navigationBar, scrollView);
+        } else {
+            Log.e(TAG, "Both suw_layout_navigation_bar and suw_bottom_scroll_view must exist in"
+                    + " the template to require scrolling.");
+        }
     }
 
     public void setHeaderText(int title) {

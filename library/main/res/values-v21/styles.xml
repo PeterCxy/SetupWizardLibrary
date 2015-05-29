@@ -51,6 +51,7 @@
         <item name="suwNavBarBackButton">@drawable/suw_navbar_ic_back</item>
         <item name="suwNavBarBackgroundColor">@color/suw_navbar_bg_dark</item>
         <item name="suwNavBarButtonBackground">@drawable/suw_navbar_btn_bg</item>
+        <item name="suwNavBarMoreButton">@drawable/suw_navbar_ic_more</item>
         <item name="suwNavBarNextButton">@drawable/suw_navbar_ic_next</item>
         <item name="suwNavBarTextColor">@color/suw_navbar_text_dark</item>
     </style>
@@ -59,6 +60,7 @@
         <item name="suwNavBarBackButton">@drawable/suw_navbar_ic_back</item>
         <item name="suwNavBarBackgroundColor">@color/suw_navbar_bg_light</item>
         <item name="suwNavBarButtonBackground">@drawable/suw_navbar_btn_bg</item>
+        <item name="suwNavBarMoreButton">@drawable/suw_navbar_ic_more</item>
         <item name="suwNavBarNextButton">@drawable/suw_navbar_ic_next</item>
         <item name="suwNavBarTextColor">@color/suw_navbar_text_light</item>
     </style>
