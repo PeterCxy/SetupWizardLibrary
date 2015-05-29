@@ -33,6 +33,17 @@
         android:visibility="invisible" />
 
     <view class="com.android.setupwizardlib.view.NavigationBar$NavButton"
+        android:id="@+id/suw_navbar_more"
+        style="@style/SuwNavBarButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:contentDescription="@string/suw_more_button_label"
+        android:drawableEnd="?attr/suwNavBarMoreButton"
+        android:drawableRight="?attr/suwNavBarMoreButton"
+        android:gravity="end|center_vertical"
+        android:visibility="gone" />
+
+    <view class="com.android.setupwizardlib.view.NavigationBar$NavButton"
         android:id="@+id/suw_navbar_next"
         style="@style/SuwNavBarButtonStyle"
         android:layout_width="wrap_content"

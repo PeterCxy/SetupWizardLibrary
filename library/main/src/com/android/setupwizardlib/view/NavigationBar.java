@@ -68,6 +68,7 @@ public class NavigationBar extends LinearLayout implements View.OnClickListener 
 
     private Button mNextButton;
     private Button mBackButton;
+    private Button mMoreButton;
     private NavigationBarListener mListener;
 
     public NavigationBar(Context context) {
@@ -92,6 +93,7 @@ public class NavigationBar extends LinearLayout implements View.OnClickListener 
         View.inflate(getContext(), R.layout.suw_navbar_view, this);
         mNextButton = (Button) findViewById(R.id.suw_navbar_next);
         mBackButton = (Button) findViewById(R.id.suw_navbar_back);
+        mMoreButton = (Button) findViewById(R.id.suw_navbar_more);
     }
 
     public Button getBackButton() {
@@ -100,6 +102,10 @@ public class NavigationBar extends LinearLayout implements View.OnClickListener 
 
     public Button getNextButton() {
         return mNextButton;
+    }
+
+    public Button getMoreButton() {
+        return mMoreButton;
     }
 
     public void setNavigationBarListener(NavigationBarListener listener) {
