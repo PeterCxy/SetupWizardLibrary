@@ -26,7 +26,7 @@ import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 
-import com.android.annotations.VisibleForTesting;
+import com.android.setupwizardlib.annotations.VisibleForTesting;
 
 /**
  * Utilities to discover and interact with partner customizations. There can only be one set of
