@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.android.annotations;
+package com.android.setupwizardlib.annotations;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
