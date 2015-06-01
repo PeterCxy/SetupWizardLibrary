@@ -19,4 +19,6 @@
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="suw_next_button_label" msgid="7269625133873553978">"Далі"</string>
     <string name="suw_back_button_label" msgid="1460929053642711025">"Назад"</string>
+    <!-- no translation found for suw_more_button_label (7769076059705546563) -->
+    <skip />
 </resources>
