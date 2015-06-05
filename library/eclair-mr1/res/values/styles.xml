@@ -49,13 +49,7 @@
 
     <!-- Content styles -->
 
-    <style name="SuwDescription">
-        <!-- Before Honeycomb, layout_gravity is needed for FrameLayout to apply the margins -->
-        <item name="android:layout_gravity">top</item>
-        <item name="android:layout_marginBottom">@dimen/suw_description_margin_bottom</item>
-        <item name="android:layout_marginTop">@dimen/suw_description_margin_top</item>
-        <item name="android:lineSpacingExtra">@dimen/suw_description_line_spacing_extra</item>
-        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Medium</item>
+    <style name="TextAppearance.SuwDescription" parent="TextAppearance.AppCompat.Medium">
         <item name="android:textColor">?android:attr/textColorPrimary</item>
         <item name="android:textSize">@dimen/suw_description_text_size</item>
     </style>
