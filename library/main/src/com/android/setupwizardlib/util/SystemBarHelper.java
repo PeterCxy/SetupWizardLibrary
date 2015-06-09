@@ -202,6 +202,10 @@ public class SystemBarHelper {
     private static void temporarilyDisableDialogFocus(final Window window) {
         window.setFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
                 WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE);
+        // Add the SOFT_INPUT_IS_FORWARD_NAVIGATION_FLAG. This is normally done by the system when
+        // FLAG_NOT_FOCUSABLE is not set. Setting this flag allows IME to be shown automatically
+        // if the dialog has editable text fields.
+        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_IS_FORWARD_NAVIGATION);
         new Handler().post(new Runnable() {
             @Override
             public void run() {
