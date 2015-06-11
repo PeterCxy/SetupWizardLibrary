@@ -32,3 +32,10 @@ ext {
 }
 
 apply from: 'rules.gradle'
+
+// Output all test APKs to the distribution folder
+android.testVariants.all { variant ->
+    variant.outputs.each { output ->
+        dist.file(output.outputFile.path, output.outputFile.name)
+    }
+}
