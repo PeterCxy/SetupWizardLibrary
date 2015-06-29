@@ -34,8 +34,11 @@ ext {
 apply from: 'rules.gradle'
 
 // Output all test APKs to the distribution folder
-android.testVariants.all { variant ->
-    variant.outputs.each { output ->
-        dist.file(output.outputFile.path, output.outputFile.name)
+def distTask = tasks.findByName('dist');
+if (distTask) {
+    android.testVariants.all { variant ->
+        // Make the dist task depend on the test variant, so the test APK will be built
+        distTask.dependsOn variant.assemble
+        // TODO: remap the different test variants to different file names
     }
 }
