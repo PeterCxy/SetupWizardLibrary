@@ -48,6 +48,10 @@
         <item name="android:fontFamily" tools:ignore="NewApi">sans-serif-light</item>
     </style>
 
+    <style name="TextAppearance.SuwDescription.Secondary" parent="TextAppearance.SuwDescription">
+        <item name="android:textColor">?android:attr/textColorSecondary</item>
+    </style>
+
     <style name="SuwRadioButton">
         <item name="android:layout_marginBottom">@dimen/suw_radio_button_margin_bottom</item>
         <item name="android:layout_marginLeft">@dimen/suw_radio_button_margin_start</item>
@@ -67,8 +71,7 @@
         <item name="android:lineSpacingExtra">@dimen/suw_check_box_line_spacing_extra</item>
         <item name="android:paddingLeft">@dimen/suw_check_box_padding_start</item>
         <item name="android:paddingStart" tools:ignore="NewApi">@dimen/suw_check_box_padding_start</item>
-        <item name="android:textAppearance">@style/TextAppearance.SuwDescription.Light</item>
-        <item name="android:textSize">@dimen/suw_check_box_text_size</item>
+        <item name="android:textAppearance">@style/TextAppearance.SuwDescription</item>
     </style>
 
     <style name="SuwCheckBox.Multiline" parent="SuwCheckBox">

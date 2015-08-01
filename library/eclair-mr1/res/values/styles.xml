@@ -24,7 +24,6 @@
         <!-- Specify the indeterminateTintMode to work around a bug in Lollipop -->
         <item name="android:indeterminateTintMode" tools:ignore="NewApi">src_in</item>
         <item name="android:textColorLink">@color/suw_link_color_dark</item>
-        <item name="android:textColorSecondary">@color/suw_color_secondary_dark</item>
         <item name="android:windowAnimationStyle">@style/Animation.SuwWindowAnimation</item>
         <item name="android:windowSoftInputMode">adjustResize</item>
 
@@ -38,7 +37,6 @@
         <!-- Specify the indeterminateTintMode to work around a bug in Lollipop -->
         <item name="android:indeterminateTintMode" tools:ignore="NewApi">src_in</item>
         <item name="android:textColorLink">@color/suw_link_color_light</item>
-        <item name="android:textColorSecondary">@color/suw_color_secondary_light</item>
         <item name="android:windowAnimationStyle">@style/Animation.SuwWindowAnimation</item>
         <item name="android:windowSoftInputMode">adjustResize</item>
 
