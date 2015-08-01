@@ -23,6 +23,7 @@ import android.content.Context;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -42,6 +43,8 @@ import com.android.setupwizardlib.R;
  */
 public class SystemBarHelper {
 
+    private static final String TAG = "SystemBarHelper";
+
     @SuppressLint("InlinedApi")
     private static final int DEFAULT_IMMERSIVE_FLAGS =
             View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
@@ -60,6 +63,12 @@ public class SystemBarHelper {
     private static final int STATUS_BAR_DISABLE_BACK = 0x00400000;
 
     /**
+     * The maximum number of retries when peeking the decor view. When polling for the decor view,
+     * waiting it to be installed, set a maximum number of retries.
+     */
+    private static final int PEEK_DECOR_VIEW_RETRIES = 3;
+
+    /**
      * Hide the navigation bar for a dialog.
      *
      * This will only take effect in versions Lollipop or above. Otherwise this is a no-op.
@@ -69,7 +78,8 @@ public class SystemBarHelper {
             final Window window = dialog.getWindow();
             temporarilyDisableDialogFocus(window);
             addImmersiveFlagsToWindow(window, DIALOG_IMMERSIVE_FLAGS);
-            addImmersiveFlagsToDecorView(window, new Handler(), DIALOG_IMMERSIVE_FLAGS);
+            addImmersiveFlagsToDecorView(window, new Handler(), DIALOG_IMMERSIVE_FLAGS,
+                    PEEK_DECOR_VIEW_RETRIES);
         }
     }
 
@@ -84,7 +94,8 @@ public class SystemBarHelper {
     public static void hideSystemBars(final Window window) {
         if (VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP) {
             addImmersiveFlagsToWindow(window, DEFAULT_IMMERSIVE_FLAGS);
-            addImmersiveFlagsToDecorView(window, new Handler(), DEFAULT_IMMERSIVE_FLAGS);
+            addImmersiveFlagsToDecorView(window, new Handler(), DEFAULT_IMMERSIVE_FLAGS,
+                    PEEK_DECOR_VIEW_RETRIES);
         }
     }
 
@@ -161,25 +172,30 @@ public class SystemBarHelper {
     }
 
     /**
-     * View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN only takes effect when it is added a view instead of
+     * View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN only takes effect when it is added to a view instead of
      * the window.
      */
     @TargetApi(VERSION_CODES.LOLLIPOP)
     private static void addImmersiveFlagsToDecorView(final Window window, final Handler handler,
-            final int vis) {
+            final int vis, final int retries) {
         // Use peekDecorView instead of getDecorView so that clients can still set window features
         // after calling this method.
         final View decorView = window.peekDecorView();
         if (decorView != null) {
             addVisibilityFlag(decorView, vis);
         } else {
-            // If the decor view is not installed yet, try again in the next loop.
-            handler.post(new Runnable() {
-                @Override
-                public void run() {
-                    addImmersiveFlagsToDecorView(window, handler, vis);
-                }
-            });
+            final int newRetries = retries - 1;
+            if (newRetries >= 0) {
+                // If the decor view is not installed yet, try again in the next loop.
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        addImmersiveFlagsToDecorView(window, handler, vis, newRetries);
+                    }
+                });
+            } else {
+                Log.w(TAG, "Cannot get decor view of window: " + window);
+            }
         }
     }
 
