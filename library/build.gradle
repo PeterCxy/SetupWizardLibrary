@@ -14,8 +14,6 @@
  *      }
  */
 
-apply plugin: 'dist'
-
 ext {
     // For builds in the Android tree we want to build the dependencies from source for reproducible
     // builds. To add a dependency, you want to specify something like this:
@@ -32,13 +30,3 @@ ext {
 }
 
 apply from: 'rules.gradle'
-
-// Output all test APKs to the distribution folder
-def distTask = tasks.findByName('dist');
-if (distTask) {
-    android.testVariants.all { variant ->
-        // Make the dist task depend on the test variant, so the test APK will be built
-        distTask.dependsOn variant.assemble
-        // TODO: remap the different test variants to different file names
-    }
-}
