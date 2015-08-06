@@ -75,21 +75,13 @@
     </style>
 
     <style name="SuwNavBarThemeDark" parent="SuwNavBarTheme">
-        <item name="suwNavBarBackButton">@drawable/suw_navbar_ic_back_dark</item>
         <item name="suwNavBarBackgroundColor">@color/suw_navbar_bg_dark</item>
         <item name="suwNavBarButtonBackground">@drawable/suw_navbar_btn_bg_dark</item>
-        <item name="suwNavBarMoreButton">@drawable/suw_navbar_ic_more_dark</item>
-        <item name="suwNavBarNextButton">@drawable/suw_navbar_ic_next_dark</item>
-        <item name="suwNavBarTextColor">@color/suw_navbar_text_dark</item>
     </style>
 
     <style name="SuwNavBarThemeLight" parent="SuwNavBarTheme">
-        <item name="suwNavBarBackButton">@drawable/suw_navbar_ic_back_light</item>
         <item name="suwNavBarBackgroundColor">@color/suw_navbar_bg_light</item>
         <item name="suwNavBarButtonBackground">@drawable/suw_navbar_btn_bg_light</item>
-        <item name="suwNavBarMoreButton">@drawable/suw_navbar_ic_more_light</item>
-        <item name="suwNavBarNextButton">@drawable/suw_navbar_ic_next_light</item>
-        <item name="suwNavBarTextColor">@color/suw_navbar_text_light</item>
     </style>
 
 </resources>

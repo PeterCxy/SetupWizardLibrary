@@ -16,4 +16,4 @@
 -->
 
 <bitmap xmlns:android="http://schemas.android.com/apk/res/android"
-    android:src="@drawable/suw_navbar_ic_down_arrow_dark" />
+    android:src="@drawable/suw_navbar_ic_left_arrow" />

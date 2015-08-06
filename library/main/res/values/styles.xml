@@ -116,6 +116,7 @@
         <item name="android:background">?attr/suwNavBarBackgroundColor</item>
         <item name="android:paddingLeft">@dimen/suw_navbar_padding_sides</item>
         <item name="android:paddingRight">@dimen/suw_navbar_padding_sides</item>
+        <item name="suwNavBarTextColor">?android:attr/textColorPrimary</item>
     </style>
 
 </resources>

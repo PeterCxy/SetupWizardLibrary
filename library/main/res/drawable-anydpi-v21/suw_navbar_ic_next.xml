@@ -19,11 +19,13 @@
     android:autoMirrored="true"
     android:width="@dimen/suw_navbar_ic_intrinsic_size"
     android:height="@dimen/suw_navbar_ic_intrinsic_size"
+    android:tint="?attr/suwNavBarTextColor"
     android:viewportWidth="24"
     android:viewportHeight="24">
 
+    <!-- Fill with solid black as the actual button color will be tinted on the entire drawable -->
     <path
-        android:fillColor="?attr/suwNavBarTextColor"
+        android:fillColor="@android:color/black"
         android:pathData="M10,6 l-1.4,1.4 4.6,4.6 -4.6,4.6 1.4,1.4 6,-6z" />
 
 </vector>

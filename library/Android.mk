@@ -8,6 +8,6 @@ LOCAL_RESOURCE_DIR := \
     $(LOCAL_PATH)/main/res \
     $(LOCAL_PATH)/platform/res
 LOCAL_SDK_VERSION := current
-LOCAL_SRC_FILES := $(call all-java-files-under, main/src)
+LOCAL_SRC_FILES := $(call all-java-files-under, main/src platform/src)
 
 include $(BUILD_STATIC_JAVA_LIBRARY)

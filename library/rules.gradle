@@ -61,14 +61,17 @@ android {
         }
 
         platform {
+            java.srcDirs = ['platform/src']
             res.srcDirs = ['platform/res']
         }
 
         icsCompat {
+            java.srcDirs = ['eclair-mr1/src']
             res.srcDirs = ['eclair-mr1/res']
         }
 
         eclairMr1Compat {
+            java.srcDirs = ['eclair-mr1/src']
             res.srcDirs = ['eclair-mr1/res']
         }
 

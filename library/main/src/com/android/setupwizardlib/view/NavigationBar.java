@@ -20,10 +20,7 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
-import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
-import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.ContextThemeWrapper;
 import android.view.View;
@@ -127,47 +124,4 @@ public class NavigationBar extends LinearLayout implements View.OnClickListener 
             }
         }
     }
-
-    public static class NavButton extends Button {
-
-        public NavButton(Context context) {
-            super(context);
-        }
-
-        public NavButton(Context context, AttributeSet attrs) {
-            super(context, attrs);
-        }
-
-        @Override
-        public void setEnabled(boolean enabled) {
-            super.setEnabled(enabled);
-            // The color of the button is #de000000 / #deffffff when enabled. When disabled, the
-            // alpha value = 0x3b/0xff * 0xde/0xff = 20%.
-            final int alpha = enabled ? 0xff : 0x3b;
-            setTextColor(getTextColors().withAlpha(alpha));
-            if (VERSION.SDK_INT >= VERSION_CODES.JELLY_BEAN_MR1) {
-                final Drawable[] relativeDrawables = getCompoundDrawablesRelative();
-                for (Drawable d : relativeDrawables) {
-                    if (d != null) {
-                        d.mutate().setAlpha(alpha);
-                    }
-                }
-            }
-            final Drawable[] compoundDrawables = getCompoundDrawables();
-            for (Drawable d : compoundDrawables) {
-                if (d != null) {
-                    d.mutate().setAlpha(alpha);
-                }
-            }
-        }
-
-        @Override
-        protected void onTextChanged(CharSequence text, int start, int lengthBefore,
-                int lengthAfter) {
-            super.onTextChanged(text, start, lengthBefore, lengthAfter);
-            setCompoundDrawablePadding(TextUtils.isEmpty(text) ? 0 : getResources()
-                    .getDimensionPixelSize(R.dimen.suw_navbar_button_drawable_padding));
-        }
-    }
-
 }
