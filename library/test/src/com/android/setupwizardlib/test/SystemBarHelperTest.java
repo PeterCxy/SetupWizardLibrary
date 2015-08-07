@@ -19,6 +19,7 @@ package com.android.setupwizardlib.test;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
+import android.os.Build;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 import android.os.Handler;
@@ -121,7 +122,10 @@ public class SystemBarHelperTest extends AndroidTestCase {
         SystemClock.sleep(500);  // Wait for the looper to drain all the messages
         thread.quit();
         // Initial peek + 3 retries = 4 tries total
-        assertEquals("Peek decor view should give up after 4 tries", 4, window.peekDecorViewCount);
+        if (VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP) {
+            assertEquals("Peek decor view should give up after 4 tries", 4,
+                    window.peekDecorViewCount);
+        }
     }
 
     @SmallTest
