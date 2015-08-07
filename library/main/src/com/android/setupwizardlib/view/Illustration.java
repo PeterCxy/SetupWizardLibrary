@@ -141,6 +141,7 @@ public class Illustration extends FrameLayout {
             setPadding(0, illustrationHeight, 0, 0);
         }
         if (VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP) {
+            //noinspection AndroidLintInlinedApi
             setOutlineProvider(ViewOutlineProvider.BOUNDS);
         }
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
@@ -211,6 +212,7 @@ public class Illustration extends FrameLayout {
                 return drawable.isAutoMirrored();
             } else if (VERSION.SDK_INT >= VERSION_CODES.JELLY_BEAN_MR1) {
                 final int flags = getContext().getApplicationInfo().flags;
+                //noinspection AndroidLintInlinedApi
                 return (flags & ApplicationInfo.FLAG_SUPPORTS_RTL) != 0;
             }
         }

@@ -9,8 +9,17 @@ apply from: '../tools/gradle/docs.gradle'
 
 task docs(dependsOn: 'javadocPlatformRelease')
 
+android.lintOptions {
+    abortOnError true
+}
+
+// Run lint for all variants
+android.libraryVariants.all { variant ->
+    variant.assemble.dependsOn(tasks.findByName('lint'))
+}
+
 // Output all test APKs to the distribution folder
-def distTask = tasks.findByName('dist');
+def distTask = tasks.findByName('dist')
 if (distTask) {
     android.testVariants.all { variant ->
         // Make the dist task depend on the test variant, so the test APK will be built

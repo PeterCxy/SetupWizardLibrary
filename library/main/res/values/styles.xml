@@ -45,7 +45,7 @@
     </style>
 
     <style name="TextAppearance.SuwDescription.Light" parent="TextAppearance.SuwDescription">
-        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:fontFamily" tools:ignore="NewApi">sans-serif-light</item>
     </style>
 
     <style name="SuwRadioButton">
@@ -54,7 +54,7 @@
         <item name="android:layout_marginStart" tools:ignore="NewApi">@dimen/suw_radio_button_margin_start</item>
         <item name="android:layout_marginTop">@dimen/suw_radio_button_margin_top</item>
         <item name="android:lineSpacingExtra">@dimen/suw_radio_button_line_spacing_extra</item>
-        <item name="android:paddingLeft" tools:ignore="NewApi">@dimen/suw_radio_button_padding_start</item>
+        <item name="android:paddingLeft">@dimen/suw_radio_button_padding_start</item>
         <item name="android:paddingStart" tools:ignore="NewApi">@dimen/suw_radio_button_padding_start</item>
         <item name="android:textAppearance">@style/TextAppearance.SuwDescription</item>
     </style>
