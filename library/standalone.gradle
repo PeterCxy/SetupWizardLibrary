@@ -14,22 +14,7 @@
  *      }
  */
 
-ext {
-    // For standalone project clients, since the source may not be available, we fetch the
-    // dependencies from maven. To add a dependency, you want to specify something like this:
-    //      ext {
-    //          deps = ['project-name': 'com.example.group:project-name:1.0.0']
-    //      }
-    //
-    // And then in rules.gradle you can reference the dependency by
-    //      dependencies {
-    //          compile deps['project-name']
-    //      }
-    //
-    deps = ['support-appcompat-v7': 'com.android.support:appcompat-v7:21.0.0']
-}
-
-apply from: 'rules.gradle'
+apply from: 'standalone-rules.gradle'
 
 android.compileSdkVersion 21
 android.buildToolsVersion '21.1.0'
