@@ -36,64 +36,47 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewStub;
-import android.view.ViewTreeObserver;
-import android.widget.FrameLayout;
 import android.widget.TextView;
 
-import com.android.setupwizardlib.annotations.Keep;
 import com.android.setupwizardlib.util.RequireScrollHelper;
 import com.android.setupwizardlib.view.BottomScrollView;
 import com.android.setupwizardlib.view.Illustration;
 import com.android.setupwizardlib.view.NavigationBar;
 
-public class SetupWizardLayout extends FrameLayout {
+public class SetupWizardLayout extends TemplateLayout {
 
     private static final String TAG = "SetupWizardLayout";
 
-    /**
-     * The container of the actual content. This will be a view in the template, which child views
-     * will be added to when {@link #addView(android.view.View)} is called. This will be the layout
-     * in the template that has the ID of {@link #getContainerId()}. For the default implementation
-     * of SetupWizardLayout, that would be @id/suw_layout_content.
-     */
-    private ViewGroup mContainer;
-
     public SetupWizardLayout(Context context) {
-        super(context);
-        init(0, null, R.attr.suwLayoutTheme);
+        super(context, 0, 0);
+        init(null, R.attr.suwLayoutTheme);
     }
 
     public SetupWizardLayout(Context context, int template) {
-        super(context);
-        init(template, null, R.attr.suwLayoutTheme);
+        this(context, template, 0);
+    }
+
+    public SetupWizardLayout(Context context, int template, int containerId) {
+        super(context, template, containerId);
+        init(null, R.attr.suwLayoutTheme);
     }
 
     public SetupWizardLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init(0, attrs, R.attr.suwLayoutTheme);
+        init(attrs, R.attr.suwLayoutTheme);
     }
 
     @TargetApi(VERSION_CODES.HONEYCOMB)
     public SetupWizardLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init(0, attrs, defStyleAttr);
-    }
-
-    @TargetApi(VERSION_CODES.HONEYCOMB)
-    public SetupWizardLayout(Context context, int template, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-        init(template, attrs, defStyleAttr);
+        init(attrs, defStyleAttr);
     }
 
     // All the constructors delegate to this init method. The 3-argument constructor is not
     // available in LinearLayout before v11, so call super with the exact same arguments.
-    private void init(int template, AttributeSet attrs, int defStyleAttr) {
+    private void init(AttributeSet attrs, int defStyleAttr) {
         final TypedArray a = getContext().obtainStyledAttributes(attrs,
                 R.styleable.SuwSetupWizardLayout, defStyleAttr, 0);
-        if (template == 0) {
-            template = a.getResourceId(R.styleable.SuwSetupWizardLayout_android_layout, 0);
-        }
-        inflateTemplate(template);
 
         // Set the background from XML, either directly or built from a bitmap tile
         final Drawable background =
@@ -174,52 +157,19 @@ public class SetupWizardLayout extends FrameLayout {
     }
 
     @Override
-    public void addView(View child, int index, ViewGroup.LayoutParams params) {
-        mContainer.addView(child, index, params);
-    }
-
-    private void addViewInternal(View child) {
-        super.addView(child, -1, generateDefaultLayoutParams());
-    }
-
-    private void inflateTemplate(int templateResource) {
-        final LayoutInflater inflater = LayoutInflater.from(getContext());
-        final View templateRoot = onInflateTemplate(inflater, templateResource);
-        addViewInternal(templateRoot);
-
-        mContainer = (ViewGroup) findViewById(getContainerId());
-        onTemplateInflated();
-    }
-
-    /**
-     * This method inflates the template. Subclasses can override this method to customize the
-     * template inflation, or change to a different default template. The root of the inflated
-     * layout should be returned, and not added to the view hierarchy.
-     *
-     * @param inflater A LayoutInflater to inflate the template.
-     * @param template The resource ID of the template to be inflated, or 0 if no template is
-     *                 specified.
-     * @return Root of the inflated layout.
-     */
     protected View onInflateTemplate(LayoutInflater inflater, int template) {
         if (template == 0) {
             template = R.layout.suw_template;
         }
-        return inflater.inflate(template, this, false);
+        return super.onInflateTemplate(inflater, template);
     }
 
-    /**
-     * This is called after the template has been inflated and added to the view hierarchy.
-     * Subclasses can implement this method to modify the template as necessary, such as caching
-     * views retrieved from findViewById, or other view operations that need to be done in code.
-     * You can think of this as {@link android.view.View#onFinishInflate()} but for inflation of the
-     * template instead of for child views.
-     */
-    protected void onTemplateInflated() {
-    }
-
-    protected int getContainerId() {
-        return R.id.suw_layout_content;
+    @Override
+    protected ViewGroup findContainer(int containerId) {
+        if (containerId == 0) {
+            containerId = R.id.suw_layout_content;
+        }
+        return super.findContainer(containerId);
     }
 
     public NavigationBar getNavigationBar() {
@@ -424,53 +374,6 @@ public class SetupWizardLayout extends FrameLayout {
         if (progressBar != null) {
             progressBar.setVisibility(View.GONE);
         }
-    }
-
-    /* Animator support */
-
-    private float mXFraction;
-    private ViewTreeObserver.OnPreDrawListener mPreDrawListener;
-
-    /**
-     * Set the X translation as a fraction of the width of this view. Make sure this method is not
-     * stripped out by proguard when using ObjectAnimator. You may need to add
-     *     -keep @com.android.setupwizardlib.annotations.Keep class *
-     * to your proguard configuration if you are seeing mysterious MethodNotFoundExceptions at
-     * runtime.
-     */
-    @Keep
-    public void setXFraction(float fraction) {
-        mXFraction = fraction;
-        final int width = getWidth();
-        if (width != 0) {
-            setTranslationX(width * fraction);
-        } else {
-            // If we haven't done a layout pass yet, wait for one and then set the fraction before
-            // the draw occurs using an OnPreDrawListener. Don't call translationX until we know
-            // getWidth() has a reliable, non-zero value or else we will see the fragment flicker on
-            // screen.
-            if (mPreDrawListener == null) {
-                mPreDrawListener = new ViewTreeObserver.OnPreDrawListener() {
-                    @Override
-                    public boolean onPreDraw() {
-                        getViewTreeObserver().removeOnPreDrawListener(mPreDrawListener);
-                        setXFraction(mXFraction);
-                        return true;
-                    }
-                };
-                getViewTreeObserver().addOnPreDrawListener(mPreDrawListener);
-            }
-        }
-    }
-
-    /**
-     * Return the X translation as a fraction of the width, as previously set in setXFraction.
-     *
-     * @see #setXFraction(float)
-     */
-    @Keep
-    public float getXFraction() {
-        return mXFraction;
     }
 
     /* Misc */

@@ -37,7 +37,6 @@
     </declare-styleable>
 
     <declare-styleable name="SuwSetupWizardLayout">
-        <attr name="android:layout" />
         <attr name="suwBackground" format="color|reference" />
         <attr name="suwBackgroundTile" format="color|reference" />
         <attr name="suwHeaderText" format="string" localization="suggested" />
@@ -46,6 +45,11 @@
         <attr name="suwIllustrationAspectRatio" format="float|reference" />
         <attr name="suwIllustrationHorizontalTile" format="color|reference" />
         <attr name="suwIllustrationImage" format="color|reference" />
+    </declare-styleable>
+
+    <declare-styleable name="SuwTemplateLayout">
+        <attr name="android:layout" />
+        <attr name="suwContainer" format="reference" />
     </declare-styleable>
 
 </resources>
