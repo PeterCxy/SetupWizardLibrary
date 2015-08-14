@@ -1,5 +1,6 @@
 include(':setup-wizard-lib')
 project(':setup-wizard-lib').projectDir = new File(rootDir, 'frameworks/opt/setupwizard/library')
+project(':setup-wizard-lib').buildFileName = 'self.gradle'
 
 File supportLibsRoot = new File(rootDir, "prebuilts/fullsdk/linux/platforms/android-22/support")
 if (!supportLibsRoot.exists()) {
