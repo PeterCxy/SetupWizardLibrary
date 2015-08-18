@@ -22,6 +22,7 @@ import android.os.Build.VERSION_CODES;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
@@ -31,11 +32,15 @@ public class SetupWizardListLayout extends SetupWizardLayout {
     private ListView mListView;
 
     public SetupWizardListLayout(Context context) {
-        super(context);
+        this(context, 0, 0);
     }
 
     public SetupWizardListLayout(Context context, int template) {
-        super(context, template);
+        this(context, template, 0);
+    }
+
+    public SetupWizardListLayout(Context context, int template, int containerId) {
+        super(context, template, containerId);
     }
 
     public SetupWizardListLayout(Context context, AttributeSet attrs) {
@@ -47,28 +52,25 @@ public class SetupWizardListLayout extends SetupWizardLayout {
         super(context, attrs, defStyleAttr);
     }
 
-    @TargetApi(VERSION_CODES.HONEYCOMB)
-    public SetupWizardListLayout(Context context, int template, AttributeSet attrs,
-            int defStyleAttr) {
-        super(context, template, attrs, defStyleAttr);
-    }
-
     @Override
     protected View onInflateTemplate(LayoutInflater inflater, int template) {
         if (template == 0) {
             template = R.layout.suw_list_template;
         }
-        return inflater.inflate(template, this, false);
+        return super.onInflateTemplate(inflater, template);
+    }
+
+    @Override
+    protected ViewGroup findContainer(int containerId) {
+        if (containerId == 0) {
+            containerId = android.R.id.list;
+        }
+        return super.findContainer(containerId);
     }
 
     @Override
     protected void onTemplateInflated() {
         mListView = (ListView) findViewById(android.R.id.list);
-    }
-
-    @Override
-    protected int getContainerId() {
-        return android.R.id.list;
     }
 
     public ListView getListView() {
