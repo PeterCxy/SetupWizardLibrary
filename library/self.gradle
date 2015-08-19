@@ -11,6 +11,10 @@ task docs(dependsOn: 'javadocPlatformRelease')
 
 android.lintOptions {
     abortOnError true
+    htmlReport true
+    textOutput 'stderr'
+    textReport true
+    xmlReport false
 }
 
 // Run lint for all variants
