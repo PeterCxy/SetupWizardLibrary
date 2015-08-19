@@ -48,10 +48,11 @@ public class WizardManagerHelper {
      * Get an intent that will invoke the next step of setup wizard.
      *
      * @param originalIntent The original intent that was used to start the step, usually via
-     *                       Activity.getIntent().
+     *                       {@link android.app.Activity#getIntent()}.
      * @param resultCode The result code of the step. See {@link ResultCodes}.
-     * @return A new intent that can be used with startActivityForResult() to start the next step of
-     *         the setup flow.
+     * @return A new intent that can be used with
+     *         {@link android.app.Activity#startActivityForResult(Intent, int)} to start the next
+     *         step of the setup flow.
      */
     public static Intent getNextIntent(Intent originalIntent, int resultCode) {
         return getNextIntent(originalIntent, resultCode, null);
@@ -61,11 +62,12 @@ public class WizardManagerHelper {
      * Get an intent that will invoke the next step of setup wizard.
      *
      * @param originalIntent The original intent that was used to start the step, usually via
-     *                       Activity.getIntent().
+     *                       {@link android.app.Activity#getIntent()}.
      * @param resultCode The result code of the step. See {@link ResultCodes}.
      * @param data An intent containing extra result data.
-     * @return A new intent that can be used with startActivityForResult() to start the next step of
-     *         the setup flow.
+     * @return A new intent that can be used with
+     *         {@link android.app.Activity#startActivityForResult(Intent, int)} to start the next
+     *         step of the setup flow.
      */
     public static Intent getNextIntent(Intent originalIntent, int resultCode, Intent data) {
         Intent intent = new Intent(ACTION_NEXT);
@@ -82,7 +84,8 @@ public class WizardManagerHelper {
     /**
      * Check whether an intent is intended to be used within the setup wizard flow.
      *
-     * @param intent The intent to be checked, usually from Activity.getIntent().
+     * @param intent The intent to be checked, usually from
+     *               {@link android.app.Activity#getIntent()}.
      * @return true if the intent passed in was intended to be used with setup wizard.
      */
     public static boolean isSetupWizardIntent(Intent intent) {

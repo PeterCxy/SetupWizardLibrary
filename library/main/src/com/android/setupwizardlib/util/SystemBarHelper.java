@@ -71,7 +71,7 @@ public class SystemBarHelper {
     /**
      * Hide the navigation bar for a dialog.
      *
-     * This will only take effect in versions Lollipop or above. Otherwise this is a no-op.
+     * <p>This will only take effect in versions Lollipop or above. Otherwise this is a no-op.
      */
     public static void hideSystemBars(final Dialog dialog) {
         if (VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP) {
@@ -84,12 +84,13 @@ public class SystemBarHelper {
     }
 
     /**
-     * Hide the navigation bar, and make the color of the status and navigation bars transparent,
-     * and specify the LAYOUT_FULLSCREEN flag so that the content is laid-out behind the transparent
-     * status bar. This is commonly used with Activity.getWindow() to make the navigation and status
-     * bars follow the Setup Wizard style.
+     * Hide the navigation bar, make the color of the status and navigation bars transparent, and
+     * specify {@link View#SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN} flag so that the content is laid-out
+     * behind the transparent status bar. This is commonly used with
+     * {@link android.app.Activity#getWindow()} to make the navigation and status bars follow the
+     * Setup Wizard style.
      *
-     * This will only take effect in versions Lollipop or above. Otherwise this is a no-op.
+     * <p>This will only take effect in versions Lollipop or above. Otherwise this is a no-op.
      */
     public static void hideSystemBars(final Window window) {
         if (VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP) {
@@ -158,10 +159,11 @@ public class SystemBarHelper {
      * view to be immediately above the keyboard, and assumes that the view sits immediately above
      * the navigation bar.
      *
-     * Note that you must set windowSoftInputMode to adjustResize for this class to work. Otherwise
-     * window insets are not dispatched and this method will have no effect.
+     * <p>Note that you must set {@link android.R.attr#windowSoftInputMode} to {@code adjustResize}
+     * for this class to work. Otherwise window insets are not dispatched and this method will have
+     * no effect.
      *
-     * This will only take effect in versions Lollipop or above. Otherwise this is a no-op.
+     * <p>This will only take effect in versions Lollipop or above. Otherwise this is a no-op.
      *
      * @param view The view to be resized when the keyboard is shown.
      */
@@ -172,8 +174,9 @@ public class SystemBarHelper {
     }
 
     /**
-     * View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN only takes effect when it is added to a view instead of
-     * the window.
+     * Add the specified immersive flags to the decor view of the window, because
+     * {@link View#SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN} only takes effect when it is added to a view
+     * instead of the window.
      */
     @TargetApi(VERSION_CODES.LOLLIPOP)
     private static void addImmersiveFlagsToDecorView(final Window window, final Handler handler,

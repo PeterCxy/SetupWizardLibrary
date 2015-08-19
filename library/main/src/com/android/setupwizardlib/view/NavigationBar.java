@@ -29,8 +29,19 @@ import android.widget.LinearLayout;
 
 import com.android.setupwizardlib.R;
 
+/**
+ * Custom navigation bar for use with setup wizard. This bar contains a back button, more button and
+ * next button. By default, the more button is hidden, and typically the next button will be hidden
+ * if the more button is shown.
+ *
+ * @see com.android.setupwizardlib.util.RequireScrollHelper
+ */
 public class NavigationBar extends LinearLayout implements View.OnClickListener {
 
+    /**
+     * An interface to listen to events of the navigation bar, namely when the user clicks on the
+     * back or next button.
+     */
     public interface NavigationBarListener {
         void onNavigateBack();
         void onNavigateNext();

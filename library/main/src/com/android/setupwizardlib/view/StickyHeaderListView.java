@@ -37,13 +37,15 @@ import com.android.setupwizardlib.R;
  * "stickyContainer" and one of its child tagged as "sticky". The sticky container will be drawn
  * when the sticky element hits the top of the view.
  *
- * There are a few things to note:
- * 1. The two supported scenarios are StickyHeaderListView -> Header (stickyContainer) -> sticky,
- *    and StickyHeaderListView -> Header (sticky). The arrow (->) represents parent/child
- *    relationship and must be immediate child.
- * 2. The view does not work well with padding. b/16190933
- * 3. If fitsSystemWindows is true, then this will offset the sticking position by the height of
- *    the system decorations at the top of the screen.
+ * <p>There are a few things to note:
+ * <ol>
+ *   <li>The two supported scenarios are StickyHeaderListView -> Header (stickyContainer) -> sticky,
+ *   and StickyHeaderListView -> Header (sticky). The arrow (->) represents parent/child
+ *   relationship and must be immediate child.
+ *   <li>The view does not work well with padding. b/16190933
+ *   <li>If fitsSystemWindows is true, then this will offset the sticking position by the height of
+ *   the system decorations at the top of the screen.
+ * </ol>
  *
  * @see StickyHeaderScrollView
  */

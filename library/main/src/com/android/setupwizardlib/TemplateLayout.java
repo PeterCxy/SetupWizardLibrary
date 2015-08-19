@@ -19,7 +19,6 @@ package com.android.setupwizardlib;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.os.Build;
 import android.os.Build.VERSION_CODES;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -32,7 +31,7 @@ import com.android.setupwizardlib.annotations.Keep;
 
 /**
  * A generic template class that inflates a template, provided in the constructor or in
- * android:layout through XML, and adds its children to a "container" in the template. When
+ * {@code android:layout} through XML, and adds its children to a "container" in the template. When
  * inflating this layout from XML, the {@code android:layout} and {@code suwContainer} attributes
  * are required.
  */
@@ -135,7 +134,7 @@ public class TemplateLayout extends FrameLayout {
     /**
      * @return ID of the default container for this layout. This will be used to find the container
      * ViewGroup, which all children views of this layout will be placed in.
-     * @deprecated Use the constructor with containerId argument instead.
+     * @deprecated Override {@link #findContainer(int)} instead.
      */
     @Deprecated
     protected int getContainerId() {
@@ -149,9 +148,12 @@ public class TemplateLayout extends FrameLayout {
 
     /**
      * Set the X translation as a fraction of the width of this view. Make sure this method is not
-     * stripped out by proguard when using ObjectAnimator. You may need to add
+     * stripped out by proguard when using this with {@link android.animation.ObjectAnimator}. You
+     * may need to add
+     * <code>
      *     -keep @com.android.setupwizardlib.annotations.Keep class *
-     * to your proguard configuration if you are seeing mysterious MethodNotFoundExceptions at
+     * </code>
+     * to your proguard configuration if you are seeing mysterious {@link NoSuchMethodError} at
      * runtime.
      */
     @Keep
@@ -181,7 +183,8 @@ public class TemplateLayout extends FrameLayout {
     }
 
     /**
-     * Return the X translation as a fraction of the width, as previously set in setXFraction.
+     * Return the X translation as a fraction of the width, as previously set in
+     * {@link #setXFraction(float)}.
      *
      * @see #setXFraction(float)
      */

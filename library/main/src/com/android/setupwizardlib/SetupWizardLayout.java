@@ -274,7 +274,7 @@ public class SetupWizardLayout extends TemplateLayout {
      * Set the top padding of the decor view. If the decor is an Illustration and the aspect ratio
      * is set, this value will be overridden.
      *
-     * Note: Currently the default top padding for tablet landscape is 128dp, which is the offset
+     * <p>Note: Currently the default top padding for tablet landscape is 128dp, which is the offset
      * of the card from the top. This is likely to change in future versions so this value aligns
      * with the height of the illustration instead.
      *
