@@ -19,7 +19,6 @@ package com.android.setupwizardlib.test;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
-import android.os.Build;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 import android.os.Handler;
@@ -104,6 +103,28 @@ public class SystemBarHelperTest extends AndroidTestCase {
                     "DEFAULT_IMMERSIVE_FLAGS should be added to decorView's systemUiVisibility",
                     DEFAULT_IMMERSIVE_FLAGS | 0x456,
                     window.getDecorView().getSystemUiVisibility());
+            assertEquals("Navigation bar should be transparent", window.getNavigationBarColor(), 0);
+            assertEquals("Status bar should be transparent", window.getStatusBarColor(), 0);
+        }
+    }
+
+    @SmallTest
+    public void testShowSystemBarsWindow() {
+        final Window window = createWindowWithSystemUiVisibility(0x456);
+        SystemBarHelper.showSystemBars(window, getContext());
+        if (VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP) {
+            assertEquals(
+                    "DEFAULT_IMMERSIVE_FLAGS should be removed from window's systemUiVisibility",
+                    0x456 & ~DEFAULT_IMMERSIVE_FLAGS,
+                    window.getAttributes().systemUiVisibility);
+            assertEquals(
+                    "DEFAULT_IMMERSIVE_FLAGS should be removed from decorView's systemUiVisibility",
+                    0x456 & ~DEFAULT_IMMERSIVE_FLAGS,
+                    window.getDecorView().getSystemUiVisibility());
+            assertEquals("Navigation bar should not be transparent",
+                    window.getNavigationBarColor(), 0xff000000);
+            assertEquals("Status bar should not be transparent",
+                    window.getStatusBarColor(), 0xff000000);
         }
     }
 
@@ -188,6 +209,9 @@ public class SystemBarHelperTest extends AndroidTestCase {
         private View mDecorView;
         public int peekDecorViewCount = 0;
 
+        private int mNavigationBarColor = -1;
+        private int mStatusBarColor = -1;
+
         public TestWindow(Context context, View decorView) {
             super(context);
             mDecorView = decorView;
@@ -206,10 +230,22 @@ public class SystemBarHelperTest extends AndroidTestCase {
 
         @Override
         public void setNavigationBarColor(int i) {
+            mNavigationBarColor = i;
+        }
+
+        @Override
+        public int getNavigationBarColor() {
+            return mNavigationBarColor;
         }
 
         @Override
         public void setStatusBarColor(int i) {
+            mStatusBarColor = i;
+        }
+
+        @Override
+        public int getStatusBarColor() {
+            return mStatusBarColor;
         }
     }
 }
