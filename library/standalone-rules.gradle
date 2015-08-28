@@ -25,7 +25,7 @@ ext {
     //          compile deps['project-name']
     //      }
     //
-    deps = ['support-appcompat-v7': 'com.android.support:appcompat-v7:21.0.0']
+    deps = ['support-appcompat-v7': 'com.android.support:appcompat-v7:22.2.1']
 }
 
 apply from: 'rules.gradle'
