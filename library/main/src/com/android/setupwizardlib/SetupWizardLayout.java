@@ -36,6 +36,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewStub;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.android.setupwizardlib.util.RequireScrollHelper;
@@ -177,16 +178,16 @@ public class SetupWizardLayout extends TemplateLayout {
         return view instanceof NavigationBar ? (NavigationBar) view : null;
     }
 
-    private BottomScrollView getScrollView() {
+    public ScrollView getScrollView() {
         final View view = findViewById(R.id.suw_bottom_scroll_view);
-        return view instanceof BottomScrollView ? (BottomScrollView) view : null;
+        return view instanceof ScrollView ? (ScrollView) view : null;
     }
 
     public void requireScrollToBottom() {
         final NavigationBar navigationBar = getNavigationBar();
-        final BottomScrollView scrollView = getScrollView();
-        if (navigationBar != null && scrollView != null) {
-            RequireScrollHelper.requireScroll(navigationBar, scrollView);
+        final ScrollView scrollView = getScrollView();
+        if (navigationBar != null && (scrollView instanceof BottomScrollView)) {
+            RequireScrollHelper.requireScroll(navigationBar, (BottomScrollView) scrollView);
         } else {
             Log.e(TAG, "Both suw_layout_navigation_bar and suw_bottom_scroll_view must exist in"
                     + " the template to require scrolling.");
