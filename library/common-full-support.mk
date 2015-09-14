@@ -23,12 +23,13 @@ LOCAL_AAPT_FLAGS += --auto-add-overlay
 endif
 
 # Include setup wizard library, if not already included
-ifeq (,$(findstring setup-wizard-lib-eclair-mr1-compat,$(LOCAL_STATIC_JAVA_LIBRARIES)))
+ifeq (,$(findstring setup-wizard-lib-full-support,$(LOCAL_STATIC_JAVA_LIBRARIES)))
 LOCAL_RESOURCE_DIR += \
     $(call my-dir)/main/res \
-    $(call my-dir)/eclair-mr1/res
+    $(call my-dir)/eclair-mr1/res \
+    $(call my-dir)/full-support/res
 LOCAL_AAPT_FLAGS += --extra-packages com.android.setupwizardlib
-LOCAL_STATIC_JAVA_LIBRARIES += setup-wizard-lib-eclair-mr1-compat
+LOCAL_STATIC_JAVA_LIBRARIES += setup-wizard-lib-full-support
 endif
 
 ## Include transitive dependencies below
@@ -38,4 +39,11 @@ ifeq (,$(findstring android-support-v7-appcompat,$(LOCAL_STATIC_JAVA_LIBRARIES))
 LOCAL_RESOURCE_DIR += frameworks/support/v7/appcompat/res
 LOCAL_AAPT_FLAGS += --extra-packages android.support.v7.appcompat
 LOCAL_STATIC_JAVA_LIBRARIES += android-support-v7-appcompat
+endif
+
+# Include support-v7-recyclerview, if not already included
+ifeq (,$(findstring android-support-v7-recyclerview,$(LOCAL_STATIC_JAVA_LIBRARIES)))
+LOCAL_RESOURCE_DIR += frameworks/support/v7/recyclerview/res
+LOCAL_AAPT_FLAGS += --extra-packages android.support.v7.recyclerview
+LOCAL_STATIC_JAVA_LIBRARIES += android-support-v7-recyclerview
 endif

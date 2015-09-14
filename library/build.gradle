@@ -26,7 +26,10 @@ ext {
     //          compile deps['project-name']
     //      }
     //
-    deps = ['support-appcompat-v7': project(':support-appcompat-v7')]
+    deps = [
+        'support-appcompat-v7': project(':support-appcompat-v7'),
+        'support-recyclerview-v7': project(':support-recyclerview-v7')
+    ]
 }
 
 apply from: 'rules.gradle'
