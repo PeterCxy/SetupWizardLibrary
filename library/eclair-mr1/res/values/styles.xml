@@ -30,8 +30,11 @@
         <item name="android:windowSoftInputMode">adjustResize</item>
 
         <item name="colorAccent">@color/suw_color_accent_dark</item>
+        <item name="listPreferredItemPaddingLeft">@dimen/suw_layout_margin_sides</item>
+        <item name="listPreferredItemPaddingRight">@dimen/suw_layout_margin_sides</item>
         <item name="suwCardBackground">@drawable/suw_card_bg_dark</item>
         <item name="suwNavBarTheme">@style/SuwNavBarThemeDark</item>
+        <item name="textAppearanceListItemSmall">@style/TextAppearance.AppCompat.Body1</item>
     </style>
 
     <style name="SuwThemeMaterial.Light" parent="Theme.AppCompat.Light.NoActionBar">
@@ -45,8 +48,11 @@
         <item name="android:windowSoftInputMode">adjustResize</item>
 
         <item name="colorAccent">@color/suw_color_accent_light</item>
+        <item name="listPreferredItemPaddingLeft">@dimen/suw_layout_margin_sides</item>
+        <item name="listPreferredItemPaddingRight">@dimen/suw_layout_margin_sides</item>
         <item name="suwCardBackground">@drawable/suw_card_bg_light</item>
         <item name="suwNavBarTheme">@style/SuwNavBarThemeLight</item>
+        <item name="textAppearanceListItemSmall">@style/TextAppearance.AppCompat.Body1</item>
     </style>
 
     <!-- Content styles -->

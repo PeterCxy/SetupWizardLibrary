@@ -49,4 +49,17 @@
         <attr name="suwContainer" format="reference" />
     </declare-styleable>
 
+    <declare-styleable name="SuwSetupWizardItemsLayout">
+        <attr name="android:entries" />
+    </declare-styleable>
+
+    <declare-styleable name="SuwItem">
+        <attr name="android:enabled" />
+        <attr name="android:icon" />
+        <attr name="android:id" />
+        <attr name="android:title" />
+        <attr name="android:layout" />
+        <attr name="android:summary" />
+    </declare-styleable>
+
 </resources>
