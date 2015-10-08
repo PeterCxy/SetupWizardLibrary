@@ -39,8 +39,6 @@ import android.view.InflateException;
  * implementing {@link #onAddChildItem(Object, Object)}.
  *
  * @param <T> Type of the items to inflate
- *
- * Modified from android.preference.GenericInflater
  */
 public abstract class GenericInflater<T> {
 

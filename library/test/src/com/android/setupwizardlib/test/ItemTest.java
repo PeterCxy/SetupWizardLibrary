@@ -98,6 +98,18 @@ public class ItemTest extends AndroidTestCase {
                 R.layout.suw_items_default, item.getLayoutResource());
     }
 
+    @SmallTest
+    public void testHierarchyImplementation() {
+        Item item = new Item();
+        item.setId(12345);
+
+        assertEquals("getCount should be 1", 1, item.getCount());
+        assertSame("getItemAt should return itself", item, item.getItemAt(0));
+        assertSame("findItemById with same ID should return itself", item,
+                item.findItemById(12345));
+        assertNull("findItemById with different ID should return null", item.findItemById(34567));
+    }
+
     private ViewGroup createLayout() {
         ViewGroup root = new FrameLayout(mContext);
 

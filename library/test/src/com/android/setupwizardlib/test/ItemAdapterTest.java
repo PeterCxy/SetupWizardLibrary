@@ -16,41 +16,39 @@
 
 package com.android.setupwizardlib.test;
 
-import android.content.Context;
 import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.TextView;
 
-import com.android.setupwizardlib.R;
 import com.android.setupwizardlib.items.Item;
 import com.android.setupwizardlib.items.ItemAdapter;
+import com.android.setupwizardlib.items.ItemGroup;
+import com.android.setupwizardlib.items.ItemHierarchy;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashSet;
-import java.util.List;
 
 public class ItemAdapterTest extends AndroidTestCase {
 
-    private Item[] mItems;
+    private Item[] mItems = new Item[5];
+    private ItemGroup mItemGroup = new ItemGroup();
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        mItems = new Item[]{
-                new TestItem(mContext, 1),
-                new TestItem(mContext, 2),
-                new TestItem(mContext, 3)
-        };
+        for (int i = 0; i < 5; i++) {
+            Item item = new Item();
+            item.setTitle("TestTitle" + i);
+            item.setId(i);
+            item.setLayoutResource(((i % 3) + 1) * 10);
+            mItems[i] = item;
+            mItemGroup.addChild(item);
+        }
     }
 
     @SmallTest
     public void testAdapter() {
-        ItemAdapter adapter = new ItemAdapter(mItems);
-        assertEquals("Adapter should have 3 items", 3, adapter.getCount());
+        ItemAdapter adapter = new ItemAdapter(mItemGroup);
+        assertEquals("Adapter should have 5 items", 5, adapter.getCount());
         assertEquals("Adapter should return the first item", mItems[0], adapter.getItem(0));
         assertEquals("ID should be same as position", 2, adapter.getItemId(2));
 
@@ -61,31 +59,14 @@ public class ItemAdapterTest extends AndroidTestCase {
         viewTypes.add(adapter.getItemViewType(1));
         viewTypes.add(adapter.getItemViewType(2));
 
-        assertEquals("View types should be 0, 1, 2", new HashSet<>(Arrays.asList(0, 1, 2)), viewTypes);
+        assertEquals("View types should be 0, 1, 2",
+                new HashSet<>(Arrays.asList(0, 1, 2)), viewTypes);
     }
 
-    private static class TestItem extends Item {
-
-        private int mNum;
-
-        public TestItem(Context context, int num) {
-            super(context, null);
-            mNum = num;
-        }
-
-        @Override
-        public int getLayoutResource() {
-            return mNum * 10;
-        }
-
-        @Override
-        public CharSequence getTitle() {
-            return "TestTitle" + mNum;
-        }
-
-        @Override
-        public CharSequence getSummary() {
-            return "TestSummary" + mNum;
-        }
+    @SmallTest
+    public void testGetRootItemHierarchy() {
+        ItemAdapter adapter = new ItemAdapter(mItemGroup);
+        ItemHierarchy root = adapter.getRootItemHierarchy();
+        assertSame("Root item hierarchy should be mItemGroup", mItemGroup, root);
     }
 }

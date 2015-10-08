@@ -53,10 +53,13 @@
         <attr name="android:entries" />
     </declare-styleable>
 
+    <declare-styleable name="SuwAbstractItem">
+        <attr name="android:id" />
+    </declare-styleable>
+
     <declare-styleable name="SuwItem">
         <attr name="android:enabled" />
         <attr name="android:icon" />
-        <attr name="android:id" />
         <attr name="android:title" />
         <attr name="android:layout" />
         <attr name="android:summary" />
