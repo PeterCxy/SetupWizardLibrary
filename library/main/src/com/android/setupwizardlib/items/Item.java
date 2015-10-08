@@ -82,7 +82,13 @@ public class Item {
         // TODO: Show icon if defined
         TextView label = (TextView) view.findViewById(R.id.suw_items_title);
         label.setText(getTitle());
-        TextView summary = (TextView) view.findViewById(R.id.suw_items_summary);
-        summary.setText(getSummary());
+        TextView summaryView = (TextView) view.findViewById(R.id.suw_items_summary);
+        CharSequence summary = getSummary();
+        if (summary != null && summary.length() > 0) {
+            summaryView.setText(summary);
+            summaryView.setVisibility(View.VISIBLE);
+        } else {
+            summaryView.setVisibility(View.GONE);
+        }
     }
 }

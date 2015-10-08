@@ -44,6 +44,17 @@ public class ItemTest extends AndroidTestCase {
                 mSummaryView.getText().toString());
     }
 
+    @SmallTest
+    public void testSingleLineItem() {
+        Item item = new SingleLineTestItem(mContext);
+        View view = createLayout();
+
+        item.onBindView(view);
+
+        assertEquals("Title should be \"TestTitle\"", "TestTitle", mTitleView.getText().toString());
+        assertEquals("Summary should be gone", View.GONE, mSummaryView.getVisibility());
+    }
+
     private ViewGroup createLayout() {
         ViewGroup root = new FrameLayout(mContext);
 
@@ -71,6 +82,18 @@ public class ItemTest extends AndroidTestCase {
         @Override
         public CharSequence getSummary() {
             return "TestSummary";
+        }
+    }
+
+    private static class SingleLineTestItem extends Item {
+
+        public SingleLineTestItem(Context context) {
+            super(context, null);
+        }
+
+        @Override
+        public CharSequence getTitle() {
+            return "TestTitle";
         }
     }
 }
