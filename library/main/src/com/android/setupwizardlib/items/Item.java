@@ -31,12 +31,16 @@ import com.android.setupwizardlib.R;
  */
 public class Item {
 
-    private boolean mEnabled;
+    private boolean mEnabled = true;
     private Drawable mIcon;
-    private int mId;
+    private int mId = 0;
     private int mLayoutRes;
     private CharSequence mSummary;
     private CharSequence mTitle;
+
+    public Item() {
+        mLayoutRes = getDefaultLayoutResource();
+    }
 
     public Item(Context context, AttributeSet attrs) {
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.SuwItem);
@@ -54,24 +58,48 @@ public class Item {
         return R.layout.suw_items_text;
     }
 
+    public void setEnabled(boolean enabled) {
+        mEnabled = enabled;
+    }
+
     public boolean isEnabled() {
         return mEnabled;
+    }
+
+    public void setIcon(Drawable icon) {
+        mIcon = icon;
     }
 
     public Drawable getIcon() {
         return mIcon;
     }
 
+    public void setId(int id) {
+        mId = id;
+    }
+
     public int getId() {
         return mId;
+    }
+
+    public void setLayoutResource(int layoutResource) {
+        mLayoutRes = layoutResource;
     }
 
     public int getLayoutResource() {
         return mLayoutRes;
     }
 
+    public void setSummary(CharSequence summary) {
+        mSummary = summary;
+    }
+
     public CharSequence getSummary() {
         return mSummary;
+    }
+
+    public void setTitle(CharSequence title) {
+        mTitle = title;
     }
 
     public CharSequence getTitle() {

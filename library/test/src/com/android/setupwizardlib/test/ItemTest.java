@@ -16,7 +16,7 @@
 
 package com.android.setupwizardlib.test;
 
-import android.content.Context;
+import android.graphics.drawable.ShapeDrawable;
 import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 import android.view.View;
@@ -34,7 +34,9 @@ public class ItemTest extends AndroidTestCase {
 
     @SmallTest
     public void testOnBindView() {
-        Item item = new TestItem(mContext);
+        Item item = new Item();
+        item.setTitle("TestTitle");
+        item.setSummary("TestSummary");
         View view = createLayout();
 
         item.onBindView(view);
@@ -46,13 +48,46 @@ public class ItemTest extends AndroidTestCase {
 
     @SmallTest
     public void testSingleLineItem() {
-        Item item = new SingleLineTestItem(mContext);
+        Item item = new Item();
+        item.setTitle("TestTitle");
         View view = createLayout();
 
         item.onBindView(view);
 
         assertEquals("Title should be \"TestTitle\"", "TestTitle", mTitleView.getText().toString());
         assertEquals("Summary should be gone", View.GONE, mSummaryView.getVisibility());
+    }
+
+    @SmallTest
+    public void testProperties() {
+        Item item = new Item();
+        item.setTitle("TestTitle");
+        item.setSummary("TestSummary");
+        item.setEnabled(false);
+        ShapeDrawable icon = new ShapeDrawable();
+        item.setIcon(icon);
+        item.setId(12345);
+        item.setLayoutResource(56789);
+
+        assertEquals("Title should be \"TestTitle\"", "TestTitle", item.getTitle());
+        assertEquals("Summary should be \"TestSummary\"", "TestSummary", item.getSummary());
+        assertFalse("Enabled should be false", item.isEnabled());
+        assertSame("Icon should be same as set", icon, item.getIcon());
+        assertEquals("ID should be 12345", 12345, item.getId());
+        assertEquals("Layout resource should be 56789", 56789, item.getLayoutResource());
+    }
+
+    @SmallTest
+    public void testDefaultValues() {
+        Item item = new Item();
+
+        assertNull("Default title should be null", item.getTitle());
+        assertNull("Default summary should be null", item.getSummary());
+        assertNull("Default icon should be null", item.getIcon());
+        assertTrue("Default enabled should be true", item.isEnabled());
+        assertEquals("Default ID should be 0", 0, item.getId());
+        assertEquals("Default layout resource should be R.layout.suw_items_text",
+                R.layout.suw_items_text, item.getLayoutResource());
     }
 
     private ViewGroup createLayout() {
@@ -66,34 +101,5 @@ public class ItemTest extends AndroidTestCase {
         root.addView(mSummaryView);
 
         return root;
-    }
-
-    private static class TestItem extends Item {
-
-        public TestItem(Context context) {
-            super(context, null);
-        }
-
-        @Override
-        public CharSequence getTitle() {
-            return "TestTitle";
-        }
-
-        @Override
-        public CharSequence getSummary() {
-            return "TestSummary";
-        }
-    }
-
-    private static class SingleLineTestItem extends Item {
-
-        public SingleLineTestItem(Context context) {
-            super(context, null);
-        }
-
-        @Override
-        public CharSequence getTitle() {
-            return "TestTitle";
-        }
     }
 }
