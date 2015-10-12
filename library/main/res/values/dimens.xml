@@ -72,6 +72,11 @@
     <!-- Illustration -->
     <item name="suw_illustration_aspect_ratio" format="float" type="dimen">2.22</item>
 
+    <!-- Items -->
+    <dimen name="suw_items_icon_container_width">60dp</dimen>
+    <!-- Padding between icon and text following it -->
+    <dimen name="suw_items_icon_padding">12dp</dimen>
+
     <!-- Navigation bar -->
     <dimen name="suw_navbar_button_drawable_padding">6dp</dimen>
     <dimen name="suw_navbar_button_padding_sides">10dp</dimen>

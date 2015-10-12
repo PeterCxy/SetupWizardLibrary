@@ -21,6 +21,7 @@ import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.setupwizardlib.R;
@@ -55,7 +56,7 @@ public class Item {
     }
 
     protected int getDefaultLayoutResource() {
-        return R.layout.suw_items_text;
+        return R.layout.suw_items_default;
     }
 
     public void setEnabled(boolean enabled) {
@@ -107,9 +108,9 @@ public class Item {
     }
 
     public void onBindView(View view) {
-        // TODO: Show icon if defined
         TextView label = (TextView) view.findViewById(R.id.suw_items_title);
         label.setText(getTitle());
+
         TextView summaryView = (TextView) view.findViewById(R.id.suw_items_summary);
         CharSequence summary = getSummary();
         if (summary != null && summary.length() > 0) {
@@ -117,6 +118,17 @@ public class Item {
             summaryView.setVisibility(View.VISIBLE);
         } else {
             summaryView.setVisibility(View.GONE);
+        }
+
+        final View iconContainer = view.findViewById(R.id.suw_items_icon_container);
+        final Drawable icon = getIcon();
+        if (icon != null) {
+            final ImageView iconView = (ImageView) view.findViewById(R.id.suw_items_icon);
+            iconView.setImageLevel(icon.getLevel());
+            iconView.setImageDrawable(icon);
+            iconContainer.setVisibility(View.VISIBLE);
+        } else {
+            iconContainer.setVisibility(View.GONE);
         }
     }
 }

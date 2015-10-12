@@ -16,12 +16,14 @@
 
 package com.android.setupwizardlib.test;
 
+import android.graphics.drawable.Drawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.setupwizardlib.R;
@@ -31,12 +33,16 @@ public class ItemTest extends AndroidTestCase {
 
     private TextView mTitleView;
     private TextView mSummaryView;
+    private ImageView mIconView;
+    private FrameLayout mIconContainer;
 
     @SmallTest
     public void testOnBindView() {
         Item item = new Item();
         item.setTitle("TestTitle");
         item.setSummary("TestSummary");
+        Drawable icon = new ShapeDrawable();
+        item.setIcon(icon);
         View view = createLayout();
 
         item.onBindView(view);
@@ -44,6 +50,7 @@ public class ItemTest extends AndroidTestCase {
         assertEquals("Title should be \"TestTitle\"", "TestTitle", mTitleView.getText().toString());
         assertEquals("Summary should be \"TestSummary\"", "TestSummary",
                 mSummaryView.getText().toString());
+        assertSame("Icon should be the icon shape drawable", icon, mIconView.getDrawable());
     }
 
     @SmallTest
@@ -56,6 +63,7 @@ public class ItemTest extends AndroidTestCase {
 
         assertEquals("Title should be \"TestTitle\"", "TestTitle", mTitleView.getText().toString());
         assertEquals("Summary should be gone", View.GONE, mSummaryView.getVisibility());
+        assertEquals("IconContainer should be gone", View.GONE, mIconContainer.getVisibility());
     }
 
     @SmallTest
@@ -87,7 +95,7 @@ public class ItemTest extends AndroidTestCase {
         assertTrue("Default enabled should be true", item.isEnabled());
         assertEquals("Default ID should be 0", 0, item.getId());
         assertEquals("Default layout resource should be R.layout.suw_items_text",
-                R.layout.suw_items_text, item.getLayoutResource());
+                R.layout.suw_items_default, item.getLayoutResource());
     }
 
     private ViewGroup createLayout() {
@@ -96,9 +104,18 @@ public class ItemTest extends AndroidTestCase {
         mTitleView = new TextView(mContext);
         mTitleView.setId(R.id.suw_items_title);
         root.addView(mTitleView);
+
         mSummaryView = new TextView(mContext);
         mSummaryView.setId(R.id.suw_items_summary);
         root.addView(mSummaryView);
+
+        mIconContainer = new FrameLayout(mContext);
+        mIconContainer.setId(R.id.suw_items_icon_container);
+        root.addView(mIconContainer);
+
+        mIconView = new ImageView(mContext);
+        mIconView.setId(R.id.suw_items_icon);
+        mIconContainer.addView(mIconView);
 
         return root;
     }
