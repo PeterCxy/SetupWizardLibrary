@@ -27,6 +27,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowInsets;
+import android.view.accessibility.AccessibilityEvent;
 import android.widget.ListView;
 
 import com.android.setupwizardlib.R;
@@ -144,5 +145,19 @@ public class StickyHeaderListView extends ListView {
             );
         }
         return insets;
+    }
+
+    @Override
+    public void onInitializeAccessibilityEvent(AccessibilityEvent event) {
+        super.onInitializeAccessibilityEvent(event);
+
+        // Decoration-only headers should not count as an item for accessibility, adjust the
+        // accessibility event to account for that.
+        final int numberOfHeaders = mSticky != null ? 1 : 0;
+        event.setItemCount(event.getItemCount() - numberOfHeaders);
+        event.setFromIndex(Math.max(event.getFromIndex() - numberOfHeaders, 0));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+            event.setToIndex(Math.max(event.getToIndex() - numberOfHeaders, 0));
+        }
     }
 }
