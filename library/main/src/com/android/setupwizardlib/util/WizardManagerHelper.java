@@ -21,13 +21,25 @@ import android.content.Intent;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 import android.provider.Settings;
+import android.util.Log;
 
 public class WizardManagerHelper {
 
+    private static final String TAG = "SetupWizard.WizardManagerHelper";
+    private static final boolean DEBUG = false;
+
     private static final String ACTION_NEXT = "com.android.wizard.NEXT";
 
+    /**
+     * {@link #EXTRA_SCRIPT_URI} and {@link #EXTRA_ACTION_ID} will be removed once all outstanding
+     * references have transitioned to using {@link #EXTRA_WIZARD_BUNDLE}
+     */
+    @Deprecated
     private static final String EXTRA_SCRIPT_URI = "scriptUri";
+    @Deprecated
     private static final String EXTRA_ACTION_ID = "actionId";
+
+    private static final String EXTRA_WIZARD_BUNDLE = "wizardBundle";
     private static final String EXTRA_RESULT_CODE = "com.android.setupwizard.ResultCode";
     private static final String EXTRA_IS_FIRST_RUN = "firstRun";
 
@@ -43,6 +55,38 @@ public class WizardManagerHelper {
     public static final String THEME_MATERIAL_LIGHT = "material_light";
     public static final String THEME_MATERIAL_BLUE = "material_blue";
     public static final String THEME_MATERIAL_BLUE_LIGHT = "material_blue_light";
+
+    /**
+     * Send the results of a scripted action back to WizardManager. In response, WizardManager will
+     * invoke the next scripted action.
+     *
+     * @param context The context of the intent.
+     * @param originalIntent The original intent that was used to start the step, usually via
+     *                       {@link android.app.Activity#getIntent()}.
+     * @param resultCode The result code of the step. See {@link ResultCodes}.
+     */
+    public static void sendActionResults(Context context, Intent originalIntent, int resultCode) {
+        sendActionResults(context, originalIntent, resultCode, null);
+    }
+
+    /**
+     * Send the results of a scripted action back to WizardManager. In response, WizardManager will
+     * invoke the next scripted action.
+     *
+     * @param context The context of the intent.
+     * @param originalIntent The original intent that was used to start the step, usually via
+     *                       {@link android.app.Activity#getIntent()}.
+     * @param resultCode The result code of the step. See {@link ResultCodes}.
+     * @param resultData An intent containing extra result data.
+     */
+    public static void sendActionResults(Context context, Intent originalIntent, int resultCode,
+            Intent resultData) {
+        if (DEBUG) Log.d(TAG, "sendActionResults originalIntent=" + originalIntent
+                + " resultCode=" + resultCode + " resultData=" + resultData);
+        Intent nextIntent = getNextIntent(originalIntent, resultCode, resultData);
+        if (DEBUG) Log.d(TAG, "sendActionResults nextIntent=" + nextIntent);
+        context.startActivity(nextIntent);
+    }
 
     /**
      * Get an intent that will invoke the next step of setup wizard.
@@ -71,14 +115,28 @@ public class WizardManagerHelper {
      */
     public static Intent getNextIntent(Intent originalIntent, int resultCode, Intent data) {
         Intent intent = new Intent(ACTION_NEXT);
-        intent.putExtra(EXTRA_SCRIPT_URI, originalIntent.getStringExtra(EXTRA_SCRIPT_URI));
-        intent.putExtra(EXTRA_ACTION_ID, originalIntent.getStringExtra(EXTRA_ACTION_ID));
+        copyWizardManagerExtras(originalIntent, intent);
         intent.putExtra(EXTRA_RESULT_CODE, resultCode);
         if (data != null && data.getExtras() != null) {
             intent.putExtras(data.getExtras());
         }
         intent.putExtra(EXTRA_THEME, originalIntent.getStringExtra(EXTRA_THEME));
+
         return intent;
+    }
+
+    /**
+     * Copy the internal extras used by setup wizard from one intent to another. For low-level use
+     * only, such as when using {@link Intent#FLAG_ACTIVITY_FORWARD_RESULT} to relay to another
+     * intent.
+     *
+     * @param srcIntent
+     * @param dstIntent
+     */
+    public static void copyWizardManagerExtras(Intent srcIntent, Intent dstIntent) {
+        dstIntent.putExtra(EXTRA_WIZARD_BUNDLE, srcIntent.getBundleExtra(EXTRA_WIZARD_BUNDLE));
+        dstIntent.putExtra(EXTRA_SCRIPT_URI, srcIntent.getStringExtra(EXTRA_SCRIPT_URI));
+        dstIntent.putExtra(EXTRA_ACTION_ID, srcIntent.getStringExtra(EXTRA_ACTION_ID));
     }
 
     /**
