@@ -55,7 +55,14 @@
                 <FrameLayout
                     android:id="@+id/suw_layout_content"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    android:layout_height="match_parent">
+
+                    <!-- Temporary solution to work with PreferenceFragment v14 -->
+                    <FrameLayout android:id="@+id/list_container"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+
+                </FrameLayout>
 
                 <include layout="@layout/suw_progress_bar_stub" />
 
