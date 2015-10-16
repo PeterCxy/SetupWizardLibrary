@@ -25,9 +25,6 @@ import android.util.Log;
 
 public class WizardManagerHelper {
 
-    private static final String TAG = "SetupWizard.WizardManagerHelper";
-    private static final boolean DEBUG = false;
-
     private static final String ACTION_NEXT = "com.android.wizard.NEXT";
 
     /**
@@ -81,10 +78,7 @@ public class WizardManagerHelper {
      */
     public static void sendActionResults(Context context, Intent originalIntent, int resultCode,
             Intent resultData) {
-        if (DEBUG) Log.d(TAG, "sendActionResults originalIntent=" + originalIntent
-                + " resultCode=" + resultCode + " resultData=" + resultData);
         Intent nextIntent = getNextIntent(originalIntent, resultCode, resultData);
-        if (DEBUG) Log.d(TAG, "sendActionResults nextIntent=" + nextIntent);
         context.startActivity(nextIntent);
     }
 
@@ -130,8 +124,8 @@ public class WizardManagerHelper {
      * only, such as when using {@link Intent#FLAG_ACTIVITY_FORWARD_RESULT} to relay to another
      * intent.
      *
-     * @param srcIntent
-     * @param dstIntent
+     * @param srcIntent Intent to get the wizard manager extras from.
+     * @param dstIntent Intent to copy the wizard manager extras to.
      */
     public static void copyWizardManagerExtras(Intent srcIntent, Intent dstIntent) {
         dstIntent.putExtra(EXTRA_WIZARD_BUNDLE, srcIntent.getBundleExtra(EXTRA_WIZARD_BUNDLE));
