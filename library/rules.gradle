@@ -86,7 +86,7 @@ android {
         }
 
         fullSupport {
-            java.srcDirs = ['eclair-mr1/src']
+            java.srcDirs = ['eclair-mr1/src', 'full-support/src']
             res.srcDirs = ['eclair-mr1/res', 'full-support/res']
         }
 
@@ -94,6 +94,10 @@ android {
             manifest.srcFile 'test/AndroidManifest.xml'
             java.srcDirs = ['test/src']
             res.srcDirs = ['test/res']
+        }
+
+        androidTestFullSupport {
+            java.srcDirs = ['full-support/test/src']
         }
     }
 }

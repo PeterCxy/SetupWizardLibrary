@@ -58,7 +58,7 @@ LOCAL_RESOURCE_DIR := \
     frameworks/support/v7/appcompat/res \
     frameworks/support/v7/recyclerview/res
 LOCAL_SDK_VERSION := current
-LOCAL_SRC_FILES := $(call all-java-files-under, main/src eclair-mr1/src)
+LOCAL_SRC_FILES := $(call all-java-files-under, main/src eclair-mr1/src full-support/src)
 LOCAL_STATIC_JAVA_LIBRARIES := \
     android-support-v4 \
     android-support-v7-appcompat \
