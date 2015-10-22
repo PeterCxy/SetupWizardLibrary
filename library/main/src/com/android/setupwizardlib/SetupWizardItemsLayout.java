@@ -26,6 +26,8 @@ import com.android.setupwizardlib.items.ItemInflater;
 
 public class SetupWizardItemsLayout extends SetupWizardListLayout {
 
+    private ItemAdapter mAdapter;
+
     public SetupWizardItemsLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context, attrs, 0);
@@ -42,8 +44,13 @@ public class SetupWizardItemsLayout extends SetupWizardListLayout {
         int xml = a.getResourceId(R.styleable.SuwSetupWizardItemsLayout_android_entries, 0);
         if (xml != 0) {
             ItemGroup inflated = (ItemGroup) new ItemInflater(context).inflate(xml);
-            setAdapter(ItemAdapter.create(inflated));
+            mAdapter = new ItemAdapter(inflated);
+            setAdapter(mAdapter);
         }
         a.recycle();
+    }
+
+    public ItemAdapter getAdapter() {
+        return mAdapter;
     }
 }

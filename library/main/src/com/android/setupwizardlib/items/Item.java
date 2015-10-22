@@ -30,24 +30,24 @@ import com.android.setupwizardlib.R;
  * Definition of an item in SetupWizardItemsLayout. An item is usually defined in XML and inflated
  * using {@link ItemInflater}.
  */
-public class Item {
+public class Item extends AbstractItem {
 
     private boolean mEnabled = true;
     private Drawable mIcon;
-    private int mId = 0;
     private int mLayoutRes;
     private CharSequence mSummary;
     private CharSequence mTitle;
 
     public Item() {
+        super();
         mLayoutRes = getDefaultLayoutResource();
     }
 
     public Item(Context context, AttributeSet attrs) {
+        super(context, attrs);
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.SuwItem);
         mEnabled = a.getBoolean(R.styleable.SuwItem_android_enabled, true);
         mIcon = a.getDrawable(R.styleable.SuwItem_android_icon);
-        mId = a.getResourceId(R.styleable.SuwItem_android_id, 0);
         mTitle = a.getText(R.styleable.SuwItem_android_title);
         mSummary = a.getText(R.styleable.SuwItem_android_summary);
         mLayoutRes = a.getResourceId(R.styleable.SuwItem_android_layout,
@@ -63,6 +63,7 @@ public class Item {
         mEnabled = enabled;
     }
 
+    @Override
     public boolean isEnabled() {
         return mEnabled;
     }
@@ -75,18 +76,11 @@ public class Item {
         return mIcon;
     }
 
-    public void setId(int id) {
-        mId = id;
-    }
-
-    public int getId() {
-        return mId;
-    }
-
     public void setLayoutResource(int layoutResource) {
         mLayoutRes = layoutResource;
     }
 
+    @Override
     public int getLayoutResource() {
         return mLayoutRes;
     }
@@ -107,6 +101,7 @@ public class Item {
         return mTitle;
     }
 
+    @Override
     public void onBindView(View view) {
         TextView label = (TextView) view.findViewById(R.id.suw_items_title);
         label.setText(getTitle());
@@ -124,6 +119,7 @@ public class Item {
         final Drawable icon = getIcon();
         if (icon != null) {
             final ImageView iconView = (ImageView) view.findViewById(R.id.suw_items_icon);
+            iconView.setImageState(icon.getState(), false /* merge */);
             iconView.setImageLevel(icon.getLevel());
             iconView.setImageDrawable(icon);
             iconContainer.setVisibility(View.VISIBLE);

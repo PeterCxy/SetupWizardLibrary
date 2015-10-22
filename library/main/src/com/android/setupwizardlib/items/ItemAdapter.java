@@ -23,31 +23,29 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
 /**
- * An adapter typically used with ListView to display a list of Items. The list of items used to
- * create this adapter can be inflated by {@link ItemInflater} from XML.
+ * An adapter typically used with ListView to display an
+ * {@link com.android.setupwizardlib.items.ItemHierarchy}. The item hierarchy used to create this
+ * adapter can be inflated by {@link ItemInflater} from XML.
  */
-public class ItemAdapter extends BaseAdapter {
+public class ItemAdapter extends BaseAdapter implements ItemHierarchy.Observer {
 
-    private final Item[] mItems;
+    private final ItemHierarchy mItemHierarchy;
     private ViewTypes mViewTypes = new ViewTypes();
 
-    public static ItemAdapter create(ItemGroup items) {
-        return new ItemAdapter(items.getChildren());
-    }
-
-    public ItemAdapter(Item[] items) {
-        mItems = items;
+    public ItemAdapter(ItemHierarchy hierarchy) {
+        mItemHierarchy = hierarchy;
+        mItemHierarchy.registerObserver(this);
         refreshViewTypes();
     }
 
     @Override
     public int getCount() {
-        return mItems.length;
+        return mItemHierarchy.getCount();
     }
 
     @Override
-    public Item getItem(int position) {
-        return mItems[position];
+    public IItem getItem(int position) {
+        return mItemHierarchy.getItemAt(position);
     }
 
     @Override
@@ -57,7 +55,8 @@ public class ItemAdapter extends BaseAdapter {
 
     @Override
     public int getItemViewType(int position) {
-        int layoutRes = getItem(position).getLayoutResource();
+        IItem item = getItem(position);
+        int layoutRes = item.getLayoutResource();
         return mViewTypes.get(layoutRes);
     }
 
@@ -66,21 +65,41 @@ public class ItemAdapter extends BaseAdapter {
         return mViewTypes.size();
     }
 
-    public void refreshViewTypes() {
-        for (Item item : mItems) {
+    private void refreshViewTypes() {
+        for (int i = 0; i < getCount(); i++) {
+            IItem item = getItem(i);
             mViewTypes.add(item.getLayoutResource());
         }
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        Item item = getItem(position);
+        IItem item = getItem(position);
         if (convertView == null) {
             LayoutInflater inflater = LayoutInflater.from(parent.getContext());
             convertView = inflater.inflate(item.getLayoutResource(), parent, false);
         }
         item.onBindView(convertView);
         return convertView;
+    }
+
+    @Override
+    public void onChanged(ItemHierarchy hierarchy) {
+        refreshViewTypes();
+        notifyDataSetChanged();
+    }
+
+    @Override
+    public boolean isEnabled(int position) {
+        return getItem(position).isEnabled();
+    }
+
+    public ItemHierarchy findItemById(int id) {
+        return mItemHierarchy.findItemById(id);
+    }
+
+    public ItemHierarchy getRootItemHierarchy() {
+        return mItemHierarchy;
     }
 
     /**

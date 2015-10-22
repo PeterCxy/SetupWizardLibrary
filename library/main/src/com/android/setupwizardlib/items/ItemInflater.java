@@ -23,7 +23,7 @@ import android.content.Context;
  *
  * Modified from android.support.v7.preference.PreferenceInflater
  */
-public class ItemInflater extends GenericInflater<Item> {
+public class ItemInflater extends GenericInflater<ItemHierarchy> {
 
     private static final String TAG = "ItemInflater";
 
@@ -49,7 +49,7 @@ public class ItemInflater extends GenericInflater<Item> {
     }
 
     @Override
-    protected void onAddChildItem(Item parent, Item child) {
+    protected void onAddChildItem(ItemHierarchy parent, ItemHierarchy child) {
         if (parent instanceof ItemGroup) {
             ((ItemGroup) parent).addChild(child);
         } else {

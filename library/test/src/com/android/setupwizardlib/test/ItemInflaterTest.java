@@ -21,6 +21,7 @@ import android.test.suitebuilder.annotation.SmallTest;
 
 import com.android.setupwizardlib.items.Item;
 import com.android.setupwizardlib.items.ItemGroup;
+import com.android.setupwizardlib.items.ItemHierarchy;
 import com.android.setupwizardlib.items.ItemInflater;
 
 public class ItemInflaterTest extends InstrumentationTestCase {
@@ -35,14 +36,15 @@ public class ItemInflaterTest extends InstrumentationTestCase {
     @SmallTest
     public void testInflate() {
         ItemInflater inflater = new ItemInflater(getInstrumentation().getContext());
-        Item item = inflater.inflate(R.xml.test_items);
+        ItemHierarchy item = inflater.inflate(R.xml.test_items);
         assertTrue("Inflated item should be ItemGroup", item instanceof ItemGroup);
         ItemGroup itemGroup = (ItemGroup) item;
-        Item[] children = itemGroup.getChildren();
-        assertEquals("Title of first child should be Title1", "Title1", children[0].getTitle());
-        assertEquals("ID of second child should be test_item_2", R.id.test_item_2,
-                children[1].getId());
+
+        Item child0 = (Item) itemGroup.getItemAt(0);
+        Item child1 = (Item) itemGroup.getItemAt(1);
+        assertEquals("Title of first child should be Title1", "Title1", child0.getTitle());
+        assertEquals("ID of second child should be test_item_2", R.id.test_item_2, child1.getId());
         assertEquals("Summary of second child should be Summary2", "Summary2",
-                children[1].getSummary());
+                child1.getSummary());
     }
 }
