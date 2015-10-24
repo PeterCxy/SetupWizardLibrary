@@ -23,6 +23,7 @@
     <attr name="suwNavBarBackButton" format="reference" />
     <attr name="suwNavBarBackgroundColor" format="color" />
     <attr name="suwNavBarButtonBackground" format="color|reference" />
+    <attr name="suwNavBarMoreButton" format="reference" />
     <attr name="suwNavBarNextButton" format="reference" />
     <attr name="suwNavBarTextColor" format="color" />
     <attr name="suwNavBarTheme" format="reference" />
