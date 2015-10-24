@@ -17,9 +17,6 @@
 
 <resources>
 
-    <!-- Overlay the transition duration for testing partner overlays -->
-    <integer name="suwTransitionDuration">5000</integer>
-
     <item type="id" name="test_view_id" />
 
 </resources>
