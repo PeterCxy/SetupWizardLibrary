@@ -35,6 +35,26 @@
         <item name="android:paddingBottom">@dimen/suw_content_frame_padding_bottom</item>
     </style>
 
+    <style name="SuwDescription">
+        <!-- Before Honeycomb, layout_gravity is needed for FrameLayout to apply the margins -->
+        <item name="android:layout_gravity">top</item>
+        <item name="android:layout_marginBottom">@dimen/suw_description_margin_bottom</item>
+        <item name="android:layout_marginTop">@dimen/suw_description_margin_top</item>
+        <item name="android:lineSpacingExtra">@dimen/suw_description_line_spacing_extra</item>
+        <item name="android:textAppearance">@style/TextAppearance.SuwDescription</item>
+    </style>
+
+    <style name="SuwRadioButton">
+        <item name="android:layout_marginBottom">@dimen/suw_radio_button_margin_bottom</item>
+        <item name="android:layout_marginLeft">@dimen/suw_radio_button_margin_start</item>
+        <item name="android:layout_marginStart" tools:ignore="NewApi">@dimen/suw_radio_button_margin_start</item>
+        <item name="android:layout_marginTop">@dimen/suw_radio_button_margin_top</item>
+        <item name="android:lineSpacingExtra">@dimen/suw_radio_button_line_spacing_extra</item>
+        <item name="android:paddingLeft" tools:ignore="NewApi">@dimen/suw_radio_button_padding_start</item>
+        <item name="android:paddingStart" tools:ignore="NewApi">@dimen/suw_radio_button_padding_start</item>
+        <item name="android:textAppearance">@style/TextAppearance.SuwDescription</item>
+    </style>
+
     <!-- Card layout (for tablets) -->
 
     <style name="SuwBaseCardTitle">
