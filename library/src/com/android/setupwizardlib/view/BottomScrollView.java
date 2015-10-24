@@ -37,6 +37,13 @@ public class BottomScrollView extends ScrollView {
     private int mScrollThreshold;
     private boolean mRequiringScroll = false;
 
+    private final Runnable mCheckScrollRunnable = new Runnable() {
+        @Override
+        public void run() {
+            checkScroll();
+        }
+    };
+
     public BottomScrollView(Context context) {
         super(context);
     }
@@ -62,7 +69,10 @@ public class BottomScrollView extends ScrollView {
                     - getPaddingBottom());
         }
         if (b - t > 0) {
-            checkScroll();
+            // Post check scroll in the next run loop, so that the callback methods will be invoked
+            // after the layout pass. This way a new layout pass will be scheduled if view
+            // properties are changed in the callbacks.
+            post(mCheckScrollRunnable);
         }
     }
 
