@@ -21,6 +21,8 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ScrollView;
 
+import com.android.annotations.VisibleForTesting;
+
 /**
  * An extension of ScrollView that will invoke a listener callback when the ScrollView needs
  * scrolling, and when the ScrollView is being scrolled to the bottom. This is often used in Setup
@@ -60,13 +62,17 @@ public class BottomScrollView extends ScrollView {
         mListener = l;
     }
 
+    @VisibleForTesting
+    public int getScrollThreshold() {
+        return mScrollThreshold;
+    }
+
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
         super.onLayout(changed, l, t, r, b);
-        View child = getChildAt(0);
+        final View child = getChildAt(0);
         if (child != null) {
-            mScrollThreshold = Math.max(0, getChildAt(0).getHeight() - b + t
-                    - getPaddingBottom());
+            mScrollThreshold = Math.max(0, child.getMeasuredHeight() - b + t - getPaddingBottom());
         }
         if (b - t > 0) {
             // Post check scroll in the next run loop, so that the callback methods will be invoked
