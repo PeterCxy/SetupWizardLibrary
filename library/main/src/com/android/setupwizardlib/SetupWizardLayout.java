@@ -36,9 +36,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewStub;
+import android.view.ViewTreeObserver;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import com.android.setupwizardlib.annotations.Keep;
 import com.android.setupwizardlib.util.RequireScrollHelper;
 import com.android.setupwizardlib.view.BottomScrollView;
 import com.android.setupwizardlib.view.Illustration;
@@ -423,6 +425,55 @@ public class SetupWizardLayout extends FrameLayout {
             progressBar.setVisibility(View.GONE);
         }
     }
+
+    /* Animator support */
+
+    private float mXFraction;
+    private ViewTreeObserver.OnPreDrawListener mPreDrawListener;
+
+    /**
+     * Set the X translation as a fraction of the width of this view. Make sure this method is not
+     * stripped out by proguard when using ObjectAnimator. You may need to add
+     *     -keep @com.android.setupwizardlib.annotations.Keep class *
+     * to your proguard configuration if you are seeing mysterious MethodNotFoundExceptions at
+     * runtime.
+     */
+    @Keep
+    public void setXFraction(float fraction) {
+        mXFraction = fraction;
+        final int width = getWidth();
+        if (width != 0) {
+            setTranslationX(width * fraction);
+        } else {
+            // If we haven't done a layout pass yet, wait for one and then set the fraction before
+            // the draw occurs using an OnPreDrawListener. Don't call translationX until we know
+            // getWidth() has a reliable, non-zero value or else we will see the fragment flicker on
+            // screen.
+            if (mPreDrawListener == null) {
+                mPreDrawListener = new ViewTreeObserver.OnPreDrawListener() {
+                    @Override
+                    public boolean onPreDraw() {
+                        getViewTreeObserver().removeOnPreDrawListener(mPreDrawListener);
+                        setXFraction(mXFraction);
+                        return true;
+                    }
+                };
+                getViewTreeObserver().addOnPreDrawListener(mPreDrawListener);
+            }
+        }
+    }
+
+    /**
+     * Return the X translation as a fraction of the width, as previously set in setXFraction.
+     *
+     * @see #setXFraction(float)
+     */
+    @Keep
+    public float getXFraction() {
+        return mXFraction;
+    }
+
+    /* Misc */
 
     protected static class SavedState extends BaseSavedState {
 
