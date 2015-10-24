@@ -15,24 +15,32 @@
     limitations under the License.
 -->
 
-<com.android.setupwizardlib.view.Illustration
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/suw_layout_decor"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/suw_layout_background"
-    android:elevation="@dimen/suw_title_area_elevation"
-    android:tag="stickyContainer"
-    app:suwAspectRatio="2.22"
-    tools:ignore="UnusedAttribute">
+    android:orientation="vertical"
+    android:tag="stickyContainer">
 
-    <TextView
-        android:id="@+id/suw_layout_title"
-        style="@style/SuwHeaderTitle"
+    <com.android.setupwizardlib.view.Illustration
+        android:id="@+id/suw_layout_decor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:tag="sticky" />
+        android:background="@drawable/suw_layout_background"
+        android:elevation="@dimen/suw_title_area_elevation"
+        app:suwAspectRatio="2.22"
+        tools:ignore="UnusedAttribute">
 
-</com.android.setupwizardlib.view.Illustration>
+        <TextView
+            android:id="@+id/suw_layout_title"
+            style="@style/SuwHeaderTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:tag="sticky" />
+
+    </com.android.setupwizardlib.view.Illustration>
+
+    <include layout="@layout/suw_progress_bar_stub" />
+
+</LinearLayout>

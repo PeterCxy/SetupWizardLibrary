@@ -46,13 +46,21 @@
                 android:layout_height="wrap_content" />
 
             <FrameLayout
-                android:id="@+id/suw_layout_content"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:background="?attr/suwCardBackground"
                 android:elevation="@dimen/suw_card_elevation"
-                tools:ignore="UnusedAttribute" />
+                tools:ignore="UnusedAttribute">
+
+                <include layout="@layout/suw_progress_bar_stub" />
+
+                <FrameLayout
+                    android:id="@+id/suw_layout_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+            </FrameLayout>
 
         </LinearLayout>
 

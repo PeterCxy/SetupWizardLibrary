@@ -23,6 +23,7 @@ import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.android.setupwizardlib.SetupWizardLayout;
@@ -64,6 +65,16 @@ public class SetupWizardListLayoutTests extends InstrumentationTestCase {
         SetupWizardListLayout layout = (SetupWizardListLayout)
                 inflater.inflate(R.layout.test_list_layout, null);
         assertListTemplateInflated(layout);
+    }
+
+    @SmallTest
+    public void testShowProgressBar() {
+        final SetupWizardListLayout layout = new SetupWizardListLayout(mContext);
+        layout.showProgressBar();
+        assertTrue("Progress bar should be shown", layout.isProgressBarShown());
+        final View progressBar = layout.findViewById(R.id.suw_layout_progress);
+        assertTrue("Progress bar view should be shown",
+                progressBar instanceof ProgressBar && progressBar.getVisibility() == View.VISIBLE);
     }
 
     private void assertListTemplateInflated(SetupWizardLayout layout) {

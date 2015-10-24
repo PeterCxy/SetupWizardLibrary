@@ -24,6 +24,7 @@ import android.test.suitebuilder.annotation.SmallTest;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.android.setupwizardlib.SetupWizardLayout;
@@ -110,6 +111,36 @@ public class SetupWizardLayoutTests extends InstrumentationTestCase {
         final SetupWizardLayout layout = new SetupWizardLayout(mContext, R.layout.test_template);
         final NavigationBar navigationBar = layout.getNavigationBar();
         assertNull("getNavigationBar() in test_template should return null", navigationBar);
+    }
+
+    @SmallTest
+    public void testShowProgressBar() {
+        final SetupWizardLayout layout = new SetupWizardLayout(mContext);
+        layout.showProgressBar();
+        assertTrue("Progress bar should be shown", layout.isProgressBarShown());
+        final View progressBar = layout.findViewById(R.id.suw_layout_progress);
+        assertTrue("Progress bar view should be shown",
+                progressBar instanceof ProgressBar && progressBar.getVisibility() == View.VISIBLE);
+    }
+
+    @SmallTest
+    public void testHideProgressBar() {
+        final SetupWizardLayout layout = new SetupWizardLayout(mContext);
+        layout.showProgressBar();
+        assertTrue("Progress bar should be shown", layout.isProgressBarShown());
+        layout.hideProgressBar();
+        assertFalse("Progress bar should be hidden", layout.isProgressBarShown());
+        final View progressBar = layout.findViewById(R.id.suw_layout_progress);
+        assertTrue("Progress bar view should exist",
+                progressBar == null || progressBar.getVisibility() != View.VISIBLE);
+    }
+
+    @SmallTest
+    public void testShowProgressBarNotExist() {
+        // test_template does not have progress bar, so showNavigationBar() should do nothing.
+        final SetupWizardLayout layout = new SetupWizardLayout(mContext, R.layout.test_template);
+        layout.showProgressBar();
+        assertFalse("Progress bar should not be shown", layout.isProgressBarShown());
     }
 
     private void assertDefaultTemplateInflated(SetupWizardLayout layout) {
