@@ -49,6 +49,11 @@ public class SystemBarHelper {
             | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
             | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION;
 
+    @SuppressLint("InlinedApi")
+    private static final int DIALOG_IMMERSIVE_FLAGS =
+            View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+            | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
+
     /**
      * Needs to be equal to View.STATUS_BAR_DISABLE_BACK
      */
@@ -63,7 +68,8 @@ public class SystemBarHelper {
         if (VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP) {
             final Window window = dialog.getWindow();
             temporarilyDisableDialogFocus(window);
-            hideSystemBars(window);
+            addImmersiveFlagsToWindow(window, DIALOG_IMMERSIVE_FLAGS);
+            addImmersiveFlagsToDecorView(window, new Handler(), DIALOG_IMMERSIVE_FLAGS);
         }
     }
 
@@ -77,8 +83,8 @@ public class SystemBarHelper {
      */
     public static void hideSystemBars(final Window window) {
         if (VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP) {
-            addImmersiveFlagsToWindow(window);
-            addImmersiveFlagsToDecorView(window, new Handler());
+            addImmersiveFlagsToWindow(window, DEFAULT_IMMERSIVE_FLAGS);
+            addImmersiveFlagsToDecorView(window, new Handler(), DEFAULT_IMMERSIVE_FLAGS);
         }
     }
 
@@ -156,27 +162,28 @@ public class SystemBarHelper {
      * the window.
      */
     @TargetApi(VERSION_CODES.LOLLIPOP)
-    private static void addImmersiveFlagsToDecorView(final Window window, final Handler handler) {
+    private static void addImmersiveFlagsToDecorView(final Window window, final Handler handler,
+            final int vis) {
         // Use peekDecorView instead of getDecorView so that clients can still set window features
         // after calling this method.
         final View decorView = window.peekDecorView();
         if (decorView != null) {
-            addVisibilityFlag(decorView, DEFAULT_IMMERSIVE_FLAGS);
+            addVisibilityFlag(decorView, vis);
         } else {
             // If the decor view is not installed yet, try again in the next loop.
             handler.post(new Runnable() {
                 @Override
                 public void run() {
-                    addImmersiveFlagsToDecorView(window, handler);
+                    addImmersiveFlagsToDecorView(window, handler, vis);
                 }
             });
         }
     }
 
     @TargetApi(VERSION_CODES.LOLLIPOP)
-    private static void addImmersiveFlagsToWindow(final Window window) {
+    private static void addImmersiveFlagsToWindow(final Window window, final int vis) {
         WindowManager.LayoutParams attrs = window.getAttributes();
-        attrs.systemUiVisibility |= DEFAULT_IMMERSIVE_FLAGS;
+        attrs.systemUiVisibility |= vis;
         window.setAttributes(attrs);
 
         // Also set the navigation bar and status bar to transparent color. Note that this doesn't
