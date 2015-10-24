@@ -30,5 +30,11 @@ android {
         icsCompat {
             res.srcDirs = ['res-ics']
         }
+
+        androidTest {
+            manifest.srcFile 'test/AndroidManifest.xml'
+            java.srcDirs = ['test/src']
+            res.srcDirs = ['test/res']
+        }
     }
 }
