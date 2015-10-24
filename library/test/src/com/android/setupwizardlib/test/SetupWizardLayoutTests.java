@@ -17,11 +17,13 @@
 package com.android.setupwizardlib.test;
 
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build.VERSION_CODES;
 import android.test.InstrumentationTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
+import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
@@ -31,15 +33,24 @@ import com.android.setupwizardlib.view.NavigationBar;
 
 public class SetupWizardLayoutTests extends InstrumentationTestCase {
 
+    private Context mContext;
+
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        mContext = new ContextThemeWrapper(getInstrumentation().getContext(),
+                R.style.SuwThemeMaterial_Light);
+    }
+
     @SmallTest
     public void testDefaultTemplate() {
-        SetupWizardLayout layout = new SetupWizardLayout(getInstrumentation().getContext());
+        SetupWizardLayout layout = new SetupWizardLayout(mContext);
         assertDefaultTemplateInflated(layout);
     }
 
     @SmallTest
     public void testSetHeaderText() {
-        SetupWizardLayout layout = new SetupWizardLayout(getInstrumentation().getContext());
+        SetupWizardLayout layout = new SetupWizardLayout(mContext);
         TextView title = (TextView) layout.findViewById(R.id.suw_layout_title);
         layout.setHeaderText("Abracadabra");
         assertEquals("Header text should be \"Abracadabra\"", "Abracadabra", title.getText());
@@ -48,8 +59,8 @@ public class SetupWizardLayoutTests extends InstrumentationTestCase {
     @TargetApi(VERSION_CODES.JELLY_BEAN_MR1)
     @SmallTest
     public void testAddView() {
-        SetupWizardLayout layout = new SetupWizardLayout(getInstrumentation().getContext());
-        TextView tv = new TextView(getInstrumentation().getContext());
+        SetupWizardLayout layout = new SetupWizardLayout(mContext);
+        TextView tv = new TextView(mContext);
         int id = View.generateViewId();
         tv.setId(id);
         layout.addView(tv);
@@ -60,7 +71,7 @@ public class SetupWizardLayoutTests extends InstrumentationTestCase {
 
     @SmallTest
     public void testInflateFromXml() {
-        LayoutInflater inflater = LayoutInflater.from(getInstrumentation().getContext());
+        LayoutInflater inflater = LayoutInflater.from(mContext);
         SetupWizardLayout layout = (SetupWizardLayout) inflater.inflate(R.layout.test_layout, null);
         assertDefaultTemplateInflated(layout);
         View content = layout.findViewById(R.id.test_content);
@@ -70,12 +81,11 @@ public class SetupWizardLayoutTests extends InstrumentationTestCase {
     @TargetApi(VERSION_CODES.JELLY_BEAN_MR1)
     @SmallTest
     public void testCustomTemplate() {
-        SetupWizardLayout layout = new SetupWizardLayout(getInstrumentation().getContext(),
-                R.layout.test_template);
+        SetupWizardLayout layout = new SetupWizardLayout(mContext, R.layout.test_template);
         View templateView = layout.findViewById(R.id.test_template_view);
         assertNotNull("@id/test_template_view should exist in template", templateView);
 
-        TextView tv = new TextView(getInstrumentation().getContext());
+        TextView tv = new TextView(mContext);
         int id = View.generateViewId();
         tv.setId(id);
         layout.addView(tv);

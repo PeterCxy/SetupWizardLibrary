@@ -16,8 +16,10 @@
 
 package com.android.setupwizardlib.test;
 
+import android.content.Context;
 import android.test.InstrumentationTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
+import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ListView;
@@ -29,16 +31,25 @@ import com.android.setupwizardlib.view.NavigationBar;
 
 public class SetupWizardListLayoutTests extends InstrumentationTestCase {
 
+    private Context mContext;
+
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        mContext = new ContextThemeWrapper(getInstrumentation().getContext(),
+                R.style.SuwThemeMaterial_Light);
+    }
+
     @SmallTest
     public void testDefaultTemplate() {
-        SetupWizardListLayout layout = new SetupWizardListLayout(getInstrumentation().getContext());
+        SetupWizardListLayout layout = new SetupWizardListLayout(mContext);
         assertListTemplateInflated(layout);
     }
 
     @SmallTest
     public void testAddView() {
-        SetupWizardListLayout layout = new SetupWizardListLayout(getInstrumentation().getContext());
-        TextView tv = new TextView(getInstrumentation().getContext());
+        SetupWizardListLayout layout = new SetupWizardListLayout(mContext);
+        TextView tv = new TextView(mContext);
         try {
             layout.addView(tv);
             fail("Adding view to ListLayout should throw");
@@ -49,7 +60,7 @@ public class SetupWizardListLayoutTests extends InstrumentationTestCase {
 
     @SmallTest
     public void testInflateFromXml() {
-        LayoutInflater inflater = LayoutInflater.from(getInstrumentation().getContext());
+        LayoutInflater inflater = LayoutInflater.from(mContext);
         SetupWizardListLayout layout = (SetupWizardListLayout)
                 inflater.inflate(R.layout.test_list_layout, null);
         assertListTemplateInflated(layout);
