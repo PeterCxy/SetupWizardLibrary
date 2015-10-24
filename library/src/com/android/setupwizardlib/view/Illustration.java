@@ -16,13 +16,13 @@
 
 package com.android.setupwizardlib.view;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
+import android.os.Build.VERSION;
+import android.os.Build.VERSION_CODES;
 import android.util.AttributeSet;
 import android.util.LayoutDirection;
 import android.view.Gravity;
@@ -39,7 +39,6 @@ import com.android.setupwizardlib.R;
  * If an aspect ratio is set, then the aspect ratio of the source drawable is maintained. Otherwise
  * the the aspect ratio will be ignored, only increasing the width of the illustration.
  */
-@TargetApi(Build.VERSION_CODES.LOLLIPOP)
 public class Illustration extends FrameLayout {
 
     // Size of the baseline grid in pixels
@@ -60,15 +59,10 @@ public class Illustration extends FrameLayout {
     }
 
     public Illustration(Context context, AttributeSet attrs, int defStyleAttr) {
-        this(context, attrs, defStyleAttr, 0);
-    }
-
-    public Illustration(Context context, AttributeSet attrs, int defStyleAttr,
-            int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
+        super(context, attrs, defStyleAttr);
         if (attrs != null) {
             TypedArray a = context.obtainStyledAttributes(attrs,
-                    R.styleable.SuwIllustration, 0, 0);
+                    R.styleable.SuwIllustration, defStyleAttr, 0);
             mAspectRatio = a.getFloat(R.styleable.SuwIllustration_suwAspectRatio, 0.0f);
             a.recycle();
         }
@@ -81,8 +75,11 @@ public class Illustration extends FrameLayout {
      * The background will be drawn to fill up the rest of the view. It will also be scaled by the
      * same amount as the foreground so their textures look the same.
      */
+    // Override the deprecated setBackgroundDrawable method to support API < 16. View.setBackground
+    // forwards to setBackgroundDrawable in the framework implementation.
+    @SuppressWarnings("deprecation")
     @Override
-    public void setBackground(Drawable background) {
+    public void setBackgroundDrawable(Drawable background) {
         if (background == mBackground) {
             return;
         }
@@ -118,7 +115,9 @@ public class Illustration extends FrameLayout {
             illustrationHeight -= illustrationHeight % mBaselineGridSize;
             setPadding(0, illustrationHeight, 0, 0);
         }
-        setOutlineProvider(ViewOutlineProvider.BOUNDS);
+        if (VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP) {
+            setOutlineProvider(ViewOutlineProvider.BOUNDS);
+        }
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
 
@@ -129,7 +128,6 @@ public class Illustration extends FrameLayout {
         if (mIllustration != null) {
             int intrinsicWidth = mIllustration.getIntrinsicWidth();
             int intrinsicHeight = mIllustration.getIntrinsicHeight();
-            final int layoutDirection = getLayoutDirection();
 
             mViewBounds.set(0, 0, layoutWidth, layoutHeight);
             if (mAspectRatio != 0f) {
@@ -138,7 +136,7 @@ public class Illustration extends FrameLayout {
                 intrinsicHeight = (int) (intrinsicHeight * mScale);
             }
             Gravity.apply(Gravity.FILL_HORIZONTAL | Gravity.TOP, intrinsicWidth,
-                    intrinsicHeight, mViewBounds, mIllustrationBounds, layoutDirection);
+                    intrinsicHeight, mViewBounds, mIllustrationBounds);
             mIllustration.setBounds(mIllustrationBounds);
         }
         if (mBackground != null) {
@@ -159,20 +157,24 @@ public class Illustration extends FrameLayout {
             canvas.translate(0, mIllustrationBounds.height());
             // Scale the background so its size matches the foreground
             canvas.scale(mScale, mScale, 0, 0);
-            if (layoutDirection == LayoutDirection.RTL && mBackground.isAutoMirrored()) {
-                // TODO: When Drawable.setLayoutDirection becomes public API, use that instead
-                canvas.scale(-1, 1);
-                canvas.translate(-mBackground.getBounds().width(), 0);
+            if (VERSION.SDK_INT >= VERSION_CODES.KITKAT) {
+                if (layoutDirection == LayoutDirection.RTL && mBackground.isAutoMirrored()) {
+                    // Flip the illustration for RTL layouts
+                    canvas.scale(-1, 1);
+                    canvas.translate(-mBackground.getBounds().width(), 0);
+                }
             }
             mBackground.draw(canvas);
             canvas.restore();
         }
         if (mIllustration != null) {
             canvas.save();
-            if (layoutDirection == LayoutDirection.RTL && mIllustration.isAutoMirrored()) {
-                // TODO: When Drawable.setLayoutDirection becomes public API, use that instead
-                canvas.scale(-1, 1);
-                canvas.translate(-mIllustrationBounds.width(), 0);
+            if (VERSION.SDK_INT >= VERSION_CODES.KITKAT) {
+                if (layoutDirection == LayoutDirection.RTL && mIllustration.isAutoMirrored()) {
+                    // Flip the illustration for RTL layouts
+                    canvas.scale(-1, 1);
+                    canvas.translate(-mIllustrationBounds.width(), 0);
+                }
             }
             // Draw the illustration
             mIllustration.draw(canvas);

@@ -16,10 +16,12 @@
 
 package com.android.setupwizardlib.util;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Dialog;
 import android.content.Context;
-import android.os.Build;
+import android.os.Build.VERSION;
+import android.os.Build.VERSION_CODES;
 import android.os.Handler;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,9 +40,9 @@ import com.android.setupwizardlib.R;
  * will completely hide the system navigation bar and change the status bar to transparent, and
  * layout the screen contents (usually the illustration) behind it.
  */
-@TargetApi(Build.VERSION_CODES.LOLLIPOP)
 public class SystemBarHelper {
 
+    @SuppressLint("InlinedApi")
     private static final int DEFAULT_IMMERSIVE_FLAGS =
             View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
             | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
@@ -54,11 +56,15 @@ public class SystemBarHelper {
 
     /**
      * Hide the navigation bar for a dialog.
+     *
+     * This will only take effect in versions Lollipop or above. Otherwise this is a no-op.
      */
     public static void hideSystemBars(final Dialog dialog) {
-        final Window window = dialog.getWindow();
-        temporarilyDisableDialogFocus(window);
-        hideSystemBars(window);
+        if (VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP) {
+            final Window window = dialog.getWindow();
+            temporarilyDisableDialogFocus(window);
+            hideSystemBars(window);
+        }
     }
 
     /**
@@ -66,27 +72,35 @@ public class SystemBarHelper {
      * and specify the LAYOUT_FULLSCREEN flag so that the content is laid-out behind the transparent
      * status bar. This is commonly used with Activity.getWindow() to make the navigation and status
      * bars follow the Setup Wizard style.
+     *
+     * This will only take effect in versions Lollipop or above. Otherwise this is a no-op.
      */
     public static void hideSystemBars(final Window window) {
-        addImmersiveFlagsToWindow(window);
-        addImmersiveFlagsToDecorView(window, new Handler());
+        if (VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP) {
+            addImmersiveFlagsToWindow(window);
+            addImmersiveFlagsToDecorView(window, new Handler());
+        }
     }
 
     /**
      * Convenience method to add a visibility flag in addition to the existing ones.
      */
     public static void addVisibilityFlag(final View view, final int flag) {
-        final int vis = view.getSystemUiVisibility();
-        view.setSystemUiVisibility(vis | flag);
+        if (VERSION.SDK_INT >= VERSION_CODES.HONEYCOMB) {
+            final int vis = view.getSystemUiVisibility();
+            view.setSystemUiVisibility(vis | flag);
+        }
     }
 
     /**
      * Convenience method to add a visibility flag in addition to the existing ones.
      */
     public static void addVisibilityFlag(final Window window, final int flag) {
-        WindowManager.LayoutParams attrs = window.getAttributes();
-        attrs.systemUiVisibility |= flag;
-        window.setAttributes(attrs);
+        if (VERSION.SDK_INT >= VERSION_CODES.HONEYCOMB) {
+            WindowManager.LayoutParams attrs = window.getAttributes();
+            attrs.systemUiVisibility |= flag;
+            window.setAttributes(attrs);
+        }
     }
 
     /**
@@ -94,8 +108,10 @@ public class SystemBarHelper {
      * not specified intact.
      */
     public static void removeVisibilityFlag(final View view, final int flag) {
-        final int vis = view.getSystemUiVisibility();
-        view.setSystemUiVisibility(vis & ~flag);
+        if (VERSION.SDK_INT >= VERSION_CODES.HONEYCOMB) {
+            final int vis = view.getSystemUiVisibility();
+            view.setSystemUiVisibility(vis & ~flag);
+        }
     }
 
     /**
@@ -103,16 +119,20 @@ public class SystemBarHelper {
      * not specified intact.
      */
     public static void removeVisibilityFlag(final Window window, final int flag) {
-        WindowManager.LayoutParams attrs = window.getAttributes();
-        attrs.systemUiVisibility &= ~flag;
-        window.setAttributes(attrs);
+        if (VERSION.SDK_INT >= VERSION_CODES.HONEYCOMB) {
+            WindowManager.LayoutParams attrs = window.getAttributes();
+            attrs.systemUiVisibility &= ~flag;
+            window.setAttributes(attrs);
+        }
     }
 
     public static void setBackButtonVisible(final Window window, final boolean visible) {
-        if (visible) {
-            addVisibilityFlag(window, STATUS_BAR_DISABLE_BACK);
-        } else {
-            removeVisibilityFlag(window, STATUS_BAR_DISABLE_BACK);
+        if (VERSION.SDK_INT >= VERSION_CODES.HONEYCOMB) {
+            if (visible) {
+                addVisibilityFlag(window, STATUS_BAR_DISABLE_BACK);
+            } else {
+                removeVisibilityFlag(window, STATUS_BAR_DISABLE_BACK);
+            }
         }
     }
 
@@ -121,16 +141,21 @@ public class SystemBarHelper {
      * view to be immediately above the keyboard, and assumes that the view sits immediately above
      * the navigation bar.
      *
+     * This will only take effect in versions Lollipop or above. Otherwise this is a no-op.
+     *
      * @param view The view to be resized when the keyboard is shown.
      */
     public static void setImeInsetView(final View view) {
-        view.setOnApplyWindowInsetsListener(new WindowInsetsListener(view.getContext()));
+        if (VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP) {
+            view.setOnApplyWindowInsetsListener(new WindowInsetsListener(view.getContext()));
+        }
     }
 
     /**
      * View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN only takes effect when it is added a view instead of
      * the window.
      */
+    @TargetApi(VERSION_CODES.LOLLIPOP)
     private static void addImmersiveFlagsToDecorView(final Window window, final Handler handler) {
         // Use peekDecorView instead of getDecorView so that clients can still set window features
         // after calling this method.
@@ -148,6 +173,7 @@ public class SystemBarHelper {
         }
     }
 
+    @TargetApi(VERSION_CODES.LOLLIPOP)
     private static void addImmersiveFlagsToWindow(final Window window) {
         WindowManager.LayoutParams attrs = window.getAttributes();
         attrs.systemUiVisibility |= DEFAULT_IMMERSIVE_FLAGS;
@@ -174,6 +200,7 @@ public class SystemBarHelper {
         });
     }
 
+    @TargetApi(VERSION_CODES.LOLLIPOP)
     private static class WindowInsetsListener implements View.OnApplyWindowInsetsListener {
 
         private int mNavigationBarHeight;
