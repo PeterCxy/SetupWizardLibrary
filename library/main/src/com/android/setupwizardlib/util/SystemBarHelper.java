@@ -225,7 +225,7 @@ public class SystemBarHelper {
 
             ViewGroup.MarginLayoutParams lp = (ViewGroup.MarginLayoutParams) view.getLayoutParams();
             lp.setMargins(lp.leftMargin, lp.topMargin, lp.rightMargin, bottomMargin);
-            view.requestLayout();
+            view.forceLayout();
 
             return insets.replaceSystemWindowInsets(
                     insets.getSystemWindowInsetLeft(),
