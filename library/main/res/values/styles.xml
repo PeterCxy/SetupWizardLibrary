@@ -37,7 +37,9 @@
 
     <!-- Card layout (for tablets) -->
 
-    <style name="SuwCardTitle">
+    <style name="SuwBaseCardTitle">
+        <item name="android:ellipsize">end</item>
+        <item name="android:maxLines">3</item>
         <item name="android:paddingBottom">@dimen/suw_card_title_padding_bottom</item>
         <item name="android:paddingEnd" tools:ignore="NewApi">@dimen/suw_card_title_padding_end</item>
         <item name="android:paddingLeft">@dimen/suw_card_title_padding_start</item>
@@ -47,6 +49,8 @@
         <item name="android:textAppearance">@style/TextAppearance.SuwCardTitle</item>
     </style>
 
+    <style name="SuwCardTitle" parent="SuwBaseCardTitle" />
+
     <!-- Header layout (for phones) -->
 
     <style name="SuwHeaderTitle">
@@ -55,7 +59,9 @@
         <item name="android:layout_marginBottom">@dimen/suw_header_title_margin_bottom</item>
         <item name="android:layout_marginLeft">@dimen/suw_layout_margin_sides</item>
         <item name="android:layout_marginRight">@dimen/suw_layout_margin_sides</item>
+        <item name="android:ellipsize">end</item>
         <item name="android:lineSpacingExtra">@dimen/suw_header_title_line_spacing_extra</item>
+        <item name="android:maxLines">3</item>
         <item name="android:paddingBottom">@dimen/suw_header_title_padding_bottom</item>
         <item name="android:paddingTop">@dimen/suw_header_title_padding_top</item>
         <item name="android:textColor">@android:color/white</item>
