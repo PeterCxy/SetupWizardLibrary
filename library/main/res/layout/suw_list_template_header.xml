@@ -26,6 +26,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
+        android:clipChildren="false"
         app:suwHeader="@layout/suw_list_header" />
 
     <com.android.setupwizardlib.view.NavigationBar
