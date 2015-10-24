@@ -12,6 +12,6 @@
 #   include frameworks/opt/setupwizard/library/common.mk
 #
 
-LOCAL_RESOURCE_DIR += $(call my-dir)/res
+LOCAL_RESOURCE_DIR += $(call my-dir)/main/res
 LOCAL_AAPT_FLAGS += --auto-add-overlay --extra-packages com.android.setupwizardlib
 LOCAL_STATIC_JAVA_LIBRARIES += setup-wizard-lib
