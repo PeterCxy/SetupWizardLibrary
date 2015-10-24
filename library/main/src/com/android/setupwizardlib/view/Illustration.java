@@ -17,6 +17,7 @@
 package com.android.setupwizardlib.view;
 
 import android.content.Context;
+import android.content.pm.ApplicationInfo;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Rect;
@@ -157,29 +158,37 @@ public class Illustration extends FrameLayout {
             canvas.translate(0, mIllustrationBounds.height());
             // Scale the background so its size matches the foreground
             canvas.scale(mScale, mScale, 0, 0);
-            if (VERSION.SDK_INT >= VERSION_CODES.KITKAT) {
-                if (layoutDirection == LayoutDirection.RTL && mBackground.isAutoMirrored()) {
-                    // Flip the illustration for RTL layouts
-                    canvas.scale(-1, 1);
-                    canvas.translate(-mBackground.getBounds().width(), 0);
-                }
+            if (shouldMirrorIllustration(layoutDirection)) {
+                // Flip the illustration for RTL layouts
+                canvas.scale(-1, 1);
+                canvas.translate(-mBackground.getBounds().width(), 0);
             }
             mBackground.draw(canvas);
             canvas.restore();
         }
         if (mIllustration != null) {
             canvas.save();
-            if (VERSION.SDK_INT >= VERSION_CODES.KITKAT) {
-                if (layoutDirection == LayoutDirection.RTL && mIllustration.isAutoMirrored()) {
-                    // Flip the illustration for RTL layouts
-                    canvas.scale(-1, 1);
-                    canvas.translate(-mIllustrationBounds.width(), 0);
-                }
+            if (shouldMirrorIllustration(layoutDirection)) {
+                // Flip the illustration for RTL layouts
+                canvas.scale(-1, 1);
+                canvas.translate(-mIllustrationBounds.width(), 0);
             }
             // Draw the illustration
             mIllustration.draw(canvas);
             canvas.restore();
         }
         super.onDraw(canvas);
+    }
+
+    private boolean shouldMirrorIllustration(int layoutDirection) {
+        if (layoutDirection == LayoutDirection.RTL) {
+            if (VERSION.SDK_INT >= VERSION_CODES.KITKAT) {
+                return mIllustration.isAutoMirrored();
+            } else if (VERSION.SDK_INT >= VERSION_CODES.JELLY_BEAN_MR1) {
+                final int flags = getContext().getApplicationInfo().flags;
+                return (flags & ApplicationInfo.FLAG_SUPPORTS_RTL) != 0;
+            }
+        }
+        return false;
     }
 }
