@@ -21,7 +21,6 @@
      header to the RecyclerView or avoid using this layout (e.g. use suw_no_scroll_template_short
      instead of suw_no_scroll_template) -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -40,7 +39,6 @@
             android:background="@drawable/suw_layout_background"
             android:elevation="@dimen/suw_title_area_elevation"
             android:tag="stickyContainer"
-            app:suwAspectRatio="2.22"
             tools:ignore="UnusedAttribute">
 
             <TextView
