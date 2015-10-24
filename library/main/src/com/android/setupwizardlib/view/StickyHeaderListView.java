@@ -55,25 +55,26 @@ public class StickyHeaderListView extends ListView {
     private RectF mStickyRect = new RectF();
 
     public StickyHeaderListView(Context context) {
-        this(context, null);
+        super(context);
+        init(null, android.R.attr.listViewStyle);
     }
 
     public StickyHeaderListView(Context context, AttributeSet attrs) {
-        this(context, attrs, android.R.attr.listViewStyle);
+        super(context, attrs);
+        init(attrs, android.R.attr.listViewStyle);
     }
 
     public StickyHeaderListView(Context context, AttributeSet attrs, int defStyleAttr) {
-        this(context, attrs, defStyleAttr, 0);
+        super(context, attrs, defStyleAttr);
+        init(attrs, defStyleAttr);
     }
 
-    public StickyHeaderListView(Context context, AttributeSet attrs, int defStyleAttr,
-            int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
-        final TypedArray a = context.obtainStyledAttributes(attrs,
-                R.styleable.SuwStickyHeaderListView, defStyleAttr, defStyleRes);
+    private void init(AttributeSet attrs, int defStyleAttr) {
+        final TypedArray a = getContext().obtainStyledAttributes(attrs,
+                R.styleable.SuwStickyHeaderListView, defStyleAttr, 0);
         int headerResId = a.getResourceId(R.styleable.SuwStickyHeaderListView_suwHeader, 0);
         if (headerResId != 0) {
-            LayoutInflater inflater = LayoutInflater.from(context);
+            LayoutInflater inflater = LayoutInflater.from(getContext());
             View header = inflater.inflate(headerResId, this, false);
             addHeaderView(header);
         }

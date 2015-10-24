@@ -44,6 +44,8 @@
     <!-- Content styles -->
 
     <style name="SuwDescription">
+        <!-- Before Honeycomb, layout_gravity is needed for FrameLayout to apply the margins -->
+        <item name="android:layout_gravity">top</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginBottom">@dimen/suw_description_margin_bottom</item>
@@ -62,14 +64,14 @@
 
     <!-- Navigation bar styles -->
 
-    <style name="SuwNavBarButtonStyle" parent="@android:style/Widget.Holo.Button.Borderless">
+    <style name="SuwNavBarButtonStyle" parent="@android:style/Widget.Button">
         <item name="android:background">?attr/suwNavBarButtonBackground</item>
         <item name="android:drawablePadding">@dimen/suw_navbar_button_drawable_padding</item>
         <item name="android:fontFamily" tools:ignore="NewApi">sans-serif</item>
         <item name="android:minWidth">0dp</item>
         <item name="android:paddingLeft">@dimen/suw_navbar_button_padding_sides</item>
         <item name="android:paddingRight">@dimen/suw_navbar_button_padding_sides</item>
-        <item name="android:textAllCaps">true</item>
+        <item name="android:textAllCaps" tools:ignore="NewApi">true</item>
         <item name="android:textColor">?attr/suwNavBarTextColor</item>
         <item name="android:textSize">@dimen/suw_navbar_text_size</item>
     </style>

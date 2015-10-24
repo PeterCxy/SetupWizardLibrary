@@ -26,10 +26,11 @@
         android:drawableLeft="?attr/suwNavBarBackButton"
         android:drawableStart="?attr/suwNavBarBackButton" />
 
-    <Space
+    <View
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1" />
+        android:layout_weight="1"
+        android:visibility="invisible" />
 
     <view class="com.android.setupwizardlib.view.NavigationBar$NavButton"
         android:id="@+id/suw_navbar_next"
