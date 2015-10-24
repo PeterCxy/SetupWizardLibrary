@@ -16,10 +16,48 @@
 -->
 
 <resources>
+
+    <!-- General -->
+    <dimen name="suw_layout_margin_sides">40dp</dimen>
+
+    <!-- Content styles -->
+    <dimen name="suw_content_frame_padding_top">0dp</dimen>
+    <dimen name="suw_content_frame_padding_bottom">16dp</dimen>
+
+    <dimen name="suw_description_margin_top">24dp</dimen>
+    <dimen name="suw_description_margin_bottom">12dp</dimen>
+    <dimen name="suw_description_line_spacing_extra">4sp</dimen>
+    <dimen name="suw_description_text_size">16sp</dimen>
+
+    <!-- Card layout (for tablets) -->
+    <dimen name="suw_card_corner_radius">2dp</dimen>
+    <dimen name="suw_card_elevation">5dp</dimen>
+    <dimen name="suw_card_land_margin_top">128dp</dimen>
+    <dimen name="suw_card_port_margin_sides">56dp</dimen>
+
+    <dimen name="suw_card_title_padding_end">0dp</dimen>
+    <dimen name="suw_card_title_padding_start">0dp</dimen>
+    <dimen name="suw_card_title_padding_top">16dp</dimen>
+    <dimen name="suw_card_title_padding_bottom">28dp</dimen>
+
+    <dimen name="suw_tablet_illustration_height">256dp</dimen>
+
+    <!-- Header layout (for phones) -->
+    <dimen name="suw_title_area_elevation">3dp</dimen>
+
+    <dimen name="suw_header_title_size">24sp</dimen>
+    <dimen name="suw_header_title_margin_bottom">16dp</dimen>
+    <dimen name="suw_header_title_padding_top">16dp</dimen>
+    <dimen name="suw_header_title_padding_bottom">2dp</dimen>
+    <!-- This is the extra spacing required to make the leading exactly 32sp -->
+    <dimen name="suw_header_title_line_spacing_extra">3.67sp</dimen>
+
+    <!-- Navigation bar -->
     <dimen name="suw_navbar_button_drawable_padding">6dp</dimen>
     <dimen name="suw_navbar_button_padding_sides">10dp</dimen>
     <dimen name="suw_navbar_height">56dp</dimen>
     <dimen name="suw_navbar_ic_intrinsic_size">24dp</dimen>
     <dimen name="suw_navbar_padding_sides">24dp</dimen>
     <dimen name="suw_navbar_text_size">16sp</dimen>
+
 </resources>

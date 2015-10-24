@@ -59,7 +59,7 @@ public class StickyHeaderListView extends ListView {
     }
 
     public StickyHeaderListView(Context context, AttributeSet attrs) {
-        this(context, attrs, 0);
+        this(context, attrs, android.R.attr.listViewStyle);
     }
 
     public StickyHeaderListView(Context context, AttributeSet attrs, int defStyleAttr) {
@@ -69,17 +69,15 @@ public class StickyHeaderListView extends ListView {
     public StickyHeaderListView(Context context, AttributeSet attrs, int defStyleAttr,
             int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
-        if (attrs != null) {
-            final TypedArray a = context.obtainStyledAttributes(attrs,
-                    R.styleable.SuwStickyHeaderListView, defStyleAttr, defStyleRes);
-            int headerResId = a.getResourceId(R.styleable.SuwStickyHeaderListView_suwHeader, 0);
-            if (headerResId != 0) {
-                LayoutInflater inflater = LayoutInflater.from(context);
-                View header = inflater.inflate(headerResId, this, false);
-                addHeaderView(header);
-            }
-            a.recycle();
+        final TypedArray a = context.obtainStyledAttributes(attrs,
+                R.styleable.SuwStickyHeaderListView, defStyleAttr, defStyleRes);
+        int headerResId = a.getResourceId(R.styleable.SuwStickyHeaderListView_suwHeader, 0);
+        if (headerResId != 0) {
+            LayoutInflater inflater = LayoutInflater.from(context);
+            View header = inflater.inflate(headerResId, this, false);
+            addHeaderView(header);
         }
+        a.recycle();
     }
 
     @Override

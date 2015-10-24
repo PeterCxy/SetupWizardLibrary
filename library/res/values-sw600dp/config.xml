@@ -17,8 +17,7 @@
 
 <resources>
 
-    <attr name="suw_navbar_bg_color" format="color" />
-    <attr name="suw_navbar_text_color" format="color" />
-    <attr name="suw_navbar_theme" format="reference" />
+    <!-- Whether to use tablet layout -->
+    <bool name="suwUseTabletLayout">true</bool>
 
 </resources>
