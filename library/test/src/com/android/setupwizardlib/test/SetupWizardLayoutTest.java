@@ -30,7 +30,7 @@ import android.widget.TextView;
 import com.android.setupwizardlib.SetupWizardLayout;
 import com.android.setupwizardlib.view.NavigationBar;
 
-public class SetupWizardLayoutTests extends InstrumentationTestCase {
+public class SetupWizardLayoutTest extends InstrumentationTestCase {
 
     private Context mContext;
 
