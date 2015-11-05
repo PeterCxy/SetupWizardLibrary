@@ -89,9 +89,14 @@ public class RecyclerItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final IItem item = getItem(viewHolder.getAdapterPosition());
-                if (mListener != null && item.isEnabled()) {
-                    mListener.onItemSelected(item);
+                final int position = viewHolder.getAdapterPosition();
+                // Position can be NO_POSITION = -1 if the item is being removed asynchronously
+                // from the RecyclerView.
+                if (position != RecyclerView.NO_POSITION) {
+                    final IItem item = getItem(position);
+                    if (mListener != null && item.isEnabled()) {
+                        mListener.onItemSelected(item);
+                    }
                 }
             }
         });
