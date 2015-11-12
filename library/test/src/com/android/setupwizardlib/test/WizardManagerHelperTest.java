@@ -134,4 +134,20 @@ public class WizardManagerHelperTest extends AndroidTestCase {
         assertFalse("isLightTheme should return default value false",
                 WizardManagerHelper.isLightTheme(intent, false));
     }
+
+    @SmallTest
+    public void testIsLightThemeString() {
+        assertTrue("isLightTheme should return true for material_light",
+                WizardManagerHelper.isLightTheme("material_light", false));
+        assertFalse("isLightTheme should return false for material",
+                WizardManagerHelper.isLightTheme("material", false));
+        assertTrue("isLightTheme should return true for holo_light",
+                WizardManagerHelper.isLightTheme("holo_light", false));
+        assertFalse("isLightTheme should return false for holo",
+                WizardManagerHelper.isLightTheme("holo", false));
+        assertTrue("isLightTheme should return default value true",
+                WizardManagerHelper.isLightTheme("abracadabra", true));
+        assertFalse("isLightTheme should return default value false",
+                WizardManagerHelper.isLightTheme("abracadabra", false));
+    }
 }

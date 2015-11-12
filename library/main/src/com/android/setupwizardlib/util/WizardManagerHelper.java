@@ -195,6 +195,18 @@ public class WizardManagerHelper {
      */
     public static boolean isLightTheme(Intent intent, boolean def) {
         final String theme = intent.getStringExtra(EXTRA_THEME);
+        return isLightTheme(theme, def);
+    }
+
+    /**
+     * Checks whether {@code theme} represents a light or dark theme. If the theme specified is
+     * unknown, the value def will be returned.
+     *
+     * @param theme The theme as specified from an intent sent from setup wizard.
+     * @param def The default value if the theme is not known.
+     * @return True if {@code theme} represents a light theme.
+     */
+    public static boolean isLightTheme(String theme, boolean def) {
         if (THEME_HOLO_LIGHT.equals(theme) || THEME_MATERIAL_LIGHT.equals(theme)
                 || THEME_MATERIAL_BLUE_LIGHT.equals(theme)) {
             return true;
