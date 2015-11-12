@@ -54,35 +54,6 @@ public class WizardManagerHelper {
     public static final String THEME_MATERIAL_BLUE_LIGHT = "material_blue_light";
 
     /**
-     * Send the results of a scripted action back to WizardManager. In response, WizardManager will
-     * invoke the next scripted action.
-     *
-     * @param context The context of the intent.
-     * @param originalIntent The original intent that was used to start the step, usually via
-     *                       {@link android.app.Activity#getIntent()}.
-     * @param resultCode The result code of the step. See {@link ResultCodes}.
-     */
-    public static void sendActionResults(Context context, Intent originalIntent, int resultCode) {
-        sendActionResults(context, originalIntent, resultCode, null);
-    }
-
-    /**
-     * Send the results of a scripted action back to WizardManager. In response, WizardManager will
-     * invoke the next scripted action.
-     *
-     * @param context The context of the intent.
-     * @param originalIntent The original intent that was used to start the step, usually via
-     *                       {@link android.app.Activity#getIntent()}.
-     * @param resultCode The result code of the step. See {@link ResultCodes}.
-     * @param resultData An intent containing extra result data.
-     */
-    public static void sendActionResults(Context context, Intent originalIntent, int resultCode,
-            Intent resultData) {
-        Intent nextIntent = getNextIntent(originalIntent, resultCode, resultData);
-        context.startActivity(nextIntent);
-    }
-
-    /**
      * Get an intent that will invoke the next step of setup wizard.
      *
      * @param originalIntent The original intent that was used to start the step, usually via
