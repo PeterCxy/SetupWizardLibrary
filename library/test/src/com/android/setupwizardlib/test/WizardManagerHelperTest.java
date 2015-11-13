@@ -36,7 +36,8 @@ public class WizardManagerHelperTest extends AndroidTestCase {
         final Intent data = new Intent();
         data.putExtra("extraData", "shazam");
 
-        final Intent nextIntent = WizardManagerHelper.getNextIntent(intent, Activity.RESULT_OK, data);
+        final Intent nextIntent =
+                WizardManagerHelper.getNextIntent(intent, Activity.RESULT_OK, data);
         assertEquals("Next intent action should be NEXT", "com.android.wizard.NEXT",
                 nextIntent.getAction());
         assertEquals("Script URI should be the same as original intent",
@@ -97,22 +98,6 @@ public class WizardManagerHelperTest extends AndroidTestCase {
         final Intent intent = new Intent();
         intent.putExtra("theme", "material_light");
         assertTrue("Theme material_light should be light theme",
-                WizardManagerHelper.isLightTheme(intent, false));
-    }
-
-    @SmallTest
-    public void testMaterialBlueIsNotLightTheme() {
-        final Intent intent = new Intent();
-        intent.putExtra("theme", "material_blue");
-        assertFalse("Theme material_blue should not be light theme",
-                WizardManagerHelper.isLightTheme(intent, true));
-    }
-
-    @SmallTest
-    public void testMaterialBlueLightIsLightTheme() {
-        final Intent intent = new Intent();
-        intent.putExtra("theme", "material_blue_light");
-        assertTrue("Theme material_blue_light should be light theme",
                 WizardManagerHelper.isLightTheme(intent, false));
     }
 
