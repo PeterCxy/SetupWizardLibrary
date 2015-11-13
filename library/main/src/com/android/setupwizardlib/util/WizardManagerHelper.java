@@ -21,7 +21,6 @@ import android.content.Intent;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 import android.provider.Settings;
-import android.util.Log;
 
 public class WizardManagerHelper {
 
@@ -50,8 +49,6 @@ public class WizardManagerHelper {
     public static final String THEME_HOLO_LIGHT = "holo_light";
     public static final String THEME_MATERIAL = "material";
     public static final String THEME_MATERIAL_LIGHT = "material_light";
-    public static final String THEME_MATERIAL_BLUE = "material_blue";
-    public static final String THEME_MATERIAL_BLUE_LIGHT = "material_blue_light";
 
     /**
      * Send the results of a scripted action back to WizardManager. In response, WizardManager will
@@ -207,11 +204,9 @@ public class WizardManagerHelper {
      * @return True if {@code theme} represents a light theme.
      */
     public static boolean isLightTheme(String theme, boolean def) {
-        if (THEME_HOLO_LIGHT.equals(theme) || THEME_MATERIAL_LIGHT.equals(theme)
-                || THEME_MATERIAL_BLUE_LIGHT.equals(theme)) {
+        if (THEME_HOLO_LIGHT.equals(theme) || THEME_MATERIAL_LIGHT.equals(theme)) {
             return true;
-        } else if (THEME_HOLO.equals(theme) || THEME_MATERIAL.equals(theme)
-                || THEME_MATERIAL_BLUE.equals(theme)) {
+        } else if (THEME_HOLO.equals(theme) || THEME_MATERIAL.equals(theme)) {
             return false;
         } else {
             return def;
