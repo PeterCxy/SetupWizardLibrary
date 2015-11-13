@@ -114,6 +114,17 @@
         <item name="android:textColor">@android:color/white</item>
     </style>
 
+    <!-- Items styles -->
+
+    <style name="SuwItemContainer.Verbose" parent="SuwItemContainer">
+        <item name="android:paddingBottom">@dimen/suw_items_verbose_padding_vertical</item>
+        <item name="android:paddingTop">@dimen/suw_items_verbose_padding_vertical</item>
+    </style>
+
+    <style name="SuwItemTitle.Verbose" parent="SuwItemTitle">
+        <item name="android:textAppearance">@style/TextAppearance.SuwGlifBody</item>
+    </style>
+
     <!-- GLIF layout -->
 
     <style name="SuwGlifHeaderTitle" parent="SuwBaseHeaderTitle">

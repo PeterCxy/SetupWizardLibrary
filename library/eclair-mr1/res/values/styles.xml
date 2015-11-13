@@ -89,6 +89,26 @@
         <item name="android:textSize">@dimen/suw_description_text_size</item>
     </style>
 
+    <!-- Items styles -->
+
+    <style name="SuwItemContainer">
+        <item name="android:minHeight">?android:attr/listPreferredItemHeight</item>
+        <item name="android:paddingBottom">@dimen/suw_items_padding_vertical</item>
+        <item name="android:paddingEnd" tools:ignore="NewApi">?attr/listPreferredItemPaddingRight</item>
+        <item name="android:paddingLeft">?attr/listPreferredItemPaddingLeft</item>
+        <item name="android:paddingRight">?attr/listPreferredItemPaddingRight</item>
+        <item name="android:paddingStart" tools:ignore="NewApi">?attr/listPreferredItemPaddingLeft</item>
+        <item name="android:paddingTop">@dimen/suw_items_padding_vertical</item>
+    </style>
+
+    <style name="SuwItemTitle">
+        <item name="android:textAppearance">?attr/textAppearanceListItem</item>
+    </style>
+
+    <style name="SuwItemSummary">
+        <item name="android:textAppearance">?attr/textAppearanceListItemSmall</item>
+    </style>
+
     <!-- Card layout (for tablets) -->
 
     <style name="TextAppearance.SuwCardTitle" parent="@style/TextAppearance.AppCompat.Display1">

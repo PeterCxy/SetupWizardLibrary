@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-    Copyright (c) 2015 The Android Open Source Project
+    Copyright (C) 2015 The Android Open Source Project
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -16,14 +16,11 @@
 -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/SuwItemContainer"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:minHeight="?android:attr/listPreferredItemHeight"
-    android:orientation="vertical"
-    android:paddingBottom="@dimen/suw_items_padding_vertical"
-    android:paddingEnd="?android:attr/listPreferredItemPaddingEnd"
-    android:paddingStart="?android:attr/listPreferredItemPaddingStart"
-    android:paddingTop="@dimen/suw_items_padding_vertical">
+    android:orientation="horizontal">
 
     <FrameLayout
         android:id="@+id/suw_items_icon_container"
@@ -35,7 +32,8 @@
         <ImageView
             android:id="@+id/suw_items_icon"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            tools:ignore="ContentDescription" />
 
     </FrameLayout>
 
@@ -48,19 +46,23 @@
 
         <TextView
             android:id="@+id/suw_items_title"
+            style="@style/SuwItemTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="start"
             android:textAlignment="viewStart"
-            android:textAppearance="?android:attr/textAppearanceListItem" />
+            tools:ignore="UnusedAttribute" />
 
         <TextView
             android:id="@+id/suw_items_summary"
+            style="@style/SuwItemSummary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/suw_items_padding_bottom_extra"
+            android:gravity="start"
             android:textAlignment="viewStart"
-            android:textAppearance="?android:attr/textAppearanceListItemSmall"
-            android:visibility="gone" />
+            android:visibility="gone"
+            tools:ignore="UnusedAttribute" />
 
     </LinearLayout>
 
