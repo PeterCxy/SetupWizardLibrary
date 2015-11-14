@@ -29,7 +29,7 @@ import com.android.setupwizardlib.R;
  * create this adapter can be inflated by {@link com.android.setupwizardlib.items.ItemInflater} from
  * XML.
  */
-public class RecyclerItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
+public class RecyclerItemAdapter extends RecyclerView.Adapter<ItemViewHolder>
         implements ItemHierarchy.Observer {
 
     private static final int[] SELECTABLE_ITEM_BACKGROUND = new int[] {
@@ -38,13 +38,6 @@ public class RecyclerItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     public interface OnItemSelectedListener {
         void onItemSelected(IItem item);
-    }
-
-    private static class GenericViewHolder extends RecyclerView.ViewHolder {
-
-        public GenericViewHolder(View itemView) {
-            super(itemView);
-        }
     }
 
     private final ItemHierarchy mItemHierarchy;
@@ -76,10 +69,10 @@ public class RecyclerItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         final LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         final View view = inflater.inflate(viewType, parent, false);
-        final GenericViewHolder viewHolder = new GenericViewHolder(view);
+        final ItemViewHolder viewHolder = new ItemViewHolder(view);
 
         final TypedArray typedArray = parent.getContext()
                 .obtainStyledAttributes(SELECTABLE_ITEM_BACKGROUND);
@@ -105,18 +98,10 @@ public class RecyclerItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(ItemViewHolder holder, int position) {
         final IItem item = getItem(position);
         item.onBindView(holder.itemView);
-        if (item.isEnabled()) {
-            holder.itemView.setClickable(true);
-            holder.itemView.setEnabled(true);
-            holder.itemView.setFocusable(true);
-        } else {
-            holder.itemView.setClickable(false);
-            holder.itemView.setEnabled(false);
-            holder.itemView.setFocusable(false);
-        }
+        holder.setEnabled(item.isEnabled());
     }
 
     @Override

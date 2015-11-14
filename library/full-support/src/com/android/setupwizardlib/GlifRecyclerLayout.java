@@ -19,6 +19,8 @@ package com.android.setupwizardlib;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Build.VERSION_CODES;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -32,6 +34,7 @@ import android.widget.TextView;
 import com.android.setupwizardlib.items.ItemGroup;
 import com.android.setupwizardlib.items.ItemInflater;
 import com.android.setupwizardlib.items.RecyclerItemAdapter;
+import com.android.setupwizardlib.util.DrawableLayoutDirectionHelper;
 import com.android.setupwizardlib.view.HeaderRecyclerView;
 
 /**
@@ -43,6 +46,10 @@ public class GlifRecyclerLayout extends GlifLayout {
     private RecyclerView mRecyclerView;
     private TextView mHeaderTextView;
     private ImageView mIconView;
+    private DividerItemDecoration mDividerDecoration;
+    private Drawable mDefaultDivider;
+    private Drawable mDivider;
+    private int mDividerInset;
 
     public GlifRecyclerLayout(Context context) {
         this(context, 0, 0);
@@ -76,7 +83,23 @@ public class GlifRecyclerLayout extends GlifLayout {
             final ItemGroup inflated = (ItemGroup) new ItemInflater(context).inflate(xml);
             setAdapter(new RecyclerItemAdapter(inflated));
         }
+        int dividerInset =
+                a.getDimensionPixelSize(R.styleable.SuwGlifRecyclerLayout_suwDividerInset, 0);
+        if (dividerInset == 0) {
+            dividerInset = getResources()
+                    .getDimensionPixelSize(R.dimen.suw_items_icon_divider_inset);
+        }
+        setDividerInset(dividerInset);
         a.recycle();
+    }
+
+    @Override
+    protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
+        super.onLayout(changed, left, top, right, bottom);
+        if (mDivider == null) {
+            // Update divider in case layout direction has just been resolved
+            updateDivider();
+        }
     }
 
     @Override
@@ -97,13 +120,16 @@ public class GlifRecyclerLayout extends GlifLayout {
 
     @Override
     protected void onTemplateInflated() {
+        final Context context = getContext();
         mRecyclerView = (RecyclerView) findViewById(R.id.suw_recycler_view);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
         if (mRecyclerView instanceof HeaderRecyclerView) {
             final View header = ((HeaderRecyclerView) mRecyclerView).getHeader();
             mHeaderTextView = (TextView) header.findViewById(R.id.suw_layout_title);
             mIconView = (ImageView) header.findViewById(R.id.suw_layout_icon);
         }
+        mDividerDecoration = DividerItemDecoration.getDefault(context);
+        mRecyclerView.addItemDecoration(mDividerDecoration);
     }
 
     @Override
@@ -126,5 +152,41 @@ public class GlifRecyclerLayout extends GlifLayout {
 
     public RecyclerView.Adapter getAdapter() {
         return getRecyclerView().getAdapter();
+    }
+
+    /**
+     * Sets the start inset of the divider. This will use the default divider drawable set in the
+     * theme and inset it {@code inset} pixels to the right (or left in RTL layouts).
+     *
+     * @param inset The number of pixels to inset on the "start" side of the list divider. Typically
+     *              this will be either {@code @dimen/suw_items_icon_divider_inset} or
+     *              {@code @dimen/suw_items_text_divider_inset}.
+     */
+    public void setDividerInset(int inset) {
+        mDividerInset = inset;
+        updateDivider();
+    }
+
+    public int getDividerInset() {
+        return mDividerInset;
+    }
+
+    private void updateDivider() {
+        boolean shouldUpdate = true;
+        if (Build.VERSION.SDK_INT >= VERSION_CODES.KITKAT) {
+            shouldUpdate = isLayoutDirectionResolved();
+        }
+        if (shouldUpdate) {
+            if (mDefaultDivider == null) {
+                mDefaultDivider = mDividerDecoration.getDivider();
+            }
+            mDivider = DrawableLayoutDirectionHelper.createRelativeInsetDrawable(mDefaultDivider,
+                    mDividerInset /* start */, 0 /* top */, 0 /* end */, 0 /* bottom */, this);
+            mDividerDecoration.setDivider(mDivider);
+        }
+    }
+
+    public Drawable getDivider() {
+        return mDivider;
     }
 }

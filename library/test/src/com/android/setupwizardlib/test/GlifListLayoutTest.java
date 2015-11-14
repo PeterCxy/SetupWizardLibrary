@@ -17,6 +17,9 @@
 package com.android.setupwizardlib.test;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.InsetDrawable;
+import android.os.Build;
 import android.test.InstrumentationTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 import android.view.ContextThemeWrapper;
@@ -92,6 +95,21 @@ public class GlifListLayoutTest extends InstrumentationTestCase {
             assertSame("Adapter got from GlifListLayout should be same as set",
                     adapter, gotAdapter);
         }
+    }
+
+    @SmallTest
+    public void testDividerInset() {
+        GlifListLayout layout = new GlifListLayout(mContext);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            layout.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
+        }
+        assertListTemplateInflated(layout);
+
+        layout.setDividerInset(10);
+        assertEquals("Divider inset should be 10", 10, layout.getDividerInset());
+
+        final Drawable divider = layout.getDivider();
+        assertTrue("Divider should be instance of InsetDrawable", divider instanceof InsetDrawable);
     }
 
     private void assertListTemplateInflated(GlifListLayout layout) {

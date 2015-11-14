@@ -30,6 +30,7 @@
     <!-- Custom view attributes -->
     <attr name="suwHeader" format="reference" />
     <attr name="suwHeaderText" format="string" localization="suggested" />
+    <attr name="suwDividerInset" format="dimension|reference" />
 
     <declare-styleable name="SuwIllustration">
         <attr name="suwAspectRatio" format="float" />
@@ -51,10 +52,12 @@
 
     <declare-styleable name="SuwGlifListLayout">
         <attr name="android:entries" />
+        <attr name="suwDividerInset" />
     </declare-styleable>
 
     <declare-styleable name="SuwGlifRecyclerLayout">
         <attr name="android:entries" />
+        <attr name="suwDividerInset" />
     </declare-styleable>
 
     <declare-styleable name="SuwSetupWizardLayout">

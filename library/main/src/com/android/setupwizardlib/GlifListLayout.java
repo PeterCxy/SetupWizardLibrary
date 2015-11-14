@@ -19,6 +19,8 @@ package com.android.setupwizardlib;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Build.VERSION_CODES;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -30,6 +32,7 @@ import android.widget.ListView;
 import com.android.setupwizardlib.items.ItemAdapter;
 import com.android.setupwizardlib.items.ItemGroup;
 import com.android.setupwizardlib.items.ItemInflater;
+import com.android.setupwizardlib.util.DrawableLayoutDirectionHelper;
 
 /**
  * A GLIF themed layout with a ListView. {@code android:entries} can also be used to specify an
@@ -37,8 +40,16 @@ import com.android.setupwizardlib.items.ItemInflater;
  */
 public class GlifListLayout extends GlifLayout {
 
+    /* static section */
+
     private static final String TAG = "GlifListLayout";
+
+    /* non-static section */
+
     private ListView mListView;
+    private Drawable mDivider;
+    private Drawable mDefaultDivider;
+    private int mDividerInset;
 
     public GlifListLayout(Context context) {
         this(context, 0, 0);
@@ -72,7 +83,23 @@ public class GlifListLayout extends GlifLayout {
             final ItemGroup inflated = (ItemGroup) new ItemInflater(context).inflate(xml);
             setAdapter(new ItemAdapter(inflated));
         }
+        int dividerInset =
+                a.getDimensionPixelSize(R.styleable.SuwGlifListLayout_suwDividerInset, 0);
+        if (dividerInset == 0) {
+            dividerInset = getResources()
+                    .getDimensionPixelSize(R.dimen.suw_items_icon_divider_inset);
+        }
+        setDividerInset(dividerInset);
         a.recycle();
+    }
+
+    @Override
+    protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
+        super.onLayout(changed, left, top, right, bottom);
+        if (mDivider == null) {
+            // Update divider in case layout direction has just been resolved
+            updateDivider();
+        }
     }
 
     @Override
@@ -106,5 +133,42 @@ public class GlifListLayout extends GlifLayout {
 
     public ListAdapter getAdapter() {
         return getListView().getAdapter();
+    }
+
+    /**
+     * Sets the start inset of the divider. This will use the default divider drawable set in the
+     * theme and inset it {@code inset} pixels to the right (or left in RTL layouts).
+     *
+     * @param inset The number of pixels to inset on the "start" side of the list divider. Typically
+     *              this will be either {@code @dimen/suw_items_icon_divider_inset} or
+     *              {@code @dimen/suw_items_text_divider_inset}.
+     */
+    public void setDividerInset(int inset) {
+        mDividerInset = inset;
+        updateDivider();
+    }
+
+    public int getDividerInset() {
+        return mDividerInset;
+    }
+
+    private void updateDivider() {
+        boolean shouldUpdate = true;
+        if (Build.VERSION.SDK_INT >= VERSION_CODES.KITKAT) {
+            shouldUpdate = isLayoutDirectionResolved();
+        }
+        if (shouldUpdate) {
+            final ListView listView = getListView();
+            if (mDefaultDivider == null) {
+                mDefaultDivider = listView.getDivider();
+            }
+            mDivider = DrawableLayoutDirectionHelper.createRelativeInsetDrawable(mDefaultDivider,
+                    mDividerInset /* start */, 0 /* top */, 0 /* end */, 0 /* bottom */, this);
+            listView.setDivider(mDivider);
+        }
+    }
+
+    public Drawable getDivider() {
+        return mDivider;
     }
 }

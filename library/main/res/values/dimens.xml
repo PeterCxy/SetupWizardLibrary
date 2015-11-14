@@ -82,6 +82,9 @@
     <dimen name="suw_items_padding_vertical">15dp</dimen>
     <dimen name="suw_items_verbose_padding_vertical">11dp</dimen>
 
+    <dimen name="suw_items_icon_divider_inset">72dp</dimen>
+    <dimen name="suw_items_text_divider_inset">24dp</dimen>
+
     <!-- Extra padding in the bottom to compensate for difference between descent and (top) internal leading -->
     <dimen name="suw_items_padding_bottom_extra">1dp</dimen>
     <dimen name="suw_items_verbose_padding_bottom_extra">5dp</dimen>
