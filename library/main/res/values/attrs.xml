@@ -60,6 +60,10 @@
         <attr name="suwDividerInset" />
     </declare-styleable>
 
+    <declare-styleable name="SuwStatusBarBackgroundLayout">
+        <attr name="suwStatusBarBackground" format="color|reference" />
+    </declare-styleable>
+
     <declare-styleable name="SuwSetupWizardLayout">
         <attr name="suwBackground" format="color|reference" />
         <attr name="suwBackgroundTile" format="color|reference" />

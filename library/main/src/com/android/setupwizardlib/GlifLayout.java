@@ -21,6 +21,7 @@ import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Build.VERSION_CODES;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -29,6 +30,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
+
+import com.android.setupwizardlib.view.StatusBarBackgroundLayout;
 
 /**
  * Layout for the GLIF theme used in Setup Wizard for N.
@@ -103,6 +106,19 @@ public class GlifLayout extends TemplateLayout {
         }
 
         a.recycle();
+
+        if (Build.VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP) {
+            setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+            final View patternBg = findViewById(R.id.suw_pattern_bg);
+            if (patternBg != null) {
+                final GlifPatternDrawable background = GlifPatternDrawable.getDefault(getContext());
+                if (patternBg instanceof StatusBarBackgroundLayout) {
+                    ((StatusBarBackgroundLayout) patternBg).setStatusBarBackground(background);
+                } else {
+                    patternBg.setBackground(background);
+                }
+            }
+        }
     }
 
     @Override
