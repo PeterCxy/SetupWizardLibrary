@@ -28,7 +28,7 @@ public class WizardManagerHelper {
 
     /*
      * EXTRA_SCRIPT_URI and EXTRA_ACTION_ID will be removed once all outstanding references have
-     * transitioned to using {@link #EXTRA_WIZARD_BUNDLE}
+     * transitioned to using EXTRA_WIZARD_BUNDLE.
      */
     @Deprecated
     private static final String EXTRA_SCRIPT_URI = "scriptUri";
@@ -63,6 +63,12 @@ public class WizardManagerHelper {
      */
     @Deprecated
     public static final String THEME_MATERIAL_BLUE_LIGHT = "material_blue_light";
+
+    /**
+     * Passed in a setup wizard intent as {@link #EXTRA_THEME}. This is the default theme used in
+     * setup wizard for NYC.
+     */
+    public static final String THEME_GLIF_LIGHT = "glif_light";
 
     /**
      * Get an intent that will invoke the next step of setup wizard.
@@ -190,7 +196,7 @@ public class WizardManagerHelper {
      */
     public static boolean isLightTheme(String theme, boolean def) {
         if (THEME_HOLO_LIGHT.equals(theme) || THEME_MATERIAL_LIGHT.equals(theme)
-                || THEME_MATERIAL_BLUE_LIGHT.equals(theme)) {
+                || THEME_MATERIAL_BLUE_LIGHT.equals(theme) || THEME_GLIF_LIGHT.equals(theme)) {
             return true;
         } else if (THEME_HOLO.equals(theme) || THEME_MATERIAL.equals(theme)
                 || THEME_MATERIAL_BLUE.equals(theme)) {
