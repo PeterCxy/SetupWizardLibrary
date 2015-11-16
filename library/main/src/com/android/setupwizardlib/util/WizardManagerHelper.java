@@ -21,15 +21,14 @@ import android.content.Intent;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 import android.provider.Settings;
-import android.util.Log;
 
 public class WizardManagerHelper {
 
     private static final String ACTION_NEXT = "com.android.wizard.NEXT";
 
-    /**
-     * {@link #EXTRA_SCRIPT_URI} and {@link #EXTRA_ACTION_ID} will be removed once all outstanding
-     * references have transitioned to using {@link #EXTRA_WIZARD_BUNDLE}
+    /*
+     * EXTRA_SCRIPT_URI and EXTRA_ACTION_ID will be removed once all outstanding references have
+     * transitioned to using {@link #EXTRA_WIZARD_BUNDLE}
      */
     @Deprecated
     private static final String EXTRA_SCRIPT_URI = "scriptUri";
@@ -50,7 +49,19 @@ public class WizardManagerHelper {
     public static final String THEME_HOLO_LIGHT = "holo_light";
     public static final String THEME_MATERIAL = "material";
     public static final String THEME_MATERIAL_LIGHT = "material_light";
+
+    /**
+     * @deprecated This constant is not used and will not be passed by any released version of setup
+     *             wizard.
+     */
+    @Deprecated
     public static final String THEME_MATERIAL_BLUE = "material_blue";
+
+    /**
+     * @deprecated This constant is not used and will not be passed by any released version of setup
+     *             wizard.
+     */
+    @Deprecated
     public static final String THEME_MATERIAL_BLUE_LIGHT = "material_blue_light";
 
     /**
