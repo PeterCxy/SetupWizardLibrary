@@ -96,19 +96,38 @@
 
     <!-- Header layout (for phones) -->
 
-    <style name="SuwHeaderTitle">
+    <style name="SuwBaseHeaderTitle">
         <!-- Before Honeycomb, layout_gravity is needed for FrameLayout to apply the margins -->
         <item name="android:layout_gravity">top</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:maxLines">2</item>
+        <item name="android:textSize">@dimen/suw_header_title_size</item>
+    </style>
+
+    <style name="SuwHeaderTitle" parent="SuwBaseHeaderTitle">
         <item name="android:layout_marginBottom">@dimen/suw_header_title_margin_bottom</item>
         <item name="android:layout_marginLeft">?attr/suwMarginSides</item>
         <item name="android:layout_marginRight">?attr/suwMarginSides</item>
-        <item name="android:ellipsize">end</item>
         <item name="android:lineSpacingExtra">@dimen/suw_header_title_line_spacing_extra</item>
-        <item name="android:maxLines">2</item>
         <item name="android:paddingBottom">@dimen/suw_header_title_padding_bottom</item>
         <item name="android:paddingTop">@dimen/suw_header_title_padding_top</item>
         <item name="android:textColor">@android:color/white</item>
-        <item name="android:textSize">@dimen/suw_header_title_size</item>
+    </style>
+
+    <!-- GLIF layout -->
+
+    <style name="SuwGlifHeaderTitle" parent="SuwBaseHeaderTitle">
+        <item name="android:layout_marginBottom">@dimen/suw_glif_header_title_margin_bottom</item>
+        <item name="android:layout_marginLeft">?attr/suwMarginSides</item>
+        <item name="android:layout_marginRight">?attr/suwMarginSides</item>
+        <item name="android:layout_marginTop">@dimen/suw_glif_header_title_margin_top</item>
+        <item name="android:textColor">?android:attr/textColorPrimary</item>
+    </style>
+
+    <style name="SuwGlifIcon">
+        <item name="android:layout_marginLeft">?attr/suwMarginSides</item>
+        <item name="android:layout_marginRight">?attr/suwMarginSides</item>
+        <item name="android:layout_marginTop">@dimen/suw_glif_margin_top</item>
     </style>
 
     <!-- Navigation bar styles -->

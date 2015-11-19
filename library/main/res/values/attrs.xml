@@ -17,6 +17,7 @@
 
 <resources>
 
+    <!-- Theme attributes -->
     <attr name="suwLayoutTheme" format="reference" />
     <attr name="suwMarginSides" format="dimension|reference" />
 
@@ -26,6 +27,9 @@
     <attr name="suwNavBarTextColor" format="color" />
     <attr name="suwNavBarTheme" format="reference" />
 
+    <!-- Custom view attributes -->
+    <attr name="suwHeaderText" format="string" localization="suggested" />
+
     <declare-styleable name="SuwIllustration">
         <attr name="suwAspectRatio" format="float" />
     </declare-styleable>
@@ -34,10 +38,16 @@
         <attr name="suwHeader" format="reference" />
     </declare-styleable>
 
+    <declare-styleable name="SuwGlifLayout">
+        <attr name="android:icon" />
+        <attr name="suwHeaderColor" format="reference|color" />
+        <attr name="suwHeaderText" />
+    </declare-styleable>
+
     <declare-styleable name="SuwSetupWizardLayout">
         <attr name="suwBackground" format="color|reference" />
         <attr name="suwBackgroundTile" format="color|reference" />
-        <attr name="suwHeaderText" format="string" localization="suggested" />
+        <attr name="suwHeaderText" />
         <attr name="suwDecorPaddingTop" format="dimension|reference" />
         <attr name="suwIllustration" format="color|reference" />
         <attr name="suwIllustrationAspectRatio" format="float|reference" />

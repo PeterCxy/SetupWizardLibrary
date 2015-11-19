@@ -66,13 +66,14 @@
 
     <style name="SuwThemeGlif.Light" parent="android:Theme.Material.Light.NoActionBar">
         <item name="android:colorAccent">@color/suw_color_accent_light</item>
+        <item name="android:colorPrimary">@color/suw_color_accent_light</item>
         <item name="android:indeterminateTint">@color/suw_progress_bar_color_light</item>
         <!-- Specify the indeterminateTintMode to work around a bug in Lollipop -->
         <item name="android:indeterminateTintMode">src_in</item>
         <item name="android:listPreferredItemPaddingEnd">?attr/suwMarginSides</item>
         <item name="android:listPreferredItemPaddingStart">?attr/suwMarginSides</item>
         <item name="android:navigationBarColor">@android:color/black</item>
-        <item name="android:statusBarColor">@android:color/black</item>
+        <item name="android:statusBarColor">?android:attr/colorPrimary</item>
         <item name="android:textAppearanceListItemSmall">@android:style/TextAppearance.Material.Body1</item>
         <item name="android:textColorLink">@color/suw_link_color_light</item>
         <item name="android:windowAnimationStyle">@style/Animation.SuwWindowAnimation</item>
@@ -80,7 +81,7 @@
         <item name="android:windowSoftInputMode">adjustResize</item>
 
         <item name="suwCardBackground">@drawable/suw_card_bg</item>
-        <item name="suwMarginSides">@dimen/suw_layout_margin_sides</item>
+        <item name="suwMarginSides">@dimen/suw_glif_margin_sides</item>
         <item name="suwNavBarTheme">@style/SuwNavBarThemeLight</item>
     </style>
 
