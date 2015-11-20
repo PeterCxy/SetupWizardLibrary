@@ -44,6 +44,10 @@
         <attr name="suwHeaderText" />
     </declare-styleable>
 
+    <declare-styleable name="SuwGlifListLayout">
+        <attr name="android:entries" />
+    </declare-styleable>
+
     <declare-styleable name="SuwSetupWizardLayout">
         <attr name="suwBackground" format="color|reference" />
         <attr name="suwBackgroundTile" format="color|reference" />
