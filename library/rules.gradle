@@ -98,6 +98,7 @@ android {
 
         androidTestFullSupport {
             java.srcDirs = ['full-support/test/src']
+            res.srcDirs = ['full-support/test/res']
         }
     }
 }

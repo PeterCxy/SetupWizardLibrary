@@ -28,6 +28,7 @@
     <attr name="suwNavBarTheme" format="reference" />
 
     <!-- Custom view attributes -->
+    <attr name="suwHeader" format="reference" />
     <attr name="suwHeaderText" format="string" localization="suggested" />
 
     <declare-styleable name="SuwIllustration">
@@ -35,7 +36,11 @@
     </declare-styleable>
 
     <declare-styleable name="SuwStickyHeaderListView">
-        <attr name="suwHeader" format="reference" />
+        <attr name="suwHeader" />
+    </declare-styleable>
+
+    <declare-styleable name="SuwHeaderRecyclerView">
+        <attr name="suwHeader" />
     </declare-styleable>
 
     <declare-styleable name="SuwGlifLayout">
@@ -45,6 +50,10 @@
     </declare-styleable>
 
     <declare-styleable name="SuwGlifListLayout">
+        <attr name="android:entries" />
+    </declare-styleable>
+
+    <declare-styleable name="SuwGlifRecyclerLayout">
         <attr name="android:entries" />
     </declare-styleable>
 
