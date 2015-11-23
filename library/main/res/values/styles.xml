@@ -130,6 +130,21 @@
         <item name="android:layout_marginTop">@dimen/suw_glif_margin_top</item>
     </style>
 
+    <style name="TextAppearance.SuwGlifBody" parent="android:TextAppearance">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">?android:attr/textColorPrimary</item>
+    </style>
+
+    <style name="TextAppearance.SuwGlifItemTitle" parent="android:TextAppearance">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">?android:attr/textColorPrimary</item>
+    </style>
+
+    <style name="TextAppearance.SuwGlifItemSummary" parent="android:TextAppearance">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">?android:attr/textColorSecondary</item>
+    </style>
+
     <!-- Navigation bar styles -->
 
     <style name="SuwNavBarTheme">

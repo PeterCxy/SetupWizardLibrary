@@ -1,6 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
-    Copyright (c) 2015 The Android Open Source Project
+    Copyright (C) 2015 The Android Open Source Project
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -19,26 +19,27 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:gravity="center_vertical"
-    android:minHeight="?attr/listPreferredItemHeight"
+    android:minHeight="?android:attr/listPreferredItemHeight"
     android:orientation="horizontal"
+    android:paddingBottom="@dimen/suw_items_padding_vertical"
     android:paddingEnd="?attr/listPreferredItemPaddingRight"
     android:paddingLeft="?attr/listPreferredItemPaddingLeft"
     android:paddingRight="?attr/listPreferredItemPaddingRight"
-    android:paddingStart="?attr/listPreferredItemPaddingLeft">
+    android:paddingStart="?attr/listPreferredItemPaddingLeft"
+    android:paddingTop="@dimen/suw_items_padding_vertical">
 
     <FrameLayout
         android:id="@+id/suw_items_icon_container"
         android:layout_width="@dimen/suw_items_icon_container_width"
         android:layout_height="wrap_content"
-        android:gravity="start|center_vertical"
-        android:paddingRight="@dimen/suw_items_icon_padding"
-        android:paddingEnd="@dimen/suw_items_icon_padding">
+        android:layout_gravity="center_vertical"
+        android:gravity="start">
 
         <ImageView
             android:id="@+id/suw_items_icon"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            tools:ignore="ContentDescription" />
 
     </FrameLayout>
 
@@ -46,6 +47,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:gravity="center_vertical"
         android:orientation="vertical">
 
         <TextView
@@ -61,6 +63,7 @@
             android:id="@+id/suw_items_summary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/suw_items_padding_bottom_extra"
             android:gravity="start"
             android:textAlignment="viewStart"
             android:textAppearance="?attr/textAppearanceListItemSmall"
