@@ -53,7 +53,6 @@ public class RecyclerItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public RecyclerItemAdapter(ItemHierarchy hierarchy) {
         mItemHierarchy = hierarchy;
         mItemHierarchy.registerObserver(this);
-        setHasStableIds(true);
     }
 
     public IItem getItem(int position) {
@@ -64,7 +63,8 @@ public class RecyclerItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public long getItemId(int position) {
         IItem mItem = getItem(position);
         if (mItem instanceof AbstractItem) {
-            return ((AbstractItem) mItem).getId();
+            final int id = ((AbstractItem) mItem).getId();
+            return id > 0 ? id : RecyclerView.NO_ID;
         } else {
             return RecyclerView.NO_ID;
         }

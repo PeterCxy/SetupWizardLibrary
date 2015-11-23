@@ -126,34 +126,35 @@ public class GlifLayout extends TemplateLayout {
         return view instanceof ScrollView ? (ScrollView) view : null;
     }
 
+    protected TextView getHeaderTextView() {
+        return (TextView) findViewById(R.id.suw_layout_title);
+    }
+
     public void setHeaderText(int title) {
-        final TextView titleView = (TextView) findViewById(R.id.suw_layout_title);
-        if (titleView != null) {
-            titleView.setText(title);
-        }
+        setHeaderText(getContext().getResources().getText(title));
     }
 
     public void setHeaderText(CharSequence title) {
-        final TextView titleView = (TextView) findViewById(R.id.suw_layout_title);
+        final TextView titleView = getHeaderTextView();
         if (titleView != null) {
             titleView.setText(title);
         }
     }
 
     public CharSequence getHeaderText() {
-        final TextView titleView = (TextView) findViewById(R.id.suw_layout_title);
+        final TextView titleView = getHeaderTextView();
         return titleView != null ? titleView.getText() : null;
     }
 
     public void setHeaderColor(ColorStateList color) {
-        final TextView titleView = (TextView) findViewById(R.id.suw_layout_title);
+        final TextView titleView = getHeaderTextView();
         if (titleView != null) {
             titleView.setTextColor(color);
         }
     }
 
     public ColorStateList getHeaderColor() {
-        final TextView titleView = (TextView) findViewById(R.id.suw_layout_title);
+        final TextView titleView = getHeaderTextView();
         return titleView != null ? titleView.getTextColors() : null;
     }
 
@@ -169,7 +170,7 @@ public class GlifLayout extends TemplateLayout {
         return iconView != null ? iconView.getDrawable() : null;
     }
 
-    private ImageView getIconView() {
+    protected ImageView getIconView() {
         return (ImageView) findViewById(R.id.suw_layout_icon);
     }
 }
