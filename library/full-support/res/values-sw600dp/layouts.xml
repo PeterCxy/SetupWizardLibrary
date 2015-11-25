@@ -20,5 +20,7 @@
     <item name="suw_recycler_template" type="layout">@layout/suw_recycler_template_card</item>
     <item name="suw_recycler_template_short" type="layout">@layout/suw_recycler_template_card</item>
 
+    <item name="suw_glif_recycler_template" type="layout">@layout/suw_glif_recycler_template_card</item>
+
 </resources>
 

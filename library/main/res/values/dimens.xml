@@ -61,6 +61,11 @@
     <!-- Decor view (illustration or the header without illustration) -->
     <dimen name="suw_decor_padding_top">0dp</dimen>
 
+    <!-- GLIF card layout (for tablets) -->
+    <dimen name="suw_glif_card_elevation">5dp</dimen>
+    <dimen name="suw_glif_card_width">560dp</dimen>
+    <dimen name="suw_glif_card_height">672dp</dimen>
+
     <!-- Header layout (for phones) -->
     <dimen name="suw_title_area_elevation">3dp</dimen>
 
