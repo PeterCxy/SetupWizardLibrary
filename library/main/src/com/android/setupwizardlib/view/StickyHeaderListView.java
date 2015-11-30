@@ -79,7 +79,7 @@ public class StickyHeaderListView extends ListView {
         if (headerResId != 0) {
             LayoutInflater inflater = LayoutInflater.from(getContext());
             View header = inflater.inflate(headerResId, this, false);
-            addHeaderView(header);
+            addHeaderView(header, null, false);
         }
         a.recycle();
     }
