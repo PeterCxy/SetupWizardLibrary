@@ -94,6 +94,13 @@
 
     <style name="SuwCardTitle" parent="SuwBaseCardTitle" />
 
+    <!-- GLIF Card layout (for tablets) -->
+
+    <style name="SuwGlifCardContainer">
+        <item name="android:background">?android:attr/colorBackground</item>
+        <item name="android:elevation" tools:ignore="NewApi">5dp</item>
+    </style>
+
     <!-- Header layout (for phones) -->
 
     <style name="SuwBaseHeaderTitle">

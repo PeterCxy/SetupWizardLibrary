@@ -115,6 +115,12 @@
         <item name="android:textColor">@android:color/white</item>
     </style>
 
+    <!-- GLIF Card layout (for tablets) -->
+
+    <style name="SuwGlifCardBackground">
+        <item name="android:background">?attr/colorPrimary</item>
+    </style>
+
     <!-- Navigation bar styles -->
 
     <style name="SuwNavBarButtonStyle" parent="@android:style/Widget.Button">

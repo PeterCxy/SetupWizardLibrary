@@ -87,6 +87,12 @@
         <item name="suwMarginSides">@dimen/suw_glif_margin_sides</item>
     </style>
 
+    <!-- GLIF Card layout (for tablets) -->
+
+    <style name="SuwGlifCardBackground">
+        <item name="android:background">?android:attr/colorPrimary</item>
+    </style>
+
     <!-- Items styles -->
 
     <style name="SuwItemContainer">
