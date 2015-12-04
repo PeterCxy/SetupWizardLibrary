@@ -26,6 +26,7 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.HeaderViewListAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
@@ -132,7 +133,11 @@ public class GlifListLayout extends GlifLayout {
     }
 
     public ListAdapter getAdapter() {
-        return getListView().getAdapter();
+        final ListAdapter adapter = getListView().getAdapter();
+        if (adapter instanceof HeaderViewListAdapter) {
+            return ((HeaderViewListAdapter) adapter).getWrappedAdapter();
+        }
+        return adapter;
     }
 
     /**

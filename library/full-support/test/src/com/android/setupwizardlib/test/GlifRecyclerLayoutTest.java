@@ -88,13 +88,9 @@ public class GlifRecyclerLayoutTest extends InstrumentationTestCase {
         layout.setAdapter(adapter);
 
         final RecyclerView.Adapter gotAdapter = layout.getAdapter();
-        if (gotAdapter instanceof HeaderRecyclerView.HeaderAdapter) {
-            assertSame("Adapter got from GlifRecyclerLayout should be same as set",
-                    adapter, ((HeaderRecyclerView.HeaderAdapter) gotAdapter).getWrappedAdapter());
-        } else {
-            assertSame("Adapter got from GlifRecyclerLayout should be same as set",
-                    adapter, gotAdapter);
-        }
+        // Note: The wrapped adapter should be returned, not the HeaderAdapter.
+        assertSame("Adapter got from GlifRecyclerLayout should be same as set",
+                adapter, gotAdapter);
     }
 
     @SmallTest

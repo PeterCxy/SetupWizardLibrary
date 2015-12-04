@@ -25,6 +25,7 @@ class ItemViewHolder extends RecyclerView.ViewHolder
             implements DividerItemDecoration.DividedViewHolder {
 
     private boolean mIsEnabled;
+    private IItem mItem;
 
     public ItemViewHolder(View itemView) {
         super(itemView);
@@ -45,5 +46,13 @@ class ItemViewHolder extends RecyclerView.ViewHolder
         itemView.setClickable(isEnabled);
         itemView.setEnabled(isEnabled);
         itemView.setFocusable(isEnabled);
+    }
+
+    public void setItem(IItem item) {
+        mItem = item;
+    }
+
+    public IItem getItem() {
+        return mItem;
     }
 }

@@ -151,7 +151,11 @@ public class GlifRecyclerLayout extends GlifLayout {
     }
 
     public RecyclerView.Adapter getAdapter() {
-        return getRecyclerView().getAdapter();
+        final RecyclerView.Adapter adapter = getRecyclerView().getAdapter();
+        if (adapter instanceof HeaderRecyclerView.HeaderAdapter) {
+            return ((HeaderRecyclerView.HeaderAdapter) adapter).getWrappedAdapter();
+        }
+        return adapter;
     }
 
     /**

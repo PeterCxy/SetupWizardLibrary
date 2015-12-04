@@ -26,6 +26,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.accessibility.AccessibilityEvent;
 
+import com.android.setupwizardlib.DividerItemDecoration;
 import com.android.setupwizardlib.R;
 import com.android.setupwizardlib.annotations.VisibleForTesting;
 
@@ -36,10 +37,21 @@ import com.android.setupwizardlib.annotations.VisibleForTesting;
  */
 public class HeaderRecyclerView extends RecyclerView {
 
-    private static class HeaderViewHolder extends ViewHolder {
+    private static class HeaderViewHolder extends ViewHolder
+            implements DividerItemDecoration.DividedViewHolder {
 
         public HeaderViewHolder(View itemView) {
             super(itemView);
+        }
+
+        @Override
+        public boolean isDividerAllowedAbove() {
+            return false;
+        }
+
+        @Override
+        public boolean isDividerAllowedBelow() {
+            return false;
         }
     }
 
@@ -48,12 +60,43 @@ public class HeaderRecyclerView extends RecyclerView {
      */
     public static class HeaderAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
+        private static final int HEADER_VIEW_TYPE = Integer.MAX_VALUE;
+
         private RecyclerView.Adapter mAdapter;
         private View mHeader;
-        private static final int HEADER_VIEW_TYPE = Integer.MAX_VALUE;
+
+        private final AdapterDataObserver mObserver = new AdapterDataObserver() {
+
+            @Override
+            public void onChanged() {
+                notifyDataSetChanged();
+            }
+
+            @Override
+            public void onItemRangeChanged(int positionStart, int itemCount) {
+                notifyItemRangeChanged(positionStart, itemCount);
+            }
+
+            @Override
+            public void onItemRangeInserted(int positionStart, int itemCount) {
+                notifyItemRangeInserted(positionStart, itemCount);
+            }
+
+            @Override
+            public void onItemRangeMoved(int fromPosition, int toPosition, int itemCount) {
+                // Why is there no notifyItemRangeMoved?
+                notifyDataSetChanged();
+            }
+
+            @Override
+            public void onItemRangeRemoved(int positionStart, int itemCount) {
+                notifyItemRangeRemoved(positionStart, itemCount);
+            }
+        };
 
         public HeaderAdapter(RecyclerView.Adapter adapter) {
             mAdapter = adapter;
+            mAdapter.registerAdapterDataObserver(mObserver);
             setHasStableIds(mAdapter.hasStableIds());
         }
 

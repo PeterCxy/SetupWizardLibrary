@@ -82,14 +82,9 @@ public class RecyclerItemAdapter extends RecyclerView.Adapter<ItemViewHolder>
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final int position = viewHolder.getAdapterPosition();
-                // Position can be NO_POSITION = -1 if the item is being removed asynchronously
-                // from the RecyclerView.
-                if (position != RecyclerView.NO_POSITION) {
-                    final IItem item = getItem(position);
-                    if (mListener != null && item.isEnabled()) {
-                        mListener.onItemSelected(item);
-                    }
+                final IItem item = viewHolder.getItem();
+                if (mListener != null && item != null && item.isEnabled()) {
+                    mListener.onItemSelected(item);
                 }
             }
         });
@@ -102,6 +97,7 @@ public class RecyclerItemAdapter extends RecyclerView.Adapter<ItemViewHolder>
         final IItem item = getItem(position);
         item.onBindView(holder.itemView);
         holder.setEnabled(item.isEnabled());
+        holder.setItem(item);
     }
 
     @Override

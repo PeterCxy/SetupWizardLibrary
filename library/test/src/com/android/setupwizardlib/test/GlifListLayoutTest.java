@@ -88,13 +88,9 @@ public class GlifListLayoutTest extends InstrumentationTestCase {
         layout.setAdapter(adapter);
 
         final ListAdapter gotAdapter = layout.getAdapter();
-        if (gotAdapter instanceof HeaderViewListAdapter) {
-            assertSame("Adapter got from GlifListLayout should be same as set",
-                    adapter, ((HeaderViewListAdapter) gotAdapter).getWrappedAdapter());
-        } else {
-            assertSame("Adapter got from GlifListLayout should be same as set",
-                    adapter, gotAdapter);
-        }
+        // Note: the wrapped adapter should be returned directly, not the HeaderViewListAdapter.
+        assertSame("Adapter got from GlifListLayout should be same as set",
+                adapter, gotAdapter);
     }
 
     @SmallTest
