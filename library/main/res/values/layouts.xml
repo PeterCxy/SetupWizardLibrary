@@ -24,8 +24,8 @@
     <item name="suw_no_scroll_template" type="layout">@layout/suw_no_scroll_template_header</item>
     <item name="suw_no_scroll_template_short" type="layout">@layout/suw_no_scroll_template_header_collapsed</item>
 
-    <item name="suw_glif_template" type="layout">@layout/suw_glif_template_content</item>
-    <item name="suw_glif_list_template" type="layout">@layout/suw_glif_list_template_content</item>
+    <item name="suw_glif_template" type="layout">@layout/suw_glif_template_compact</item>
+    <item name="suw_glif_list_template" type="layout">@layout/suw_glif_list_template_compact</item>
 
 </resources>
 

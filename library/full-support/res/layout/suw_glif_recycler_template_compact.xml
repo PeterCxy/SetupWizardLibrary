@@ -15,12 +15,12 @@
     limitations under the License.
 -->
 
-<resources>
+<com.android.setupwizardlib.view.StatusBarBackgroundLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/suw_pattern_bg"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <item name="suw_recycler_template" type="layout">@layout/suw_recycler_template_header</item>
-    <item name="suw_recycler_template_short" type="layout">@layout/suw_recycler_template_header_collapsed</item>
+    <include layout="@layout/suw_glif_recycler_template_content" />
 
-    <item name="suw_glif_recycler_template" type="layout">@layout/suw_glif_recycler_template_compact</item>
-
-</resources>
-
+</com.android.setupwizardlib.view.StatusBarBackgroundLayout>
