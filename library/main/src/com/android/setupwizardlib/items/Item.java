@@ -101,6 +101,10 @@ public class Item extends AbstractItem {
         return mTitle;
     }
 
+    public int getViewId() {
+        return getId();
+    }
+
     @Override
     public void onBindView(View view) {
         TextView label = (TextView) view.findViewById(R.id.suw_items_title);
@@ -126,5 +130,7 @@ public class Item extends AbstractItem {
         } else {
             iconContainer.setVisibility(View.GONE);
         }
+
+        view.setId(getViewId());
     }
 }
