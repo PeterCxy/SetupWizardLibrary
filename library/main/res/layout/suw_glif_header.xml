@@ -33,4 +33,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
+    <ViewStub
+        android:id="@+id/suw_layout_progress_stub"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/suw_glif_progress_bar_margin_vertical"
+        android:layout_marginLeft="?attr/suwMarginSides"
+        android:layout_marginRight="?attr/suwMarginSides"
+        android:layout_marginTop="@dimen/suw_glif_progress_bar_margin_vertical"
+        android:inflatedId="@+id/suw_layout_progress"
+        android:layout="@layout/suw_progress_bar" />
+
 </LinearLayout>

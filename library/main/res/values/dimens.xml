@@ -106,5 +106,6 @@
     <!-- Progress bar -->
     <!-- The margin to compensate for the padding built-in to the widget itself -->
     <dimen name="suw_progress_bar_margin_vertical">-7dp</dimen>
+    <dimen name="suw_glif_progress_bar_margin_vertical">7dp</dimen>
 
 </resources>

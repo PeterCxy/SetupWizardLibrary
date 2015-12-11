@@ -69,7 +69,7 @@
     <style name="SuwThemeGlif.Light" parent="android:Theme.Material.Light.NoActionBar">
         <item name="android:colorAccent">@color/suw_color_accent_light</item>
         <item name="android:colorPrimary">@color/suw_color_accent_light</item>
-        <item name="android:indeterminateTint">@color/suw_progress_bar_color_light</item>
+        <item name="android:indeterminateTint">?android:attr/colorControlActivated</item>
         <!-- Specify the indeterminateTintMode to work around a bug in Lollipop -->
         <item name="android:indeterminateTintMode">src_in</item>
         <item name="android:listPreferredItemHeight">@dimen/suw_items_preferred_height</item>

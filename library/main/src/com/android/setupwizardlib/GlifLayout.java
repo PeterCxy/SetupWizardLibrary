@@ -27,6 +27,7 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewStub;
 import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -188,5 +189,29 @@ public class GlifLayout extends TemplateLayout {
 
     protected ImageView getIconView() {
         return (ImageView) findViewById(R.id.suw_layout_icon);
+    }
+
+    public boolean isProgressBarShown() {
+        final View progressBar = findViewById(R.id.suw_layout_progress);
+        return progressBar != null && progressBar.getVisibility() == View.VISIBLE;
+    }
+
+    public void setProgressBarShown(boolean shown) {
+        final View progressBar = findViewById(R.id.suw_layout_progress);
+        if (shown) {
+            if (progressBar != null) {
+                progressBar.setVisibility(View.VISIBLE);
+            } else {
+                final ViewStub progressBarStub =
+                        (ViewStub) findViewById(R.id.suw_layout_progress_stub);
+                if (progressBarStub != null) {
+                    progressBarStub.inflate();
+                }
+            }
+        } else {
+            if (progressBar != null) {
+                progressBar.setVisibility(View.GONE);
+            }
+        }
     }
 }
