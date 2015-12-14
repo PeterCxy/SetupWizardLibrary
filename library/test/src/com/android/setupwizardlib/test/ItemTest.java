@@ -96,6 +96,7 @@ public class ItemTest extends AndroidTestCase {
         assertEquals("Default ID should be 0", 0, item.getId());
         assertEquals("Default layout resource should be R.layout.suw_items_text",
                 R.layout.suw_items_default, item.getLayoutResource());
+        assertTrue("Default visible should be true", item.isVisible());
     }
 
     @SmallTest
@@ -108,6 +109,15 @@ public class ItemTest extends AndroidTestCase {
         assertSame("findItemById with same ID should return itself", item,
                 item.findItemById(12345));
         assertNull("findItemById with different ID should return null", item.findItemById(34567));
+    }
+
+    @SmallTest
+    public void testVisible() {
+        Item item = new Item();
+        item.setVisible(false);
+
+        assertFalse("Item should not be visible", item.isVisible());
+        assertEquals("Item count should be 0 when not visible", 0, item.getCount());
     }
 
     private ViewGroup createLayout() {

@@ -37,6 +37,7 @@ public class Item extends AbstractItem {
     private int mLayoutRes;
     private CharSequence mSummary;
     private CharSequence mTitle;
+    private boolean mVisible = true;
 
     public Item() {
         super();
@@ -52,6 +53,7 @@ public class Item extends AbstractItem {
         mSummary = a.getText(R.styleable.SuwItem_android_summary);
         mLayoutRes = a.getResourceId(R.styleable.SuwItem_android_layout,
                 getDefaultLayoutResource());
+        mVisible = a.getBoolean(R.styleable.SuwItem_android_visible, true);
         a.recycle();
     }
 
@@ -61,6 +63,11 @@ public class Item extends AbstractItem {
 
     public void setEnabled(boolean enabled) {
         mEnabled = enabled;
+    }
+
+    @Override
+    public int getCount() {
+        return isVisible() ? 1 : 0;
     }
 
     @Override
@@ -99,6 +106,14 @@ public class Item extends AbstractItem {
 
     public CharSequence getTitle() {
         return mTitle;
+    }
+
+    public void setVisible(boolean visible) {
+        mVisible = visible;
+    }
+
+    public boolean isVisible() {
+        return mVisible;
     }
 
     public int getViewId() {
