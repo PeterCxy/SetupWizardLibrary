@@ -91,9 +91,10 @@
     <declare-styleable name="SuwItem">
         <attr name="android:enabled" />
         <attr name="android:icon" />
-        <attr name="android:title" />
         <attr name="android:layout" />
         <attr name="android:summary" />
+        <attr name="android:title" />
+        <attr name="android:visible" />
     </declare-styleable>
 
 </resources>
