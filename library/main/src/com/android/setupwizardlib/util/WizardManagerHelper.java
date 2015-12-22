@@ -65,6 +65,12 @@ public class WizardManagerHelper {
     public static final String THEME_MATERIAL_BLUE_LIGHT = "material_blue_light";
 
     /**
+     * Passed in a setup wizard intent as {@link #EXTRA_THEME}. This is the dark variant of the
+     * theme used in setup wizard for NYC.
+     */
+    public static final String THEME_GLIF = "glif";
+
+    /**
      * Passed in a setup wizard intent as {@link #EXTRA_THEME}. This is the default theme used in
      * setup wizard for NYC.
      */
@@ -199,7 +205,7 @@ public class WizardManagerHelper {
                 || THEME_MATERIAL_BLUE_LIGHT.equals(theme) || THEME_GLIF_LIGHT.equals(theme)) {
             return true;
         } else if (THEME_HOLO.equals(theme) || THEME_MATERIAL.equals(theme)
-                || THEME_MATERIAL_BLUE.equals(theme)) {
+                || THEME_MATERIAL_BLUE.equals(theme) || THEME_GLIF.equals(theme)) {
             return false;
         } else {
             return def;
