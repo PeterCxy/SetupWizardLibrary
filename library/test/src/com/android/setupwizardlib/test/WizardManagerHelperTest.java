@@ -118,6 +118,16 @@ public class WizardManagerHelperTest extends AndroidTestCase {
     }
 
     @SmallTest
+    public void testGlifIsDarkTheme() {
+        final Intent intent = new Intent();
+        intent.putExtra("theme", "glif");
+        assertFalse("Theme glif should be dark theme",
+                WizardManagerHelper.isLightTheme(intent, false));
+        assertFalse("Theme glif should be dark theme",
+                WizardManagerHelper.isLightTheme(intent, true));
+    }
+
+    @SmallTest
     public void testGlifLightIsLightTheme() {
         final Intent intent = new Intent();
         intent.putExtra("theme", "glif_light");
