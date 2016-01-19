@@ -207,6 +207,14 @@ public class HeaderRecyclerView extends RecyclerView {
         return mHeader;
     }
 
+    /**
+     * Set the view to use as the header of this recycler view.
+     * Note: This must be called before setAdapter.
+     */
+    public void setHeader(View header) {
+        mHeader = header;
+    }
+
     @Override
     public void setLayoutManager(LayoutManager layout) {
         super.setLayoutManager(layout);

@@ -26,6 +26,7 @@
 
     <item name="suw_glif_template" type="layout">@layout/suw_glif_template_card</item>
     <item name="suw_glif_list_template" type="layout">@layout/suw_glif_list_template_card</item>
+    <item name="suw_glif_blank_template" type="layout">@layout/suw_glif_blank_template_card</item>
 
 </resources>
 
