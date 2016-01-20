@@ -79,6 +79,8 @@
     <dimen name="suw_glif_header_title_margin_top">24dp</dimen>
     <dimen name="suw_glif_header_title_margin_bottom">8dp</dimen>
 
+    <dimen name="suw_glif_icon_max_height">32dp</dimen>
+
     <!-- Illustration -->
     <item name="suw_illustration_aspect_ratio" format="float" type="dimen">2.22</item>
 
