@@ -146,6 +146,9 @@
         <item name="android:layout_marginLeft">?attr/suwMarginSides</item>
         <item name="android:layout_marginRight">?attr/suwMarginSides</item>
         <item name="android:layout_marginTop">@dimen/suw_glif_margin_top</item>
+        <item name="android:adjustViewBounds">true</item>
+        <item name="android:maxHeight">@dimen/suw_glif_icon_max_height</item>
+        <item name="android:scaleType">centerInside</item>
     </style>
 
     <style name="TextAppearance.SuwGlifBody" parent="android:TextAppearance">
