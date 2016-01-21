@@ -29,6 +29,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewStub;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -55,6 +56,8 @@ import com.android.setupwizardlib.view.StatusBarBackgroundLayout;
 public class GlifLayout extends TemplateLayout {
 
     private static final String TAG = "GlifLayout";
+
+    private ColorStateList mPrimaryColor;
 
     public GlifLayout(Context context) {
         this(context, 0, 0);
@@ -106,20 +109,11 @@ public class GlifLayout extends TemplateLayout {
             setHeaderText(headerText);
         }
 
-        a.recycle();
+        final ColorStateList primaryColor =
+                a.getColorStateList(R.styleable.SuwGlifLayout_android_colorPrimary);
+        setPrimaryColor(primaryColor);
 
-        if (Build.VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP) {
-            setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
-            final View patternBg = findViewById(R.id.suw_pattern_bg);
-            if (patternBg != null) {
-                final GlifPatternDrawable background = GlifPatternDrawable.getDefault(getContext());
-                if (patternBg instanceof StatusBarBackgroundLayout) {
-                    ((StatusBarBackgroundLayout) patternBg).setStatusBarBackground(background);
-                } else {
-                    patternBg.setBackground(background);
-                }
-            }
-        }
+        a.recycle();
     }
 
     @Override
@@ -191,6 +185,32 @@ public class GlifLayout extends TemplateLayout {
         return (ImageView) findViewById(R.id.suw_layout_icon);
     }
 
+    public void setPrimaryColor(ColorStateList color) {
+        mPrimaryColor = color;
+        setGlifPatternColor(color);
+        setProgressBarColor(color);
+    }
+
+    public ColorStateList getPrimaryColor() {
+        return mPrimaryColor;
+    }
+
+    private void setGlifPatternColor(ColorStateList color) {
+        if (Build.VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP) {
+            setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+            final View patternBg = findViewById(R.id.suw_pattern_bg);
+            if (patternBg != null) {
+                final GlifPatternDrawable background =
+                        new GlifPatternDrawable(color.getDefaultColor());
+                if (patternBg instanceof StatusBarBackgroundLayout) {
+                    ((StatusBarBackgroundLayout) patternBg).setStatusBarBackground(background);
+                } else {
+                    patternBg.setBackground(background);
+                }
+            }
+        }
+    }
+
     public boolean isProgressBarShown() {
         final View progressBar = findViewById(R.id.suw_layout_progress);
         return progressBar != null && progressBar.getVisibility() == View.VISIBLE;
@@ -208,9 +228,19 @@ public class GlifLayout extends TemplateLayout {
                     progressBarStub.inflate();
                 }
             }
+            setProgressBarColor(mPrimaryColor);
         } else {
             if (progressBar != null) {
                 progressBar.setVisibility(View.GONE);
+            }
+        }
+    }
+
+    private void setProgressBarColor(ColorStateList color) {
+        if (Build.VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP) {
+            final ProgressBar bar = (ProgressBar) findViewById(R.id.suw_layout_progress);
+            if (bar != null) {
+                bar.setIndeterminateTintList(color);
             }
         }
     }

@@ -46,6 +46,7 @@
 
     <declare-styleable name="SuwGlifLayout">
         <attr name="android:icon" />
+        <attr name="android:colorPrimary" />
         <attr name="suwHeaderColor" format="reference|color" />
         <attr name="suwHeaderText" />
     </declare-styleable>

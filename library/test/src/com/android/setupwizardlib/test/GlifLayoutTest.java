@@ -17,11 +17,14 @@
 package com.android.setupwizardlib.test;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.test.InstrumentationTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -77,6 +80,18 @@ public class GlifLayoutTest extends InstrumentationTestCase {
         GlifLayout layout = new GlifLayout(mContext);
         assertNotNull("Get scroll view should not be null with default template",
                 layout.getScrollView());
+    }
+
+    @SmallTest
+    public void testSetPrimaryColor() {
+        GlifLayout layout = new GlifLayout(mContext);
+        layout.setPrimaryColor(ColorStateList.valueOf(Color.RED));
+        assertEquals("Primary color should be red",
+                ColorStateList.valueOf(Color.RED), layout.getPrimaryColor());
+
+        ProgressBar progressBar = (ProgressBar) layout.findViewById(R.id.suw_layout_progress);
+        assertEquals("Progress bar should be tinted red",
+                ColorStateList.valueOf(Color.RED), progressBar.getIndeterminateTintList());
     }
 
     private void assertDefaultTemplateInflated(GlifLayout layout) {
