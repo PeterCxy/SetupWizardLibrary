@@ -21,12 +21,15 @@ import android.content.res.TypedArray;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 
 import com.android.setupwizardlib.items.ItemGroup;
 import com.android.setupwizardlib.items.ItemInflater;
 import com.android.setupwizardlib.items.RecyclerItemAdapter;
+import com.android.setupwizardlib.util.RecyclerViewRequireScrollHelper;
+import com.android.setupwizardlib.view.NavigationBar;
 
 /**
  * A SetupWizardLayout for use with {@link com.android.setupwizardlib.items.RecyclerItemAdapter},
@@ -36,6 +39,8 @@ import com.android.setupwizardlib.items.RecyclerItemAdapter;
  * @see com.android.setupwizardlib.SetupWizardItemsLayout
  */
 public class SetupWizardRecyclerItemsLayout extends SetupWizardLayout {
+
+    private static final String TAG = "RecyclerItemsLayout";
 
     private RecyclerItemAdapter mAdapter;
     private RecyclerView mRecyclerView;
@@ -87,5 +92,17 @@ public class SetupWizardRecyclerItemsLayout extends SetupWizardLayout {
             template = R.layout.suw_recycler_template;
         }
         return super.onInflateTemplate(inflater, template);
+    }
+
+    @Override
+    public void requireScrollToBottom() {
+        final NavigationBar navigationBar = getNavigationBar();
+        final RecyclerView recyclerView = getRecyclerView();
+        if (navigationBar != null && recyclerView != null) {
+            RecyclerViewRequireScrollHelper.requireScroll(navigationBar, recyclerView);
+        } else {
+            Log.e(TAG, "Both suw_layout_navigation_bar and suw_recycler_view must exist in"
+                    + " the template to require scrolling.");
+        }
     }
 }

@@ -20,11 +20,15 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build.VERSION_CODES;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+
+import com.android.setupwizardlib.util.ListViewRequireScrollHelper;
+import com.android.setupwizardlib.view.NavigationBar;
 
 public class SetupWizardListLayout extends SetupWizardLayout {
 
@@ -79,5 +83,16 @@ public class SetupWizardListLayout extends SetupWizardLayout {
 
     public void setAdapter(ListAdapter adapter) {
         getListView().setAdapter(adapter);
+    }
+
+    public void requireScrollToBottom() {
+        final NavigationBar navigationBar = getNavigationBar();
+        final ListView listView = getListView();
+        if (navigationBar != null && listView != null) {
+            ListViewRequireScrollHelper.requireScroll(navigationBar, listView);
+        } else {
+            Log.e(TAG, "Both suw_layout_navigation_bar and list must exist in"
+                    + " the template to require scrolling.");
+        }
     }
 }
