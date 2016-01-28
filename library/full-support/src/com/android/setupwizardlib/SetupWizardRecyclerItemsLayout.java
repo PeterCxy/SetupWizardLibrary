@@ -24,11 +24,14 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.android.setupwizardlib.items.ItemGroup;
 import com.android.setupwizardlib.items.ItemInflater;
 import com.android.setupwizardlib.items.RecyclerItemAdapter;
 import com.android.setupwizardlib.util.RecyclerViewRequireScrollHelper;
+import com.android.setupwizardlib.view.HeaderRecyclerView;
 import com.android.setupwizardlib.view.NavigationBar;
 
 /**
@@ -44,6 +47,9 @@ public class SetupWizardRecyclerItemsLayout extends SetupWizardLayout {
 
     private RecyclerItemAdapter mAdapter;
     private RecyclerView mRecyclerView;
+
+    private TextView mHeaderTextView;
+    private View mDecorationView;
 
     public SetupWizardRecyclerItemsLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -81,10 +87,23 @@ public class SetupWizardRecyclerItemsLayout extends SetupWizardLayout {
     }
 
     @Override
+    protected ViewGroup findContainer(int containerId) {
+        if (containerId == 0) {
+            containerId = R.id.suw_recycler_view;
+        }
+        return super.findContainer(containerId);
+    }
+
+    @Override
     protected void onTemplateInflated() {
         mRecyclerView = (RecyclerView) findViewById(R.id.suw_recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mRecyclerView.addItemDecoration(DividerItemDecoration.getDefault(getContext()));
+        if (mRecyclerView instanceof HeaderRecyclerView) {
+            final View header = ((HeaderRecyclerView) mRecyclerView).getHeader();
+            mHeaderTextView = (TextView) header.findViewById(R.id.suw_layout_title);
+            mDecorationView = header.findViewById(R.id.suw_layout_decor);
+        }
     }
 
     @Override
@@ -93,6 +112,24 @@ public class SetupWizardRecyclerItemsLayout extends SetupWizardLayout {
             template = R.layout.suw_recycler_template;
         }
         return super.onInflateTemplate(inflater, template);
+    }
+
+    @Override
+    protected TextView getHeaderTextView() {
+        if (mHeaderTextView != null) {
+            return mHeaderTextView;
+        } else {
+            return super.getHeaderTextView();
+        }
+    }
+
+    @Override
+    protected View getDecorationView() {
+        if (mDecorationView != null) {
+            return mDecorationView;
+        } else {
+            return super.getDecorationView();
+        }
     }
 
     @Override
