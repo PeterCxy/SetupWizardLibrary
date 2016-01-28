@@ -84,6 +84,7 @@ public class SetupWizardRecyclerItemsLayout extends SetupWizardLayout {
     protected void onTemplateInflated() {
         mRecyclerView = (RecyclerView) findViewById(R.id.suw_recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        mRecyclerView.addItemDecoration(DividerItemDecoration.getDefault(getContext()));
     }
 
     @Override
