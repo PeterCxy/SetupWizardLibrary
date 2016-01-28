@@ -18,9 +18,10 @@ package com.android.setupwizardlib.view;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.LayerDrawable;
 import android.os.Build;
-import android.support.v4.graphics.drawable.DrawableCompat;
 import android.util.AttributeSet;
 import android.widget.Button;
 
@@ -43,7 +44,7 @@ public class NavigationBarButton extends Button {
             Drawable[] drawables = getCompoundDrawablesRelative();
             for (int i = 0; i < drawables.length; i++) {
                 if (drawables[i] != null) {
-                    drawables[i] = DrawableCompat.wrap(drawables[i].mutate());
+                    drawables[i] = TintedDrawable.wrap(drawables[i].mutate());
                 }
             }
             setCompoundDrawablesRelativeWithIntrinsicBounds(drawables[0], drawables[1],
@@ -53,10 +54,10 @@ public class NavigationBarButton extends Button {
 
     @Override
     public void setCompoundDrawables(Drawable left, Drawable top, Drawable right, Drawable bottom) {
-        if (left != null) left = DrawableCompat.wrap(left.mutate());
-        if (top != null) top = DrawableCompat.wrap(top.mutate());
-        if (right != null) right = DrawableCompat.wrap(right.mutate());
-        if (bottom != null) bottom = DrawableCompat.wrap(bottom.mutate());
+        if (left != null) left = TintedDrawable.wrap(left.mutate());
+        if (top != null) top = TintedDrawable.wrap(top.mutate());
+        if (right != null) right = TintedDrawable.wrap(right.mutate());
+        if (bottom != null) bottom = TintedDrawable.wrap(bottom.mutate());
         super.setCompoundDrawables(left, top, right, bottom);
         tintDrawables();
     }
@@ -64,10 +65,10 @@ public class NavigationBarButton extends Button {
     @Override
     public void setCompoundDrawablesRelative(Drawable start, Drawable top, Drawable end,
             Drawable bottom) {
-        if (start != null) start = DrawableCompat.wrap(start.mutate());
-        if (top != null) top = DrawableCompat.wrap(top.mutate());
-        if (end != null) end = DrawableCompat.wrap(end.mutate());
-        if (bottom != null) bottom = DrawableCompat.wrap(bottom.mutate());
+        if (start != null) start = TintedDrawable.wrap(start.mutate());
+        if (top != null) top = TintedDrawable.wrap(top.mutate());
+        if (end != null) end = TintedDrawable.wrap(end.mutate());
+        if (bottom != null) bottom = TintedDrawable.wrap(bottom.mutate());
         super.setCompoundDrawablesRelative(start, top, end, bottom);
         tintDrawables();
     }
@@ -82,8 +83,8 @@ public class NavigationBarButton extends Button {
         final ColorStateList textColors = getTextColors();
         if (textColors != null) {
             for (Drawable drawable : getAllCompoundDrawables()) {
-                if (drawable != null) {
-                    DrawableCompat.setTintList(drawable, textColors);
+                if (drawable instanceof TintedDrawable) {
+                    ((TintedDrawable) drawable).setTintListCompat(textColors);
                 }
             }
             invalidate();
@@ -103,5 +104,46 @@ public class NavigationBarButton extends Button {
             drawables[5] = compoundDrawablesRelative[2];  // end
         }
         return drawables;
+    }
+
+    // TODO: Remove this class and use DrawableCompat.wrap() once we can use support library 22.1.0
+    // or above
+    private static class TintedDrawable extends LayerDrawable {
+
+        public static TintedDrawable wrap(Drawable drawable) {
+            if (drawable instanceof TintedDrawable) {
+                return (TintedDrawable) drawable;
+            }
+            return new TintedDrawable(drawable);
+        }
+
+        private ColorStateList mTintList = null;
+
+        public TintedDrawable(Drawable wrapped) {
+            super(new Drawable[] { wrapped });
+        }
+
+        @Override
+        public boolean setState(int[] stateSet) {
+            boolean needsInvalidate = super.setState(stateSet);
+            boolean needsInvalidateForState = updateState();
+            return needsInvalidate || needsInvalidateForState;
+        }
+
+        public void setTintListCompat(ColorStateList colors) {
+            mTintList = colors;
+            if (updateState()) {
+                invalidateSelf();
+            }
+        }
+
+        private boolean updateState() {
+            if (mTintList != null) {
+                final int color = mTintList.getColorForState(getState(), 0);
+                setColorFilter(color, PorterDuff.Mode.SRC_IN);
+                return true;  // Needs invalidate
+            }
+            return false;
+        }
     }
 }
