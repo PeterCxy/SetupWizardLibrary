@@ -141,7 +141,7 @@ public class SetupWizardLayout extends TemplateLayout {
     protected Parcelable onSaveInstanceState() {
         final Parcelable parcelable = super.onSaveInstanceState();
         final SavedState ss = new SavedState(parcelable);
-        ss.isProgressBarShown = isProgressBarShown();
+        ss.mIsProgressBarShown = isProgressBarShown();
         return ss;
     }
 
@@ -149,7 +149,7 @@ public class SetupWizardLayout extends TemplateLayout {
     protected void onRestoreInstanceState(Parcelable state) {
         final SavedState ss = (SavedState) state;
         super.onRestoreInstanceState(ss.getSuperState());
-        final boolean isProgressBarShown = ss.isProgressBarShown;
+        final boolean isProgressBarShown = ss.mIsProgressBarShown;
         if (isProgressBarShown) {
             showProgressBar();
         } else {
@@ -194,23 +194,31 @@ public class SetupWizardLayout extends TemplateLayout {
         }
     }
 
+    protected TextView getHeaderTextView() {
+        return (TextView) findViewById(R.id.suw_layout_title);
+    }
+
     public void setHeaderText(int title) {
-        final TextView titleView = (TextView) findViewById(R.id.suw_layout_title);
+        final TextView titleView = getHeaderTextView();
         if (titleView != null) {
             titleView.setText(title);
         }
     }
 
     public void setHeaderText(CharSequence title) {
-        final TextView titleView = (TextView) findViewById(R.id.suw_layout_title);
+        final TextView titleView = getHeaderTextView();
         if (titleView != null) {
             titleView.setText(title);
         }
     }
 
     public CharSequence getHeaderText() {
-        final TextView titleView = (TextView) findViewById(R.id.suw_layout_title);
+        final TextView titleView = getHeaderTextView();
         return titleView != null ? titleView.getText() : null;
+    }
+
+    protected View getDecorationView() {
+        return findViewById(R.id.suw_layout_decor);
     }
 
     /**
@@ -222,7 +230,7 @@ public class SetupWizardLayout extends TemplateLayout {
      * @param drawable The drawable specifying the illustration.
      */
     public void setIllustration(Drawable drawable) {
-        final View view = findViewById(R.id.suw_layout_decor);
+        final View view = getDecorationView();
         if (view instanceof Illustration) {
             final Illustration illustration = (Illustration) view;
             illustration.setIllustration(drawable);
@@ -239,7 +247,7 @@ public class SetupWizardLayout extends TemplateLayout {
      * @param horizontalTile Resource ID of the horizontally repeating tile for tablet layout.
      */
     public void setIllustration(int asset, int horizontalTile) {
-        final View view = findViewById(R.id.suw_layout_decor);
+        final View view = getDecorationView();
         if (view instanceof Illustration) {
             final Illustration illustration = (Illustration) view;
             final Drawable illustrationDrawable = getIllustration(asset, horizontalTile);
@@ -248,7 +256,7 @@ public class SetupWizardLayout extends TemplateLayout {
     }
 
     private void setIllustration(Drawable asset, Drawable horizontalTile) {
-        final View view = findViewById(R.id.suw_layout_decor);
+        final View view = getDecorationView();
         if (view instanceof Illustration) {
             final Illustration illustration = (Illustration) view;
             final Drawable illustrationDrawable = getIllustration(asset, horizontalTile);
@@ -264,7 +272,7 @@ public class SetupWizardLayout extends TemplateLayout {
      * @see com.android.setupwizardlib.view.Illustration#setAspectRatio(float)
      */
     public void setIllustrationAspectRatio(float aspectRatio) {
-        final View view = findViewById(R.id.suw_layout_decor);
+        final View view = getDecorationView();
         if (view instanceof Illustration) {
             final Illustration illustration = (Illustration) view;
             illustration.setAspectRatio(aspectRatio);
@@ -282,7 +290,7 @@ public class SetupWizardLayout extends TemplateLayout {
      * @param paddingTop The top padding in pixels.
      */
     public void setDecorPaddingTop(int paddingTop) {
-        final View view = findViewById(R.id.suw_layout_decor);
+        final View view = getDecorationView();
         if (view != null) {
             view.setPadding(view.getPaddingLeft(), paddingTop, view.getPaddingRight(),
                     view.getPaddingBottom());
@@ -294,7 +302,7 @@ public class SetupWizardLayout extends TemplateLayout {
      * a bitmap tile and you want it to repeat, use {@link #setBackgroundTile(int)} instead.
      */
     public void setLayoutBackground(Drawable background) {
-        final View view = findViewById(R.id.suw_layout_decor);
+        final View view = getDecorationView();
         if (view != null) {
             //noinspection deprecation
             view.setBackgroundDrawable(background);
@@ -381,7 +389,7 @@ public class SetupWizardLayout extends TemplateLayout {
 
     protected static class SavedState extends BaseSavedState {
 
-        boolean isProgressBarShown = false;
+        boolean mIsProgressBarShown = false;
 
         public SavedState(Parcelable parcelable) {
             super(parcelable);
@@ -389,13 +397,13 @@ public class SetupWizardLayout extends TemplateLayout {
 
         public SavedState(Parcel source) {
             super(source);
-            isProgressBarShown = source.readInt() != 0;
+            mIsProgressBarShown = source.readInt() != 0;
         }
 
         @Override
         public void writeToParcel(Parcel dest, int flags) {
             super.writeToParcel(dest, flags);
-            dest.writeInt(isProgressBarShown ? 1 : 0);
+            dest.writeInt(mIsProgressBarShown ? 1 : 0);
         }
 
         public static final Parcelable.Creator<SavedState> CREATOR =

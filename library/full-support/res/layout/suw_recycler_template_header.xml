@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
     Copyright (C) 2015 The Android Open Source Project
 
@@ -15,59 +15,19 @@
     limitations under the License.
 -->
 
-<!-- TODO: Make the template header scrollable -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <LinearLayout
+    <com.android.setupwizardlib.view.StickyHeaderRecyclerView
+        android:id="@+id/suw_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:orientation="vertical">
-
-        <com.android.setupwizardlib.view.Illustration
-            android:id="@+id/suw_layout_decor"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/suw_layout_background"
-            android:elevation="@dimen/suw_title_area_elevation"
-            android:tag="stickyContainer"
-            tools:ignore="UnusedAttribute">
-
-            <TextView
-                android:id="@+id/suw_layout_title"
-                style="@style/SuwHeaderTitle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:tag="sticky" />
-
-        </com.android.setupwizardlib.view.Illustration>
-
-        <include layout="@layout/suw_progress_bar_stub" />
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1">
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/suw_recycler_view"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scrollbars="vertical" />
-
-            <FrameLayout
-                android:id="@+id/suw_layout_content"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
-        </FrameLayout>
-
-
-    </LinearLayout>
+        android:scrollbars="vertical"
+        app:suwHeader="@layout/suw_list_header" />
 
     <com.android.setupwizardlib.view.NavigationBar
         android:id="@+id/suw_layout_navigation_bar"
