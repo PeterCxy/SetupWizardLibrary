@@ -56,11 +56,6 @@
         <attr name="suwDividerInset" />
     </declare-styleable>
 
-    <declare-styleable name="SuwGlifRecyclerLayout">
-        <attr name="android:entries" />
-        <attr name="suwDividerInset" />
-    </declare-styleable>
-
     <declare-styleable name="SuwStatusBarBackgroundLayout">
         <attr name="suwStatusBarBackground" format="color|reference" />
     </declare-styleable>

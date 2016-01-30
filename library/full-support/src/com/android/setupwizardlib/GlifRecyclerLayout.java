@@ -81,7 +81,10 @@ public class GlifRecyclerLayout extends GlifLayout {
         final int xml = a.getResourceId(R.styleable.SuwGlifRecyclerLayout_android_entries, 0);
         if (xml != 0) {
             final ItemGroup inflated = (ItemGroup) new ItemInflater(context).inflate(xml);
-            setAdapter(new RecyclerItemAdapter(inflated));
+            RecyclerItemAdapter adapter = new RecyclerItemAdapter(inflated);
+            adapter.setHasStableIds(a.getBoolean(
+                    R.styleable.SuwGlifRecyclerLayout_suwHasStableIds, false));
+            setAdapter(adapter);
         }
         int dividerInset =
                 a.getDimensionPixelSize(R.styleable.SuwGlifRecyclerLayout_suwDividerInset, 0);

@@ -63,11 +63,14 @@ public class SetupWizardRecyclerItemsLayout extends SetupWizardLayout {
 
     private void init(Context context, AttributeSet attrs, int defStyleAttr) {
         final TypedArray a = context.obtainStyledAttributes(attrs,
-                R.styleable.SuwSetupWizardItemsLayout, defStyleAttr, 0);
-        final int xml = a.getResourceId(R.styleable.SuwSetupWizardItemsLayout_android_entries, 0);
+                R.styleable.SuwSetupWizardRecyclerItemsLayout, defStyleAttr, 0);
+        final int xml = a.getResourceId(
+                R.styleable.SuwSetupWizardRecyclerItemsLayout_android_entries, 0);
         if (xml != 0) {
             final ItemGroup inflated = (ItemGroup) new ItemInflater(context).inflate(xml);
             mAdapter = new RecyclerItemAdapter(inflated);
+            mAdapter.setHasStableIds(a.getBoolean(
+                    R.styleable.SuwSetupWizardRecyclerItemsLayout_suwHasStableIds, false));
             setAdapter(mAdapter);
         }
         a.recycle();
