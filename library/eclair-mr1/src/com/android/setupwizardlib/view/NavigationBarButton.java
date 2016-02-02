@@ -124,6 +124,11 @@ public class NavigationBarButton extends Button {
         }
 
         @Override
+        public boolean isStateful() {
+            return true;
+        }
+
+        @Override
         public boolean setState(int[] stateSet) {
             boolean needsInvalidate = super.setState(stateSet);
             boolean needsInvalidateForState = updateState();
