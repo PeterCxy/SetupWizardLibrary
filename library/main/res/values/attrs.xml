@@ -22,6 +22,7 @@
     <attr name="suwMarginSides" format="dimension|reference" />
 
     <attr name="suwCardBackground" format="color|reference" />
+    <attr name="suwListItemIconColor" format="color" />
     <attr name="suwNavBarBackgroundColor" format="color" />
     <attr name="suwNavBarButtonBackground" format="color|reference" />
     <attr name="suwNavBarTextColor" format="color" />
