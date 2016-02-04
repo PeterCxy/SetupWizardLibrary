@@ -23,6 +23,8 @@
     <color name="suw_color_accent_light">#ff3367d6</color>
     <color name="suw_link_color_dark">#ff448aff</color>
     <color name="suw_link_color_light">#ff3367d6</color>
+    <color name="suw_list_item_icon_color_dark">#89ffffff</color>
+    <color name="suw_list_item_icon_color_light">#89000000</color>
     <color name="suw_progress_bar_color_dark">#ffffcd40</color>
     <color name="suw_progress_bar_color_light">#fff4b400</color>
 

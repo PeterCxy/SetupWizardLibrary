@@ -41,6 +41,7 @@
         <item name="android:windowSoftInputMode">adjustResize</item>
 
         <item name="suwCardBackground">@drawable/suw_card_bg</item>
+        <item name="suwListItemIconColor">@color/suw_list_item_icon_color_dark</item>
         <item name="suwMarginSides">@dimen/suw_layout_margin_sides</item>
         <item name="suwNavBarTheme">@style/SuwNavBarThemeDark</item>
     </style>
@@ -62,6 +63,7 @@
         <item name="android:windowSoftInputMode">adjustResize</item>
 
         <item name="suwCardBackground">@drawable/suw_card_bg</item>
+        <item name="suwListItemIconColor">@color/suw_list_item_icon_color_light</item>
         <item name="suwMarginSides">@dimen/suw_layout_margin_sides</item>
         <item name="suwNavBarTheme">@style/SuwNavBarThemeLight</item>
     </style>
@@ -85,6 +87,7 @@
         <item name="android:windowDisablePreview">true</item>
         <item name="android:windowSoftInputMode">adjustResize</item>
 
+        <item name="suwListItemIconColor">@color/suw_list_item_icon_color_dark</item>
         <item name="suwMarginSides">@dimen/suw_glif_margin_sides</item>
     </style>
 
@@ -106,6 +109,7 @@
         <item name="android:windowDisablePreview">true</item>
         <item name="android:windowSoftInputMode">adjustResize</item>
 
+        <item name="suwListItemIconColor">@color/suw_list_item_icon_color_light</item>
         <item name="suwMarginSides">@dimen/suw_glif_margin_sides</item>
     </style>
 
