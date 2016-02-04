@@ -35,6 +35,7 @@
         <item name="listPreferredItemPaddingLeft">?attr/suwMarginSides</item>
         <item name="listPreferredItemPaddingRight">?attr/suwMarginSides</item>
         <item name="suwCardBackground">@drawable/suw_card_bg_dark</item>
+        <item name="suwListItemIconColor">@color/suw_list_item_icon_color_dark</item>
         <item name="suwMarginSides">@dimen/suw_layout_margin_sides</item>
         <item name="suwNavBarTheme">@style/SuwNavBarThemeDark</item>
         <item name="textAppearanceListItemSmall">@style/TextAppearance.AppCompat.Body1</item>
@@ -56,6 +57,7 @@
         <item name="listPreferredItemPaddingLeft">?attr/suwMarginSides</item>
         <item name="listPreferredItemPaddingRight">?attr/suwMarginSides</item>
         <item name="suwCardBackground">@drawable/suw_card_bg_light</item>
+        <item name="suwListItemIconColor">@color/suw_list_item_icon_color_light</item>
         <item name="suwMarginSides">@dimen/suw_layout_margin_sides</item>
         <item name="suwNavBarTheme">@style/SuwNavBarThemeLight</item>
         <item name="textAppearanceListItemSmall">@style/TextAppearance.AppCompat.Body1</item>
@@ -78,6 +80,7 @@
         <item name="colorPrimary">@color/suw_color_accent_light</item>
         <item name="listPreferredItemPaddingLeft">?attr/suwMarginSides</item>
         <item name="listPreferredItemPaddingRight">?attr/suwMarginSides</item>
+        <item name="suwListItemIconColor">@color/suw_list_item_icon_color_dark</item>
         <item name="suwMarginSides">@dimen/suw_glif_margin_sides</item>
         <item name="textAppearanceListItem">@style/TextAppearance.SuwGlifItemTitle</item>
         <item name="textAppearanceListItemSmall">@style/TextAppearance.SuwGlifItemSummary</item>
@@ -101,6 +104,7 @@
         <item name="colorPrimary">@color/suw_color_accent_light</item>
         <item name="listPreferredItemPaddingLeft">?attr/suwMarginSides</item>
         <item name="listPreferredItemPaddingRight">?attr/suwMarginSides</item>
+        <item name="suwListItemIconColor">@color/suw_list_item_icon_color_light</item>
         <item name="suwMarginSides">@dimen/suw_glif_margin_sides</item>
         <item name="textAppearanceListItem">@style/TextAppearance.SuwGlifItemTitle</item>
         <item name="textAppearanceListItemSmall">@style/TextAppearance.SuwGlifItemSummary</item>
