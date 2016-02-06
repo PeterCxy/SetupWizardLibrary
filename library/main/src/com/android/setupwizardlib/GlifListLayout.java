@@ -88,7 +88,7 @@ public class GlifListLayout extends GlifLayout {
                 a.getDimensionPixelSize(R.styleable.SuwGlifListLayout_suwDividerInset, 0);
         if (dividerInset == 0) {
             dividerInset = getResources()
-                    .getDimensionPixelSize(R.dimen.suw_items_icon_divider_inset);
+                    .getDimensionPixelSize(R.dimen.suw_items_glif_icon_divider_inset);
         }
         setDividerInset(dividerInset);
         a.recycle();
@@ -145,8 +145,8 @@ public class GlifListLayout extends GlifLayout {
      * theme and inset it {@code inset} pixels to the right (or left in RTL layouts).
      *
      * @param inset The number of pixels to inset on the "start" side of the list divider. Typically
-     *              this will be either {@code @dimen/suw_items_icon_divider_inset} or
-     *              {@code @dimen/suw_items_text_divider_inset}.
+     *              this will be either {@code @dimen/suw_items_glif_icon_divider_inset} or
+     *              {@code @dimen/suw_items_glif_text_divider_inset}.
      */
     public void setDividerInset(int inset) {
         mDividerInset = inset;

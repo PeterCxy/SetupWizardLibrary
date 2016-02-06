@@ -64,8 +64,8 @@ public class GlifPreferenceDelegate {
         a.recycle();
 
         final int dividerInset = context.getResources().getDimensionPixelSize(
-                mHasIcons ? R.dimen.suw_items_icon_divider_inset
-                        : R.dimen.suw_items_text_divider_inset);
+                mHasIcons ? R.dimen.suw_items_glif_icon_divider_inset
+                        : R.dimen.suw_items_glif_text_divider_inset);
         return DrawableLayoutDirectionHelper.createRelativeInsetDrawable(defaultDivider,
                 dividerInset /* start */, 0 /* top */, 0 /* end */, 0 /* bottom */,
                 context);
