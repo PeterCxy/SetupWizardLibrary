@@ -77,6 +77,10 @@
         <attr name="suwContainer" format="reference" />
     </declare-styleable>
 
+    <declare-styleable name="SuwSetupWizardListLayout">
+        <attr name="suwDividerInset" />
+    </declare-styleable>
+
     <declare-styleable name="SuwSetupWizardItemsLayout">
         <attr name="android:entries" />
     </declare-styleable>
