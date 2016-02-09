@@ -50,9 +50,8 @@ public class SetupWizardRecyclerLayout extends SetupWizardLayout {
 
     private RecyclerView.Adapter mAdapter;
     private RecyclerView mRecyclerView;
+    private View mHeader;
 
-    private TextView mHeaderTextView;
-    private View mDecorationView;
     private DividerItemDecoration mDividerDecoration;
     private Drawable mDefaultDivider;
     private Drawable mDivider;
@@ -138,9 +137,7 @@ public class SetupWizardRecyclerLayout extends SetupWizardLayout {
         mRecyclerView = recyclerView;
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         if (mRecyclerView instanceof HeaderRecyclerView) {
-            final View header = ((HeaderRecyclerView) mRecyclerView).getHeader();
-            mHeaderTextView = (TextView) header.findViewById(R.id.suw_layout_title);
-            mDecorationView = header.findViewById(R.id.suw_layout_decor);
+            mHeader = ((HeaderRecyclerView) mRecyclerView).getHeader();
         }
         mDividerDecoration = DividerItemDecoration.getDefault(getContext());
         mRecyclerView.addItemDecoration(mDividerDecoration);
@@ -155,21 +152,14 @@ public class SetupWizardRecyclerLayout extends SetupWizardLayout {
     }
 
     @Override
-    protected TextView getHeaderTextView() {
-        if (mHeaderTextView != null) {
-            return mHeaderTextView;
-        } else {
-            return super.getHeaderTextView();
+    protected View findManagedViewById(int id) {
+        if (mHeader != null) {
+            final View view = mHeader.findViewById(id);
+            if (view != null) {
+                return view;
+            }
         }
-    }
-
-    @Override
-    protected View getDecorationView() {
-        if (mDecorationView != null) {
-            return mDecorationView;
-        } else {
-            return super.getDecorationView();
-        }
+        return super.findViewById(id);
     }
 
     @Override
