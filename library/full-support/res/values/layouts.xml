@@ -17,6 +17,8 @@
 
 <resources>
 
+    <item name="suw_preference_recycler_view" type="layout">@layout/suw_preference_recycler_view_header</item>
+    <item name="suw_preference_template" type="layout">@layout/suw_preference_template_header</item>
     <item name="suw_recycler_template" type="layout">@layout/suw_recycler_template_header</item>
     <item name="suw_recycler_template_short" type="layout">@layout/suw_recycler_template_header_collapsed</item>
 

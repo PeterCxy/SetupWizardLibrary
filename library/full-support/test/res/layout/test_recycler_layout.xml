@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <!--
     Copyright (C) 2015 The Android Open Source Project
 
@@ -15,12 +14,7 @@
     limitations under the License.
 -->
 
-<resources>
-
-    <item name="suw_preference_recycler_view" type="layout">@layout/suw_preference_recycler_view_normal</item>
-    <item name="suw_preference_template" type="layout">@layout/suw_no_scroll_template_card_wide</item>
-    <item name="suw_recycler_template" type="layout">@layout/suw_recycler_template_card_wide</item>
-    <item name="suw_recycler_template_short" type="layout">@layout/suw_recycler_template_card_wide</item>
-
-</resources>
-
+<com.android.setupwizardlib.SetupWizardRecyclerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" />

@@ -7,7 +7,7 @@ apply plugin: 'dist'
 apply from: 'build.gradle'
 apply from: '../tools/gradle/docs.gradle'
 
-task docs(dependsOn: 'javadocPlatformRelease')
+task docs(dependsOn: 'javadocFullSupportRelease')
 
 android.lintOptions {
     abortOnError true
