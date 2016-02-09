@@ -17,193 +17,25 @@
 package com.android.setupwizardlib;
 
 import android.content.Context;
-import android.content.res.TypedArray;
-import android.graphics.drawable.Drawable;
-import android.os.Build;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
 
-import com.android.setupwizardlib.items.ItemGroup;
-import com.android.setupwizardlib.items.ItemInflater;
 import com.android.setupwizardlib.items.RecyclerItemAdapter;
-import com.android.setupwizardlib.util.DrawableLayoutDirectionHelper;
-import com.android.setupwizardlib.util.RecyclerViewRequireScrollHelper;
-import com.android.setupwizardlib.view.HeaderRecyclerView;
-import com.android.setupwizardlib.view.NavigationBar;
 
 /**
- * A SetupWizardLayout for use with {@link com.android.setupwizardlib.items.RecyclerItemAdapter},
- * which displays a list of items using a RecyclerView. The items XML file can be specified through
- * {@code android:entries} attribute in the layout.
- *
- * @see com.android.setupwizardlib.SetupWizardItemsLayout
+ * @deprecated Use {@link com.android.setupwizardlib.SetupWizardRecyclerLayout}
  */
-public class SetupWizardRecyclerItemsLayout extends SetupWizardLayout {
-
-    private static final String TAG = "RecyclerItemsLayout";
-
-    private RecyclerItemAdapter mAdapter;
-    private RecyclerView mRecyclerView;
-
-    private TextView mHeaderTextView;
-    private View mDecorationView;
-    private DividerItemDecoration mDividerDecoration;
-    private Drawable mDefaultDivider;
-    private Drawable mDivider;
-    private int mDividerInset;
+@Deprecated
+public class SetupWizardRecyclerItemsLayout extends SetupWizardRecyclerLayout {
 
     public SetupWizardRecyclerItemsLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init(context, attrs, 0);
     }
 
     public SetupWizardRecyclerItemsLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init(context, attrs, defStyleAttr);
-    }
-
-    private void init(Context context, AttributeSet attrs, int defStyleAttr) {
-        final TypedArray a = context.obtainStyledAttributes(attrs,
-                R.styleable.SuwSetupWizardRecyclerItemsLayout, defStyleAttr, 0);
-        final int xml = a.getResourceId(
-                R.styleable.SuwSetupWizardRecyclerItemsLayout_android_entries, 0);
-        if (xml != 0) {
-            final ItemGroup inflated = (ItemGroup) new ItemInflater(context).inflate(xml);
-            mAdapter = new RecyclerItemAdapter(inflated);
-            mAdapter.setHasStableIds(a.getBoolean(
-                    R.styleable.SuwSetupWizardRecyclerItemsLayout_suwHasStableIds, false));
-            setAdapter(mAdapter);
-        }
-        int dividerInset = a.getDimensionPixelSize(
-                R.styleable.SuwSetupWizardRecyclerItemsLayout_suwDividerInset, 0);
-        if (dividerInset == 0) {
-            dividerInset = getResources()
-                    .getDimensionPixelSize(R.dimen.suw_items_icon_divider_inset);
-        }
-        setDividerInset(dividerInset);
-        a.recycle();
-    }
-
-    @Override
-    protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
-        super.onLayout(changed, left, top, right, bottom);
-        if (mDivider == null) {
-            // Update divider in case layout direction has just been resolved
-            updateDivider();
-        }
     }
 
     public RecyclerItemAdapter getAdapter() {
-        return mAdapter;
-    }
-
-    public void setAdapter(RecyclerItemAdapter adapter) {
-        mAdapter = adapter;
-        getRecyclerView().setAdapter(adapter);
-    }
-
-    public RecyclerView getRecyclerView() {
-        return mRecyclerView;
-    }
-
-    @Override
-    protected ViewGroup findContainer(int containerId) {
-        if (containerId == 0) {
-            containerId = R.id.suw_recycler_view;
-        }
-        return super.findContainer(containerId);
-    }
-
-    @Override
-    protected void onTemplateInflated() {
-        mRecyclerView = (RecyclerView) findViewById(R.id.suw_recycler_view);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        if (mRecyclerView instanceof HeaderRecyclerView) {
-            final View header = ((HeaderRecyclerView) mRecyclerView).getHeader();
-            mHeaderTextView = (TextView) header.findViewById(R.id.suw_layout_title);
-            mDecorationView = header.findViewById(R.id.suw_layout_decor);
-        }
-        mDividerDecoration = DividerItemDecoration.getDefault(getContext());
-        mRecyclerView.addItemDecoration(mDividerDecoration);
-    }
-
-    @Override
-    protected View onInflateTemplate(LayoutInflater inflater, int template) {
-        if (template == 0) {
-            template = R.layout.suw_recycler_template;
-        }
-        return super.onInflateTemplate(inflater, template);
-    }
-
-    @Override
-    protected TextView getHeaderTextView() {
-        if (mHeaderTextView != null) {
-            return mHeaderTextView;
-        } else {
-            return super.getHeaderTextView();
-        }
-    }
-
-    @Override
-    protected View getDecorationView() {
-        if (mDecorationView != null) {
-            return mDecorationView;
-        } else {
-            return super.getDecorationView();
-        }
-    }
-
-    @Override
-    public void requireScrollToBottom() {
-        final NavigationBar navigationBar = getNavigationBar();
-        final RecyclerView recyclerView = getRecyclerView();
-        if (navigationBar != null && recyclerView != null) {
-            RecyclerViewRequireScrollHelper.requireScroll(navigationBar, recyclerView);
-        } else {
-            Log.e(TAG, "Both suw_layout_navigation_bar and suw_recycler_view must exist in"
-                    + " the template to require scrolling.");
-        }
-    }
-
-    /**
-     * Sets the start inset of the divider. This will use the default divider drawable set in the
-     * theme and inset it {@code inset} pixels to the right (or left in RTL layouts).
-     *
-     * @param inset The number of pixels to inset on the "start" side of the list divider. Typically
-     *              this will be either {@code @dimen/suw_items_icon_divider_inset} or
-     *              {@code @dimen/suw_items_text_divider_inset}.
-     */
-    public void setDividerInset(int inset) {
-        mDividerInset = inset;
-        updateDivider();
-    }
-
-    public int getDividerInset() {
-        return mDividerInset;
-    }
-
-    private void updateDivider() {
-        boolean shouldUpdate = true;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            shouldUpdate = isLayoutDirectionResolved();
-        }
-        if (shouldUpdate) {
-            if (mDefaultDivider == null) {
-                mDefaultDivider = mDividerDecoration.getDivider();
-            }
-            mDivider = DrawableLayoutDirectionHelper.createRelativeInsetDrawable(mDefaultDivider,
-                    mDividerInset /* start */, 0 /* top */, 0 /* end */, 0 /* bottom */, this);
-            mDividerDecoration.setDivider(mDivider);
-        }
-    }
-
-    public Drawable getDivider() {
-        return mDivider;
+        return (RecyclerItemAdapter) super.getAdapter();
     }
 }
