@@ -27,7 +27,6 @@ import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.android.setupwizardlib.SetupWizardRecyclerLayout;
 
@@ -113,7 +112,9 @@ public class SetupWizardRecyclerLayoutTest extends InstrumentationTestCase {
 
         if (layout instanceof TestLayout) {
             assertNotNull("Header text view should not be null",
-                    ((TestLayout) layout).getHeaderTextView());
+                    ((TestLayout) layout).findManagedViewById(R.id.suw_layout_title));
+            assertNotNull("Decoration view should not be null",
+                    ((TestLayout) layout).findManagedViewById(R.id.suw_layout_decor));
         }
     }
 
@@ -125,8 +126,9 @@ public class SetupWizardRecyclerLayoutTest extends InstrumentationTestCase {
         }
 
         @Override
-        public TextView getHeaderTextView() {
-            return super.getHeaderTextView();
+        public View findManagedViewById(int id) {
+            return super.findManagedViewById(id);
         }
+
     }
 }

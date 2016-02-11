@@ -174,12 +174,12 @@ public class SetupWizardLayout extends TemplateLayout {
     }
 
     public NavigationBar getNavigationBar() {
-        final View view = findViewById(R.id.suw_layout_navigation_bar);
+        final View view = findManagedViewById(R.id.suw_layout_navigation_bar);
         return view instanceof NavigationBar ? (NavigationBar) view : null;
     }
 
     public ScrollView getScrollView() {
-        final View view = findViewById(R.id.suw_bottom_scroll_view);
+        final View view = findManagedViewById(R.id.suw_bottom_scroll_view);
         return view instanceof ScrollView ? (ScrollView) view : null;
     }
 
@@ -194,31 +194,23 @@ public class SetupWizardLayout extends TemplateLayout {
         }
     }
 
-    protected TextView getHeaderTextView() {
-        return (TextView) findViewById(R.id.suw_layout_title);
-    }
-
     public void setHeaderText(int title) {
-        final TextView titleView = getHeaderTextView();
+        final TextView titleView = (TextView) findManagedViewById(R.id.suw_layout_title);
         if (titleView != null) {
             titleView.setText(title);
         }
     }
 
     public void setHeaderText(CharSequence title) {
-        final TextView titleView = getHeaderTextView();
+        final TextView titleView = (TextView) findManagedViewById(R.id.suw_layout_title);
         if (titleView != null) {
             titleView.setText(title);
         }
     }
 
     public CharSequence getHeaderText() {
-        final TextView titleView = getHeaderTextView();
+        final TextView titleView = (TextView) findManagedViewById(R.id.suw_layout_title);
         return titleView != null ? titleView.getText() : null;
-    }
-
-    protected View getDecorationView() {
-        return findViewById(R.id.suw_layout_decor);
     }
 
     /**
@@ -230,7 +222,7 @@ public class SetupWizardLayout extends TemplateLayout {
      * @param drawable The drawable specifying the illustration.
      */
     public void setIllustration(Drawable drawable) {
-        final View view = getDecorationView();
+        final View view = findManagedViewById(R.id.suw_layout_decor);
         if (view instanceof Illustration) {
             final Illustration illustration = (Illustration) view;
             illustration.setIllustration(drawable);
@@ -247,7 +239,7 @@ public class SetupWizardLayout extends TemplateLayout {
      * @param horizontalTile Resource ID of the horizontally repeating tile for tablet layout.
      */
     public void setIllustration(int asset, int horizontalTile) {
-        final View view = getDecorationView();
+        final View view = findManagedViewById(R.id.suw_layout_decor);
         if (view instanceof Illustration) {
             final Illustration illustration = (Illustration) view;
             final Drawable illustrationDrawable = getIllustration(asset, horizontalTile);
@@ -256,7 +248,7 @@ public class SetupWizardLayout extends TemplateLayout {
     }
 
     private void setIllustration(Drawable asset, Drawable horizontalTile) {
-        final View view = getDecorationView();
+        final View view = findManagedViewById(R.id.suw_layout_decor);
         if (view instanceof Illustration) {
             final Illustration illustration = (Illustration) view;
             final Drawable illustrationDrawable = getIllustration(asset, horizontalTile);
@@ -272,7 +264,7 @@ public class SetupWizardLayout extends TemplateLayout {
      * @see com.android.setupwizardlib.view.Illustration#setAspectRatio(float)
      */
     public void setIllustrationAspectRatio(float aspectRatio) {
-        final View view = getDecorationView();
+        final View view = findManagedViewById(R.id.suw_layout_decor);
         if (view instanceof Illustration) {
             final Illustration illustration = (Illustration) view;
             illustration.setAspectRatio(aspectRatio);
@@ -290,7 +282,7 @@ public class SetupWizardLayout extends TemplateLayout {
      * @param paddingTop The top padding in pixels.
      */
     public void setDecorPaddingTop(int paddingTop) {
-        final View view = getDecorationView();
+        final View view = findManagedViewById(R.id.suw_layout_decor);
         if (view != null) {
             view.setPadding(view.getPaddingLeft(), paddingTop, view.getPaddingRight(),
                     view.getPaddingBottom());
@@ -302,7 +294,7 @@ public class SetupWizardLayout extends TemplateLayout {
      * a bitmap tile and you want it to repeat, use {@link #setBackgroundTile(int)} instead.
      */
     public void setLayoutBackground(Drawable background) {
-        final View view = getDecorationView();
+        final View view = findManagedViewById(R.id.suw_layout_decor);
         if (view != null) {
             //noinspection deprecation
             view.setBackgroundDrawable(background);
@@ -361,28 +353,52 @@ public class SetupWizardLayout extends TemplateLayout {
         }
     }
 
+    /**
+     * Same as {@link android.view.View#findViewById(int)}, but may include views that are managed
+     * by this view but not currently added to the view hierarchy. e.g. recycler view or list view
+     * headers that are not currently shown.
+     */
+    protected View findManagedViewById(int id) {
+        return findViewById(id);
+    }
+
     public boolean isProgressBarShown() {
-        final View progressBar = findViewById(R.id.suw_layout_progress);
+        final View progressBar = findManagedViewById(R.id.suw_layout_progress);
         return progressBar != null && progressBar.getVisibility() == View.VISIBLE;
     }
 
-    public void showProgressBar() {
-        final View progressBar = findViewById(R.id.suw_layout_progress);
+    /**
+     * Sets whether the progress bar below the header text is shown or not. The progress bar is
+     * a lazily inflated ViewStub, which means the progress bar will not actually be part of the
+     * view hierarchy until the first time this is set to {@code true}.
+     */
+    public void setProgressBarShown(boolean shown) {
+        final View progressBar = findManagedViewById(R.id.suw_layout_progress);
         if (progressBar != null) {
-            progressBar.setVisibility(View.VISIBLE);
-        } else {
-            final ViewStub progressBarStub = (ViewStub) findViewById(R.id.suw_layout_progress_stub);
+            progressBar.setVisibility(shown ? View.VISIBLE : View.GONE);
+        } else if (shown) {
+            final ViewStub progressBarStub =
+                    (ViewStub) findManagedViewById(R.id.suw_layout_progress_stub);
             if (progressBarStub != null) {
                 progressBarStub.inflate();
             }
         }
     }
 
+    /**
+     * @deprecated Use {@link #setProgressBarShown(boolean)}
+     */
+    @Deprecated
+    public void showProgressBar() {
+        setProgressBarShown(true);
+    }
+
+    /**
+     * @deprecated Use {@link #setProgressBarShown(boolean)}
+     */
+    @Deprecated
     public void hideProgressBar() {
-        final View progressBar = findViewById(R.id.suw_layout_progress);
-        if (progressBar != null) {
-            progressBar.setVisibility(View.GONE);
-        }
+        setProgressBarShown(false);
     }
 
     /* Misc */

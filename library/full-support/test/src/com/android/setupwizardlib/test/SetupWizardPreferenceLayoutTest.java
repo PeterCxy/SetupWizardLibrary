@@ -27,7 +27,6 @@ import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.android.setupwizardlib.SetupWizardPreferenceLayout;
 
@@ -89,9 +88,9 @@ public class SetupWizardPreferenceLayoutTest extends InstrumentationTestCase {
 
         if (layout instanceof TestLayout) {
             assertNotNull("Header text view should not be null",
-                    ((TestLayout) layout).getHeaderTextView());
+                    ((TestLayout) layout).findManagedViewById(R.id.suw_layout_title));
             assertNotNull("Decoration view should not be null",
-                    ((TestLayout) layout).getDecorationView());
+                    ((TestLayout) layout).findManagedViewById(R.id.suw_layout_decor));
         }
     }
 
@@ -103,13 +102,8 @@ public class SetupWizardPreferenceLayoutTest extends InstrumentationTestCase {
         }
 
         @Override
-        public TextView getHeaderTextView() {
-            return super.getHeaderTextView();
-        }
-
-        @Override
-        public View getDecorationView() {
-            return super.getDecorationView();
+        public View findManagedViewById(int id) {
+            return super.findManagedViewById(id);
         }
     }
 }
