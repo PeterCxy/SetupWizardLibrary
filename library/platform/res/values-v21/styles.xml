@@ -113,28 +113,4 @@
         <item name="suwMarginSides">@dimen/suw_glif_margin_sides</item>
     </style>
 
-    <!-- GLIF Card layout (for tablets) -->
-
-    <style name="SuwGlifCardBackground">
-        <item name="android:background">?android:attr/colorPrimary</item>
-    </style>
-
-    <!-- Items styles -->
-
-    <style name="SuwItemContainer">
-        <item name="android:minHeight">?android:attr/listPreferredItemHeight</item>
-        <item name="android:paddingBottom">@dimen/suw_items_padding_vertical</item>
-        <item name="android:paddingEnd">?android:attr/listPreferredItemPaddingEnd</item>
-        <item name="android:paddingStart">?android:attr/listPreferredItemPaddingStart</item>
-        <item name="android:paddingTop">@dimen/suw_items_padding_vertical</item>
-    </style>
-
-    <style name="SuwItemTitle">
-        <item name="android:textAppearance">?android:attr/textAppearanceListItem</item>
-    </style>
-
-    <style name="SuwItemSummary">
-        <item name="android:textAppearance">?android:attr/textAppearanceListItemSmall</item>
-    </style>
-
 </resources>
