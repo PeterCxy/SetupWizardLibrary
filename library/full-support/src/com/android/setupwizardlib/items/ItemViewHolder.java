@@ -38,7 +38,7 @@ class ItemViewHolder extends RecyclerView.ViewHolder
 
     @Override
     public boolean isDividerAllowedBelow() {
-        return mIsEnabled;
+        return true;
     }
 
     public void setEnabled(boolean isEnabled) {
