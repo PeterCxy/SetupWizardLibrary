@@ -35,6 +35,7 @@
 
     <dimen name="suw_description_margin_top">24dp</dimen>
     <dimen name="suw_description_margin_bottom">12dp</dimen>
+    <dimen name="suw_description_margin_bottom_lists">24dp</dimen>
     <dimen name="suw_description_line_spacing_extra">4sp</dimen>
     <dimen name="suw_description_text_size">16sp</dimen>
 
