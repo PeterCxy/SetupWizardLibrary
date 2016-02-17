@@ -21,7 +21,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:paddingTop="@dimen/suw_description_margin_top">
+    android:paddingTop="@dimen/suw_description_margin_top"
+    android:paddingBottom="@dimen/suw_description_margin_bottom_lists">
 
     <FrameLayout
         android:id="@+id/suw_items_icon_container"
