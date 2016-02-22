@@ -210,7 +210,7 @@ public class SystemBarHelper {
      */
     public static void setImeInsetView(final View view) {
         if (VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP) {
-            view.setOnApplyWindowInsetsListener(new WindowInsetsListener(view.getContext()));
+            view.setOnApplyWindowInsetsListener(new WindowInsetsListener());
         }
     }
 
@@ -305,20 +305,20 @@ public class SystemBarHelper {
 
     @TargetApi(VERSION_CODES.LOLLIPOP)
     private static class WindowInsetsListener implements View.OnApplyWindowInsetsListener {
-
-        private int mNavigationBarHeight;
-
-        public WindowInsetsListener(Context context) {
-            mNavigationBarHeight =
-                    context.getResources().getDimensionPixelSize(R.dimen.suw_navbar_height);
-        }
+        private int mBottomOffset;
+        private boolean mHasCalculatedBottomOffset = false;
 
         @Override
         public WindowInsets onApplyWindowInsets(View view, WindowInsets insets) {
+            if (!mHasCalculatedBottomOffset) {
+                mBottomOffset = getBottomDistance(view);
+                mHasCalculatedBottomOffset = true;
+            }
+
             int bottomInset = insets.getSystemWindowInsetBottom();
 
             final int bottomMargin = Math.max(
-                    insets.getSystemWindowInsetBottom() - mNavigationBarHeight, 0);
+                    insets.getSystemWindowInsetBottom() - mBottomOffset, 0);
 
             final ViewGroup.MarginLayoutParams lp =
                     (ViewGroup.MarginLayoutParams) view.getLayoutParams();
@@ -338,5 +338,11 @@ public class SystemBarHelper {
                     bottomInset
             );
         }
+    }
+
+    private static int getBottomDistance(View view) {
+        int[] coords = new int[2];
+        view.getLocationInWindow(coords);
+        return view.getRootView().getHeight() - coords[1] - view.getHeight();
     }
 }
