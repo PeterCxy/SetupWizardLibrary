@@ -19,11 +19,13 @@ package com.android.setupwizardlib;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.graphics.Shader.TileMode;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
+import android.os.Build;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 import android.os.Parcel;
@@ -36,6 +38,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewStub;
+import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -47,6 +50,8 @@ import com.android.setupwizardlib.view.NavigationBar;
 public class SetupWizardLayout extends TemplateLayout {
 
     private static final String TAG = "SetupWizardLayout";
+
+    private ColorStateList mProgressBarColor;
 
     public SetupWizardLayout(Context context) {
         super(context, 0, 0);
@@ -382,6 +387,9 @@ public class SetupWizardLayout extends TemplateLayout {
             if (progressBarStub != null) {
                 progressBarStub.inflate();
             }
+            if (mProgressBarColor != null) {
+                setProgressBarColor(mProgressBarColor);
+            }
         }
     }
 
@@ -399,6 +407,23 @@ public class SetupWizardLayout extends TemplateLayout {
     @Deprecated
     public void hideProgressBar() {
         setProgressBarShown(false);
+    }
+
+    public void setProgressBarColor(ColorStateList color) {
+        mProgressBarColor = color;
+        if (VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP) {
+            // Suppress lint error caused by
+            // https://code.google.com/p/android/issues/detail?id=183136
+            // noinspection AndroidLintWrongViewCast
+            final ProgressBar bar = (ProgressBar) findViewById(R.id.suw_layout_progress);
+            if (bar != null) {
+                bar.setIndeterminateTintList(color);
+            }
+        }
+    }
+
+    public ColorStateList getProgressBarColor() {
+        return mProgressBarColor;
     }
 
     /* Misc */
