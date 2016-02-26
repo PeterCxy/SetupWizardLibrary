@@ -18,7 +18,10 @@ package com.android.setupwizardlib.test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
+import static org.mockito.Mockito.inOrder;
+import static org.mockito.Mockito.mock;
 
+import android.database.DataSetObserver;
 import android.support.test.filters.SmallTest;
 import android.support.test.runner.AndroidJUnit4;
 
@@ -30,6 +33,7 @@ import com.android.setupwizardlib.items.ItemHierarchy;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InOrder;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -76,5 +80,22 @@ public class ItemAdapterTest {
         ItemAdapter adapter = new ItemAdapter(mItemGroup);
         ItemHierarchy root = adapter.getRootItemHierarchy();
         assertSame("Root item hierarchy should be mItemGroup", mItemGroup, root);
+    }
+
+    @Test
+    public void testAdapterNotifications() {
+        ItemAdapter adapter = new ItemAdapter(mItemGroup);
+        final DataSetObserver observer = mock(DataSetObserver.class);
+        adapter.registerDataSetObserver(observer);
+        final InOrder inOrder = inOrder(observer);
+
+        mItems[0].setTitle("Child 1");
+        inOrder.verify(observer).onChanged();
+
+        mItemGroup.removeChild(mItems[1]);
+        inOrder.verify(observer).onChanged();
+
+        mItemGroup.addChild(mItems[1]);
+        inOrder.verify(observer).onChanged();
     }
 }

@@ -22,6 +22,10 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.anyObject;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
@@ -30,6 +34,7 @@ import android.graphics.drawable.shapes.RectShape;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.filters.SmallTest;
 import android.support.test.runner.AndroidJUnit4;
+import android.support.v7.widget.RecyclerView.AdapterDataObserver;
 import android.widget.FrameLayout;
 
 import com.android.setupwizardlib.items.RecyclerItemAdapter.PatchedLayerDrawable;
@@ -98,6 +103,22 @@ public class RecyclerItemAdapterTest {
         Rect padding = new Rect();
         assertTrue("Patched layer drawable should have padding", drawable.getPadding(padding));
         assertEquals(new Rect(10, 10, 10, 10), padding);
+    }
+
+    @Test
+    public void testAdapterNotifications() {
+        RecyclerItemAdapter adapter = new RecyclerItemAdapter(mItemGroup);
+        final AdapterDataObserver observer = mock(AdapterDataObserver.class);
+        adapter.registerAdapterDataObserver(observer);
+
+        mItems[0].setTitle("Child 1");
+        verify(observer).onItemRangeChanged(eq(0), eq(1), anyObject());
+
+        mItemGroup.removeChild(mItems[1]);
+        verify(observer).onItemRangeRemoved(eq(1), eq(1));
+
+        mItemGroup.addChild(mItems[1]);
+        verify(observer).onItemRangeInserted(eq(4), eq(1));
     }
 
     @Test

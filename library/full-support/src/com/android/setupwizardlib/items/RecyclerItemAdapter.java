@@ -144,6 +144,39 @@ public class RecyclerItemAdapter extends RecyclerView.Adapter<ItemViewHolder>
         notifyDataSetChanged();
     }
 
+    @Override
+    public void onItemRangeChanged(ItemHierarchy itemHierarchy, int positionStart, int itemCount) {
+        notifyItemRangeChanged(positionStart, itemCount);
+    }
+
+    @Override
+    public void onItemRangeInserted(ItemHierarchy itemHierarchy, int positionStart, int itemCount) {
+        notifyItemRangeInserted(positionStart, itemCount);
+    }
+
+    @Override
+    public void onItemRangeMoved(ItemHierarchy itemHierarchy, int fromPosition, int toPosition,
+            int itemCount) {
+        // There is no notifyItemRangeMoved
+        // https://code.google.com/p/android/issues/detail?id=125984
+        if (itemCount == 1) {
+            notifyItemMoved(fromPosition, toPosition);
+        } else {
+            // If more than one, degenerate into the catch-all data set changed callback, since I'm
+            // not sure how recycler view handles multiple calls to notifyItemMoved (if the result
+            // is committed after every notification then naively calling
+            // notifyItemMoved(from + i, to + i) is wrong).
+            // Logging this in case this is a more common occurrence than expected.
+            Log.i(TAG, "onItemRangeMoved with more than one item");
+            notifyDataSetChanged();
+        }
+    }
+
+    @Override
+    public void onItemRangeRemoved(ItemHierarchy itemHierarchy, int positionStart, int itemCount) {
+        notifyItemRangeRemoved(positionStart, itemCount);
+    }
+
     public ItemHierarchy findItemById(int id) {
         return mItemHierarchy.findItemById(id);
     }

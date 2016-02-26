@@ -21,6 +21,9 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.inOrder;
+import static org.mockito.Mockito.verify;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -36,9 +39,14 @@ import android.widget.TextView;
 
 import com.android.setupwizardlib.R;
 import com.android.setupwizardlib.items.Item;
+import com.android.setupwizardlib.items.ItemHierarchy.Observer;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InOrder;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 @RunWith(AndroidJUnit4.class)
 @SmallTest
@@ -48,6 +56,14 @@ public class ItemTest {
     private TextView mSummaryView;
     private ImageView mIconView;
     private FrameLayout mIconContainer;
+
+    @Mock
+    private Observer mObserver;
+
+    @Before
+    public void setUp() {
+        MockitoAnnotations.initMocks(this);
+    }
 
     @Test
     public void testOnBindView() {
@@ -89,13 +105,26 @@ public class ItemTest {
     @Test
     public void testProperties() {
         Item item = new Item();
+        item.registerObserver(mObserver);
+        final InOrder inOrder = inOrder(mObserver);
+
         item.setTitle("TestTitle");
+        inOrder.verify(mObserver).onItemRangeChanged(eq(item), eq(0), eq(1));
+
         item.setSummary("TestSummary");
+        inOrder.verify(mObserver).onItemRangeChanged(eq(item), eq(0), eq(1));
+
         item.setEnabled(false);
+        inOrder.verify(mObserver).onItemRangeChanged(eq(item), eq(0), eq(1));
+
         ShapeDrawable icon = new ShapeDrawable();
         item.setIcon(icon);
+        inOrder.verify(mObserver).onItemRangeChanged(eq(item), eq(0), eq(1));
+
         item.setId(12345);
+
         item.setLayoutResource(56789);
+        inOrder.verify(mObserver).onItemRangeChanged(eq(item), eq(0), eq(1));
 
         assertEquals("Title should be \"TestTitle\"", "TestTitle", item.getTitle());
         assertEquals("Summary should be \"TestSummary\"", "TestSummary", item.getSummary());
@@ -134,10 +163,16 @@ public class ItemTest {
     @Test
     public void testVisible() {
         Item item = new Item();
+        item.registerObserver(mObserver);
         item.setVisible(false);
 
         assertFalse("Item should not be visible", item.isVisible());
         assertEquals("Item count should be 0 when not visible", 0, item.getCount());
+
+        verify(mObserver).onItemRangeRemoved(eq(item), eq(0), eq(1));
+
+        item.setVisible(true);
+        verify(mObserver).onItemRangeInserted(eq(item), eq(0), eq(1));
     }
 
     private ViewGroup createLayout() {

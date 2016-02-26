@@ -51,7 +51,7 @@ public class SwitchItem extends Item implements CompoundButton.OnCheckedChangeLi
     public void setChecked(boolean checked) {
         if (mChecked != checked) {
             mChecked = checked;
-            notifyChanged();
+            notifyItemChanged();
             if (mListener != null) {
                 mListener.onCheckedChange(this, checked);
             }
