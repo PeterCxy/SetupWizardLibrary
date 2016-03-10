@@ -116,9 +116,6 @@ public class DividerItemDecoration extends RecyclerView.ItemDecoration {
         }
         final int index = parent.indexOfChild(view);
         final int lastItemIndex = parent.getChildCount() - 1;
-        if (index == lastItemIndex) {
-            return false;
-        }
         if (index < lastItemIndex) {
             final View nextView = parent.getChildAt(index + 1);
             final RecyclerView.ViewHolder nextHolder = parent.getChildViewHolder(nextView);
