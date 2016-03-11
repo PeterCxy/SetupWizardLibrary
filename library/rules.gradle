@@ -96,8 +96,12 @@ android {
             res.srcDirs = ['test/res']
         }
 
+        androidTestEclairMr1Compat {
+            java.srcDirs = ['eclair-mr1/test/src']
+        }
+
         androidTestFullSupport {
-            java.srcDirs = ['full-support/test/src']
+            java.srcDirs = ['full-support/test/src', 'eclair-mr1/test/src']
             res.srcDirs = ['full-support/test/res']
         }
     }
