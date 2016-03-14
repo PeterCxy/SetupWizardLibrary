@@ -200,22 +200,26 @@ public class SetupWizardLayout extends TemplateLayout {
     }
 
     public void setHeaderText(int title) {
-        final TextView titleView = (TextView) findManagedViewById(R.id.suw_layout_title);
+        final TextView titleView = getHeaderTextView();
         if (titleView != null) {
             titleView.setText(title);
         }
     }
 
     public void setHeaderText(CharSequence title) {
-        final TextView titleView = (TextView) findManagedViewById(R.id.suw_layout_title);
+        final TextView titleView = getHeaderTextView();
         if (titleView != null) {
             titleView.setText(title);
         }
     }
 
     public CharSequence getHeaderText() {
-        final TextView titleView = (TextView) findManagedViewById(R.id.suw_layout_title);
+        final TextView titleView = getHeaderTextView();
         return titleView != null ? titleView.getText() : null;
+    }
+
+    public TextView getHeaderTextView() {
+        return (TextView) findManagedViewById(R.id.suw_layout_title);
     }
 
     /**
