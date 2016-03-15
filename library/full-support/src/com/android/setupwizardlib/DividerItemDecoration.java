@@ -21,9 +21,13 @@ import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.IntDef;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 
 /**
  * An {@link android.support.v7.widget.RecyclerView.ItemDecoration} for RecyclerView to draw
@@ -53,10 +57,14 @@ public class DividerItemDecoration extends RecyclerView.ItemDecoration {
         boolean isDividerAllowedBelow();
     }
 
-    private static final int[] ATTRS = new int[]{
-            android.R.attr.listDivider,
-            android.R.attr.dividerHeight
-    };
+    @Retention(RetentionPolicy.SOURCE)
+    @IntDef({
+            DIVIDER_CONDITION_EITHER,
+            DIVIDER_CONDITION_BOTH})
+    public @interface DividerCondition {}
+
+    public static final int DIVIDER_CONDITION_EITHER = 0;
+    public static final int DIVIDER_CONDITION_BOTH = 1;
 
     /**
      * Creates a default instance of {@link DividerItemDecoration}, using
@@ -64,14 +72,20 @@ public class DividerItemDecoration extends RecyclerView.ItemDecoration {
      * divider height.
      */
     public static DividerItemDecoration getDefault(Context context) {
-        final TypedArray a = context.obtainStyledAttributes(ATTRS);
-        final Drawable divider = a.getDrawable(0);
-        final int dividerHeight = a.getDimensionPixelSize(1, 0);
+        final TypedArray a = context.obtainStyledAttributes(R.styleable.SuwDividerItemDecoration);
+        final Drawable divider = a.getDrawable(
+                R.styleable.SuwDividerItemDecoration_android_listDivider);
+        final int dividerHeight = a.getDimensionPixelSize(
+                R.styleable.SuwDividerItemDecoration_android_dividerHeight, 0);
+        @DividerCondition final int dividerCondition = a.getInt(
+                R.styleable.SuwDividerItemDecoration_suwDividerCondition,
+                DIVIDER_CONDITION_EITHER);
         a.recycle();
 
         final DividerItemDecoration decoration = new DividerItemDecoration();
         decoration.setDivider(divider);
         decoration.setDividerHeight(dividerHeight);
+        decoration.setDividerCondition(dividerCondition);
         return decoration;
     }
 
@@ -80,6 +94,8 @@ public class DividerItemDecoration extends RecyclerView.ItemDecoration {
     private Drawable mDivider;
     private int mDividerHeight;
     private int mDividerIntrinsicHeight;
+    @DividerCondition
+    private int mDividerCondition;
 
     @Override
     public void onDraw(Canvas c, RecyclerView parent, RecyclerView.State state) {
@@ -109,13 +125,24 @@ public class DividerItemDecoration extends RecyclerView.ItemDecoration {
 
     private boolean shouldDrawDividerBelow(View view, RecyclerView parent) {
         final RecyclerView.ViewHolder holder = parent.getChildViewHolder(view);
-        if ((holder instanceof DividedViewHolder)
-                && !((DividedViewHolder) holder).isDividerAllowedBelow()) {
-            // Don't draw if the current view holder doesn't allow drawing below
-            return false;
-        }
         final int index = parent.indexOfChild(view);
         final int lastItemIndex = parent.getChildCount() - 1;
+        if ((holder instanceof DividedViewHolder)) {
+            if (((DividedViewHolder) holder).isDividerAllowedBelow()) {
+                if (mDividerCondition == DIVIDER_CONDITION_EITHER) {
+                    // Draw the divider without consulting the next item if we only
+                    // need permission for either above or below.
+                    return true;
+                }
+            } else if (mDividerCondition == DIVIDER_CONDITION_BOTH || index == lastItemIndex) {
+                // Don't draw if the current view holder doesn't allow drawing below
+                // and the current theme requires permission for both the item below and above.
+                // Also, if this is the last item, there is no item below to ask permission
+                // for whether to draw a divider above, so don't draw it.
+                return false;
+            }
+        }
+        // Require permission from index below to draw the divider.
         if (index < lastItemIndex) {
             final View nextView = parent.getChildAt(index + 1);
             final RecyclerView.ViewHolder nextHolder = parent.getChildViewHolder(nextView);
@@ -159,5 +186,24 @@ public class DividerItemDecoration extends RecyclerView.ItemDecoration {
      */
     public int getDividerHeight() {
         return mDividerHeight;
+    }
+
+    /**
+     * Sets whether the divider needs permission from both the item view holder below
+     * and above from where the divider would draw itself or just needs permission from
+     * one or the other before drawing itself.
+     */
+    public void setDividerCondition(@DividerCondition int dividerCondition) {
+        mDividerCondition = dividerCondition;
+    }
+
+    /**
+     * Gets whether the divider needs permission from both the item view holder below
+     * and above from where the divider would draw itself or just needs permission from
+     * one or the other before drawing itself.
+     */
+    @DividerCondition
+    public int getDividerCondition() {
+        return mDividerCondition;
     }
 }
