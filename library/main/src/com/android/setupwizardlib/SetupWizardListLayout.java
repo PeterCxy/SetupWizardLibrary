@@ -113,6 +113,7 @@ public class SetupWizardListLayout extends SetupWizardLayout {
         getListView().setAdapter(adapter);
     }
 
+    @Override
     public void requireScrollToBottom() {
         final NavigationBar navigationBar = getNavigationBar();
         final ListView listView = getListView();
