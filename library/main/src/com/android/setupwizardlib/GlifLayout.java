@@ -24,6 +24,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Build.VERSION_CODES;
 import android.util.AttributeSet;
+import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -121,7 +122,12 @@ public class GlifLayout extends TemplateLayout {
         if (template == 0) {
             template = R.layout.suw_glif_template;
         }
-        return super.onInflateTemplate(inflater, template);
+        try {
+            return super.onInflateTemplate(inflater, template);
+        } catch (InflateException e) {
+            throw new InflateException("Unable to inflate layout. Are you using "
+                    + "@style/SuwThemeGlif (or its descendant) as your theme?", e);
+        }
     }
 
     @Override

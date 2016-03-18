@@ -23,6 +23,7 @@ import android.os.Build;
 import android.test.InstrumentationTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 import android.view.ContextThemeWrapper;
+import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -95,6 +96,21 @@ public class GlifLayoutTest extends InstrumentationTestCase {
             ProgressBar progressBar = (ProgressBar) layout.findViewById(R.id.suw_layout_progress);
             assertEquals("Progress bar should be tinted red",
                     ColorStateList.valueOf(Color.RED), progressBar.getIndeterminateTintList());
+        }
+    }
+
+    @SmallTest
+    public void testWrongTheme() {
+        // Test the error message when using the wrong theme
+        mContext = new ContextThemeWrapper(getInstrumentation().getContext(),
+                android.R.style.Theme);
+        try {
+            new GlifLayout(mContext);
+            fail("Should have thrown InflateException");
+        } catch (InflateException e) {
+            assertEquals("Exception message should mention correct theme to use",
+                    "Unable to inflate layout. Are you using @style/SuwThemeGlif "
+                            + "(or its descendant) as your theme?", e.getMessage());
         }
     }
 

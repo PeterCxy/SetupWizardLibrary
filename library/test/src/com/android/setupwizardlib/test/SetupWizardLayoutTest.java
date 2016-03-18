@@ -22,6 +22,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.test.InstrumentationTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 import android.view.ContextThemeWrapper;
+import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -141,6 +142,21 @@ public class SetupWizardLayoutTest extends InstrumentationTestCase {
         final SetupWizardLayout layout = new SetupWizardLayout(mContext, R.layout.test_template);
         layout.showProgressBar();
         assertFalse("Progress bar should not be shown", layout.isProgressBarShown());
+    }
+
+    @SmallTest
+    public void testWrongTheme() {
+        // Test the error message when using the wrong theme
+        mContext = new ContextThemeWrapper(getInstrumentation().getContext(),
+                android.R.style.Theme);
+        try {
+            new SetupWizardLayout(mContext);
+            fail("Should have thrown InflateException");
+        } catch (InflateException e) {
+            assertEquals("Exception message should mention correct theme to use",
+                    "Unable to inflate layout. Are you using @style/SuwThemeMaterial "
+                            + "(or its descendant) as your theme?", e.getMessage());
+        }
     }
 
     private void assertDefaultTemplateInflated(SetupWizardLayout layout) {
