@@ -16,6 +16,7 @@
 
 package com.android.setupwizardlib.test;
 
+import android.content.Context;
 import android.graphics.drawable.ShapeDrawable;
 import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
@@ -31,5 +32,38 @@ public class StatusBarBackgroundLayoutTest extends AndroidTestCase {
         layout.setStatusBarBackground(drawable);
         assertSame("Status bar background drawable should be same as set",
                 drawable, layout.getStatusBarBackground());
+    }
+
+    @SmallTest
+    public void testAttachedToWindow() {
+        // Attaching to window should request apply window inset
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            final TestStatusBarBackgroundLayout layout =
+                    new TestStatusBarBackgroundLayout(getContext());
+            layout.mRequestApplyInsets = false;
+            layout.onAttachedToWindow();
+
+            assertTrue("Attaching to window should apply window inset", layout.mRequestApplyInsets);
+        }
+    }
+
+    private static class TestStatusBarBackgroundLayout extends StatusBarBackgroundLayout {
+
+        boolean mRequestApplyInsets = false;
+
+        TestStatusBarBackgroundLayout(Context context) {
+            super(context);
+        }
+
+        @Override
+        public void onAttachedToWindow() {
+            super.onAttachedToWindow();
+        }
+
+        @Override
+        public void requestApplyInsets() {
+            super.requestApplyInsets();
+            mRequestApplyInsets = true;
+        }
     }
 }
