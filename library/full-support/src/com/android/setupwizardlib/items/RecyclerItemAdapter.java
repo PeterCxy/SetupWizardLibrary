@@ -21,7 +21,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
+import android.graphics.drawable.LayerDrawable;
+import android.graphics.drawable.Drawable;
 import com.android.setupwizardlib.R;
 
 /**
@@ -33,7 +34,8 @@ public class RecyclerItemAdapter extends RecyclerView.Adapter<ItemViewHolder>
         implements ItemHierarchy.Observer {
 
     private static final int[] SELECTABLE_ITEM_BACKGROUND = new int[] {
-            R.attr.selectableItemBackground
+            R.attr.selectableItemBackground,
+            android.R.attr.colorBackground
     };
 
     public interface OnItemSelectedListener {
@@ -76,7 +78,10 @@ public class RecyclerItemAdapter extends RecyclerView.Adapter<ItemViewHolder>
 
         final TypedArray typedArray = parent.getContext()
                 .obtainStyledAttributes(SELECTABLE_ITEM_BACKGROUND);
-        view.setBackgroundDrawable(typedArray.getDrawable(0));
+        LayerDrawable drawable =  new LayerDrawable(new Drawable[]{
+                typedArray.getDrawable(0), typedArray.getDrawable(1)
+        });
+        view.setBackgroundDrawable(drawable);
         typedArray.recycle();
 
         view.setOnClickListener(new View.OnClickListener() {
