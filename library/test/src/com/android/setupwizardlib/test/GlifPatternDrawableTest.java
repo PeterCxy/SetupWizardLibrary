@@ -16,15 +16,56 @@
 
 package com.android.setupwizardlib.test;
 
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
+import android.graphics.Paint;
 import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.android.setupwizardlib.GlifPatternDrawable;
 
 public class GlifPatternDrawableTest extends AndroidTestCase {
+
+    @SmallTest
+    public void testDraw() {
+        final Bitmap bitmap = Bitmap.createBitmap(1366, 768, Bitmap.Config.ARGB_8888);
+        final Canvas canvas = new Canvas(bitmap);
+
+        final GlifPatternDrawable drawable = new GlifPatternDrawable(Color.RED);
+        drawable.setBounds(0, 0, 1366, 768);
+        drawable.draw(canvas);
+
+        assertEquals("Top left pixel should be #ed0000", 0xffed0000, bitmap.getPixel(0, 0));
+        assertEquals("Center pixel should be #d30000", 0xffd30000, bitmap.getPixel(683, 384));
+        assertEquals("Bottom right pixel should be #c70000", 0xffc70000,
+                bitmap.getPixel(1365, 767));
+    }
+
+    @SmallTest
+    public void testDrawTwice() {
+        // Test that the second time the drawable is drawn is also correct, to make sure caching is
+        // done correctly.
+
+        final Bitmap bitmap = Bitmap.createBitmap(1366, 768, Bitmap.Config.ARGB_8888);
+        final Canvas canvas = new Canvas(bitmap);
+
+        final GlifPatternDrawable drawable = new GlifPatternDrawable(Color.RED);
+        drawable.setBounds(0, 0, 1366, 768);
+        drawable.draw(canvas);
+
+        Paint paint = new Paint();
+        paint.setColor(Color.WHITE);
+        canvas.drawRect(0, 0, 1366, 768, paint);  // Erase the entire canvas
+
+        drawable.draw(canvas);
+
+        assertEquals("Top left pixel should be #ed0000", 0xffed0000, bitmap.getPixel(0, 0));
+        assertEquals("Center pixel should be #d30000", 0xffd30000, bitmap.getPixel(683, 384));
+        assertEquals("Bottom right pixel should be #c70000", 0xffc70000,
+                bitmap.getPixel(1365, 767));
+    }
 
     @SmallTest
     public void testScaleToCanvasSquare() {
