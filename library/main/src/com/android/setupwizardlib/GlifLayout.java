@@ -124,7 +124,9 @@ public class GlifLayout extends TemplateLayout {
         }
         try {
             return super.onInflateTemplate(inflater, template);
-        } catch (InflateException e) {
+        } catch (RuntimeException e) {
+            // Versions before M throws RuntimeException for unsuccessful attribute resolution
+            // Versions M+ will throw an InflateException (which extends from RuntimeException)
             throw new InflateException("Unable to inflate layout. Are you using "
                     + "@style/SuwThemeGlif (or its descendant) as your theme?", e);
         }
