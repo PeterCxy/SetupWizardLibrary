@@ -19,6 +19,7 @@ package com.android.setupwizardlib;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.ColorFilter;
@@ -58,6 +59,7 @@ public class GlifPatternDrawable extends Drawable {
     private Paint mPaint;
     private float[] mTempHsv = new float[3];
     private Path mTempPath = new Path();
+    private Bitmap mBitmap;
 
     public GlifPatternDrawable(int color) {
         mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -66,6 +68,16 @@ public class GlifPatternDrawable extends Drawable {
 
     @Override
     public void draw(Canvas canvas) {
+        if (mBitmap == null) {
+            mBitmap = Bitmap.createBitmap(canvas.getWidth(), canvas.getHeight(),
+                    Bitmap.Config.ARGB_8888);
+            Canvas bitmapCanvas = new Canvas(mBitmap);
+            renderOnCanvas(bitmapCanvas);
+        }
+        canvas.drawBitmap(mBitmap, 0, 0, null);
+    }
+
+    private void renderOnCanvas(Canvas canvas) {
         canvas.save();
         canvas.clipRect(getBounds());
 
@@ -189,6 +201,7 @@ public class GlifPatternDrawable extends Drawable {
     public void setColor(int color) {
         mColor = color;
         mPaint.setColor(color);
+        mBitmap = null;
         invalidateSelf();
     }
 
