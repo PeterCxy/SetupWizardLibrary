@@ -78,10 +78,16 @@ public class RecyclerItemAdapter extends RecyclerView.Adapter<ItemViewHolder>
 
         final TypedArray typedArray = parent.getContext()
                 .obtainStyledAttributes(SELECTABLE_ITEM_BACKGROUND);
-        LayerDrawable drawable =  new LayerDrawable(new Drawable[]{
-                typedArray.getDrawable(0), typedArray.getDrawable(1)
-        });
-        view.setBackgroundDrawable(drawable);
+        Drawable firstLayer = typedArray.getDrawable(0);
+        Drawable secondLayer = typedArray.getDrawable(1);
+
+        if (firstLayer != null && secondLayer != null) {
+            Drawable [] layers = new Drawable[] {secondLayer, firstLayer};
+            view.setBackgroundDrawable(new LayerDrawable(layers));
+        } else {
+            view.setBackgroundDrawable(firstLayer);
+        }
+
         typedArray.recycle();
 
         view.setOnClickListener(new View.OnClickListener() {
