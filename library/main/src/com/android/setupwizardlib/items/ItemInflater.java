@@ -27,6 +27,10 @@ public class ItemInflater extends GenericInflater<ItemHierarchy> {
 
     private static final String TAG = "ItemInflater";
 
+    public interface ItemParent {
+        void addChild(ItemHierarchy child);
+    }
+
     private final Context mContext;
 
     public ItemInflater(Context context) {
@@ -50,8 +54,8 @@ public class ItemInflater extends GenericInflater<ItemHierarchy> {
 
     @Override
     protected void onAddChildItem(ItemHierarchy parent, ItemHierarchy child) {
-        if (parent instanceof ItemGroup) {
-            ((ItemGroup) parent).addChild(child);
+        if (parent instanceof ItemParent) {
+            ((ItemParent) parent).addChild(child);
         } else {
             throw new IllegalArgumentException("Cannot add child item to " + parent);
         }

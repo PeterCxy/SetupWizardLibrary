@@ -108,4 +108,11 @@
         <attr name="suwDividerCondition" />
     </declare-styleable>
 
+    <declare-styleable name="SuwButtonItem">
+        <attr name="android:buttonStyle" />
+        <attr name="android:enabled" />
+        <attr name="android:text" />
+        <attr name="android:theme" />
+    </declare-styleable>
+
 </resources>
