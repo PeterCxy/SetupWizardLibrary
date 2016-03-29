@@ -23,7 +23,8 @@ import android.util.SparseIntArray;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ItemGroup extends AbstractItemHierarchy implements ItemHierarchy.Observer {
+public class ItemGroup extends AbstractItemHierarchy implements ItemInflater.ItemParent,
+        ItemHierarchy.Observer {
 
     /* static section */
 
@@ -101,6 +102,7 @@ public class ItemGroup extends AbstractItemHierarchy implements ItemHierarchy.Ob
     /**
      * Add a child hierarchy to this item group.
      */
+    @Override
     public void addChild(ItemHierarchy child) {
         mChildren.add(child);
         child.registerObserver(this);

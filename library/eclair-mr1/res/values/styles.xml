@@ -141,6 +141,16 @@
         <item name="android:textAppearance">?attr/textAppearanceListItemSmall</item>
     </style>
 
+    <!-- Button styles -->
+
+    <style name="SuwButtonItem" />
+
+    <style name="SuwButtonItem.Colored">
+        <item name="android:buttonStyle">@style/Widget.AppCompat.Button</item>
+        <item name="android:textColor">?android:attr/textColorPrimaryInverse</item>
+        <item name="colorButtonNormal">?attr/colorAccent</item>
+    </style>
+
     <!-- Card layout (for tablets) -->
 
     <style name="TextAppearance.SuwCardTitle" parent="@style/TextAppearance.AppCompat.Display1">
