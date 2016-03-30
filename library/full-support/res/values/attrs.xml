@@ -30,4 +30,11 @@
         <attr name="suwDividerInset" />
         <attr name="suwHasStableIds" />
     </declare-styleable>
+
+    <declare-styleable name="SuwRecyclerItemAdapter">
+        <attr name="android:colorBackground" />
+        <attr name="android:selectableItemBackground" />
+        <attr name="selectableItemBackground" />
+    </declare-styleable>
+
 </resources>
