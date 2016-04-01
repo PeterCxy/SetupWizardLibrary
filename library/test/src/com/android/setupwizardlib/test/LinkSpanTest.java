@@ -18,15 +18,11 @@ package com.android.setupwizardlib.test;
 
 import android.content.Context;
 import android.content.ContextWrapper;
-import android.os.Parcelable;
 import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 import android.widget.TextView;
 
 import com.android.setupwizardlib.span.LinkSpan;
-
-import java.lang.ref.ReferenceQueue;
-import java.lang.ref.WeakReference;
 
 public class LinkSpanTest extends AndroidTestCase {
 
@@ -51,25 +47,6 @@ public class LinkSpanTest extends AndroidTestCase {
 
         // This would be no-op, because the context doesn't implement LinkSpan.OnClickListener.
         // Just check that no uncaught exception here.
-    }
-
-    @SmallTest
-    public void testNoContextLeak() {
-        // Use a context wrapper so this doesn't share a reference with the test case
-        Context context = new ContextWrapper(getContext());
-
-        ReferenceQueue<Context> queue = new ReferenceQueue<>();
-        WeakReference<Context> ref = new WeakReference<>(context, queue);
-
-        TextView textView = new TextView(context);
-        final Parcelable parcelable = textView.onSaveInstanceState();
-
-        textView = null;
-        context = null;
-
-        System.gc();
-
-        assertTrue("Reference to context should be GC'd", ref.isEnqueued());
     }
 
     private static class TestContext extends ContextWrapper implements LinkSpan.OnClickListener {
