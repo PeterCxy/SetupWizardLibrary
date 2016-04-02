@@ -69,6 +69,8 @@
 
     <!-- Header layout (for phones) -->
     <dimen name="suw_title_area_elevation">3dp</dimen>
+    <!-- Hack to force the header (and its shadow) to be drawn on top of the list contents -->
+    <dimen name="suw_header_elevation_hack">1dp</dimen>
 
     <dimen name="suw_header_title_size">24sp</dimen>
     <dimen name="suw_header_title_margin_bottom">16dp</dimen>
