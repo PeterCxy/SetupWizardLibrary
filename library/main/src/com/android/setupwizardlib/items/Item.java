@@ -138,6 +138,9 @@ public class Item extends AbstractItem {
         final Drawable icon = getIcon();
         if (icon != null) {
             final ImageView iconView = (ImageView) view.findViewById(R.id.suw_items_icon);
+            // Set the image drawable to null before setting the state and level to avoid affecting
+            // any recycled drawable in the ImageView
+            iconView.setImageDrawable(null);
             iconView.setImageState(icon.getState(), false /* merge */);
             iconView.setImageLevel(icon.getLevel());
             iconView.setImageDrawable(icon);
