@@ -125,8 +125,8 @@ public class DividerItemDecoration extends RecyclerView.ItemDecoration {
 
     private boolean shouldDrawDividerBelow(View view, RecyclerView parent) {
         final RecyclerView.ViewHolder holder = parent.getChildViewHolder(view);
-        final int index = parent.indexOfChild(view);
-        final int lastItemIndex = parent.getChildCount() - 1;
+        final int index = holder.getLayoutPosition();
+        final int lastItemIndex = parent.getAdapter().getItemCount() - 1;
         if ((holder instanceof DividedViewHolder)) {
             if (((DividedViewHolder) holder).isDividerAllowedBelow()) {
                 if (mDividerCondition == DIVIDER_CONDITION_EITHER) {
@@ -144,10 +144,10 @@ public class DividerItemDecoration extends RecyclerView.ItemDecoration {
         }
         // Require permission from index below to draw the divider.
         if (index < lastItemIndex) {
-            final View nextView = parent.getChildAt(index + 1);
-            final RecyclerView.ViewHolder nextHolder = parent.getChildViewHolder(nextView);
-            if ((nextHolder instanceof DividedViewHolder) &&
-                    !((DividedViewHolder) nextHolder).isDividerAllowedAbove()) {
+            final RecyclerView.ViewHolder nextHolder =
+                    parent.findViewHolderForLayoutPosition(index + 1);
+            if ((nextHolder instanceof DividedViewHolder)
+                    && !((DividedViewHolder) nextHolder).isDividerAllowedAbove()) {
                 // Don't draw if the next view holder doesn't allow drawing above
                 return false;
             }
