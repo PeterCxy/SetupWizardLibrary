@@ -23,6 +23,8 @@ import android.support.v4.widget.ExploreByTouchHelper;
 import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 import android.text.SpannableStringBuilder;
+import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.accessibility.AccessibilityEvent;
 import android.widget.TextView;
 
@@ -39,29 +41,33 @@ public class LinkAccessibilityHelperTest extends AndroidTestCase {
     private TestLinkAccessibilityHelper mHelper;
     private LinkSpan mSpan;
 
+    private DisplayMetrics mDisplayMetrics;
+
     @Override
     protected void setUp() throws Exception {
         super.setUp();
         mSpan = new LinkSpan("foobar");
         SpannableStringBuilder ssb = new SpannableStringBuilder("Hello world");
         ssb.setSpan(mSpan, 1, 2, 0 /* flags */);
+
         mTextView = new TextView(getContext());
         mTextView.setText(ssb);
+        mTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
         mHelper = new TestLinkAccessibilityHelper(mTextView);
 
-        mTextView.measure(500, 500);
-        mTextView.layout(0, 0, 500, 500);
+        mTextView.measure(dp2Px(500), dp2Px(500));
+        mTextView.layout(dp2Px(0), dp2Px(0), dp2Px(500), dp2Px(500));
     }
 
     @SmallTest
     public void testGetVirtualViewAt() {
-        final int virtualViewId = mHelper.getVirtualViewAt(15, 10);
+        final int virtualViewId = mHelper.getVirtualViewAt(dp2Px(15), dp2Px(10));
         assertEquals("Virtual view ID should be 1", 1, virtualViewId);
     }
 
     @SmallTest
     public void testGetVirtualViewAtHost() {
-        final int virtualViewId = mHelper.getVirtualViewAt(100, 100);
+        final int virtualViewId = mHelper.getVirtualViewAt(dp2Px(100), dp2Px(100));
         assertEquals("Virtual view ID should be INVALID_ID",
                 ExploreByTouchHelper.INVALID_ID, virtualViewId);
     }
@@ -109,9 +115,17 @@ public class LinkAccessibilityHelperTest extends AndroidTestCase {
         assertTrue("LinkSpan should be clickable", info.isClickable());
         Rect bounds = new Rect();
         info.getBoundsInParent(bounds);
-        assertEquals("LinkSpan bounds should be (20, 0, 35, 38)", new Rect(20, 0, 35, 38), bounds);
+        assertEquals("LinkSpan bounds should be (10.5dp, 0dp, 18.5dp, 20.5dp)",
+                new Rect(dp2Px(10.5f), dp2Px(0f), dp2Px(18.5f), dp2Px(20.5f)), bounds);
 
         info.recycle();
+    }
+
+    private int dp2Px(float dp) {
+        if (mDisplayMetrics == null) {
+            mDisplayMetrics = getContext().getResources().getDisplayMetrics();
+        }
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, mDisplayMetrics);
     }
 
     private static class TestLinkAccessibilityHelper extends LinkAccessibilityHelper {
