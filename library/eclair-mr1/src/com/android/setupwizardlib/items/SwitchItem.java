@@ -62,6 +62,7 @@ public class SwitchItem extends Item implements CompoundButton.OnCheckedChangeLi
         return mChecked;
     }
 
+    @Override
     protected int getDefaultLayoutResource() {
         return R.layout.suw_items_switch;
     }

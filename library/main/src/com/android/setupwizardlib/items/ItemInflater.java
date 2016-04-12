@@ -48,6 +48,7 @@ public class ItemInflater extends GenericInflater<ItemHierarchy> {
      * Return the context we are running in, for access to resources, class
      * loader, etc.
      */
+    @Override
     public Context getContext() {
         return mContext;
     }
