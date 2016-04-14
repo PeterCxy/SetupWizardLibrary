@@ -123,6 +123,8 @@ public class WizardManagerHelper {
      */
     public static void copyWizardManagerExtras(Intent srcIntent, Intent dstIntent) {
         dstIntent.putExtra(EXTRA_WIZARD_BUNDLE, srcIntent.getBundleExtra(EXTRA_WIZARD_BUNDLE));
+        dstIntent.putExtra(EXTRA_IS_FIRST_RUN,
+                srcIntent.getBooleanExtra(EXTRA_IS_FIRST_RUN, false));
         dstIntent.putExtra(EXTRA_SCRIPT_URI, srcIntent.getStringExtra(EXTRA_SCRIPT_URI));
         dstIntent.putExtra(EXTRA_ACTION_ID, srcIntent.getStringExtra(EXTRA_ACTION_ID));
     }
