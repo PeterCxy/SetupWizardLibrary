@@ -36,7 +36,10 @@ import com.android.setupwizardlib.view.HeaderRecyclerView;
  * instance and delegate {@code PreferenceFragment#onCreateRecyclerView} to it. Then call
  * {@code PreferenceFragment#setDivider} to {@link #getDividerDrawable(android.content.Context)} in
  * order to make sure the correct inset is applied to the dividers.
+ *
+ * @deprecated Use {@link com.android.setupwizardlib.GlifPreferenceLayout}
  */
+@Deprecated
 public class GlifPreferenceDelegate {
 
     public static final int[] ATTRS_LIST_DIVIDER = new int[]{ android.R.attr.listDivider };
