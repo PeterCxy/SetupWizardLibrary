@@ -22,6 +22,7 @@
     <item name="suw_recycler_template" type="layout">@layout/suw_recycler_template_header</item>
     <item name="suw_recycler_template_short" type="layout">@layout/suw_recycler_template_header_collapsed</item>
 
+    <item name="suw_glif_preference_template" type="layout">@layout/suw_glif_blank_template_compact</item>
     <item name="suw_glif_recycler_template" type="layout">@layout/suw_glif_recycler_template_compact</item>
 
 </resources>

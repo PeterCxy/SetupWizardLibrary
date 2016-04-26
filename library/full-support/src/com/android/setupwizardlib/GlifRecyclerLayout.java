@@ -28,8 +28,6 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.android.setupwizardlib.items.ItemGroup;
 import com.android.setupwizardlib.items.ItemInflater;
@@ -44,8 +42,8 @@ import com.android.setupwizardlib.view.HeaderRecyclerView;
 public class GlifRecyclerLayout extends GlifLayout {
 
     private RecyclerView mRecyclerView;
-    private TextView mHeaderTextView;
-    private ImageView mIconView;
+    private View mHeader;
+
     private DividerItemDecoration mDividerDecoration;
     private Drawable mDefaultDivider;
     private Drawable mDivider;
@@ -123,26 +121,28 @@ public class GlifRecyclerLayout extends GlifLayout {
 
     @Override
     protected void onTemplateInflated() {
-        final Context context = getContext();
-        mRecyclerView = (RecyclerView) findViewById(R.id.suw_recycler_view);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
+        initRecyclerView((RecyclerView) findViewById(R.id.suw_recycler_view));
+    }
+
+    protected void initRecyclerView(RecyclerView recyclerView) {
+        mRecyclerView = recyclerView;
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         if (mRecyclerView instanceof HeaderRecyclerView) {
-            final View header = ((HeaderRecyclerView) mRecyclerView).getHeader();
-            mHeaderTextView = (TextView) header.findViewById(R.id.suw_layout_title);
-            mIconView = (ImageView) header.findViewById(R.id.suw_layout_icon);
+            mHeader = ((HeaderRecyclerView) mRecyclerView).getHeader();
         }
-        mDividerDecoration = DividerItemDecoration.getDefault(context);
+        mDividerDecoration = DividerItemDecoration.getDefault(getContext());
         mRecyclerView.addItemDecoration(mDividerDecoration);
     }
 
     @Override
-    protected TextView getHeaderTextView() {
-        return mHeaderTextView;
-    }
-
-    @Override
-    protected ImageView getIconView() {
-        return mIconView;
+    protected View findManagedViewById(int id) {
+        if (mHeader != null) {
+            final View view = mHeader.findViewById(id);
+            if (view != null) {
+                return view;
+            }
+        }
+        return super.findViewById(id);
     }
 
     public RecyclerView getRecyclerView() {

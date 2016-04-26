@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2016 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,9 +28,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.android.setupwizardlib.GlifRecyclerLayout;
+import com.android.setupwizardlib.GlifPreferenceLayout;
 
-public class GlifRecyclerLayoutTest extends InstrumentationTestCase {
+public class GlifPreferenceLayoutTest extends InstrumentationTestCase {
 
     private Context mContext;
 
@@ -43,60 +43,36 @@ public class GlifRecyclerLayoutTest extends InstrumentationTestCase {
 
     @SmallTest
     public void testDefaultTemplate() {
-        GlifRecyclerLayout layout = new TestLayout(mContext);
-        assertRecyclerTemplateInflated(layout);
-    }
-
-    @SmallTest
-    public void testInflateFromXml() {
-        LayoutInflater inflater = LayoutInflater.from(mContext);
-        GlifRecyclerLayout layout = (GlifRecyclerLayout)
-                inflater.inflate(R.layout.test_glif_recycler_layout, null);
-        assertRecyclerTemplateInflated(layout);
+        GlifPreferenceLayout layout = new TestLayout(mContext);
+        assertPreferenceTemplateInflated(layout);
     }
 
     @SmallTest
     public void testGetRecyclerView() {
-        GlifRecyclerLayout layout = new TestLayout(mContext);
-        assertRecyclerTemplateInflated(layout);
+        GlifPreferenceLayout layout = new TestLayout(mContext);
+        assertPreferenceTemplateInflated(layout);
         assertNotNull("getRecyclerView should not be null", layout.getRecyclerView());
     }
 
     @SmallTest
-    public void testAdapter() {
-        GlifRecyclerLayout layout = new TestLayout(mContext);
-        assertRecyclerTemplateInflated(layout);
-
-        final RecyclerView.Adapter adapter = new RecyclerView.Adapter() {
-            @Override
-            public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int position) {
-                return new RecyclerView.ViewHolder(new View(parent.getContext())) {};
-            }
-
-            @Override
-            public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
-            }
-
-            @Override
-            public int getItemCount() {
-                return 0;
-            }
-        };
-        layout.setAdapter(adapter);
-
-        final RecyclerView.Adapter gotAdapter = layout.getAdapter();
-        // Note: The wrapped adapter should be returned, not the HeaderAdapter.
-        assertSame("Adapter got from GlifRecyclerLayout should be same as set",
-                adapter, gotAdapter);
+    public void testOnCreateRecyclerView() {
+        GlifPreferenceLayout layout = new TestLayout(mContext);
+        assertPreferenceTemplateInflated(layout);
+        final RecyclerView recyclerView = layout.onCreateRecyclerView(LayoutInflater.from(mContext),
+                layout, null /* savedInstanceState */);
+        assertNotNull("RecyclerView created should not be null", recyclerView);
     }
 
     @SmallTest
     public void testDividerInset() {
-        GlifRecyclerLayout layout = new TestLayout(mContext);
+        GlifPreferenceLayout layout = new TestLayout(mContext);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             layout.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
         }
-        assertRecyclerTemplateInflated(layout);
+        assertPreferenceTemplateInflated(layout);
+
+        layout.addView(layout.onCreateRecyclerView(LayoutInflater.from(mContext), layout,
+                null /* savedInstanceState */));
 
         layout.setDividerInset(10);
         assertEquals("Divider inset should be 10", 10, layout.getDividerInset());
@@ -105,10 +81,10 @@ public class GlifRecyclerLayoutTest extends InstrumentationTestCase {
         assertTrue("Divider should be instance of InsetDrawable", divider instanceof InsetDrawable);
     }
 
-    private void assertRecyclerTemplateInflated(GlifRecyclerLayout layout) {
-        View recyclerView = layout.findViewById(R.id.suw_recycler_view);
-        assertTrue("@id/suw_recycler_view should be a RecyclerView",
-                recyclerView instanceof RecyclerView);
+    private void assertPreferenceTemplateInflated(GlifPreferenceLayout layout) {
+        View contentContainer = layout.findViewById(R.id.suw_layout_content);
+        assertTrue("@id/suw_layout_content should be a ViewGroup",
+                contentContainer instanceof ViewGroup);
 
         if (layout instanceof TestLayout) {
             assertNotNull("Header text view should not be null",
@@ -119,7 +95,7 @@ public class GlifRecyclerLayoutTest extends InstrumentationTestCase {
     }
 
     // Make some methods public for testing
-    public static class TestLayout extends GlifRecyclerLayout {
+    public static class TestLayout extends GlifPreferenceLayout {
 
         public TestLayout(Context context) {
             super(context);
