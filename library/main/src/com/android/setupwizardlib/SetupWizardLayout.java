@@ -152,6 +152,12 @@ public class SetupWizardLayout extends TemplateLayout {
 
     @Override
     protected void onRestoreInstanceState(Parcelable state) {
+        if (!(state instanceof SavedState)) {
+            Log.w(TAG, "Ignoring restore instance state " + state);
+            super.onRestoreInstanceState(state);
+            return;
+        }
+
         final SavedState ss = (SavedState) state;
         super.onRestoreInstanceState(ss.getSuperState());
         final boolean isProgressBarShown = ss.mIsProgressBarShown;
