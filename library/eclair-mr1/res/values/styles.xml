@@ -79,8 +79,8 @@
         <item name="android:windowDisablePreview">true</item>
         <item name="android:windowSoftInputMode">adjustResize</item>
 
-        <item name="colorAccent">@color/suw_color_accent_light</item>
-        <item name="colorPrimary">@color/suw_color_accent_light</item>
+        <item name="colorAccent">@color/suw_color_accent_glif_dark</item>
+        <item name="colorPrimary">@color/suw_color_accent_glif_dark</item>
         <item name="listPreferredItemPaddingLeft">?attr/suwMarginSides</item>
         <item name="listPreferredItemPaddingRight">?attr/suwMarginSides</item>
         <item name="suwListItemIconColor">@color/suw_list_item_icon_color_dark</item>
@@ -104,8 +104,8 @@
         <item name="android:windowDisablePreview">true</item>
         <item name="android:windowSoftInputMode">adjustResize</item>
 
-        <item name="colorAccent">@color/suw_color_accent_light</item>
-        <item name="colorPrimary">@color/suw_color_accent_light</item>
+        <item name="colorAccent">@color/suw_color_accent_glif_light</item>
+        <item name="colorPrimary">@color/suw_color_accent_glif_light</item>
         <item name="listPreferredItemPaddingLeft">?attr/suwMarginSides</item>
         <item name="listPreferredItemPaddingRight">?attr/suwMarginSides</item>
         <item name="suwListItemIconColor">@color/suw_list_item_icon_color_light</item>
