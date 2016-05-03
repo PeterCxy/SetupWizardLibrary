@@ -26,6 +26,8 @@ import android.test.suitebuilder.annotation.SmallTest;
 
 import com.android.setupwizardlib.GlifPatternDrawable;
 
+import junit.framework.AssertionFailedError;
+
 public class GlifPatternDrawableTest extends AndroidTestCase {
 
     @SmallTest
@@ -37,9 +39,9 @@ public class GlifPatternDrawableTest extends AndroidTestCase {
         drawable.setBounds(0, 0, 1366, 768);
         drawable.draw(canvas);
 
-        assertEquals("Top left pixel should be #ed0000", 0xffed0000, bitmap.getPixel(0, 0));
-        assertEquals("Center pixel should be #d30000", 0xffd30000, bitmap.getPixel(683, 384));
-        assertEquals("Bottom right pixel should be #c70000", 0xffc70000,
+        assertSameColor("Top left pixel should be #e61a1a", 0xffe61a1a, bitmap.getPixel(0, 0));
+        assertSameColor("Center pixel should be #d90d0d", 0xffd90d0d, bitmap.getPixel(683, 384));
+        assertSameColor("Bottom right pixel should be #d40808", 0xffd40808,
                 bitmap.getPixel(1365, 767));
     }
 
@@ -61,9 +63,9 @@ public class GlifPatternDrawableTest extends AndroidTestCase {
 
         drawable.draw(canvas);
 
-        assertEquals("Top left pixel should be #ed0000", 0xffed0000, bitmap.getPixel(0, 0));
-        assertEquals("Center pixel should be #d30000", 0xffd30000, bitmap.getPixel(683, 384));
-        assertEquals("Bottom right pixel should be #c70000", 0xffc70000,
+        assertSameColor("Top left pixel should be #e61a1a", 0xffe61a1a, bitmap.getPixel(0, 0));
+        assertSameColor("Center pixel should be #d90d0d", 0xffd90d0d, bitmap.getPixel(683, 384));
+        assertSameColor("Bottom right pixel should be #d40808", 0xffd40808,
                 bitmap.getPixel(1365, 767));
     }
 
@@ -109,5 +111,14 @@ public class GlifPatternDrawableTest extends AndroidTestCase {
         expected.postTranslate(0f, -87.5f);
 
         assertEquals("Matrices should match", expected, canvas.getMatrix());
+    }
+
+    private void assertSameColor(String message, int expected, int actual) {
+        try {
+            assertEquals(expected, actual);
+        } catch (AssertionFailedError e) {
+            throw new AssertionFailedError(message + " expected <#" + Integer.toHexString(expected)
+                    + "> but found <#" + Integer.toHexString(actual) + "> instead");
+        }
     }
 }
