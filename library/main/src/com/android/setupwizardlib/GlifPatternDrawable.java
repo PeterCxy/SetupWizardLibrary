@@ -57,7 +57,6 @@ public class GlifPatternDrawable extends Drawable {
 
     private int mColor;
     private Paint mPaint;
-    private float[] mTempHsv = new float[3];
     private Path mTempPath = new Path();
     private Bitmap mBitmap;
 
@@ -73,21 +72,25 @@ public class GlifPatternDrawable extends Drawable {
                     Bitmap.Config.ARGB_8888);
             Canvas bitmapCanvas = new Canvas(mBitmap);
             renderOnCanvas(bitmapCanvas);
+            mPaint.reset();
+            mPaint.setAlpha(51);
         }
-        canvas.drawBitmap(mBitmap, 0, 0, null);
+        canvas.save();
+        canvas.clipRect(getBounds());
+        canvas.drawColor(mColor);
+        canvas.drawBitmap(mBitmap, 0, 0, mPaint);
+        canvas.restore();
     }
 
     private void renderOnCanvas(Canvas canvas) {
         canvas.save();
         canvas.clipRect(getBounds());
 
-        Color.colorToHSV(mColor, mTempHsv);
         scaleCanvasToBounds(canvas);
 
         // Draw the pattern by creating the paths, adjusting the colors and drawing them. The path
         // values are extracted from the SVG of the pattern file.
 
-        mTempHsv[2] = 0.753f;
         Path p = mTempPath;
         p.reset();
         p.moveTo(1029.4f, 357.5f);
@@ -95,9 +98,8 @@ public class GlifPatternDrawable extends Drawable {
         p.lineTo(1366f, 0f);
         p.lineTo(1137.7f, 0f);
         p.close();
-        drawPath(canvas, p, mTempHsv);
+        drawPath(canvas, p, 10);
 
-        mTempHsv[2] = 0.78f;
         p.reset();
         p.moveTo(1138.1f, 0f);
         p.rLineTo(-144.8f, 768f);
@@ -105,18 +107,16 @@ public class GlifPatternDrawable extends Drawable {
         p.rLineTo(0f, -524f);
         p.cubicTo(1290.7f, 121.6f, 1219.2f, 41.1f, 1178.7f, 0f);
         p.close();
-        drawPath(canvas, p, mTempHsv);
+        drawPath(canvas, p, 40);
 
-        mTempHsv[2] = 0.804f;
         p.reset();
         p.moveTo(949.8f, 768f);
         p.rCubicTo(92.6f, -170.6f, 213f, -440.3f, 269.4f, -768f);
         p.lineTo(585f, 0f);
         p.rLineTo(2.1f, 766f);
         p.close();
-        drawPath(canvas, p, mTempHsv);
+        drawPath(canvas, p, 51);
 
-        mTempHsv[2] = 0.827f;
         p.reset();
         p.moveTo(471.1f, 768f);
         p.rMoveTo(704.5f, 0f);
@@ -124,27 +124,24 @@ public class GlifPatternDrawable extends Drawable {
         p.lineTo(476.4f, 0f);
         p.rLineTo(-5.3f, 768f);
         p.close();
-        drawPath(canvas, p, mTempHsv);
+        drawPath(canvas, p, 66);
 
-        mTempHsv[2] = 0.867f;
         p.reset();
         p.moveTo(323.1f, 768f);
         p.moveTo(777.5f, 768f);
         p.cubicTo(661.9f, 348.8f, 427.2f, 21.4f, 401.2f, 25.4f);
         p.lineTo(323.1f, 768f);
         p.close();
-        drawPath(canvas, p, mTempHsv);
+        drawPath(canvas, p, 91);
 
-        mTempHsv[2] = 0.894f;
         p.reset();
         p.moveTo(178.44286f, 766.85714f);
         p.lineTo(308.7f, 768f);
         p.cubicTo(381.7f, 604.6f, 481.6f, 344.3f, 562.2f, 0f);
         p.lineTo(0f, 0f);
         p.close();
-        drawPath(canvas, p, mTempHsv);
+        drawPath(canvas, p, 112);
 
-        mTempHsv[2] = 0.929f;
         p.reset();
         p.moveTo(146f, 0f);
         p.lineTo(0f, 0f);
@@ -152,7 +149,7 @@ public class GlifPatternDrawable extends Drawable {
         p.lineTo(394.2f, 768f);
         p.cubicTo(327.7f, 475.3f, 228.5f, 201f, 146f, 0f);
         p.close();
-        drawPath(canvas, p, mTempHsv);
+        drawPath(canvas, p, 130);
 
         canvas.restore();
     }
@@ -178,8 +175,8 @@ public class GlifPatternDrawable extends Drawable {
         }
     }
 
-    private void drawPath(Canvas canvas, Path path, float[] hsv) {
-        mPaint.setColor(Color.HSVToColor(hsv));
+    private void drawPath(Canvas canvas, Path path, int lightness) {
+        mPaint.setColor(Color.rgb(lightness, lightness, lightness));
         canvas.drawPath(path, mPaint);
     }
 
@@ -196,6 +193,12 @@ public class GlifPatternDrawable extends Drawable {
     @Override
     public int getOpacity() {
         return 0;
+    }
+
+    @Override
+    protected void onBoundsChange(Rect bounds) {
+        mBitmap = null;
+        super.onBoundsChange(bounds);
     }
 
     public void setColor(int color) {
