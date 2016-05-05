@@ -69,6 +69,16 @@ public class StatusBarBackgroundLayout extends FrameLayout {
     }
 
     @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        if (Build.VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP) {
+            if (mLastInsets == null) {
+                requestApplyInsets();
+            }
+        }
+    }
+
+    @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         if (Build.VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP) {

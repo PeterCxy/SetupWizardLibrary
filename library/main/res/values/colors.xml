@@ -33,4 +33,8 @@
     <color name="suw_navbar_bg_dark">#ff21272b</color>
     <color name="suw_navbar_bg_light">#ffe4e7e9</color>
 
+    <!-- GLIF colors -->
+    <color name="suw_color_accent_glif_dark">#ff4285f4</color>
+    <color name="suw_color_accent_glif_light">#ff4285f4</color>
+
 </resources>

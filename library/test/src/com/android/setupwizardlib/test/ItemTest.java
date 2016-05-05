@@ -42,8 +42,13 @@ public class ItemTest extends AndroidTestCase {
         item.setTitle("TestTitle");
         item.setSummary("TestSummary");
         Drawable icon = new ShapeDrawable();
+        icon.setLevel(4);
         item.setIcon(icon);
         View view = createLayout();
+
+        mIconView.setImageLevel(1);
+        Drawable recycledIcon = new ShapeDrawable();
+        mIconView.setImageDrawable(recycledIcon);
 
         item.onBindView(view);
 
@@ -51,6 +56,8 @@ public class ItemTest extends AndroidTestCase {
         assertEquals("Summary should be \"TestSummary\"", "TestSummary",
                 mSummaryView.getText().toString());
         assertSame("Icon should be the icon shape drawable", icon, mIconView.getDrawable());
+        assertEquals("Recycled icon level should not change", 1, recycledIcon.getLevel());
+        assertEquals("Icon should be level 4", 4, icon.getLevel());
     }
 
     @SmallTest

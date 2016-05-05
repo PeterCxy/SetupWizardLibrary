@@ -26,6 +26,7 @@
         <item name="android:listPreferredItemHeight">@dimen/suw_items_preferred_height</item>
         <item name="android:navigationBarColor" tools:ignore="NewApi">@android:color/black</item>
         <item name="android:statusBarColor" tools:ignore="NewApi">@android:color/black</item>
+        <item name="android:textAppearanceListItemSmall" tools:ignore="NewApi">?attr/textAppearanceListItemSmall</item>
         <item name="android:textColorLink">@color/suw_link_color_dark</item>
         <item name="android:windowAnimationStyle">@style/Animation.SuwWindowAnimation</item>
         <item name="android:windowDisablePreview">true</item>
@@ -38,7 +39,7 @@
         <item name="suwListItemIconColor">@color/suw_list_item_icon_color_dark</item>
         <item name="suwMarginSides">@dimen/suw_layout_margin_sides</item>
         <item name="suwNavBarTheme">@style/SuwNavBarThemeDark</item>
-        <item name="textAppearanceListItemSmall">@style/TextAppearance.AppCompat.Body1</item>
+        <item name="textAppearanceListItemSmall">@style/TextAppearance.SuwItemSummary</item>
     </style>
 
     <style name="SuwThemeMaterial.Light" parent="Theme.AppCompat.Light.NoActionBar">
@@ -48,6 +49,7 @@
         <item name="android:listPreferredItemHeight">@dimen/suw_items_preferred_height</item>
         <item name="android:navigationBarColor" tools:ignore="NewApi">@android:color/black</item>
         <item name="android:statusBarColor" tools:ignore="NewApi">@android:color/black</item>
+        <item name="android:textAppearanceListItemSmall" tools:ignore="NewApi">?attr/textAppearanceListItemSmall</item>
         <item name="android:textColorLink">@color/suw_link_color_light</item>
         <item name="android:windowAnimationStyle">@style/Animation.SuwWindowAnimation</item>
         <item name="android:windowDisablePreview">true</item>
@@ -60,7 +62,7 @@
         <item name="suwListItemIconColor">@color/suw_list_item_icon_color_light</item>
         <item name="suwMarginSides">@dimen/suw_layout_margin_sides</item>
         <item name="suwNavBarTheme">@style/SuwNavBarThemeLight</item>
-        <item name="textAppearanceListItemSmall">@style/TextAppearance.AppCompat.Body1</item>
+        <item name="textAppearanceListItemSmall">@style/TextAppearance.SuwItemSummary</item>
     </style>
 
     <!-- Placeholder for GLIF dark theme, colors are not updated yet -->
@@ -71,13 +73,14 @@
         <item name="android:listPreferredItemHeight">@dimen/suw_items_preferred_height</item>
         <item name="android:navigationBarColor" tools:ignore="NewApi">@android:color/black</item>
         <item name="android:statusBarColor" tools:ignore="NewApi">@android:color/transparent</item>
+        <item name="android:textAppearanceListItemSmall" tools:ignore="NewApi">?attr/textAppearanceListItemSmall</item>
         <item name="android:textColorLink">@color/suw_link_color_light</item>
         <item name="android:windowAnimationStyle">@style/Animation.SuwWindowAnimation</item>
         <item name="android:windowDisablePreview">true</item>
         <item name="android:windowSoftInputMode">adjustResize</item>
 
-        <item name="colorAccent">@color/suw_color_accent_light</item>
-        <item name="colorPrimary">@color/suw_color_accent_light</item>
+        <item name="colorAccent">@color/suw_color_accent_glif_dark</item>
+        <item name="colorPrimary">@color/suw_color_accent_glif_dark</item>
         <item name="listPreferredItemPaddingLeft">?attr/suwMarginSides</item>
         <item name="listPreferredItemPaddingRight">?attr/suwMarginSides</item>
         <item name="suwListItemIconColor">@color/suw_list_item_icon_color_dark</item>
@@ -95,13 +98,14 @@
         <item name="android:listPreferredItemPaddingStart" tools:ignore="NewApi">?attr/suwMarginSides</item>
         <item name="android:navigationBarColor" tools:ignore="NewApi">@android:color/black</item>
         <item name="android:statusBarColor" tools:ignore="NewApi">@android:color/transparent</item>
+        <item name="android:textAppearanceListItemSmall" tools:ignore="NewApi">?attr/textAppearanceListItemSmall</item>
         <item name="android:textColorLink">@color/suw_link_color_light</item>
         <item name="android:windowAnimationStyle">@style/Animation.SuwWindowAnimation</item>
         <item name="android:windowDisablePreview">true</item>
         <item name="android:windowSoftInputMode">adjustResize</item>
 
-        <item name="colorAccent">@color/suw_color_accent_light</item>
-        <item name="colorPrimary">@color/suw_color_accent_light</item>
+        <item name="colorAccent">@color/suw_color_accent_glif_light</item>
+        <item name="colorPrimary">@color/suw_color_accent_glif_light</item>
         <item name="listPreferredItemPaddingLeft">?attr/suwMarginSides</item>
         <item name="listPreferredItemPaddingRight">?attr/suwMarginSides</item>
         <item name="suwListItemIconColor">@color/suw_list_item_icon_color_light</item>
@@ -135,6 +139,16 @@
 
     <style name="SuwItemSummary">
         <item name="android:textAppearance">?attr/textAppearanceListItemSmall</item>
+    </style>
+
+    <!-- Button styles -->
+
+    <style name="SuwButtonItem" />
+
+    <style name="SuwButtonItem.Colored">
+        <item name="android:buttonStyle">@style/Widget.AppCompat.Button</item>
+        <item name="android:textColor">?android:attr/textColorPrimaryInverse</item>
+        <item name="colorButtonNormal">?attr/colorAccent</item>
     </style>
 
     <!-- Card layout (for tablets) -->

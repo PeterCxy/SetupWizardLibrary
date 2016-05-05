@@ -19,9 +19,13 @@ package com.android.setupwizardlib.test;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Parcelable;
 import android.test.InstrumentationTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
+import android.util.SparseArray;
+import android.view.AbsSavedState;
 import android.view.ContextThemeWrapper;
+import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -140,6 +144,72 @@ public class SetupWizardLayoutTest extends InstrumentationTestCase {
         // test_template does not have progress bar, so showNavigationBar() should do nothing.
         final SetupWizardLayout layout = new SetupWizardLayout(mContext, R.layout.test_template);
         layout.showProgressBar();
+        assertFalse("Progress bar should not be shown", layout.isProgressBarShown());
+    }
+
+    @SmallTest
+    public void testWrongTheme() {
+        // Test the error message when using the wrong theme
+        mContext = new ContextThemeWrapper(getInstrumentation().getContext(),
+                android.R.style.Theme);
+        try {
+            new SetupWizardLayout(mContext);
+            fail("Should have thrown InflateException");
+        } catch (InflateException e) {
+            assertEquals("Exception message should mention correct theme to use",
+                    "Unable to inflate layout. Are you using @style/SuwThemeMaterial "
+                            + "(or its descendant) as your theme?", e.getMessage());
+        }
+    }
+
+    @SmallTest
+    public void testOnRestoreFromInstanceState() {
+        final SetupWizardLayout layout = new SetupWizardLayout(mContext);
+        // noinspection ResourceType
+        layout.setId(1234);
+
+        SparseArray<Parcelable> container = new SparseArray<>();
+        layout.saveHierarchyState(container);
+
+        final SetupWizardLayout layout2 = new SetupWizardLayout(mContext);
+        // noinspection ResourceType
+        layout2.setId(1234);
+        layout2.restoreHierarchyState(container);
+
+        assertFalse("Progress bar should not be shown", layout2.isProgressBarShown());
+    }
+
+    @SmallTest
+    public void testOnRestoreFromInstanceStateProgressBarShown() {
+        final SetupWizardLayout layout = new SetupWizardLayout(mContext);
+        // noinspection ResourceType
+        layout.setId(1234);
+
+        layout.setProgressBarShown(true);
+
+        SparseArray<Parcelable> container = new SparseArray<>();
+        layout.saveHierarchyState(container);
+
+        final SetupWizardLayout layout2 = new SetupWizardLayout(mContext);
+        // noinspection ResourceType
+        layout2.setId(1234);
+        layout2.restoreHierarchyState(container);
+
+        assertTrue("Progress bar should be shown", layout2.isProgressBarShown());
+    }
+
+    @SmallTest
+    public void testOnRestoreFromIncompatibleInstanceState() {
+        final SetupWizardLayout layout = new SetupWizardLayout(mContext);
+        // noinspection ResourceType
+        layout.setId(1234);
+
+        SparseArray<Parcelable> container = new SparseArray<>();
+        container.put(1234, AbsSavedState.EMPTY_STATE);
+        layout.restoreHierarchyState(container);
+
+        // SetupWizardLayout shouldn't crash with incompatible Parcelable
+
         assertFalse("Progress bar should not be shown", layout.isProgressBarShown());
     }
 

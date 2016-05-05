@@ -45,14 +45,7 @@
     <FrameLayout android:id="@+id/suw_layout_content"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1">
-
-        <!-- Temporary solution to work with PreferenceFragment v14 -->
-        <FrameLayout android:id="@+id/list_container"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-    </FrameLayout>
+        android:layout_weight="1" />
 
     <com.android.setupwizardlib.view.NavigationBar
         android:id="@+id/suw_layout_navigation_bar"

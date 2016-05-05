@@ -28,8 +28,6 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.android.setupwizardlib.items.ItemGroup;
 import com.android.setupwizardlib.items.ItemInflater;
@@ -44,8 +42,8 @@ import com.android.setupwizardlib.view.HeaderRecyclerView;
 public class GlifRecyclerLayout extends GlifLayout {
 
     private RecyclerView mRecyclerView;
-    private TextView mHeaderTextView;
-    private ImageView mIconView;
+    private View mHeader;
+
     private DividerItemDecoration mDividerDecoration;
     private Drawable mDefaultDivider;
     private Drawable mDivider;
@@ -90,7 +88,7 @@ public class GlifRecyclerLayout extends GlifLayout {
                 a.getDimensionPixelSize(R.styleable.SuwGlifRecyclerLayout_suwDividerInset, 0);
         if (dividerInset == 0) {
             dividerInset = getResources()
-                    .getDimensionPixelSize(R.dimen.suw_items_icon_divider_inset);
+                    .getDimensionPixelSize(R.dimen.suw_items_glif_icon_divider_inset);
         }
         setDividerInset(dividerInset);
         a.recycle();
@@ -123,26 +121,28 @@ public class GlifRecyclerLayout extends GlifLayout {
 
     @Override
     protected void onTemplateInflated() {
-        final Context context = getContext();
-        mRecyclerView = (RecyclerView) findViewById(R.id.suw_recycler_view);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
+        initRecyclerView((RecyclerView) findViewById(R.id.suw_recycler_view));
+    }
+
+    protected void initRecyclerView(RecyclerView recyclerView) {
+        mRecyclerView = recyclerView;
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         if (mRecyclerView instanceof HeaderRecyclerView) {
-            final View header = ((HeaderRecyclerView) mRecyclerView).getHeader();
-            mHeaderTextView = (TextView) header.findViewById(R.id.suw_layout_title);
-            mIconView = (ImageView) header.findViewById(R.id.suw_layout_icon);
+            mHeader = ((HeaderRecyclerView) mRecyclerView).getHeader();
         }
-        mDividerDecoration = DividerItemDecoration.getDefault(context);
+        mDividerDecoration = DividerItemDecoration.getDefault(getContext());
         mRecyclerView.addItemDecoration(mDividerDecoration);
     }
 
     @Override
-    protected TextView getHeaderTextView() {
-        return mHeaderTextView;
-    }
-
-    @Override
-    protected ImageView getIconView() {
-        return mIconView;
+    protected View findManagedViewById(int id) {
+        if (mHeader != null) {
+            final View view = mHeader.findViewById(id);
+            if (view != null) {
+                return view;
+            }
+        }
+        return super.findViewById(id);
     }
 
     public RecyclerView getRecyclerView() {
@@ -166,8 +166,8 @@ public class GlifRecyclerLayout extends GlifLayout {
      * theme and inset it {@code inset} pixels to the right (or left in RTL layouts).
      *
      * @param inset The number of pixels to inset on the "start" side of the list divider. Typically
-     *              this will be either {@code @dimen/suw_items_icon_divider_inset} or
-     *              {@code @dimen/suw_items_text_divider_inset}.
+     *              this will be either {@code @dimen/suw_items_glif_icon_divider_inset} or
+     *              {@code @dimen/suw_items_glif_text_divider_inset}.
      */
     public void setDividerInset(int inset) {
         mDividerInset = inset;

@@ -19,6 +19,7 @@ package com.android.setupwizardlib;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.graphics.Shader.TileMode;
 import android.graphics.drawable.BitmapDrawable;
@@ -32,10 +33,12 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
+import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewStub;
+import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -47,6 +50,8 @@ import com.android.setupwizardlib.view.NavigationBar;
 public class SetupWizardLayout extends TemplateLayout {
 
     private static final String TAG = "SetupWizardLayout";
+
+    private ColorStateList mProgressBarColor;
 
     public SetupWizardLayout(Context context) {
         super(context, 0, 0);
@@ -147,6 +152,12 @@ public class SetupWizardLayout extends TemplateLayout {
 
     @Override
     protected void onRestoreInstanceState(Parcelable state) {
+        if (!(state instanceof SavedState)) {
+            Log.w(TAG, "Ignoring restore instance state " + state);
+            super.onRestoreInstanceState(state);
+            return;
+        }
+
         final SavedState ss = (SavedState) state;
         super.onRestoreInstanceState(ss.getSuperState());
         final boolean isProgressBarShown = ss.mIsProgressBarShown;
@@ -162,7 +173,14 @@ public class SetupWizardLayout extends TemplateLayout {
         if (template == 0) {
             template = R.layout.suw_template;
         }
-        return super.onInflateTemplate(inflater, template);
+        try {
+            return super.onInflateTemplate(inflater, template);
+        } catch (RuntimeException e) {
+            // Versions before M throws RuntimeException for unsuccessful attribute resolution
+            // Versions M+ will throw an InflateException (which extends from RuntimeException)
+            throw new InflateException("Unable to inflate layout. Are you using "
+                    + "@style/SuwThemeMaterial (or its descendant) as your theme?", e);
+        }
     }
 
     @Override
@@ -174,12 +192,12 @@ public class SetupWizardLayout extends TemplateLayout {
     }
 
     public NavigationBar getNavigationBar() {
-        final View view = findViewById(R.id.suw_layout_navigation_bar);
+        final View view = findManagedViewById(R.id.suw_layout_navigation_bar);
         return view instanceof NavigationBar ? (NavigationBar) view : null;
     }
 
     public ScrollView getScrollView() {
-        final View view = findViewById(R.id.suw_bottom_scroll_view);
+        final View view = findManagedViewById(R.id.suw_bottom_scroll_view);
         return view instanceof ScrollView ? (ScrollView) view : null;
     }
 
@@ -192,10 +210,6 @@ public class SetupWizardLayout extends TemplateLayout {
             Log.e(TAG, "Both suw_layout_navigation_bar and suw_bottom_scroll_view must exist in"
                     + " the template to require scrolling.");
         }
-    }
-
-    protected TextView getHeaderTextView() {
-        return (TextView) findViewById(R.id.suw_layout_title);
     }
 
     public void setHeaderText(int title) {
@@ -217,8 +231,8 @@ public class SetupWizardLayout extends TemplateLayout {
         return titleView != null ? titleView.getText() : null;
     }
 
-    protected View getDecorationView() {
-        return findViewById(R.id.suw_layout_decor);
+    public TextView getHeaderTextView() {
+        return (TextView) findManagedViewById(R.id.suw_layout_title);
     }
 
     /**
@@ -230,7 +244,7 @@ public class SetupWizardLayout extends TemplateLayout {
      * @param drawable The drawable specifying the illustration.
      */
     public void setIllustration(Drawable drawable) {
-        final View view = getDecorationView();
+        final View view = findManagedViewById(R.id.suw_layout_decor);
         if (view instanceof Illustration) {
             final Illustration illustration = (Illustration) view;
             illustration.setIllustration(drawable);
@@ -247,7 +261,7 @@ public class SetupWizardLayout extends TemplateLayout {
      * @param horizontalTile Resource ID of the horizontally repeating tile for tablet layout.
      */
     public void setIllustration(int asset, int horizontalTile) {
-        final View view = getDecorationView();
+        final View view = findManagedViewById(R.id.suw_layout_decor);
         if (view instanceof Illustration) {
             final Illustration illustration = (Illustration) view;
             final Drawable illustrationDrawable = getIllustration(asset, horizontalTile);
@@ -256,7 +270,7 @@ public class SetupWizardLayout extends TemplateLayout {
     }
 
     private void setIllustration(Drawable asset, Drawable horizontalTile) {
-        final View view = getDecorationView();
+        final View view = findManagedViewById(R.id.suw_layout_decor);
         if (view instanceof Illustration) {
             final Illustration illustration = (Illustration) view;
             final Drawable illustrationDrawable = getIllustration(asset, horizontalTile);
@@ -272,7 +286,7 @@ public class SetupWizardLayout extends TemplateLayout {
      * @see com.android.setupwizardlib.view.Illustration#setAspectRatio(float)
      */
     public void setIllustrationAspectRatio(float aspectRatio) {
-        final View view = getDecorationView();
+        final View view = findManagedViewById(R.id.suw_layout_decor);
         if (view instanceof Illustration) {
             final Illustration illustration = (Illustration) view;
             illustration.setAspectRatio(aspectRatio);
@@ -290,7 +304,7 @@ public class SetupWizardLayout extends TemplateLayout {
      * @param paddingTop The top padding in pixels.
      */
     public void setDecorPaddingTop(int paddingTop) {
-        final View view = getDecorationView();
+        final View view = findManagedViewById(R.id.suw_layout_decor);
         if (view != null) {
             view.setPadding(view.getPaddingLeft(), paddingTop, view.getPaddingRight(),
                     view.getPaddingBottom());
@@ -302,7 +316,7 @@ public class SetupWizardLayout extends TemplateLayout {
      * a bitmap tile and you want it to repeat, use {@link #setBackgroundTile(int)} instead.
      */
     public void setLayoutBackground(Drawable background) {
-        final View view = getDecorationView();
+        final View view = findManagedViewById(R.id.suw_layout_decor);
         if (view != null) {
             //noinspection deprecation
             view.setBackgroundDrawable(background);
@@ -361,28 +375,72 @@ public class SetupWizardLayout extends TemplateLayout {
         }
     }
 
+    /**
+     * Same as {@link android.view.View#findViewById(int)}, but may include views that are managed
+     * by this view but not currently added to the view hierarchy. e.g. recycler view or list view
+     * headers that are not currently shown.
+     */
+    protected View findManagedViewById(int id) {
+        return findViewById(id);
+    }
+
     public boolean isProgressBarShown() {
-        final View progressBar = findViewById(R.id.suw_layout_progress);
+        final View progressBar = findManagedViewById(R.id.suw_layout_progress);
         return progressBar != null && progressBar.getVisibility() == View.VISIBLE;
     }
 
-    public void showProgressBar() {
-        final View progressBar = findViewById(R.id.suw_layout_progress);
+    /**
+     * Sets whether the progress bar below the header text is shown or not. The progress bar is
+     * a lazily inflated ViewStub, which means the progress bar will not actually be part of the
+     * view hierarchy until the first time this is set to {@code true}.
+     */
+    public void setProgressBarShown(boolean shown) {
+        final View progressBar = findManagedViewById(R.id.suw_layout_progress);
         if (progressBar != null) {
-            progressBar.setVisibility(View.VISIBLE);
-        } else {
-            final ViewStub progressBarStub = (ViewStub) findViewById(R.id.suw_layout_progress_stub);
+            progressBar.setVisibility(shown ? View.VISIBLE : View.GONE);
+        } else if (shown) {
+            final ViewStub progressBarStub =
+                    (ViewStub) findManagedViewById(R.id.suw_layout_progress_stub);
             if (progressBarStub != null) {
                 progressBarStub.inflate();
+            }
+            if (mProgressBarColor != null) {
+                setProgressBarColor(mProgressBarColor);
             }
         }
     }
 
+    /**
+     * @deprecated Use {@link #setProgressBarShown(boolean)}
+     */
+    @Deprecated
+    public void showProgressBar() {
+        setProgressBarShown(true);
+    }
+
+    /**
+     * @deprecated Use {@link #setProgressBarShown(boolean)}
+     */
+    @Deprecated
     public void hideProgressBar() {
-        final View progressBar = findViewById(R.id.suw_layout_progress);
-        if (progressBar != null) {
-            progressBar.setVisibility(View.GONE);
+        setProgressBarShown(false);
+    }
+
+    public void setProgressBarColor(ColorStateList color) {
+        mProgressBarColor = color;
+        if (VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP) {
+            // Suppress lint error caused by
+            // https://code.google.com/p/android/issues/detail?id=183136
+            // noinspection AndroidLintWrongViewCast
+            final ProgressBar bar = (ProgressBar) findViewById(R.id.suw_layout_progress);
+            if (bar != null) {
+                bar.setIndeterminateTintList(color);
+            }
         }
+    }
+
+    public ColorStateList getProgressBarColor() {
+        return mProgressBarColor;
     }
 
     /* Misc */

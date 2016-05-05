@@ -17,7 +17,10 @@
 package com.android.setupwizardlib.items;
 
 import android.content.res.TypedArray;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.LayerDrawable;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,9 +35,7 @@ import com.android.setupwizardlib.R;
 public class RecyclerItemAdapter extends RecyclerView.Adapter<ItemViewHolder>
         implements ItemHierarchy.Observer {
 
-    private static final int[] SELECTABLE_ITEM_BACKGROUND = new int[] {
-            R.attr.selectableItemBackground
-    };
+    private static final String TAG = "RecyclerItemAdapter";
 
     public interface OnItemSelectedListener {
         void onItemSelected(IItem item);
@@ -75,8 +76,26 @@ public class RecyclerItemAdapter extends RecyclerView.Adapter<ItemViewHolder>
         final ItemViewHolder viewHolder = new ItemViewHolder(view);
 
         final TypedArray typedArray = parent.getContext()
-                .obtainStyledAttributes(SELECTABLE_ITEM_BACKGROUND);
-        view.setBackgroundDrawable(typedArray.getDrawable(0));
+                .obtainStyledAttributes(R.styleable.SuwRecyclerItemAdapter);
+        Drawable selectableItemBackground = typedArray.getDrawable(
+                R.styleable.SuwRecyclerItemAdapter_android_selectableItemBackground);
+        if (selectableItemBackground == null) {
+            selectableItemBackground = typedArray.getDrawable(
+                    R.styleable.SuwRecyclerItemAdapter_selectableItemBackground);
+        }
+
+        final Drawable background = typedArray.getDrawable(
+                R.styleable.SuwRecyclerItemAdapter_android_colorBackground);
+
+        if (selectableItemBackground == null || background == null) {
+            Log.e(TAG, "Cannot resolve required attributes."
+                    + " selectableItemBackground=" + selectableItemBackground
+                    + " background=" + background);
+        } else {
+            final Drawable[] layers = { background, selectableItemBackground };
+            view.setBackgroundDrawable(new LayerDrawable(layers));
+        }
+
         typedArray.recycle();
 
         view.setOnClickListener(new View.OnClickListener() {

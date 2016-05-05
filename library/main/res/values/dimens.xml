@@ -35,6 +35,7 @@
 
     <dimen name="suw_description_margin_top">24dp</dimen>
     <dimen name="suw_description_margin_bottom">12dp</dimen>
+    <dimen name="suw_description_margin_bottom_lists">24dp</dimen>
     <dimen name="suw_description_line_spacing_extra">4sp</dimen>
     <dimen name="suw_description_text_size">16sp</dimen>
 
@@ -68,6 +69,8 @@
 
     <!-- Header layout (for phones) -->
     <dimen name="suw_title_area_elevation">3dp</dimen>
+    <!-- Hack to force the header (and its shadow) to be drawn on top of the list contents -->
+    <dimen name="suw_header_elevation_hack">1dp</dimen>
 
     <dimen name="suw_header_title_size">24sp</dimen>
     <dimen name="suw_header_title_margin_bottom">16dp</dimen>
@@ -89,8 +92,11 @@
     <dimen name="suw_items_padding_vertical">15dp</dimen>
     <dimen name="suw_items_verbose_padding_vertical">20dp</dimen>
 
-    <dimen name="suw_items_icon_divider_inset">72dp</dimen>
-    <dimen name="suw_items_text_divider_inset">24dp</dimen>
+    <dimen name="suw_items_icon_divider_inset">88dp</dimen>
+    <dimen name="suw_items_text_divider_inset">40dp</dimen>
+
+    <dimen name="suw_items_glif_icon_divider_inset">72dp</dimen>
+    <dimen name="suw_items_glif_text_divider_inset">24dp</dimen>
 
     <!-- Extra padding in the bottom to compensate for difference between descent and (top) internal leading -->
     <dimen name="suw_items_padding_bottom_extra">1dp</dimen>

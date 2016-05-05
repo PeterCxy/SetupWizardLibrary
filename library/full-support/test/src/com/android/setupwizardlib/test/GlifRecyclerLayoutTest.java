@@ -27,11 +27,8 @@ import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.android.setupwizardlib.GlifRecyclerLayout;
-import com.android.setupwizardlib.view.HeaderRecyclerView;
 
 public class GlifRecyclerLayoutTest extends InstrumentationTestCase {
 
@@ -115,8 +112,9 @@ public class GlifRecyclerLayoutTest extends InstrumentationTestCase {
 
         if (layout instanceof TestLayout) {
             assertNotNull("Header text view should not be null",
-                    ((TestLayout) layout).getHeaderTextView());
-            assertNotNull("Icon view should not be null", ((TestLayout) layout).getIconView());
+                    ((TestLayout) layout).findManagedViewById(R.id.suw_layout_title));
+            assertNotNull("Icon view should not be null",
+                    ((TestLayout) layout).findManagedViewById(R.id.suw_layout_icon));
         }
     }
 
@@ -128,13 +126,8 @@ public class GlifRecyclerLayoutTest extends InstrumentationTestCase {
         }
 
         @Override
-        public TextView getHeaderTextView() {
-            return super.getHeaderTextView();
-        }
-
-        @Override
-        public ImageView getIconView() {
-            return super.getIconView();
+        public View findManagedViewById(int id) {
+            return super.findManagedViewById(id);
         }
     }
 }

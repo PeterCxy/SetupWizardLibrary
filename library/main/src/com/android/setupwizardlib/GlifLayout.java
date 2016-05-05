@@ -24,6 +24,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Build.VERSION_CODES;
 import android.util.AttributeSet;
+import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -121,7 +122,14 @@ public class GlifLayout extends TemplateLayout {
         if (template == 0) {
             template = R.layout.suw_glif_template;
         }
-        return super.onInflateTemplate(inflater, template);
+        try {
+            return super.onInflateTemplate(inflater, template);
+        } catch (RuntimeException e) {
+            // Versions before M throws RuntimeException for unsuccessful attribute resolution
+            // Versions M+ will throw an InflateException (which extends from RuntimeException)
+            throw new InflateException("Unable to inflate layout. Are you using "
+                    + "@style/SuwThemeGlif (or its descendant) as your theme?", e);
+        }
     }
 
     @Override
@@ -132,13 +140,22 @@ public class GlifLayout extends TemplateLayout {
         return super.findContainer(containerId);
     }
 
+    /**
+     * Same as {@link android.view.View#findViewById(int)}, but may include views that are managed
+     * by this view but not currently added to the view hierarchy. e.g. recycler view or list view
+     * headers that are not currently shown.
+     */
+    protected View findManagedViewById(int id) {
+        return findViewById(id);
+    }
+
     public ScrollView getScrollView() {
-        final View view = findViewById(R.id.suw_scroll_view);
+        final View view = findManagedViewById(R.id.suw_scroll_view);
         return view instanceof ScrollView ? (ScrollView) view : null;
     }
 
-    protected TextView getHeaderTextView() {
-        return (TextView) findViewById(R.id.suw_layout_title);
+    public TextView getHeaderTextView() {
+        return (TextView) findManagedViewById(R.id.suw_layout_title);
     }
 
     public void setHeaderText(int title) {
@@ -182,7 +199,7 @@ public class GlifLayout extends TemplateLayout {
     }
 
     protected ImageView getIconView() {
-        return (ImageView) findViewById(R.id.suw_layout_icon);
+        return (ImageView) findManagedViewById(R.id.suw_layout_icon);
     }
 
     public void setPrimaryColor(ColorStateList color) {
@@ -198,7 +215,7 @@ public class GlifLayout extends TemplateLayout {
     private void setGlifPatternColor(ColorStateList color) {
         if (Build.VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP) {
             setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
-            final View patternBg = findViewById(R.id.suw_pattern_bg);
+            final View patternBg = findManagedViewById(R.id.suw_pattern_bg);
             if (patternBg != null) {
                 final GlifPatternDrawable background =
                         new GlifPatternDrawable(color.getDefaultColor());
@@ -212,18 +229,18 @@ public class GlifLayout extends TemplateLayout {
     }
 
     public boolean isProgressBarShown() {
-        final View progressBar = findViewById(R.id.suw_layout_progress);
+        final View progressBar = findManagedViewById(R.id.suw_layout_progress);
         return progressBar != null && progressBar.getVisibility() == View.VISIBLE;
     }
 
     public void setProgressBarShown(boolean shown) {
-        final View progressBar = findViewById(R.id.suw_layout_progress);
+        final View progressBar = findManagedViewById(R.id.suw_layout_progress);
         if (shown) {
             if (progressBar != null) {
                 progressBar.setVisibility(View.VISIBLE);
             } else {
                 final ViewStub progressBarStub =
-                        (ViewStub) findViewById(R.id.suw_layout_progress_stub);
+                        (ViewStub) findManagedViewById(R.id.suw_layout_progress_stub);
                 if (progressBarStub != null) {
                     progressBarStub.inflate();
                 }
@@ -238,7 +255,7 @@ public class GlifLayout extends TemplateLayout {
 
     private void setProgressBarColor(ColorStateList color) {
         if (Build.VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP) {
-            final ProgressBar bar = (ProgressBar) findViewById(R.id.suw_layout_progress);
+            final ProgressBar bar = (ProgressBar) findManagedViewById(R.id.suw_layout_progress);
             if (bar != null) {
                 bar.setIndeterminateTintList(color);
             }
