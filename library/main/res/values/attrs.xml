@@ -36,6 +36,7 @@
     <attr name="suwHeader" format="reference" />
     <attr name="suwHeaderText" format="string" localization="suggested" />
     <attr name="suwDividerInset" format="dimension|reference" />
+    <attr name="suwItemDescriptionStyle" format="reference" />
 
     <declare-styleable name="SuwIllustration">
         <attr name="suwAspectRatio" format="float" />
