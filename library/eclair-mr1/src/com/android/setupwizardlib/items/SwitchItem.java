@@ -93,6 +93,7 @@ public class SwitchItem extends Item implements CompoundButton.OnCheckedChangeLi
 
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        mChecked = isChecked;
         if (mListener != null) {
             mListener.onCheckedChange(this, isChecked);
         }
