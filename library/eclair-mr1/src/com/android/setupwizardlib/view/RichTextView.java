@@ -115,4 +115,11 @@ public class RichTextView extends TextView {
         }
         return super.dispatchHoverEvent(event);
     }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        super.onTouchEvent(event);
+        // Do not consume touch events as they need to propagate to the parent containers for action
+        return false;
+    }
 }
