@@ -22,6 +22,7 @@ import android.text.Annotation;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
 import android.text.style.TextAppearanceSpan;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -99,13 +100,31 @@ public class RichTextView extends TextView {
     private void init() {
         mAccessibilityHelper = new LinkAccessibilityHelper(this);
         ViewCompat.setAccessibilityDelegate(this, mAccessibilityHelper);
-        setMovementMethod(LinkMovementMethod.getInstance());
     }
 
     @Override
     public void setText(CharSequence text, BufferType type) {
         text = getRichText(getContext(), text);
+        if (hasLinks(text)) {
+            // When a TextView has a movement method, it will set the view to clickable. This makes
+            // View.onTouchEvent always return true and consumes the touch event, essentially
+            // nullifying any return values of MovementMethod.onTouchEvent.
+            // To still allow propagating touch events to the parent when this view doesn't have
+            // links, we only set the movement method here if the text contains links.
+            setMovementMethod(LinkMovementMethod.getInstance());
+        } else {
+            setMovementMethod(null);
+        }
         super.setText(text, type);
+    }
+
+    private boolean hasLinks(CharSequence text) {
+        if (text instanceof Spanned) {
+            final ClickableSpan[] spans =
+                    ((Spanned) text).getSpans(0, text.length(), ClickableSpan.class);
+            return spans.length > 0;
+        }
+        return false;
     }
 
     @Override
@@ -114,12 +133,5 @@ public class RichTextView extends TextView {
             return true;
         }
         return super.dispatchHoverEvent(event);
-    }
-
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        super.onTouchEvent(event);
-        // Do not consume touch events as they need to propagate to the parent containers for action
-        return false;
     }
 }
