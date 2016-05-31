@@ -105,6 +105,10 @@ public class RichTextView extends TextView {
     @Override
     public void setText(CharSequence text, BufferType type) {
         text = getRichText(getContext(), text);
+        // Set text first before doing anything else because setMovementMethod internally calls
+        // setText. This in turn ends up calling this method with mText as the first parameter
+        super.setText(text, type);
+
         if (hasLinks(text)) {
             // When a TextView has a movement method, it will set the view to clickable. This makes
             // View.onTouchEvent always return true and consumes the touch event, essentially
@@ -115,7 +119,6 @@ public class RichTextView extends TextView {
         } else {
             setMovementMethod(null);
         }
-        super.setText(text, type);
     }
 
     private boolean hasLinks(CharSequence text) {
