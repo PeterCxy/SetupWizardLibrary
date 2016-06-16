@@ -66,6 +66,11 @@
         <attr name="suwStatusBarBackground" format="color|reference" />
     </declare-styleable>
 
+    <declare-styleable name="SuwMaxSizeFrameLayout">
+        <attr name="android:height" />
+        <attr name="android:width" />
+    </declare-styleable>
+
     <declare-styleable name="SuwSetupWizardLayout">
         <attr name="suwBackground" format="color|reference" />
         <attr name="suwBackgroundTile" format="color|reference" />
