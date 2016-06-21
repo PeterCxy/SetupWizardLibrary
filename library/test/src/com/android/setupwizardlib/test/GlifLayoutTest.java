@@ -114,6 +114,20 @@ public class GlifLayoutTest extends InstrumentationTestCase {
         }
     }
 
+    @SmallTest
+    public void testPeekProgressBarNull() {
+        GlifLayout layout = new GlifLayout(mContext);
+        assertNull("PeekProgressBar should return null initially", layout.peekProgressBar());
+    }
+
+    @SmallTest
+    public void testPekkProgressBar() {
+        GlifLayout layout = new GlifLayout(mContext);
+        layout.setProgressBarShown(true);
+        assertNotNull("Peek progress bar should return the bar after setProgressBarShown(true)",
+                layout.peekProgressBar());
+    }
+
     private void assertDefaultTemplateInflated(GlifLayout layout) {
         View title = layout.findViewById(R.id.suw_layout_title);
         assertNotNull("@id/suw_layout_title should not be null", title);
