@@ -236,7 +236,9 @@ public class GlifLayout extends TemplateLayout {
     public void setProgressBarShown(boolean shown) {
         if (shown) {
             View progressBar = getProgressBar();
-            progressBar.setVisibility(View.VISIBLE);
+            if (progressBar != null) {
+                progressBar.setVisibility(View.VISIBLE);
+            }
         } else {
             View progressBar = peekProgressBar();
             if (progressBar != null) {
