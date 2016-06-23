@@ -108,8 +108,9 @@ public class RichTextView extends TextView {
         // Set text first before doing anything else because setMovementMethod internally calls
         // setText. This in turn ends up calling this method with mText as the first parameter
         super.setText(text, type);
+        boolean hasLinks = hasLinks(text);
 
-        if (hasLinks(text)) {
+        if (hasLinks) {
             // When a TextView has a movement method, it will set the view to clickable. This makes
             // View.onTouchEvent always return true and consumes the touch event, essentially
             // nullifying any return values of MovementMethod.onTouchEvent.
@@ -119,6 +120,11 @@ public class RichTextView extends TextView {
         } else {
             setMovementMethod(null);
         }
+        // ExploreByTouchHelper automatically enables focus for RichTextView
+        // even though it may not have any links. Causes problems during talkback
+        // as individual TextViews consume touch events and thereby reducing the focus window
+        // shown by Talkback. Disable focus if there are no links
+        setFocusable(hasLinks);
     }
 
     private boolean hasLinks(CharSequence text) {
