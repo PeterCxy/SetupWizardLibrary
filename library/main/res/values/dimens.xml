@@ -40,7 +40,7 @@
     <dimen name="suw_description_text_size">16sp</dimen>
 
     <dimen name="suw_description_glif_margin_top">3dp</dimen>
-    <dimen name="suw_description_glif_margin_bottom_lists">4dp</dimen>
+    <dimen name="suw_description_glif_margin_bottom_lists">24dp</dimen>
 
     <!-- Margin on the start to offset for margin in the drawable -->
     <dimen name="suw_radio_button_margin_start">-6dp</dimen>
