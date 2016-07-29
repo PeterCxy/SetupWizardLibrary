@@ -138,6 +138,7 @@ public class ButtonItem extends AbstractItem implements View.OnClickListener {
         }
         mButton.setEnabled(mEnabled);
         mButton.setText(mText);
+        mButton.setId(getViewId());
         return mButton;
     }
 
