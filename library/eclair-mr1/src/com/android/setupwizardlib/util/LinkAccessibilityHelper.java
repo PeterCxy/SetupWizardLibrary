@@ -118,13 +118,11 @@ public class LinkAccessibilityHelper extends ExploreByTouchHelper {
         info.setFocusable(true);
         info.setClickable(true);
         getBoundsForSpan(span, mTempRect);
-        if (!mTempRect.isEmpty()) {
-            info.setBoundsInParent(getBoundsForSpan(span, mTempRect));
-        } else {
+        if (mTempRect.isEmpty()) {
             Log.e(TAG, "LinkSpan bounds is empty for: " + virtualViewId);
             mTempRect.set(0, 0, 1, 1);
-            info.setBoundsInParent(mTempRect);
         }
+        info.setBoundsInParent(mTempRect);
         info.addAction(AccessibilityNodeInfoCompat.ACTION_CLICK);
     }
 
@@ -171,22 +169,24 @@ public class LinkAccessibilityHelper extends ExploreByTouchHelper {
         CharSequence text = mView.getText();
         outRect.setEmpty();
         if (text instanceof Spanned) {
-            Spanned spannedText = (Spanned) text;
-            final int spanStart = spannedText.getSpanStart(span);
-            final int spanEnd = spannedText.getSpanEnd(span);
             final Layout layout = mView.getLayout();
-            final float xStart = layout.getPrimaryHorizontal(spanStart);
-            final float xEnd = layout.getPrimaryHorizontal(spanEnd);
-            final int lineStart = layout.getLineForOffset(spanStart);
-            final int lineEnd = layout.getLineForOffset(spanEnd);
-            layout.getLineBounds(lineStart, outRect);
-            outRect.left = (int) xStart;
-            if (lineEnd == lineStart) {
-                outRect.right = (int) xEnd;
-            } // otherwise just leave it at the end of the start line
+            if (layout != null) {
+                Spanned spannedText = (Spanned) text;
+                final int spanStart = spannedText.getSpanStart(span);
+                final int spanEnd = spannedText.getSpanEnd(span);
+                final float xStart = layout.getPrimaryHorizontal(spanStart);
+                final float xEnd = layout.getPrimaryHorizontal(spanEnd);
+                final int lineStart = layout.getLineForOffset(spanStart);
+                final int lineEnd = layout.getLineForOffset(spanEnd);
+                layout.getLineBounds(lineStart, outRect);
+                outRect.left = (int) xStart;
+                if (lineEnd == lineStart) {
+                    outRect.right = (int) xEnd;
+                } // otherwise just leave it at the end of the start line
 
-            // Offset for padding
-            outRect.offset(mView.getTotalPaddingLeft(), mView.getTotalPaddingTop());
+                // Offset for padding
+                outRect.offset(mView.getTotalPaddingLeft(), mView.getTotalPaddingTop());
+            }
         }
         return outRect;
     }
