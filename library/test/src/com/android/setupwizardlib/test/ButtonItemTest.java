@@ -27,6 +27,7 @@ import android.widget.LinearLayout;
 import com.android.setupwizardlib.R;
 import com.android.setupwizardlib.items.ButtonItem;
 
+
 public class ButtonItemTest extends AndroidTestCase {
 
     private ViewGroup mParent;
@@ -65,6 +66,14 @@ public class ButtonItemTest extends AndroidTestCase {
 
         assertTrue("Default button should be enabled", button.isEnabled());
         assertTrue("Default button text should be empty", TextUtils.isEmpty(button.getText()));
+    }
+
+    public void testButtonItemSetsItsId() {
+        TestButtonItem item = new TestButtonItem();
+        final int id = 12345;
+        item.setId(id);
+
+        assertEquals("Button's id should be set", item.createButton(mParent).getId(), id);
     }
 
     public void testCreateButtonTwice() {

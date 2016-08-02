@@ -49,6 +49,10 @@ public abstract class AbstractItemHierarchy implements ItemHierarchy {
         return mId;
     }
 
+    public int getViewId() {
+        return getId();
+    }
+
     @Override
     public void registerObserver(Observer observer) {
         mObservers.add(observer);
