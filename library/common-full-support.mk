@@ -12,8 +12,6 @@
 #   include frameworks/opt/setupwizard/library/common-full-support.mk
 #
 
-ifneq ($(LOCAL_USE_AAPT2),true)
-
 # Check that LOCAL_RESOURCE_DIR is defined
 ifeq (,$(LOCAL_RESOURCE_DIR))
 $(error LOCAL_RESOURCE_DIR must be defined)
@@ -49,20 +47,3 @@ LOCAL_RESOURCE_DIR += frameworks/support/v7/recyclerview/res
 LOCAL_AAPT_FLAGS += --extra-packages android.support.v7.recyclerview
 LOCAL_STATIC_JAVA_LIBRARIES += android-support-v7-recyclerview
 endif
-
-else # LOCAL_USE_AAPT2 := true
-
-ifeq (,$(findstring setup-wizard-lib-full-support,$(LOCAL_STATIC_ANDROID_LIBRARIES)))
-  LOCAL_STATIC_ANDROID_LIBRARIES += setup-wizard-lib-full-support
-endif
-
-ifeq (,$(findstring android-support-v7-appcompat,$(LOCAL_STATIC_ANDROID_LIBRARIES)))
-  LOCAL_STATIC_ANDROID_LIBRARIES += android-support-v7-appcompat
-endif
-
-ifeq (,$(findstring android-support-v7-recyclerview,$(LOCAL_STATIC_ANDROID_LIBRARIES)))
-  LOCAL_STATIC_ANDROID_LIBRARIES += android-support-v7-recyclerview
-endif
-
-endif # LOCAL_USE_AAPT2
-
