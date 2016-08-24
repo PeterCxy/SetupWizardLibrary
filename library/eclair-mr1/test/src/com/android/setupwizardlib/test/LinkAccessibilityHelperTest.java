@@ -121,6 +121,22 @@ public class LinkAccessibilityHelperTest extends AndroidTestCase {
         info.recycle();
     }
 
+    @SmallTest
+    public void testNullLayout() {
+        // Setting the padding will cause the layout to be null-ed out.
+        mTextView.setPadding(1, 1, 1, 1);
+
+        AccessibilityNodeInfoCompat info = AccessibilityNodeInfoCompat.obtain();
+        mHelper.onPopulateNodeForVirtualView(0, info);
+
+        Rect bounds = new Rect();
+        info.getBoundsInParent(bounds);
+        assertEquals("LinkSpan bounds should be (0, 0, 1, 1)",
+                new Rect(0, 0, 1, 1), bounds);
+
+        info.recycle();
+    }
+
     private int dp2Px(float dp) {
         if (mDisplayMetrics == null) {
             mDisplayMetrics = getContext().getResources().getDisplayMetrics();
