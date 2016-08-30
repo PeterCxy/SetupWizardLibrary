@@ -179,10 +179,22 @@ public class LinkAccessibilityHelper extends ExploreByTouchHelper {
                 final int lineStart = layout.getLineForOffset(spanStart);
                 final int lineEnd = layout.getLineForOffset(spanEnd);
                 layout.getLineBounds(lineStart, outRect);
-                outRect.left = (int) xStart;
                 if (lineEnd == lineStart) {
-                    outRect.right = (int) xEnd;
-                } // otherwise just leave it at the end of the start line
+                    // If the span is on a single line, adjust both the left and right bounds
+                    // so outrect is exactly bounding the span.
+                    outRect.left = (int) Math.min(xStart, xEnd);
+                    outRect.right = (int) Math.max(xStart, xEnd);
+                } else {
+                    // If the span wraps across multiple lines, only use the first line (as returned
+                    // by layout.getLineBounds above), and adjust the "start" of outrect to where
+                    // the span starts, leaving the "end" of outrect at the end of the line.
+                    // ("start" being left for LTR, and right for RTL)
+                    if (layout.getParagraphDirection(lineStart) == Layout.DIR_RIGHT_TO_LEFT) {
+                        outRect.right = (int) xStart;
+                    } else {
+                        outRect.left = (int) xStart;
+                    }
+                }
 
                 // Offset for padding
                 outRect.offset(mView.getTotalPaddingLeft(), mView.getTotalPaddingTop());
