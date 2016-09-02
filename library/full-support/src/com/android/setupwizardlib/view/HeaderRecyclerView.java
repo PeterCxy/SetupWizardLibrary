@@ -25,6 +25,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.accessibility.AccessibilityEvent;
+import android.widget.FrameLayout;
 
 import com.android.setupwizardlib.DividerItemDecoration;
 import com.android.setupwizardlib.R;
@@ -102,8 +103,21 @@ public class HeaderRecyclerView extends RecyclerView {
 
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            /*
+             * Returning the same view (mHeader) results in crash ".. but view is not a real child."
+             * The framework creates more than one instance of header because of "disappear"
+             * animations applied on the header and this necessitates creation of another headerview
+             * to use after the animation. We work around this restriction by returning an empty
+             * framelayout to which the header is attached using #onBindViewHolder method.
+             */
             if (viewType == HEADER_VIEW_TYPE) {
-                return new HeaderViewHolder(mHeader);
+                FrameLayout frameLayout = new FrameLayout(parent.getContext());
+                FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
+                    FrameLayout.LayoutParams.MATCH_PARENT,
+                    FrameLayout.LayoutParams.WRAP_CONTENT
+                );
+                frameLayout.setLayoutParams(params);
+                return new HeaderViewHolder(frameLayout);
             } else {
                 return mAdapter.onCreateViewHolder(parent, viewType);
             }
@@ -115,7 +129,14 @@ public class HeaderRecyclerView extends RecyclerView {
             if (mHeader != null) {
                 position--;
             }
-            if (position >= 0) {
+
+            if (holder instanceof HeaderViewHolder) {
+                if (mHeader.getParent() != null) {
+                    ((ViewGroup) mHeader.getParent()).removeView(mHeader);
+                }
+                FrameLayout mHeaderParent = (FrameLayout) holder.itemView;
+                mHeaderParent.addView(mHeader);
+            } else {
                 mAdapter.onBindViewHolder(holder, position);
             }
         }
