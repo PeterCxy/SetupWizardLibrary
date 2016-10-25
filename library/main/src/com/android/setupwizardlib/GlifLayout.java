@@ -285,6 +285,7 @@ public class GlifLayout extends TemplateLayout {
             final ProgressBar bar = peekProgressBar();
             if (bar != null) {
                 bar.setIndeterminateTintList(color);
+                bar.setProgressBackgroundTintList(color);
             }
         }
     }

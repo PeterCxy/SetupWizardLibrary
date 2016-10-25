@@ -96,6 +96,8 @@ public class GlifLayoutTest extends InstrumentationTestCase {
             ProgressBar progressBar = (ProgressBar) layout.findViewById(R.id.suw_layout_progress);
             assertEquals("Progress bar should be tinted red",
                     ColorStateList.valueOf(Color.RED), progressBar.getIndeterminateTintList());
+            assertEquals("Determinate progress bar should also be tinted red",
+                    ColorStateList.valueOf(Color.RED), progressBar.getProgressBackgroundTintList());
         }
     }
 
