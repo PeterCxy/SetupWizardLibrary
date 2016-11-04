@@ -33,6 +33,7 @@
     <attr name="suwNavBarTheme" format="reference" />
 
     <!-- Custom view attributes -->
+    <attr name="suwColorPrimary" format="color" />
     <attr name="suwHeader" format="reference" />
     <attr name="suwHeaderText" format="string" localization="suggested" />
     <attr name="suwDividerInset" format="dimension|reference" />
@@ -52,7 +53,7 @@
 
     <declare-styleable name="SuwGlifLayout">
         <attr name="android:icon" />
-        <attr name="android:colorPrimary" />
+        <attr name="suwColorPrimary" />
         <attr name="suwHeaderColor" format="reference|color" />
         <attr name="suwHeaderText" />
     </declare-styleable>

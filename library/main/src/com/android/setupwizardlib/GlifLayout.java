@@ -87,7 +87,7 @@ public class GlifLayout extends TemplateLayout {
     // All the constructors delegate to this init method. The 3-argument constructor is not
     // available in LinearLayout before v11, so call super with the exact same arguments.
     private void init(AttributeSet attrs, int defStyleAttr) {
-        final TypedArray a = getContext().obtainStyledAttributes(attrs,
+        TypedArray a = getContext().obtainStyledAttributes(attrs,
                 R.styleable.SuwGlifLayout, defStyleAttr, 0);
 
         final Drawable icon = a.getDrawable(R.styleable.SuwGlifLayout_android_icon);
@@ -110,11 +110,19 @@ public class GlifLayout extends TemplateLayout {
             setHeaderText(headerText);
         }
 
-        final ColorStateList primaryColor =
-                a.getColorStateList(R.styleable.SuwGlifLayout_android_colorPrimary);
-        setPrimaryColor(primaryColor);
+        ColorStateList primaryColor =
+                a.getColorStateList(R.styleable.SuwGlifLayout_suwColorPrimary);
 
         a.recycle();
+
+        if (primaryColor == null && Build.VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP) {
+            a = getContext().obtainStyledAttributes(attrs,
+                    R.styleable.SuwGlifLayoutV21, defStyleAttr, 0);
+            primaryColor = a.getColorStateList(R.styleable.SuwGlifLayoutV21_android_colorPrimary);
+            a.recycle();
+        }
+
+        setPrimaryColor(primaryColor);
     }
 
     @Override

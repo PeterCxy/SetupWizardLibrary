@@ -78,6 +78,16 @@ public class GlifLayoutTest extends InstrumentationTestCase {
     }
 
     @SmallTest
+    public void testPrimaryColorFromXml() {
+        LayoutInflater inflater = LayoutInflater.from(mContext);
+        GlifLayout layout =
+                (GlifLayout) inflater.inflate(R.layout.test_glif_layout_primary_color, null);
+        assertDefaultTemplateInflated(layout);
+
+        assertEquals(ColorStateList.valueOf(Color.RED), layout.getPrimaryColor());
+    }
+
+    @SmallTest
     public void testGetScrollView() {
         GlifLayout layout = new GlifLayout(mContext);
         assertNotNull("Get scroll view should not be null with default template",
