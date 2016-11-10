@@ -16,20 +16,29 @@
 
 package com.android.setupwizardlib.test;
 
-import android.test.AndroidTestCase;
-import android.test.suitebuilder.annotation.SmallTest;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertSame;
+
+import android.support.test.filters.SmallTest;
+import android.support.test.runner.AndroidJUnit4;
 
 import com.android.setupwizardlib.items.Item;
 import com.android.setupwizardlib.items.ItemGroup;
 
-public class ItemGroupTest extends AndroidTestCase {
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+@RunWith(AndroidJUnit4.class)
+@SmallTest
+public class ItemGroupTest {
 
     public static final Item CHILD_1 = new Item();
     public static final Item CHILD_2 = new Item();
     public static final Item CHILD_3 = new Item();
     public static final Item CHILD_4 = new Item();
 
-    @SmallTest
+    @Test
     public void testGroup() {
         ItemGroup itemGroup = new ItemGroup();
         itemGroup.addChild(CHILD_1);
@@ -40,7 +49,7 @@ public class ItemGroupTest extends AndroidTestCase {
         assertEquals("Should have 2 children", 2, itemGroup.getCount());
     }
 
-    @SmallTest
+    @Test
     public void testRemoveChild() {
         ItemGroup itemGroup = new ItemGroup();
         itemGroup.addChild(CHILD_1);
@@ -52,7 +61,7 @@ public class ItemGroupTest extends AndroidTestCase {
         assertEquals("Should have 1 child", 1, itemGroup.getCount());
     }
 
-    @SmallTest
+    @Test
     public void testClear() {
         ItemGroup itemGroup = new ItemGroup();
         itemGroup.addChild(CHILD_1);
@@ -63,7 +72,7 @@ public class ItemGroupTest extends AndroidTestCase {
         assertEquals("Should have 0 child", 0, itemGroup.getCount());
     }
 
-    @SmallTest
+    @Test
     public void testNestedGroup() {
         ItemGroup parentGroup = new ItemGroup();
         ItemGroup childGroup = new ItemGroup();
@@ -85,7 +94,7 @@ public class ItemGroupTest extends AndroidTestCase {
         assertSame("Position 3 should be child 4", CHILD_4, parentGroup.getItemAt(3));
     }
 
-    @SmallTest
+    @Test
     public void testEmptyChildGroup() {
         ItemGroup parentGroup = new ItemGroup();
         ItemGroup childGroup = new ItemGroup();
@@ -98,7 +107,7 @@ public class ItemGroupTest extends AndroidTestCase {
         assertSame("Position 1 should be child 2", CHILD_2, parentGroup.getItemAt(1));
     }
 
-    @SmallTest
+    @Test
     public void testFindItemById() {
         ItemGroup itemGroup = new ItemGroup();
         CHILD_1.setId(12345);
@@ -110,7 +119,7 @@ public class ItemGroupTest extends AndroidTestCase {
         assertSame("Find item 23456 should return child 2", CHILD_2, itemGroup.findItemById(23456));
     }
 
-    @SmallTest
+    @Test
     public void testFindItemByIdNotFound() {
         ItemGroup itemGroup = new ItemGroup();
         CHILD_1.setId(12345);

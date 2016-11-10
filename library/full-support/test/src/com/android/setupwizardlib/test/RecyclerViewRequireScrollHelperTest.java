@@ -16,31 +16,40 @@
 
 package com.android.setupwizardlib.test;
 
+import static org.junit.Assert.assertEquals;
+
 import android.content.Context;
 import android.os.Build;
+import android.support.test.InstrumentationRegistry;
+import android.support.test.filters.SmallTest;
+import android.support.test.runner.AndroidJUnit4;
 import android.support.v7.widget.RecyclerView;
-import android.test.AndroidTestCase;
-import android.test.suitebuilder.annotation.SmallTest;
 import android.view.View;
 
 import com.android.setupwizardlib.util.RecyclerViewRequireScrollHelper;
 import com.android.setupwizardlib.view.NavigationBar;
 
-public class RecyclerViewRequireScrollHelperTest extends AndroidTestCase {
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+@RunWith(AndroidJUnit4.class)
+@SmallTest
+public class RecyclerViewRequireScrollHelperTest {
 
     private TestRecyclerView mRecyclerView;
     private NavigationBar mNavigationBar;
 
-    @Override
-    protected void setUp() throws Exception {
-        super.setUp();
-        mRecyclerView = new TestRecyclerView(getContext());
-        mNavigationBar = new TestNavigationBar(getContext());
+    @Before
+    public void setUp() throws Exception {
+        final Context context = InstrumentationRegistry.getContext();
+        mRecyclerView = new TestRecyclerView(context);
+        mNavigationBar = new TestNavigationBar(context);
 
         mRecyclerView.layout(0, 0, 50, 50);
     }
 
-    @SmallTest
+    @Test
     public void testRequireScroll() {
         RecyclerViewRequireScrollHelper.requireScroll(mNavigationBar, mRecyclerView);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.FROYO) {
@@ -51,7 +60,7 @@ public class RecyclerViewRequireScrollHelperTest extends AndroidTestCase {
         }
     }
 
-    @SmallTest
+    @Test
     public void testScrolledToBottom() {
         RecyclerViewRequireScrollHelper.requireScroll(mNavigationBar, mRecyclerView);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.FROYO) {
@@ -69,7 +78,7 @@ public class RecyclerViewRequireScrollHelperTest extends AndroidTestCase {
         }
     }
 
-    @SmallTest
+    @Test
     public void testClickScrollButton() {
         RecyclerViewRequireScrollHelper.requireScroll(mNavigationBar, mRecyclerView);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.FROYO) {

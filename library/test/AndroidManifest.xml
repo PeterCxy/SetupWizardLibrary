@@ -16,6 +16,9 @@
 -->
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.android.setupwizardlib.test">
+
+    <uses-sdk tools:overrideLibrary="android.support.test,android.app,android.support.test.rule" />
 
 </manifest>

@@ -12,6 +12,12 @@ android.sourceSets {
         manifest.srcFile 'test/AndroidManifest.xml'
         java.srcDirs = ['test/src']
         res.srcDirs = ['test/res']
+
+        dependencies {
+            androidTestCompile 'com.android.support.test:rules:0.5'
+            androidTestCompile 'com.android.support.test:runner:0.5'
+            androidTestCompile 'junit:junit:4.+'
+        }
     }
 
     androidTestEclairMr1Compat {
@@ -23,6 +29,7 @@ android.sourceSets {
         res.srcDirs = ['full-support/test/res']
     }
 }
+android.defaultConfig.testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
 android.lintOptions {
     // TODO: Fix lint errors and re-enable fatal lint

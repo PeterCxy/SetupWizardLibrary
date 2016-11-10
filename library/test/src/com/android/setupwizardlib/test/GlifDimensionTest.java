@@ -16,32 +16,41 @@
 
 package com.android.setupwizardlib.test;
 
+import static org.junit.Assert.assertEquals;
+
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.os.Build;
-import android.test.AndroidTestCase;
-import android.test.suitebuilder.annotation.SmallTest;
+import android.support.test.InstrumentationRegistry;
+import android.support.test.filters.SmallTest;
+import android.support.test.runner.AndroidJUnit4;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.ContextThemeWrapper;
 
-public class GlifDimensionTest extends AndroidTestCase {
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+@RunWith(AndroidJUnit4.class)
+@SmallTest
+public class GlifDimensionTest {
 
     private static final String TAG = "GlifDimensionTest";
 
     private Context mContext;
 
-    @Override
-    protected void setUp() throws Exception {
-        super.setUp();
-        mContext = new ContextThemeWrapper(getContext(), R.style.SuwThemeGlif_Light);
+    @Before
+    public void setUp() {
+        mContext = new ContextThemeWrapper(InstrumentationRegistry.getTargetContext(),
+                R.style.SuwThemeGlif_Light);
     }
 
-    @SmallTest
+    @Test
     public void testDividerInsetPhone() {
         // The screen width APIs needed for this this were introduced in Honeycomb MR2
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
@@ -64,7 +73,7 @@ public class GlifDimensionTest extends AndroidTestCase {
         }
     }
 
-    @SmallTest
+    @Test
     public void testDividerInsetSw600dp() {
         // The screen width APIs needed for this this were introduced in Honeycomb MR2
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {

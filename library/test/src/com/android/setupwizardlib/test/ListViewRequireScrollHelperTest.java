@@ -16,12 +16,14 @@
 
 package com.android.setupwizardlib.test;
 
+import static org.junit.Assert.assertEquals;
+
 import android.content.Context;
 import android.os.Build;
 import android.os.SystemClock;
-import android.test.InstrumentationTestCase;
-import android.test.suitebuilder.annotation.SmallTest;
-import android.util.Log;
+import android.support.test.InstrumentationRegistry;
+import android.support.test.filters.SmallTest;
+import android.support.test.runner.AndroidJUnit4;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -30,21 +32,26 @@ import android.widget.ListView;
 import com.android.setupwizardlib.util.ListViewRequireScrollHelper;
 import com.android.setupwizardlib.view.NavigationBar;
 
-public class ListViewRequireScrollHelperTest extends InstrumentationTestCase {
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+@RunWith(AndroidJUnit4.class)
+@SmallTest
+public class ListViewRequireScrollHelperTest {
 
     private TestListView mListView;
     private NavigationBar mNavigationBar;
 
-    @Override
-    protected void setUp() throws Exception {
-        super.setUp();
-        mListView = new TestListView(getInstrumentation().getTargetContext());
-        mNavigationBar = new TestNavigationBar(getInstrumentation().getTargetContext());
+    @Before
+    public void setUp() throws Exception {
+        mListView = new TestListView(InstrumentationRegistry.getTargetContext());
+        mNavigationBar = new TestNavigationBar(InstrumentationRegistry.getTargetContext());
 
         mListView.layout(0, 0, 50, 50);
     }
 
-    @SmallTest
+    @Test
     public void testRequireScroll() throws Throwable {
         ListViewRequireScrollHelper.requireScroll(mNavigationBar, mListView);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.FROYO) {
@@ -55,7 +62,7 @@ public class ListViewRequireScrollHelperTest extends InstrumentationTestCase {
         }
     }
 
-    @SmallTest
+    @Test
     public void testScrolledToBottom() throws Throwable {
         ListViewRequireScrollHelper.requireScroll(mNavigationBar, mListView);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.FROYO) {
@@ -65,7 +72,7 @@ public class ListViewRequireScrollHelperTest extends InstrumentationTestCase {
             assertEquals("Next button should not be shown when scroll is required", View.GONE,
                     mNavigationBar.getNextButton().getVisibility());
 
-            runTestOnUiThread(new Runnable() {
+            InstrumentationRegistry.getInstrumentation().runOnMainSync(new Runnable() {
                 @Override
                 public void run() {
                     mListView.lastVisiblePosition = 20;
@@ -80,7 +87,7 @@ public class ListViewRequireScrollHelperTest extends InstrumentationTestCase {
         }
     }
 
-    @SmallTest
+    @Test
     public void testClickScrollButton() throws Throwable {
         ListViewRequireScrollHelper.requireScroll(mNavigationBar, mListView);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.FROYO) {

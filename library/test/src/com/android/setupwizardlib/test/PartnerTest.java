@@ -16,6 +16,12 @@
 
 package com.android.setupwizardlib.test;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
@@ -24,14 +30,19 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.content.res.Resources;
-import android.test.InstrumentationTestCase;
+import android.support.test.InstrumentationRegistry;
+import android.support.test.filters.SmallTest;
+import android.support.test.runner.AndroidJUnit4;
 import android.test.mock.MockPackageManager;
 import android.test.mock.MockResources;
-import android.test.suitebuilder.annotation.SmallTest;
 import android.util.SparseArray;
 
 import com.android.setupwizardlib.util.Partner;
 import com.android.setupwizardlib.util.Partner.ResourceEntry;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -39,18 +50,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class PartnerTest extends InstrumentationTestCase {
+@RunWith(AndroidJUnit4.class)
+@SmallTest
+public class PartnerTest {
 
     private TestContext mTestContext;
 
-    @Override
-    protected void setUp() throws Exception {
-        super.setUp();
-        mTestContext = new TestContext(getInstrumentation().getTargetContext());
+    @Before
+    public void setUp() throws Exception {
+        mTestContext = new TestContext(InstrumentationRegistry.getTargetContext());
         Partner.resetForTesting();
     }
 
-    @SmallTest
+    @Test
     public void testLoadPartner() {
         mTestContext.partnerList = Arrays.asList(
                 createResolveInfo("hocus.pocus", false),
@@ -61,7 +73,7 @@ public class PartnerTest extends InstrumentationTestCase {
         assertNotNull("Partner should not be null", partner);
     }
 
-    @SmallTest
+    @Test
     public void testLoadNoPartner() {
         mTestContext.partnerList = new ArrayList<>();
 
@@ -69,7 +81,7 @@ public class PartnerTest extends InstrumentationTestCase {
         assertNull("Partner should be null", partner);
     }
 
-    @SmallTest
+    @Test
     public void testLoadNonSystemPartner() {
         mTestContext.partnerList = Arrays.asList(
                 createResolveInfo("hocus.pocus", false),
@@ -80,7 +92,7 @@ public class PartnerTest extends InstrumentationTestCase {
         assertNull("Partner should be null", partner);
     }
 
-    @SmallTest
+    @Test
     public void testLoadPartnerValue() {
         mTestContext.partnerList = Arrays.asList(
                 createResolveInfo("hocus.pocus", false),
@@ -94,7 +106,7 @@ public class PartnerTest extends InstrumentationTestCase {
         assertTrue("Partner value should come from overlay", entry.isOverlay);
     }
 
-    @SmallTest
+    @Test
     public void testLoadDefaultValue() {
         mTestContext.partnerList = Arrays.asList(
                 createResolveInfo("hocus.pocus", false),

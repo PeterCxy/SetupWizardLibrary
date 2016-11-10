@@ -16,25 +16,30 @@
 
 package com.android.setupwizardlib.test;
 
-import android.test.AndroidTestCase;
-import android.test.suitebuilder.annotation.SmallTest;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
+
+import android.support.test.filters.SmallTest;
+import android.support.test.runner.AndroidJUnit4;
 
 import com.android.setupwizardlib.items.Item;
 import com.android.setupwizardlib.items.ItemGroup;
 import com.android.setupwizardlib.items.ItemHierarchy;
 import com.android.setupwizardlib.items.RecyclerItemAdapter;
 
-import java.util.Arrays;
-import java.util.HashSet;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-public class RecyclerItemAdapterTest extends AndroidTestCase {
+@RunWith(AndroidJUnit4.class)
+@SmallTest
+public class RecyclerItemAdapterTest {
 
     private Item[] mItems = new Item[5];
     private ItemGroup mItemGroup = new ItemGroup();
 
-    @Override
-    protected void setUp() throws Exception {
-        super.setUp();
+    @Before
+    public void setUp() throws Exception {
         for (int i = 0; i < 5; i++) {
             Item item = new Item();
             item.setTitle("TestTitle" + i);
@@ -47,7 +52,7 @@ public class RecyclerItemAdapterTest extends AndroidTestCase {
         }
     }
 
-    @SmallTest
+    @Test
     public void testAdapter() {
         RecyclerItemAdapter adapter = new RecyclerItemAdapter(mItemGroup);
         assertEquals("Adapter should have 5 items", 5, adapter.getItemCount());
@@ -58,7 +63,7 @@ public class RecyclerItemAdapterTest extends AndroidTestCase {
         assertEquals("Second item should have view type 21", 21, adapter.getItemViewType(2));
     }
 
-    @SmallTest
+    @Test
     public void testGetRootItemHierarchy() {
         RecyclerItemAdapter adapter = new RecyclerItemAdapter(mItemGroup);
         ItemHierarchy root = adapter.getRootItemHierarchy();

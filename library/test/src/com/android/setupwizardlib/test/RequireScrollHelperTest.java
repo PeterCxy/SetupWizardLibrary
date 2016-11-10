@@ -16,28 +16,36 @@
 
 package com.android.setupwizardlib.test;
 
+import static org.junit.Assert.assertEquals;
+
 import android.content.Context;
-import android.test.AndroidTestCase;
-import android.test.suitebuilder.annotation.SmallTest;
+import android.support.test.InstrumentationRegistry;
+import android.support.test.filters.SmallTest;
+import android.support.test.runner.AndroidJUnit4;
 import android.view.View;
 
 import com.android.setupwizardlib.util.RequireScrollHelper;
 import com.android.setupwizardlib.view.BottomScrollView;
 import com.android.setupwizardlib.view.NavigationBar;
 
-public class RequireScrollHelperTest extends AndroidTestCase {
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+@RunWith(AndroidJUnit4.class)
+@SmallTest
+public class RequireScrollHelperTest {
 
     private TestBottomScrollView mScrollView;
     private NavigationBar mNavigationBar;
 
-    @Override
-    protected void setUp() throws Exception {
-        super.setUp();
-        mScrollView = new TestBottomScrollView(getContext());
-        mNavigationBar = new TestNavigationBar(getContext());
+    @Before
+    public void setUp() throws Exception {
+        mScrollView = new TestBottomScrollView(InstrumentationRegistry.getContext());
+        mNavigationBar = new TestNavigationBar(InstrumentationRegistry.getContext());
     }
 
-    @SmallTest
+    @Test
     public void testRequireScroll() {
         RequireScrollHelper.requireScroll(mNavigationBar, mScrollView);
         assertEquals("More button should be gone initially", View.GONE,
@@ -52,7 +60,7 @@ public class RequireScrollHelperTest extends AndroidTestCase {
                 mNavigationBar.getNextButton().getVisibility());
     }
 
-    @SmallTest
+    @Test
     public void testScrolledToBottom() {
         RequireScrollHelper.requireScroll(mNavigationBar, mScrollView);
         mScrollView.listener.onRequiresScroll();
@@ -68,7 +76,7 @@ public class RequireScrollHelperTest extends AndroidTestCase {
                 mNavigationBar.getNextButton().getVisibility());
     }
 
-    @SmallTest
+    @Test
     public void testClickScrollButton() {
         RequireScrollHelper.requireScroll(mNavigationBar, mScrollView);
         assertEquals("ScrollView page should be initially 0", 0, mScrollView.page);

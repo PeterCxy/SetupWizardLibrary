@@ -16,7 +16,18 @@
 
 package com.android.setupwizardlib.test;
 
-import android.test.AndroidTestCase;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
+import android.support.test.InstrumentationRegistry;
+import android.support.test.annotation.UiThreadTest;
+import android.support.test.filters.SmallTest;
+import android.support.test.rule.UiThreadTestRule;
+import android.support.test.runner.AndroidJUnit4;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,17 +38,28 @@ import android.widget.LinearLayout;
 import com.android.setupwizardlib.R;
 import com.android.setupwizardlib.items.ButtonItem;
 
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-public class ButtonItemTest extends AndroidTestCase {
+@SmallTest
+@RunWith(AndroidJUnit4.class)
+public class ButtonItemTest {
+
+    // These tests need to be run on UI thread because button uses ValueAnimator
+    @Rule
+    public UiThreadTestRule mUiThreadTestRule = new UiThreadTestRule();
 
     private ViewGroup mParent;
 
-    @Override
-    protected void setUp() throws Exception {
-        super.setUp();
-        mParent = new LinearLayout(getContext());
+    @Before
+    public void setUp() throws Exception {
+        mParent = new LinearLayout(InstrumentationRegistry.getContext());
     }
 
+    @Test
+    @UiThreadTest
     public void testDefaultItem() {
         ButtonItem item = new ButtonItem();
 
@@ -49,17 +71,21 @@ public class ButtonItemTest extends AndroidTestCase {
         assertNull("Default text should be null", item.getText());
     }
 
+    @Test
+    @UiThreadTest
     public void testOnBindView() {
         ButtonItem item = new ButtonItem();
 
         try {
-            item.onBindView(new View(getContext()));
+            item.onBindView(new View(InstrumentationRegistry.getContext()));
             fail("Calling onBindView on ButtonItem should throw UnsupportedOperationException");
         } catch (UnsupportedOperationException e) {
             // pass
         }
     }
 
+    @Test
+    @UiThreadTest
     public void testCreateButton() {
         TestButtonItem item = new TestButtonItem();
         final Button button = item.createButton(mParent);
@@ -68,6 +94,8 @@ public class ButtonItemTest extends AndroidTestCase {
         assertTrue("Default button text should be empty", TextUtils.isEmpty(button.getText()));
     }
 
+    @Test
+    @UiThreadTest
     public void testButtonItemSetsItsId() {
         TestButtonItem item = new TestButtonItem();
         final int id = 12345;
@@ -76,11 +104,13 @@ public class ButtonItemTest extends AndroidTestCase {
         assertEquals("Button's id should be set", item.createButton(mParent).getId(), id);
     }
 
+    @Test
+    @UiThreadTest
     public void testCreateButtonTwice() {
         TestButtonItem item = new TestButtonItem();
         final Button button = item.createButton(mParent);
 
-        FrameLayout frameLayout = new FrameLayout(getContext());
+        FrameLayout frameLayout = new FrameLayout(InstrumentationRegistry.getContext());
         frameLayout.addView(button);
 
         final Button button2 = item.createButton(mParent);
@@ -88,6 +118,8 @@ public class ButtonItemTest extends AndroidTestCase {
         assertNull("Should be removed from parent after createButton", button2.getParent());
     }
 
+    @Test
+    @UiThreadTest
     public void testSetEnabledTrue() {
         TestButtonItem item = new TestButtonItem();
         item.setEnabled(true);
@@ -97,6 +129,8 @@ public class ButtonItemTest extends AndroidTestCase {
         assertTrue("Button should be enabled", button.isEnabled());
     }
 
+    @Test
+    @UiThreadTest
     public void testSetEnabledFalse() {
         TestButtonItem item = new TestButtonItem();
         item.setEnabled(false);
@@ -106,6 +140,8 @@ public class ButtonItemTest extends AndroidTestCase {
         assertFalse("Button should be disabled", button.isEnabled());
     }
 
+    @Test
+    @UiThreadTest
     public void testSetText() {
         TestButtonItem item = new TestButtonItem();
         item.setText("lorem ipsum");
@@ -115,6 +151,8 @@ public class ButtonItemTest extends AndroidTestCase {
         assertEquals("Button text should be \"lorem ipsum\"", "lorem ipsum", button.getText());
     }
 
+    @Test
+    @UiThreadTest
     public void testSetTheme() {
         TestButtonItem item = new TestButtonItem();
         item.setTheme(12345);
@@ -124,6 +162,8 @@ public class ButtonItemTest extends AndroidTestCase {
         button.getContext().getTheme();
     }
 
+    @Test
+    @UiThreadTest
     public void testOnClickListener() {
         TestButtonItem item = new TestButtonItem();
         final TestOnClickListener listener = new TestOnClickListener();

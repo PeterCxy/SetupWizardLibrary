@@ -16,9 +16,14 @@
 
 package com.android.setupwizardlib.test;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
+import android.content.Context;
+import android.support.test.InstrumentationRegistry;
+import android.support.test.filters.SmallTest;
+import android.support.test.runner.AndroidJUnit4;
 import android.support.v7.widget.SwitchCompat;
-import android.test.AndroidTestCase;
-import android.test.suitebuilder.annotation.SmallTest;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -28,11 +33,16 @@ import android.widget.TextView;
 import com.android.setupwizardlib.R;
 import com.android.setupwizardlib.items.SwitchItem;
 
-public class SwitchItemTest extends AndroidTestCase {
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+@RunWith(AndroidJUnit4.class)
+@SmallTest
+public class SwitchItemTest {
 
     private SwitchCompat mSwitch;
 
-    @SmallTest
+    @Test
     public void testChecked() {
         SwitchItem item = new SwitchItem();
         item.setTitle("TestTitle");
@@ -46,7 +56,7 @@ public class SwitchItemTest extends AndroidTestCase {
         assertTrue("Switch should be checked", mSwitch.isChecked());
     }
 
-    @SmallTest
+    @Test
     public void testNotChecked() {
         SwitchItem item = new SwitchItem();
         item.setTitle("TestTitle");
@@ -60,7 +70,7 @@ public class SwitchItemTest extends AndroidTestCase {
         assertFalse("Switch should be unchecked", mSwitch.isChecked());
     }
 
-    @SmallTest
+    @Test
     public void testListener() {
         SwitchItem item = new SwitchItem();
         item.setTitle("TestTitle");
@@ -86,7 +96,7 @@ public class SwitchItemTest extends AndroidTestCase {
         assertTrue("Listener should be checked", listener.checked);
     }
 
-    @SmallTest
+    @Test
     public void testRebind() {
         SwitchItem item1 = new SwitchItem();
         item1.setTitle("TestTitle1");
@@ -117,7 +127,7 @@ public class SwitchItemTest extends AndroidTestCase {
         assertTrue("Item2 should be checked", item2.isChecked());
     }
 
-    @SmallTest
+    @Test
     public void testListenerSetChecked() {
         // Check that calling setChecked on the item will also call the listener.
 
@@ -145,7 +155,7 @@ public class SwitchItemTest extends AndroidTestCase {
         assertTrue("Listener should be checked", listener.checked);
     }
 
-    @SmallTest
+    @Test
     public void testToggle() {
         SwitchItem item = new SwitchItem();
         item.setTitle("TestTitle");
@@ -163,25 +173,26 @@ public class SwitchItemTest extends AndroidTestCase {
     }
 
     private ViewGroup createLayout() {
-        ViewGroup root = new FrameLayout(mContext);
+        Context context = InstrumentationRegistry.getContext();
+        ViewGroup root = new FrameLayout(context);
 
-        TextView titleView = new TextView(mContext);
+        TextView titleView = new TextView(context);
         titleView.setId(R.id.suw_items_title);
         root.addView(titleView);
 
-        TextView summaryView = new TextView(mContext);
+        TextView summaryView = new TextView(context);
         summaryView.setId(R.id.suw_items_summary);
         root.addView(summaryView);
 
-        FrameLayout iconContainer = new FrameLayout(mContext);
+        FrameLayout iconContainer = new FrameLayout(context);
         iconContainer.setId(R.id.suw_items_icon_container);
         root.addView(iconContainer);
 
-        ImageView iconView = new ImageView(mContext);
+        ImageView iconView = new ImageView(context);
         iconView.setId(R.id.suw_items_icon);
         iconContainer.addView(iconView);
 
-        mSwitch = new SwitchCompat(mContext);
+        mSwitch = new SwitchCompat(context);
         mSwitch.setId(R.id.suw_items_switch);
         root.addView(mSwitch);
 

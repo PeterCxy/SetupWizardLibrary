@@ -16,25 +16,33 @@
 
 package com.android.setupwizardlib.test;
 
-import android.test.AndroidTestCase;
-import android.test.suitebuilder.annotation.SmallTest;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
+
+import android.support.test.filters.SmallTest;
+import android.support.test.runner.AndroidJUnit4;
 
 import com.android.setupwizardlib.items.Item;
 import com.android.setupwizardlib.items.ItemAdapter;
 import com.android.setupwizardlib.items.ItemGroup;
 import com.android.setupwizardlib.items.ItemHierarchy;
 
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
 import java.util.Arrays;
 import java.util.HashSet;
 
-public class ItemAdapterTest extends AndroidTestCase {
+@RunWith(AndroidJUnit4.class)
+@SmallTest
+public class ItemAdapterTest {
 
     private Item[] mItems = new Item[5];
     private ItemGroup mItemGroup = new ItemGroup();
 
-    @Override
-    protected void setUp() throws Exception {
-        super.setUp();
+    @Before
+    public void setUp() throws Exception {
         for (int i = 0; i < 5; i++) {
             Item item = new Item();
             item.setTitle("TestTitle" + i);
@@ -45,7 +53,7 @@ public class ItemAdapterTest extends AndroidTestCase {
         }
     }
 
-    @SmallTest
+    @Test
     public void testAdapter() {
         ItemAdapter adapter = new ItemAdapter(mItemGroup);
         assertEquals("Adapter should have 5 items", 5, adapter.getCount());
@@ -63,7 +71,7 @@ public class ItemAdapterTest extends AndroidTestCase {
                 new HashSet<>(Arrays.asList(0, 1, 2)), viewTypes);
     }
 
-    @SmallTest
+    @Test
     public void testGetRootItemHierarchy() {
         ItemAdapter adapter = new ItemAdapter(mItemGroup);
         ItemHierarchy root = adapter.getRootItemHierarchy();

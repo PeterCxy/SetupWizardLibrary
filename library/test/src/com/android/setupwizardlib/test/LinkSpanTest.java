@@ -16,19 +16,27 @@
 
 package com.android.setupwizardlib.test;
 
+import static org.junit.Assert.assertSame;
+
 import android.content.Context;
 import android.content.ContextWrapper;
-import android.test.AndroidTestCase;
-import android.test.suitebuilder.annotation.SmallTest;
+import android.support.test.InstrumentationRegistry;
+import android.support.test.filters.SmallTest;
+import android.support.test.runner.AndroidJUnit4;
 import android.widget.TextView;
 
 import com.android.setupwizardlib.span.LinkSpan;
 
-public class LinkSpanTest extends AndroidTestCase {
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-    @SmallTest
+@RunWith(AndroidJUnit4.class)
+@SmallTest
+public class LinkSpanTest {
+
+    @Test
     public void testOnClick() {
-        final TestContext context = new TestContext(getContext());
+        final TestContext context = new TestContext(InstrumentationRegistry.getContext());
         final TextView textView = new TextView(context);
         final LinkSpan linkSpan = new LinkSpan("test_id");
 
@@ -37,9 +45,9 @@ public class LinkSpanTest extends AndroidTestCase {
         assertSame("Clicked LinkSpan should be passed to setup", linkSpan, context.clickedSpan);
     }
 
-    @SmallTest
+    @Test
     public void testNonImplementingContext() {
-        final Context context = getContext();
+        final Context context = InstrumentationRegistry.getContext();
         final TextView textView = new TextView(context);
         final LinkSpan linkSpan = new LinkSpan("test_id");
 

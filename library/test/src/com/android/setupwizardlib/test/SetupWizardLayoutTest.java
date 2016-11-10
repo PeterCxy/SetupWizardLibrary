@@ -16,12 +16,21 @@
 
 package com.android.setupwizardlib.test;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Parcelable;
-import android.test.InstrumentationTestCase;
-import android.test.suitebuilder.annotation.SmallTest;
+import android.support.test.InstrumentationRegistry;
+import android.support.test.filters.SmallTest;
+import android.support.test.runner.AndroidJUnit4;
 import android.util.SparseArray;
 import android.view.AbsSavedState;
 import android.view.ContextThemeWrapper;
@@ -34,24 +43,29 @@ import android.widget.TextView;
 import com.android.setupwizardlib.SetupWizardLayout;
 import com.android.setupwizardlib.view.NavigationBar;
 
-public class SetupWizardLayoutTest extends InstrumentationTestCase {
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+@RunWith(AndroidJUnit4.class)
+@SmallTest
+public class SetupWizardLayoutTest {
 
     private Context mContext;
 
-    @Override
-    protected void setUp() throws Exception {
-        super.setUp();
-        mContext = new ContextThemeWrapper(getInstrumentation().getContext(),
+    @Before
+    public void setUp() throws Exception {
+        mContext = new ContextThemeWrapper(InstrumentationRegistry.getContext(),
                 R.style.SuwThemeMaterial_Light);
     }
 
-    @SmallTest
+    @Test
     public void testDefaultTemplate() {
         SetupWizardLayout layout = new SetupWizardLayout(mContext);
         assertDefaultTemplateInflated(layout);
     }
 
-    @SmallTest
+    @Test
     public void testSetHeaderText() {
         SetupWizardLayout layout = new SetupWizardLayout(mContext);
         TextView title = (TextView) layout.findViewById(R.id.suw_layout_title);
@@ -59,7 +73,7 @@ public class SetupWizardLayoutTest extends InstrumentationTestCase {
         assertEquals("Header text should be \"Abracadabra\"", "Abracadabra", title.getText());
     }
 
-    @SmallTest
+    @Test
     public void testAddView() {
         SetupWizardLayout layout = new SetupWizardLayout(mContext);
         TextView tv = new TextView(mContext);
@@ -70,7 +84,7 @@ public class SetupWizardLayoutTest extends InstrumentationTestCase {
         assertSame("The view added should be the same text view", tv, view);
     }
 
-    @SmallTest
+    @Test
     public void testInflateFromXml() {
         LayoutInflater inflater = LayoutInflater.from(mContext);
         SetupWizardLayout layout = (SetupWizardLayout) inflater.inflate(R.layout.test_layout, null);
@@ -79,7 +93,7 @@ public class SetupWizardLayoutTest extends InstrumentationTestCase {
         assertTrue("@id/test_content should be a TextView", content instanceof TextView);
     }
 
-    @SmallTest
+    @Test
     public void testCustomTemplate() {
         SetupWizardLayout layout = new SetupWizardLayout(mContext, R.layout.test_template);
         View templateView = layout.findViewById(R.id.test_template_view);
@@ -101,7 +115,7 @@ public class SetupWizardLayoutTest extends InstrumentationTestCase {
         layout.setLayoutBackground(new ColorDrawable(Color.RED));
     }
 
-    @SmallTest
+    @Test
     public void testGetNavigationBar() {
         final SetupWizardLayout layout = new SetupWizardLayout(mContext);
         final NavigationBar navigationBar = layout.getNavigationBar();
@@ -109,7 +123,7 @@ public class SetupWizardLayoutTest extends InstrumentationTestCase {
                 R.id.suw_layout_navigation_bar, navigationBar.getId());
     }
 
-    @SmallTest
+    @Test
     public void testGetNavigationBarNull() {
         // test_template does not have navigation bar so getNavigationBar() should return null.
         final SetupWizardLayout layout = new SetupWizardLayout(mContext, R.layout.test_template);
@@ -117,7 +131,7 @@ public class SetupWizardLayoutTest extends InstrumentationTestCase {
         assertNull("getNavigationBar() in test_template should return null", navigationBar);
     }
 
-    @SmallTest
+    @Test
     public void testShowProgressBar() {
         final SetupWizardLayout layout = new SetupWizardLayout(mContext);
         layout.showProgressBar();
@@ -127,7 +141,7 @@ public class SetupWizardLayoutTest extends InstrumentationTestCase {
                 progressBar instanceof ProgressBar && progressBar.getVisibility() == View.VISIBLE);
     }
 
-    @SmallTest
+    @Test
     public void testHideProgressBar() {
         final SetupWizardLayout layout = new SetupWizardLayout(mContext);
         layout.showProgressBar();
@@ -139,7 +153,7 @@ public class SetupWizardLayoutTest extends InstrumentationTestCase {
                 progressBar == null || progressBar.getVisibility() != View.VISIBLE);
     }
 
-    @SmallTest
+    @Test
     public void testShowProgressBarNotExist() {
         // test_template does not have progress bar, so showNavigationBar() should do nothing.
         final SetupWizardLayout layout = new SetupWizardLayout(mContext, R.layout.test_template);
@@ -147,10 +161,10 @@ public class SetupWizardLayoutTest extends InstrumentationTestCase {
         assertFalse("Progress bar should not be shown", layout.isProgressBarShown());
     }
 
-    @SmallTest
+    @Test
     public void testWrongTheme() {
         // Test the error message when using the wrong theme
-        mContext = new ContextThemeWrapper(getInstrumentation().getContext(),
+        mContext = new ContextThemeWrapper(InstrumentationRegistry.getContext(),
                 android.R.style.Theme);
         try {
             new SetupWizardLayout(mContext);
@@ -162,7 +176,7 @@ public class SetupWizardLayoutTest extends InstrumentationTestCase {
         }
     }
 
-    @SmallTest
+    @Test
     public void testOnRestoreFromInstanceState() {
         final SetupWizardLayout layout = new SetupWizardLayout(mContext);
         // noinspection ResourceType
@@ -179,7 +193,7 @@ public class SetupWizardLayoutTest extends InstrumentationTestCase {
         assertFalse("Progress bar should not be shown", layout2.isProgressBarShown());
     }
 
-    @SmallTest
+    @Test
     public void testOnRestoreFromInstanceStateProgressBarShown() {
         final SetupWizardLayout layout = new SetupWizardLayout(mContext);
         // noinspection ResourceType
@@ -198,7 +212,7 @@ public class SetupWizardLayoutTest extends InstrumentationTestCase {
         assertTrue("Progress bar should be shown", layout2.isProgressBarShown());
     }
 
-    @SmallTest
+    @Test
     public void testOnRestoreFromIncompatibleInstanceState() {
         final SetupWizardLayout layout = new SetupWizardLayout(mContext);
         // noinspection ResourceType

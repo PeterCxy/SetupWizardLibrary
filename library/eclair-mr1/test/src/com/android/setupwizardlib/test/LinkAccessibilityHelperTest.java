@@ -16,13 +16,17 @@
 
 package com.android.setupwizardlib.test;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.support.test.InstrumentationRegistry;
+import android.support.test.filters.SmallTest;
+import android.support.test.runner.AndroidJUnit4;
 import android.support.v4.text.BidiFormatter;
 import android.support.v4.view.accessibility.AccessibilityNodeInfoCompat;
 import android.support.v4.widget.ExploreByTouchHelper;
-import android.test.AndroidTestCase;
-import android.test.suitebuilder.annotation.SmallTest;
 import android.text.SpannableStringBuilder;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
@@ -33,11 +37,16 @@ import android.widget.TextView;
 import com.android.setupwizardlib.span.LinkSpan;
 import com.android.setupwizardlib.util.LinkAccessibilityHelper;
 
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class LinkAccessibilityHelperTest extends AndroidTestCase {
+@RunWith(AndroidJUnit4.class)
+@SmallTest
+public class LinkAccessibilityHelperTest {
 
     private static final LinkSpan LINK_SPAN = new LinkSpan("foobar");
 
@@ -46,14 +55,14 @@ public class LinkAccessibilityHelperTest extends AndroidTestCase {
 
     private DisplayMetrics mDisplayMetrics;
 
-    @SmallTest
+    @Test
     public void testGetVirtualViewAt() {
         initTextView();
         final int virtualViewId = mHelper.getVirtualViewAt(dp2Px(15), dp2Px(10));
         assertEquals("Virtual view ID should be 1", 1, virtualViewId);
     }
 
-    @SmallTest
+    @Test
     public void testGetVirtualViewAtHost() {
         initTextView();
         final int virtualViewId = mHelper.getVirtualViewAt(dp2Px(100), dp2Px(100));
@@ -61,7 +70,7 @@ public class LinkAccessibilityHelperTest extends AndroidTestCase {
                 ExploreByTouchHelper.INVALID_ID, virtualViewId);
     }
 
-    @SmallTest
+    @Test
     public void testGetVisibleVirtualViews() {
         initTextView();
         List<Integer> virtualViewIds = new ArrayList<>();
@@ -71,7 +80,7 @@ public class LinkAccessibilityHelperTest extends AndroidTestCase {
                 Collections.singletonList(1), virtualViewIds);
     }
 
-    @SmallTest
+    @Test
     public void testOnPopulateEventForVirtualView() {
         initTextView();
         AccessibilityEvent event = AccessibilityEvent.obtain();
@@ -84,7 +93,7 @@ public class LinkAccessibilityHelperTest extends AndroidTestCase {
         event.recycle();
     }
 
-    @SmallTest
+    @Test
     public void testOnPopulateEventForVirtualViewHost() {
         initTextView();
         AccessibilityEvent event = AccessibilityEvent.obtain();
@@ -96,7 +105,7 @@ public class LinkAccessibilityHelperTest extends AndroidTestCase {
         event.recycle();
     }
 
-    @SmallTest
+    @Test
     public void testOnPopulateNodeForVirtualView() {
         initTextView();
         AccessibilityNodeInfoCompat info = AccessibilityNodeInfoCompat.obtain();
@@ -114,7 +123,7 @@ public class LinkAccessibilityHelperTest extends AndroidTestCase {
         info.recycle();
     }
 
-    @SmallTest
+    @Test
     public void testNullLayout() {
         initTextView();
         // Setting the padding will cause the layout to be null-ed out.
@@ -131,7 +140,7 @@ public class LinkAccessibilityHelperTest extends AndroidTestCase {
         info.recycle();
     }
 
-    @SmallTest
+    @Test
     public void testRtlLayout() {
         SpannableStringBuilder ssb = new SpannableStringBuilder("מכונה בתרגום");
         ssb.setSpan(LINK_SPAN, 1, 2, 0 /* flags */);
@@ -150,7 +159,7 @@ public class LinkAccessibilityHelperTest extends AndroidTestCase {
         info.recycle();
     }
 
-    @SmallTest
+    @Test
     public void testMultilineLink() {
         SpannableStringBuilder ssb = new SpannableStringBuilder(
                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit. "
@@ -171,7 +180,7 @@ public class LinkAccessibilityHelperTest extends AndroidTestCase {
         info.recycle();
     }
 
-    @SmallTest
+    @Test
     public void testRtlMultilineLink() {
         String iwLoremIpsum = "אחר על רביעי אקטואליה. לוח דת אחרות המקובל רומנית, מיזמים מועמדים "
                 + "האנציקלופדיה בה צ'ט. מתן מה שנורו לערוך ייִדיש, בקר או החול אנתרופולוגיה, עוד "
@@ -194,7 +203,7 @@ public class LinkAccessibilityHelperTest extends AndroidTestCase {
         info.recycle();
     }
 
-    @SmallTest
+    @Test
     public void testBidiMultilineLink() {
         String iwLoremIpsum = "אחר על רביעי אקטואליה. לוח דת אחרות המקובל רומנית, מיזמים מועמדים "
                 + "האנציקלופדיה בה צ'ט. מתן מה שנורו לערוך ייִדיש, בקר או החול אנתרופולוגיה, עוד "
@@ -229,7 +238,7 @@ public class LinkAccessibilityHelperTest extends AndroidTestCase {
     }
 
     private void initTextView(CharSequence text) {
-        mTextView = new TextView(getContext());
+        mTextView = new TextView(InstrumentationRegistry.getContext());
         mTextView.setSingleLine(false);
         mTextView.setText(text);
         mTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
@@ -243,7 +252,8 @@ public class LinkAccessibilityHelperTest extends AndroidTestCase {
 
     private int dp2Px(float dp) {
         if (mDisplayMetrics == null) {
-            mDisplayMetrics = getContext().getResources().getDisplayMetrics();
+            mDisplayMetrics =
+                    InstrumentationRegistry.getContext().getResources().getDisplayMetrics();
         }
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, mDisplayMetrics);
     }
