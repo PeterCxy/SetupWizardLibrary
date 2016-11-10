@@ -4,7 +4,7 @@
 
 apply plugin: 'dist'
 
-apply from: 'build.gradle'
+apply from: 'standalone-rules.gradle'
 apply from: '../tools/gradle/docs.gradle'
 
 task docs(dependsOn: 'javadocFullSupportRelease')
