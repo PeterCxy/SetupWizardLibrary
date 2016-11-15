@@ -29,6 +29,7 @@
     <!-- Content styles -->
 
     <style name="SuwContentFrame">
+        <item name="android:clipToPadding">false</item>
         <item name="android:paddingTop">@dimen/suw_content_frame_padding_top</item>
         <item name="android:paddingLeft">?attr/suwMarginSides</item>
         <item name="android:paddingRight">?attr/suwMarginSides</item>
