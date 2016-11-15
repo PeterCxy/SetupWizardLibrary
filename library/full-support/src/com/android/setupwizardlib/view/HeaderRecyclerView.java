@@ -75,22 +75,37 @@ public class HeaderRecyclerView extends RecyclerView {
 
             @Override
             public void onItemRangeChanged(int positionStart, int itemCount) {
+                if (mHeader != null) {
+                    positionStart++;
+                }
                 notifyItemRangeChanged(positionStart, itemCount);
             }
 
             @Override
             public void onItemRangeInserted(int positionStart, int itemCount) {
+                if (mHeader != null) {
+                    positionStart++;
+                }
                 notifyItemRangeInserted(positionStart, itemCount);
             }
 
             @Override
             public void onItemRangeMoved(int fromPosition, int toPosition, int itemCount) {
+                if (mHeader != null) {
+                    fromPosition++;
+                    toPosition++;
+                }
                 // Why is there no notifyItemRangeMoved?
-                notifyDataSetChanged();
+                for (int i = 0; i < itemCount; i++) {
+                    notifyItemMoved(fromPosition + i, toPosition + i);
+                }
             }
 
             @Override
             public void onItemRangeRemoved(int positionStart, int itemCount) {
+                if (mHeader != null) {
+                    positionStart++;
+                }
                 notifyItemRangeRemoved(positionStart, itemCount);
             }
         };
