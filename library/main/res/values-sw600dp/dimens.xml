@@ -23,6 +23,10 @@
     <!-- Illustration -->
     <item name="suw_illustration_aspect_ratio" format="float" type="dimen">0</item>
     <dimen name="suw_header_title_size">34sp</dimen>
+
     <dimen name="suw_glif_margin_sides">40dp</dimen>
+
+    <dimen name="suw_items_glif_icon_divider_inset">88dp</dimen>
+    <dimen name="suw_items_glif_text_divider_inset">40dp</dimen>
 
 </resources>
