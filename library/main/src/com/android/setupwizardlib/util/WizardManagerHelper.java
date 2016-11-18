@@ -150,7 +150,7 @@ public class WizardManagerHelper {
      * @see #isDeviceProvisioned(android.content.Context)
      */
     public static boolean isUserSetupComplete(Context context) {
-        if (VERSION.SDK_INT >= VERSION_CODES.ICE_CREAM_SANDWICH) {
+        if (VERSION.SDK_INT >= VERSION_CODES.JELLY_BEAN_MR1) {
             return Settings.Secure.getInt(context.getContentResolver(),
                     SETTINGS_SECURE_USER_SETUP_COMPLETE, 0) == 1;
         } else {

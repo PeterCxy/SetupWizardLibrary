@@ -23,6 +23,9 @@ import android.test.suitebuilder.annotation.SmallTest;
 
 import com.android.setupwizardlib.util.WizardManagerHelper;
 
+/**
+ * Test for {@link com.android.setupwizardlib.util.WizardManagerHelper}
+ */
 public class WizardManagerHelperTest extends AndroidTestCase {
 
     @SmallTest
@@ -170,5 +173,27 @@ public class WizardManagerHelperTest extends AndroidTestCase {
                 WizardManagerHelper.isLightTheme("abracadabra", true));
         assertFalse("isLightTheme should return default value false",
                 WizardManagerHelper.isLightTheme("abracadabra", false));
+    }
+
+    /**
+     * Test for {@link WizardManagerHelper#isUserSetupComplete(android.content.Context)}
+     */
+    @SmallTest
+    public void testIsUserSetupComplete() {
+        // TODO (b/32975598): Move to Robolectric to test with different SDK versions, and inject
+        // values to Settings.Secure.
+        WizardManagerHelper.isUserSetupComplete(getContext());
+        // Stub: only test that no exception is thrown
+    }
+
+    /**
+     * Test for {@link WizardManagerHelper#isDeviceProvisioned(android.content.Context)}
+     */
+    @SmallTest
+    public void testIsDeviceProvisioned() {
+        // TODO: Move to Robolectric to test with different SDK versions, and inject values to
+        // Settings.Secure / Global.
+        WizardManagerHelper.isDeviceProvisioned(getContext());
+        // Stub: only test that no exception is thrown
     }
 }
