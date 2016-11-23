@@ -1,6 +1,4 @@
 #
-# Deprecated. Use gingerbread-compat instead.
-#
 # Include this make file to build your application against this module.
 #
 # Make sure to include it after you've set all your desired LOCAL variables.
@@ -27,13 +25,13 @@ LOCAL_AAPT_FLAGS += --auto-add-overlay
 endif
 
 # Include setup wizard library, if not already included
-ifeq (,$(findstring setup-wizard-lib-full-support,$(LOCAL_STATIC_JAVA_LIBRARIES)))
+ifeq (,$(findstring setup-wizard-lib-gingerbread-compat,$(LOCAL_STATIC_JAVA_LIBRARIES)))
 LOCAL_RESOURCE_DIR += \
     $(call my-dir)/main/res \
     $(call my-dir)/eclair-mr1/res \
     $(call my-dir)/full-support/res
 LOCAL_AAPT_FLAGS += --extra-packages com.android.setupwizardlib
-LOCAL_STATIC_JAVA_LIBRARIES += setup-wizard-lib-full-support
+LOCAL_STATIC_JAVA_LIBRARIES += setup-wizard-lib-gingerbread-compat
 endif
 
 ## Include transitive dependencies below
@@ -54,8 +52,8 @@ endif
 
 else # LOCAL_USE_AAPT2 := true
 
-ifeq (,$(findstring setup-wizard-lib-full-support,$(LOCAL_STATIC_ANDROID_LIBRARIES)))
-  LOCAL_STATIC_ANDROID_LIBRARIES += setup-wizard-lib-full-support
+ifeq (,$(findstring setup-wizard-lib-gingerbread-compat,$(LOCAL_STATIC_ANDROID_LIBRARIES)))
+  LOCAL_STATIC_ANDROID_LIBRARIES += setup-wizard-lib-gingerbread-compat
 endif
 
 ifeq (,$(findstring android-support-v7-appcompat,$(LOCAL_STATIC_ANDROID_LIBRARIES)))

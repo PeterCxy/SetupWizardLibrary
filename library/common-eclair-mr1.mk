@@ -1,4 +1,6 @@
 #
+# Deprecated. Use gingerbread-compat instead.
+#
 # Include this make file to build your application against this module.
 #
 # Make sure to include it after you've set all your desired LOCAL variables.
