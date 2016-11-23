@@ -31,6 +31,7 @@ import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.support.annotation.NonNull;
 
 import com.android.setupwizardlib.annotations.VisibleForTesting;
 
@@ -102,7 +103,7 @@ public class GlifPatternDrawable extends Drawable {
     }
 
     @Override
-    public void draw(Canvas canvas) {
+    public void draw(@NonNull Canvas canvas) {
         final Rect bounds = getBounds();
         int drawableWidth = bounds.width();
         int drawableHeight = bounds.height();

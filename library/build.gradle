@@ -31,6 +31,7 @@ ext {
     //      }
     //
     deps = [
+        'support-annotations': project(':support-annotations'),
         'support-appcompat-v7': project(':support-appcompat-v7'),
         'support-recyclerview-v7': project(':support-recyclerview-v7')
     ]
