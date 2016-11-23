@@ -20,7 +20,10 @@
     style="?attr/suwItemDescriptionStyle"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    tools:ignore="DisableBaselineAlignment,UnusedResources">
+    <!-- Ignore UnusedResources: can be used by clients -->
+    <!-- TODO: Investigate if baseline alignment can be disabled -->
 
     <FrameLayout
         android:id="@+id/suw_items_icon_container"

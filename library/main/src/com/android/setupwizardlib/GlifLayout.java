@@ -16,6 +16,7 @@
 
 package com.android.setupwizardlib;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.ColorStateList;
@@ -220,6 +221,7 @@ public class GlifLayout extends TemplateLayout {
         return mPrimaryColor;
     }
 
+    @SuppressLint("InlinedApi")  // View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN is guarded by SDK check
     private void setGlifPatternColor(ColorStateList color) {
         if (Build.VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP) {
             setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);

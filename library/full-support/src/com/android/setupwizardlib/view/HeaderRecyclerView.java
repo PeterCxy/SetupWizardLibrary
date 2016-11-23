@@ -16,6 +16,7 @@
 
 package com.android.setupwizardlib.view;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Build;
@@ -116,6 +117,8 @@ public class HeaderRecyclerView extends RecyclerView {
             setHasStableIds(mAdapter.hasStableIds());
         }
 
+        @SuppressLint("InlinedApi")  // MATCH_PARENT is the same constant as FILL_PARENT available
+                                     // on earlier versions.
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             /*

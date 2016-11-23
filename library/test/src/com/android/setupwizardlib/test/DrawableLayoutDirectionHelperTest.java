@@ -19,6 +19,7 @@ package com.android.setupwizardlib.test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.Color;
@@ -46,6 +47,7 @@ public class DrawableLayoutDirectionHelperTest {
     @Test
     public void testCreateRelativeInsetDrawableLtr() {
         final Drawable drawable = new ColorDrawable(Color.RED);
+        @SuppressLint("InlinedApi") // Testing with inlined constant is OK here
         final InsetDrawable insetDrawable =
                 DrawableLayoutDirectionHelper.createRelativeInsetDrawable(drawable,
                         1 /* start */, 2 /* top */, 3 /* end */, 4 /* bottom */,
@@ -63,6 +65,7 @@ public class DrawableLayoutDirectionHelperTest {
     @Test
     public void testCreateRelativeInsetDrawableRtl() {
         final Drawable drawable = new ColorDrawable(Color.RED);
+        @SuppressLint("InlinedApi") // Testing with inlined constant is OK here
         final InsetDrawable insetDrawable =
                 DrawableLayoutDirectionHelper.createRelativeInsetDrawable(drawable,
                         1 /* start */, 2 /* top */, 3 /* end */, 4 /* bottom */,
@@ -133,6 +136,7 @@ public class DrawableLayoutDirectionHelperTest {
         }
 
         @Override
+        @SuppressLint("InlinedApi") // Testing with inlined constant is OK here
         public int getLayoutDirection() {
             return View.LAYOUT_DIRECTION_RTL;
         }

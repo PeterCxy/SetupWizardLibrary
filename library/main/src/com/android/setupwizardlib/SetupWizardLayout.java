@@ -122,7 +122,7 @@ public class SetupWizardLayout extends TemplateLayout {
 
 
         // Set the illustration aspect ratio. See Illustration.setAspectRatio(float). This will
-        // override suwIllustrationPaddingTop if its value is not 0.
+        // override suwDecorPaddingTop if its value is not 0.
         float illustrationAspectRatio = a.getFloat(
                 R.styleable.SuwSetupWizardLayout_suwIllustrationAspectRatio, -1f);
         if (illustrationAspectRatio == -1f) {

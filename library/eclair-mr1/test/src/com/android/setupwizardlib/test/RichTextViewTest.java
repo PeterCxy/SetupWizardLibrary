@@ -20,6 +20,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import android.annotation.SuppressLint;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.filters.SmallTest;
 import android.support.test.runner.AndroidJUnit4;
@@ -96,6 +97,7 @@ public class RichTextViewTest {
     }
 
 
+    @SuppressLint("SetTextI18n")  // It's OK. This is just a test.
     @Test
     public void testTextContainingNoLinksAreNotFocusable() {
         RichTextView textView = new RichTextView(InstrumentationRegistry.getContext());
@@ -108,6 +110,7 @@ public class RichTextViewTest {
 
     // Based on the text contents of the text view, the "focusable" property of the element
     // should also be automatically changed.
+    @SuppressLint("SetTextI18n")  // It's OK. This is just a test.
     @Test
     public void testRichTxtViewFocusChangesWithTextChange() {
         RichTextView textView = new RichTextView(InstrumentationRegistry.getContext());

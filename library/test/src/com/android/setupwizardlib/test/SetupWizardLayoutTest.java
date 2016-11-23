@@ -28,6 +28,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Parcelable;
+import android.support.annotation.IdRes;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.filters.SmallTest;
 import android.support.test.runner.AndroidJUnit4;
@@ -50,6 +51,9 @@ import org.junit.runner.RunWith;
 @RunWith(AndroidJUnit4.class)
 @SmallTest
 public class SetupWizardLayoutTest {
+
+    @IdRes
+    private static final int ID1234 = 1234;
 
     private Context mContext;
 
@@ -179,15 +183,13 @@ public class SetupWizardLayoutTest {
     @Test
     public void testOnRestoreFromInstanceState() {
         final SetupWizardLayout layout = new SetupWizardLayout(mContext);
-        // noinspection ResourceType
-        layout.setId(1234);
+        layout.setId(ID1234);
 
         SparseArray<Parcelable> container = new SparseArray<>();
         layout.saveHierarchyState(container);
 
         final SetupWizardLayout layout2 = new SetupWizardLayout(mContext);
-        // noinspection ResourceType
-        layout2.setId(1234);
+        layout2.setId(ID1234);
         layout2.restoreHierarchyState(container);
 
         assertFalse("Progress bar should not be shown", layout2.isProgressBarShown());
@@ -196,8 +198,7 @@ public class SetupWizardLayoutTest {
     @Test
     public void testOnRestoreFromInstanceStateProgressBarShown() {
         final SetupWizardLayout layout = new SetupWizardLayout(mContext);
-        // noinspection ResourceType
-        layout.setId(1234);
+        layout.setId(ID1234);
 
         layout.setProgressBarShown(true);
 
@@ -205,8 +206,7 @@ public class SetupWizardLayoutTest {
         layout.saveHierarchyState(container);
 
         final SetupWizardLayout layout2 = new SetupWizardLayout(mContext);
-        // noinspection ResourceType
-        layout2.setId(1234);
+        layout2.setId(ID1234);
         layout2.restoreHierarchyState(container);
 
         assertTrue("Progress bar should be shown", layout2.isProgressBarShown());
@@ -215,8 +215,7 @@ public class SetupWizardLayoutTest {
     @Test
     public void testOnRestoreFromIncompatibleInstanceState() {
         final SetupWizardLayout layout = new SetupWizardLayout(mContext);
-        // noinspection ResourceType
-        layout.setId(1234);
+        layout.setId(ID1234);
 
         SparseArray<Parcelable> container = new SparseArray<>();
         container.put(1234, AbsSavedState.EMPTY_STATE);

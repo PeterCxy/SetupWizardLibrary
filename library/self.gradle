@@ -35,11 +35,11 @@ android.sourceSets {
 android.defaultConfig.testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
 android.lintOptions {
-    // TODO: Fix lint errors and re-enable fatal lint
-    abortOnError false
+    abortOnError true
     htmlReport true
     textOutput 'stderr'
     textReport true
+    warningsAsErrors true
     xmlReport false
 }
 
