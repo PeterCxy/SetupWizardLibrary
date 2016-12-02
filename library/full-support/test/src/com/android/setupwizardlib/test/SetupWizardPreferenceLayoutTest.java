@@ -16,13 +16,18 @@
 
 package com.android.setupwizardlib.test;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.InsetDrawable;
 import android.os.Build;
+import android.support.test.InstrumentationRegistry;
+import android.support.test.filters.SmallTest;
+import android.support.test.runner.AndroidJUnit4;
 import android.support.v7.widget.RecyclerView;
-import android.test.InstrumentationTestCase;
-import android.test.suitebuilder.annotation.SmallTest;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,31 +35,36 @@ import android.view.ViewGroup;
 
 import com.android.setupwizardlib.SetupWizardPreferenceLayout;
 
-public class SetupWizardPreferenceLayoutTest extends InstrumentationTestCase {
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+@RunWith(AndroidJUnit4.class)
+@SmallTest
+public class SetupWizardPreferenceLayoutTest {
 
     private Context mContext;
 
-    @Override
-    protected void setUp() throws Exception {
-        super.setUp();
-        mContext = new ContextThemeWrapper(getInstrumentation().getContext(),
+    @Before
+    public void setUp() throws Exception {
+        mContext = new ContextThemeWrapper(InstrumentationRegistry.getContext(),
                 R.style.SuwThemeMaterial_Light);
     }
 
-    @SmallTest
+    @Test
     public void testDefaultTemplate() {
         SetupWizardPreferenceLayout layout = new TestLayout(mContext);
         assertPreferenceTemplateInflated(layout);
     }
 
-    @SmallTest
+    @Test
     public void testGetRecyclerView() {
         SetupWizardPreferenceLayout layout = new TestLayout(mContext);
         assertPreferenceTemplateInflated(layout);
         assertNotNull("getRecyclerView should not be null", layout.getRecyclerView());
     }
 
-    @SmallTest
+    @Test
     public void testOnCreateRecyclerView() {
         SetupWizardPreferenceLayout layout = new TestLayout(mContext);
         assertPreferenceTemplateInflated(layout);
@@ -63,7 +73,7 @@ public class SetupWizardPreferenceLayoutTest extends InstrumentationTestCase {
         assertNotNull("RecyclerView created should not be null", recyclerView);
     }
 
-    @SmallTest
+    @Test
     public void testDividerInset() {
         SetupWizardPreferenceLayout layout = new TestLayout(mContext);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {

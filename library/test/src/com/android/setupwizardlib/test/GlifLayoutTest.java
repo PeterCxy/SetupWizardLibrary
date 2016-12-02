@@ -16,12 +16,20 @@
 
 package com.android.setupwizardlib.test;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Build;
-import android.test.InstrumentationTestCase;
-import android.test.suitebuilder.annotation.SmallTest;
+import android.support.test.InstrumentationRegistry;
+import android.support.test.filters.SmallTest;
+import android.support.test.runner.AndroidJUnit4;
 import android.view.ContextThemeWrapper;
 import android.view.InflateException;
 import android.view.LayoutInflater;
@@ -32,24 +40,29 @@ import android.widget.TextView;
 
 import com.android.setupwizardlib.GlifLayout;
 
-public class GlifLayoutTest extends InstrumentationTestCase {
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+@RunWith(AndroidJUnit4.class)
+@SmallTest
+public class GlifLayoutTest {
 
     private Context mContext;
 
-    @Override
-    protected void setUp() throws Exception {
-        super.setUp();
-        mContext = new ContextThemeWrapper(getInstrumentation().getContext(),
+    @Before
+    public void setUp() throws Exception {
+        mContext = new ContextThemeWrapper(InstrumentationRegistry.getContext(),
                 R.style.SuwThemeGlif_Light);
     }
 
-    @SmallTest
+    @Test
     public void testDefaultTemplate() {
         GlifLayout layout = new GlifLayout(mContext);
         assertDefaultTemplateInflated(layout);
     }
 
-    @SmallTest
+    @Test
     public void testSetHeaderText() {
         GlifLayout layout = new GlifLayout(mContext);
         TextView title = (TextView) layout.findViewById(R.id.suw_layout_title);
@@ -57,7 +70,7 @@ public class GlifLayoutTest extends InstrumentationTestCase {
         assertEquals("Header text should be \"Abracadabra\"", "Abracadabra", title.getText());
     }
 
-    @SmallTest
+    @Test
     public void testAddView() {
         GlifLayout layout = new GlifLayout(mContext);
         TextView tv = new TextView(mContext);
@@ -68,7 +81,7 @@ public class GlifLayoutTest extends InstrumentationTestCase {
         assertSame("The view added should be the same text view", tv, view);
     }
 
-    @SmallTest
+    @Test
     public void testInflateFromXml() {
         LayoutInflater inflater = LayoutInflater.from(mContext);
         GlifLayout layout = (GlifLayout) inflater.inflate(R.layout.test_glif_layout, null);
@@ -77,7 +90,7 @@ public class GlifLayoutTest extends InstrumentationTestCase {
         assertTrue("@id/test_content should be a TextView", content instanceof TextView);
     }
 
-    @SmallTest
+    @Test
     public void testPrimaryColorFromXml() {
         LayoutInflater inflater = LayoutInflater.from(mContext);
         GlifLayout layout =
@@ -87,14 +100,14 @@ public class GlifLayoutTest extends InstrumentationTestCase {
         assertEquals(ColorStateList.valueOf(Color.RED), layout.getPrimaryColor());
     }
 
-    @SmallTest
+    @Test
     public void testGetScrollView() {
         GlifLayout layout = new GlifLayout(mContext);
         assertNotNull("Get scroll view should not be null with default template",
                 layout.getScrollView());
     }
 
-    @SmallTest
+    @Test
     public void testSetPrimaryColor() {
         GlifLayout layout = new GlifLayout(mContext);
         layout.setProgressBarShown(true);
@@ -111,10 +124,10 @@ public class GlifLayoutTest extends InstrumentationTestCase {
         }
     }
 
-    @SmallTest
+    @Test
     public void testWrongTheme() {
         // Test the error message when using the wrong theme
-        mContext = new ContextThemeWrapper(getInstrumentation().getContext(),
+        mContext = new ContextThemeWrapper(InstrumentationRegistry.getContext(),
                 android.R.style.Theme);
         try {
             new GlifLayout(mContext);
@@ -126,13 +139,13 @@ public class GlifLayoutTest extends InstrumentationTestCase {
         }
     }
 
-    @SmallTest
+    @Test
     public void testPeekProgressBarNull() {
         GlifLayout layout = new GlifLayout(mContext);
         assertNull("PeekProgressBar should return null initially", layout.peekProgressBar());
     }
 
-    @SmallTest
+    @Test
     public void testPeekProgressBar() {
         GlifLayout layout = new GlifLayout(mContext);
         layout.setProgressBarShown(true);
@@ -140,7 +153,7 @@ public class GlifLayoutTest extends InstrumentationTestCase {
                 layout.peekProgressBar());
     }
 
-    @SmallTest
+    @Test
     public void testSetProgressBarShownInvalid() {
         GlifLayout layout = new GlifLayout(mContext, R.layout.test_template);
         layout.setProgressBarShown(true);

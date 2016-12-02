@@ -16,19 +16,26 @@
 
 package com.android.setupwizardlib.test;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 import android.app.Activity;
 import android.content.Intent;
-import android.test.AndroidTestCase;
-import android.test.suitebuilder.annotation.SmallTest;
+import android.support.test.InstrumentationRegistry;
+import android.support.test.filters.SmallTest;
+import android.support.test.runner.AndroidJUnit4;
 
 import com.android.setupwizardlib.util.WizardManagerHelper;
 
-/**
- * Test for {@link com.android.setupwizardlib.util.WizardManagerHelper}
- */
-public class WizardManagerHelperTest extends AndroidTestCase {
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-    @SmallTest
+@RunWith(AndroidJUnit4.class)
+@SmallTest
+public class WizardManagerHelperTest {
+
+    @Test
     public void testGetNextIntent() {
         final Intent intent = new Intent("test.intent.ACTION");
         intent.putExtra("scriptUri", "android-resource://test-script");
@@ -56,7 +63,7 @@ public class WizardManagerHelperTest extends AndroidTestCase {
                 nextIntent.getStringExtra("extraData"));
     }
 
-    @SmallTest
+    @Test
     public void testIsSetupWizardTrue() {
         final Intent intent = new Intent();
         intent.putExtra("firstRun", true);
@@ -64,7 +71,7 @@ public class WizardManagerHelperTest extends AndroidTestCase {
                 WizardManagerHelper.isSetupWizardIntent(intent));
     }
 
-    @SmallTest
+    @Test
     public void testIsSetupWizardFalse() {
         final Intent intent = new Intent();
         intent.putExtra("firstRun", false);
@@ -72,7 +79,7 @@ public class WizardManagerHelperTest extends AndroidTestCase {
                 WizardManagerHelper.isSetupWizardIntent(intent));
     }
 
-    @SmallTest
+    @Test
     public void testHoloIsNotLightTheme() {
         final Intent intent = new Intent();
         intent.putExtra("theme", "holo");
@@ -80,7 +87,7 @@ public class WizardManagerHelperTest extends AndroidTestCase {
                 WizardManagerHelper.isLightTheme(intent, true));
     }
 
-    @SmallTest
+    @Test
     public void testHoloLightIsLightTheme() {
         final Intent intent = new Intent();
         intent.putExtra("theme", "holo_light");
@@ -88,7 +95,7 @@ public class WizardManagerHelperTest extends AndroidTestCase {
                 WizardManagerHelper.isLightTheme(intent, false));
     }
 
-    @SmallTest
+    @Test
     public void testMaterialIsNotLightTheme() {
         final Intent intent = new Intent();
         intent.putExtra("theme", "material");
@@ -96,7 +103,7 @@ public class WizardManagerHelperTest extends AndroidTestCase {
                 WizardManagerHelper.isLightTheme(intent, true));
     }
 
-    @SmallTest
+    @Test
     public void testMaterialLightIsLightTheme() {
         final Intent intent = new Intent();
         intent.putExtra("theme", "material_light");
@@ -104,7 +111,7 @@ public class WizardManagerHelperTest extends AndroidTestCase {
                 WizardManagerHelper.isLightTheme(intent, false));
     }
 
-    @SmallTest
+    @Test
     public void testMaterialBlueIsNotLightTheme() {
         final Intent intent = new Intent();
         intent.putExtra("theme", "material_blue");
@@ -112,7 +119,7 @@ public class WizardManagerHelperTest extends AndroidTestCase {
                 WizardManagerHelper.isLightTheme(intent, true));
     }
 
-    @SmallTest
+    @Test
     public void testMaterialBlueLightIsLightTheme() {
         final Intent intent = new Intent();
         intent.putExtra("theme", "material_blue_light");
@@ -120,7 +127,7 @@ public class WizardManagerHelperTest extends AndroidTestCase {
                 WizardManagerHelper.isLightTheme(intent, false));
     }
 
-    @SmallTest
+    @Test
     public void testGlifIsDarkTheme() {
         final Intent intent = new Intent();
         intent.putExtra("theme", "glif");
@@ -130,7 +137,7 @@ public class WizardManagerHelperTest extends AndroidTestCase {
                 WizardManagerHelper.isLightTheme(intent, true));
     }
 
-    @SmallTest
+    @Test
     public void testGlifLightIsLightTheme() {
         final Intent intent = new Intent();
         intent.putExtra("theme", "glif_light");
@@ -140,7 +147,7 @@ public class WizardManagerHelperTest extends AndroidTestCase {
                 WizardManagerHelper.isLightTheme(intent, true));
     }
 
-    @SmallTest
+    @Test
     public void testIsLightThemeDefault() {
         final Intent intent = new Intent();
         intent.putExtra("theme", "abracadabra");
@@ -150,7 +157,7 @@ public class WizardManagerHelperTest extends AndroidTestCase {
                 WizardManagerHelper.isLightTheme(intent, false));
     }
 
-    @SmallTest
+    @Test
     public void testIsLightThemeUnspecified() {
         final Intent intent = new Intent();
         assertTrue("isLightTheme should return default value true",
@@ -159,7 +166,7 @@ public class WizardManagerHelperTest extends AndroidTestCase {
                 WizardManagerHelper.isLightTheme(intent, false));
     }
 
-    @SmallTest
+    @Test
     public void testIsLightThemeString() {
         assertTrue("isLightTheme should return true for material_light",
                 WizardManagerHelper.isLightTheme("material_light", false));
@@ -178,22 +185,22 @@ public class WizardManagerHelperTest extends AndroidTestCase {
     /**
      * Test for {@link WizardManagerHelper#isUserSetupComplete(android.content.Context)}
      */
-    @SmallTest
+    @Test
     public void testIsUserSetupComplete() {
         // TODO (b/32975598): Move to Robolectric to test with different SDK versions, and inject
         // values to Settings.Secure.
-        WizardManagerHelper.isUserSetupComplete(getContext());
+        WizardManagerHelper.isUserSetupComplete(InstrumentationRegistry.getTargetContext());
         // Stub: only test that no exception is thrown
     }
 
     /**
      * Test for {@link WizardManagerHelper#isDeviceProvisioned(android.content.Context)}
      */
-    @SmallTest
+    @Test
     public void testIsDeviceProvisioned() {
         // TODO: Move to Robolectric to test with different SDK versions, and inject values to
         // Settings.Secure / Global.
-        WizardManagerHelper.isDeviceProvisioned(getContext());
+        WizardManagerHelper.isDeviceProvisioned(InstrumentationRegistry.getTargetContext());
         // Stub: only test that no exception is thrown
     }
 }

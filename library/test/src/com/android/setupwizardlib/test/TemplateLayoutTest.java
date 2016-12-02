@@ -16,26 +16,37 @@
 
 package com.android.setupwizardlib.test;
 
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 import android.content.Context;
-import android.test.InstrumentationTestCase;
-import android.test.suitebuilder.annotation.SmallTest;
+import android.support.test.InstrumentationRegistry;
+import android.support.test.filters.SmallTest;
+import android.support.test.runner.AndroidJUnit4;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
 import com.android.setupwizardlib.TemplateLayout;
 
-public class TemplateLayoutTest extends InstrumentationTestCase {
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+@RunWith(AndroidJUnit4.class)
+@SmallTest
+public class TemplateLayoutTest {
 
     private Context mContext;
 
-    @Override
-    protected void setUp() throws Exception {
-        super.setUp();
-        mContext = getInstrumentation().getContext();
+    @Before
+    public void setUp() throws Exception {
+        mContext = InstrumentationRegistry.getContext();
     }
 
-    @SmallTest
+    @Test
     public void testAddView() {
         TemplateLayout layout = new TemplateLayout(mContext, R.layout.test_template,
                 R.id.suw_layout_content);
@@ -46,7 +57,7 @@ public class TemplateLayoutTest extends InstrumentationTestCase {
         assertSame("The view added should be the same text view", tv, view);
     }
 
-    @SmallTest
+    @Test
     public void testInflateFromXml() {
         LayoutInflater inflater = LayoutInflater.from(mContext);
         TemplateLayout layout =
@@ -55,7 +66,7 @@ public class TemplateLayoutTest extends InstrumentationTestCase {
         assertTrue("@id/test_content should be a TextView", content instanceof TextView);
     }
 
-    @SmallTest
+    @Test
     public void testTemplate() {
         TemplateLayout layout = new TemplateLayout(mContext, R.layout.test_template,
                 R.id.suw_layout_content);
@@ -72,7 +83,7 @@ public class TemplateLayoutTest extends InstrumentationTestCase {
         assertSame("The view added should be the same text view", tv, contentView);
     }
 
-    @SmallTest
+    @Test
     public void testNoTemplate() {
         try {
             new TemplateLayout(mContext, 0, 0);

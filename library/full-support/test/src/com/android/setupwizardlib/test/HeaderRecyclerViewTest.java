@@ -16,26 +16,35 @@
 
 package com.android.setupwizardlib.test;
 
+import static org.junit.Assert.assertEquals;
+
+import android.support.test.InstrumentationRegistry;
+import android.support.test.filters.SmallTest;
+import android.support.test.runner.AndroidJUnit4;
 import android.support.v7.widget.RecyclerView;
-import android.test.AndroidTestCase;
-import android.test.suitebuilder.annotation.SmallTest;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.android.setupwizardlib.view.HeaderRecyclerView.HeaderAdapter;
 
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
 /**
  * Test for {@link com.android.setupwizardlib.view.HeaderRecyclerView}
  */
-public class HeaderRecyclerViewTest extends AndroidTestCase {
+@RunWith(AndroidJUnit4.class)
+@SmallTest
+public class HeaderRecyclerViewTest {
 
     private TestAdapter mWrappedAdapter;
-    private TestDataObserver mObserver;
     private HeaderAdapter mHeaderAdapter;
 
-    @Override
-    protected void setUp() throws Exception {
-        super.setUp();
+    private TestDataObserver mObserver;
+
+    @Before
+    public void setUp() {
         mWrappedAdapter = new TestAdapter();
         mObserver = new TestDataObserver();
 
@@ -46,7 +55,7 @@ public class HeaderRecyclerViewTest extends AndroidTestCase {
     /**
      * Test that notifyDataSetChanged gets propagated by HeaderRecyclerView's adapter.
      */
-    @SmallTest
+    @Test
     public void testNotifyChanged() {
         mWrappedAdapter.notifyDataSetChanged();
 
@@ -56,7 +65,7 @@ public class HeaderRecyclerViewTest extends AndroidTestCase {
     /**
      * Test that notifyItemChanged gets propagated by HeaderRecyclerView's adapter.
      */
-    @SmallTest
+    @Test
     public void testNotifyItemChangedNoHeader() {
         mWrappedAdapter.notifyItemChanged(12);
 
@@ -69,9 +78,9 @@ public class HeaderRecyclerViewTest extends AndroidTestCase {
      * Test that notifyItemChanged gets propagated by HeaderRecyclerView's adapter and adds 1 to the
      * position for the extra header items.
      */
-    @SmallTest
+    @Test
     public void testNotifyItemChangedWithHeader() {
-        mHeaderAdapter.setHeader(new View(getContext()));
+        mHeaderAdapter.setHeader(new View(InstrumentationRegistry.getTargetContext()));
         mWrappedAdapter.notifyItemChanged(12);
 
         assertEquals("onItemRangeChanged", mObserver.lastNotification);
@@ -82,7 +91,7 @@ public class HeaderRecyclerViewTest extends AndroidTestCase {
     /**
      * Test that notifyItemInserted gets propagated by HeaderRecyclerView's adapter.
      */
-    @SmallTest
+    @Test
     public void testNotifyItemInsertedNoHeader() {
         mWrappedAdapter.notifyItemInserted(12);
 
@@ -95,9 +104,9 @@ public class HeaderRecyclerViewTest extends AndroidTestCase {
      * Test that notifyItemInserted gets propagated by HeaderRecyclerView's adapter and adds 1 to
      * the position for the extra header item.
      */
-    @SmallTest
+    @Test
     public void testNotifyItemInsertedWithHeader() {
-        mHeaderAdapter.setHeader(new View(getContext()));
+        mHeaderAdapter.setHeader(new View(InstrumentationRegistry.getTargetContext()));
         mWrappedAdapter.notifyItemInserted(12);
 
         assertEquals("onItemRangeInserted", mObserver.lastNotification);
@@ -108,7 +117,7 @@ public class HeaderRecyclerViewTest extends AndroidTestCase {
     /**
      * Test that notifyItemRemoved gets propagated by HeaderRecyclerView's adapter.
      */
-    @SmallTest
+    @Test
     public void testNotifyItemRemovedNoHeader() {
         mWrappedAdapter.notifyItemRemoved(12);
 
@@ -121,9 +130,9 @@ public class HeaderRecyclerViewTest extends AndroidTestCase {
      * Test that notifyItemRemoved gets propagated by HeaderRecyclerView's adapter and adds 1 to
      * the position for the extra header item.
      */
-    @SmallTest
+    @Test
     public void testNotifyItemRemovedWithHeader() {
-        mHeaderAdapter.setHeader(new View(getContext()));
+        mHeaderAdapter.setHeader(new View(InstrumentationRegistry.getTargetContext()));
         mWrappedAdapter.notifyItemRemoved(12);
 
         assertEquals("onItemRangeRemoved", mObserver.lastNotification);
@@ -134,7 +143,7 @@ public class HeaderRecyclerViewTest extends AndroidTestCase {
     /**
      * Test that notifyItemMoved gets propagated by HeaderRecyclerView's adapter.
      */
-    @SmallTest
+    @Test
     public void testNotifyItemMovedNoHeader() {
         mWrappedAdapter.notifyItemMoved(12, 18);
 
@@ -148,9 +157,9 @@ public class HeaderRecyclerViewTest extends AndroidTestCase {
      * Test that notifyItemMoved gets propagated by HeaderRecyclerView's adapter and adds 1 to
      * the position for the extra header item.
      */
-    @SmallTest
+    @Test
     public void testNotifyItemMovedWithHeader() {
-        mHeaderAdapter.setHeader(new View(getContext()));
+        mHeaderAdapter.setHeader(new View(InstrumentationRegistry.getTargetContext()));
         mWrappedAdapter.notifyItemMoved(12, 18);
 
         assertEquals("onItemRangeMoved", mObserver.lastNotification);
