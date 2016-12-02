@@ -12,6 +12,8 @@ LOCAL_RESOURCE_DIR := \
     $(LOCAL_PATH)/main/res \
     $(LOCAL_PATH)/platform/res
 LOCAL_SDK_VERSION := current
+LOCAL_SHARED_ANDROID_LIBRARIES := \
+    android-support-annotations
 LOCAL_SRC_FILES := $(call all-java-files-under, main/src platform/src)
 
 include $(BUILD_STATIC_JAVA_LIBRARY)
@@ -32,6 +34,7 @@ LOCAL_RESOURCE_DIR := \
 LOCAL_SDK_VERSION := current
 LOCAL_SRC_FILES := $(call all-java-files-under, main/src eclair-mr1/src)
 LOCAL_SHARED_ANDROID_LIBRARIES := \
+    android-support-annotations \
     android-support-v4 \
     android-support-v7-appcompat
 
@@ -54,6 +57,7 @@ LOCAL_RESOURCE_DIR := \
 LOCAL_SDK_VERSION := current
 LOCAL_SRC_FILES := $(call all-java-files-under, main/src eclair-mr1/src full-support/src)
 LOCAL_SHARED_ANDROID_LIBRARIES := \
+    android-support-annotations \
     android-support-v4 \
     android-support-v7-appcompat \
     android-support-v7-recyclerview

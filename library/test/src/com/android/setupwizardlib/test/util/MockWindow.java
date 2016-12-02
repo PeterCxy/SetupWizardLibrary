@@ -5,6 +5,7 @@ import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.InputQueue;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -60,6 +61,7 @@ public class MockWindow extends Window {
         throw new UnsupportedOperationException("Unexpected method call on mock");
     }
 
+    @NonNull
     @Override
     public LayoutInflater getLayoutInflater() {
         throw new UnsupportedOperationException("Unexpected method call on mock");
