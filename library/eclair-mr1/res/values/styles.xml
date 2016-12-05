@@ -146,6 +146,13 @@
         <item name="android:textAppearance">?attr/textAppearanceListItemSmall</item>
     </style>
 
+    <style name="SuwSwitchStyle">
+        <item name="android:paddingEnd" tools:ignore="NewApi">@dimen/suw_switch_padding_end</item>
+        <item name="android:paddingLeft">@dimen/suw_switch_padding_start</item>
+        <item name="android:paddingRight">@dimen/suw_switch_padding_end</item>
+        <item name="android:paddingStart" tools:ignore="NewApi">@dimen/suw_switch_padding_start</item>
+    </style>
+
     <!-- Button styles -->
 
     <style name="SuwButtonItem" />

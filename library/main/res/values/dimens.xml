@@ -119,4 +119,7 @@
     <dimen name="suw_progress_bar_margin_vertical">-7dp</dimen>
     <dimen name="suw_glif_progress_bar_margin_vertical">7dp</dimen>
 
+    <dimen name="suw_switch_padding_start">16dp</dimen>
+    <dimen name="suw_switch_padding_end">0dp</dimen>
+
 </resources>
