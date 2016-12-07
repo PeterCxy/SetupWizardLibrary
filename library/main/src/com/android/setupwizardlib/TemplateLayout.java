@@ -20,14 +20,13 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Build.VERSION_CODES;
+import android.support.annotation.Keep;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.FrameLayout;
-
-import com.android.setupwizardlib.annotations.Keep;
 
 /**
  * A generic template class that inflates a template, provided in the constructor or in
@@ -151,7 +150,7 @@ public class TemplateLayout extends FrameLayout {
      * stripped out by proguard when using this with {@link android.animation.ObjectAnimator}. You
      * may need to add
      * <code>
-     *     -keep @com.android.setupwizardlib.annotations.Keep class *
+     *     -keep @android.support.annotation.Keep class *
      * </code>
      * to your proguard configuration if you are seeing mysterious {@link NoSuchMethodError} at
      * runtime.

@@ -19,6 +19,7 @@ package com.android.setupwizardlib.view;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Build;
+import android.support.annotation.VisibleForTesting;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -29,7 +30,6 @@ import android.widget.FrameLayout;
 
 import com.android.setupwizardlib.DividerItemDecoration;
 import com.android.setupwizardlib.R;
-import com.android.setupwizardlib.annotations.VisibleForTesting;
 
 /**
  * A RecyclerView that can display a header item at the start of the list. The header can be set by
