@@ -20,10 +20,10 @@
     style="@style/SuwItemContainer.Verbose"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:baselineAligned="false"
     android:orientation="horizontal"
-    tools:ignore="DisableBaselineAlignment,UnusedResources">
+    tools:ignore="UnusedResources">
     <!-- Ignore UnusedResources: can be used by clients -->
-    <!-- TODO: Investigate if baseline alignment can be disabled -->
 
     <FrameLayout
         android:id="@+id/suw_items_icon_container"
