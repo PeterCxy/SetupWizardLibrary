@@ -33,8 +33,7 @@ import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.NonNull;
-
-import com.android.setupwizardlib.annotations.VisibleForTesting;
+import android.support.annotation.VisibleForTesting;
 
 import java.lang.ref.SoftReference;
 

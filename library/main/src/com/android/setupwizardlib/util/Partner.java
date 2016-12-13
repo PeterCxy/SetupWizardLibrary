@@ -24,9 +24,8 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.pm.ResolveInfo;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.VisibleForTesting;
 import android.util.Log;
-
-import com.android.setupwizardlib.annotations.VisibleForTesting;
 
 /**
  * Utilities to discover and interact with partner customizations. An overlay package is one that
