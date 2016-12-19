@@ -35,7 +35,6 @@
     <!-- Custom view attributes -->
     <attr name="suwColorPrimary" format="color" />
     <attr name="suwHeader" format="reference" />
-    <attr name="suwHeaderText" format="string" localization="suggested" />
     <attr name="suwDividerInset" format="dimension|reference" />
     <attr name="suwItemDescriptionStyle" format="reference" />
 
@@ -52,10 +51,7 @@
     </declare-styleable>
 
     <declare-styleable name="SuwGlifLayout">
-        <attr name="android:icon" />
         <attr name="suwColorPrimary" />
-        <attr name="suwHeaderColor" format="reference|color" />
-        <attr name="suwHeaderText" />
     </declare-styleable>
 
     <declare-styleable name="SuwGlifListLayout">
@@ -75,7 +71,6 @@
     <declare-styleable name="SuwSetupWizardLayout">
         <attr name="suwBackground" format="color|reference" />
         <attr name="suwBackgroundTile" format="color|reference" />
-        <attr name="suwHeaderText" />
         <attr name="suwDecorPaddingTop" format="dimension|reference" />
         <attr name="suwIllustration" format="color|reference" />
         <attr name="suwIllustrationAspectRatio" format="float|reference" />
@@ -120,6 +115,18 @@
         <attr name="android:enabled" />
         <attr name="android:text" />
         <attr name="android:theme" />
+    </declare-styleable>
+
+    <declare-styleable name="SuwHeaderMixin">
+        <attr name="suwHeaderText" format="string" localization="suggested" />
+    </declare-styleable>
+
+    <declare-styleable name="SuwColoredHeaderMixin">
+        <attr name="suwHeaderColor" format="reference|color" />
+    </declare-styleable>
+
+    <declare-styleable name="SuwIconMixin">
+        <attr name="android:icon" />
     </declare-styleable>
 
 </resources>

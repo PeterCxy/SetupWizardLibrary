@@ -135,7 +135,7 @@ public class GlifRecyclerLayout extends GlifLayout {
     }
 
     @Override
-    protected View findManagedViewById(int id) {
+    public View findManagedViewById(int id) {
         if (mHeader != null) {
             final View view = mHeader.findViewById(id);
             if (view != null) {
