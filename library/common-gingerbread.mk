@@ -9,7 +9,7 @@
 #   LOCAL_RESOURCE_DIR := \
 #        $(LOCAL_PATH)/res
 #
-#   include frameworks/opt/setupwizard/library/common-full-support.mk
+#   include frameworks/opt/setupwizard/library/common-gingerbread.mk
 #
 
 ifneq ($(LOCAL_USE_AAPT2),true)
