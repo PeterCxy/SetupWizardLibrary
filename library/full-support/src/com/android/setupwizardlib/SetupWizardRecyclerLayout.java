@@ -77,18 +77,18 @@ public class SetupWizardRecyclerLayout extends SetupWizardLayout {
 
     private void init(Context context, AttributeSet attrs, int defStyleAttr) {
         final TypedArray a = context.obtainStyledAttributes(attrs,
-                R.styleable.SuwSetupWizardRecyclerItemsLayout, defStyleAttr, 0);
+                R.styleable.SuwSetupWizardRecyclerLayout, defStyleAttr, 0);
         final int xml = a.getResourceId(
-                R.styleable.SuwSetupWizardRecyclerItemsLayout_android_entries, 0);
+                R.styleable.SuwSetupWizardRecyclerLayout_android_entries, 0);
         if (xml != 0) {
             final ItemGroup inflated = (ItemGroup) new ItemInflater(context).inflate(xml);
             mAdapter = new RecyclerItemAdapter(inflated);
             mAdapter.setHasStableIds(a.getBoolean(
-                    R.styleable.SuwSetupWizardRecyclerItemsLayout_suwHasStableIds, false));
+                    R.styleable.SuwSetupWizardRecyclerLayout_suwHasStableIds, false));
             setAdapter(mAdapter);
         }
         int dividerInset = a.getDimensionPixelSize(
-                R.styleable.SuwSetupWizardRecyclerItemsLayout_suwDividerInset, 0);
+                R.styleable.SuwSetupWizardRecyclerLayout_suwDividerInset, 0);
         if (dividerInset == 0) {
             dividerInset = getResources()
                     .getDimensionPixelSize(R.dimen.suw_items_icon_divider_inset);

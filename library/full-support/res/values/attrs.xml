@@ -19,7 +19,7 @@
 
     <attr name="suwHasStableIds" format="boolean|reference" />
 
-    <declare-styleable name="SuwSetupWizardRecyclerItemsLayout">
+    <declare-styleable name="SuwSetupWizardRecyclerLayout">
         <attr name="android:entries" />
         <attr name="suwDividerInset" />
         <attr name="suwHasStableIds" />
