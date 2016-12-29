@@ -23,12 +23,14 @@ import android.content.Context;
 import android.content.ContextWrapper;
 import android.widget.TextView;
 
+import com.android.setupwizardlib.BaseRobolectricTest;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 
 @RunWith(RobolectricTestRunner.class)
-public class LinkSpanTest {
+public class LinkSpanTest extends BaseRobolectricTest {
 
     @Test
     public void testOnClick() {
