@@ -46,23 +46,23 @@ public class BottomScrollViewTest {
     @Test
     public void testNoNeedScroll() {
         createScrollView(20);
-        assertTrue("Scroll should not be required", mListener.scrolledToBottom);
+        assertTrue("Scroll should not be required", mListener.mScrolledToBottom);
     }
 
     @Test
     public void testNeedScroll() {
         createScrollView(110);
-        assertFalse("Scroll should be required", mListener.scrolledToBottom);
+        assertFalse("Scroll should be required", mListener.mScrolledToBottom);
     }
 
     @Test
     public void testScrollToBottom() {
         final BottomScrollView bottomScrollView = createScrollView(110);
 
-        assertFalse("Scroll should be required", mListener.scrolledToBottom);
+        assertFalse("Scroll should be required", mListener.mScrolledToBottom);
 
         bottomScrollView.scrollTo(0, 10);
-        assertTrue("Should already be scrolled to bottom", mListener.scrolledToBottom);
+        assertTrue("Should already be scrolled to bottom", mListener.mScrolledToBottom);
     }
 
     @Test
@@ -90,7 +90,7 @@ public class BottomScrollViewTest {
         private static final int WIDTH = 10;
         private int mHeight;
 
-        public TestChildView(Context context, int height) {
+        TestChildView(Context context, int height) {
             super(context);
             mHeight = height;
         }
@@ -107,7 +107,7 @@ public class BottomScrollViewTest {
 
     private static class TestBottomScrollView extends BottomScrollView {
 
-        public TestBottomScrollView(Context context) {
+        TestBottomScrollView(Context context) {
             super(context);
         }
 
@@ -121,16 +121,16 @@ public class BottomScrollViewTest {
 
     private static class TestBottomScrollListener implements BottomScrollView.BottomScrollListener {
 
-        boolean scrolledToBottom = true;
+        boolean mScrolledToBottom = true;
 
         @Override
         public void onScrolledToBottom() {
-            scrolledToBottom = true;
+            mScrolledToBottom = true;
         }
 
         @Override
         public void onRequiresScroll() {
-            scrolledToBottom = false;
+            mScrolledToBottom = false;
         }
     }
 }

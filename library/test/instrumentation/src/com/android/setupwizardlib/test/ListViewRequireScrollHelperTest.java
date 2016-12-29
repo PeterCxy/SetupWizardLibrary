@@ -104,7 +104,7 @@ public class ListViewRequireScrollHelperTest {
         public int scrollDistance = 0;
         public OnScrollListener listener;
 
-        public TestListView(Context context) {
+        TestListView(Context context) {
             super(context);
             setAdapter(new BaseAdapter() {
                 @Override
@@ -149,7 +149,7 @@ public class ListViewRequireScrollHelperTest {
 
     private static class TestNavigationBar extends NavigationBar {
 
-        public TestNavigationBar(Context context) {
+        TestNavigationBar(Context context) {
             super(context);
         }
 

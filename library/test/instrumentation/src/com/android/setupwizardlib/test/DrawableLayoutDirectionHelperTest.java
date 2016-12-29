@@ -131,7 +131,7 @@ public class DrawableLayoutDirectionHelperTest {
 
     private static class ForceRtlView extends View {
 
-        public ForceRtlView(Context context) {
+        ForceRtlView(Context context) {
             super(context);
         }
 

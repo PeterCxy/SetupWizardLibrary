@@ -181,7 +181,7 @@ public class PartnerTest {
         private Context mTestContext;
         private Resources mTestResources;
 
-        public TestPackageManager(Context testContext) {
+        TestPackageManager(Context testContext) {
             mTestContext = testContext;
             mTestResources = new TestResources();
         }
@@ -209,7 +209,7 @@ public class PartnerTest {
 
         public List<ResolveInfo> partnerList;
 
-        public TestContext(Context context) {
+        TestContext(Context context) {
             super(context);
         }
 

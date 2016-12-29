@@ -237,7 +237,7 @@ public class SystemBarHelperTest {
         private int mNavigationBarColor = -1;
         private int mStatusBarColor = -1;
 
-        public TestWindow(Context context, View decorView) {
+        TestWindow(Context context, View decorView) {
             super(context);
             mDecorView = decorView;
         }

@@ -90,7 +90,7 @@ public class RequireScrollHelperTest {
         public BottomScrollListener listener;
         public int page = 0;
 
-        public TestBottomScrollView(Context context) {
+        TestBottomScrollView(Context context) {
             super(context);
         }
 
@@ -112,7 +112,7 @@ public class RequireScrollHelperTest {
 
     private static class TestNavigationBar extends NavigationBar {
 
-        public TestNavigationBar(Context context) {
+        TestNavigationBar(Context context) {
             super(context);
         }
 

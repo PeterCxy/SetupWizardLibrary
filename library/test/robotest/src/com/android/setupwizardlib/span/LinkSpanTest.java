@@ -14,29 +14,25 @@
  * limitations under the License.
  */
 
-package com.android.setupwizardlib.test;
+package com.android.setupwizardlib.span;
 
 import static org.junit.Assert.assertSame;
+import static org.robolectric.RuntimeEnvironment.application;
 
 import android.content.Context;
 import android.content.ContextWrapper;
-import android.support.test.InstrumentationRegistry;
-import android.support.test.filters.SmallTest;
-import android.support.test.runner.AndroidJUnit4;
 import android.widget.TextView;
-
-import com.android.setupwizardlib.span.LinkSpan;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.robolectric.RobolectricTestRunner;
 
-@RunWith(AndroidJUnit4.class)
-@SmallTest
+@RunWith(RobolectricTestRunner.class)
 public class LinkSpanTest {
 
     @Test
     public void testOnClick() {
-        final TestContext context = new TestContext(InstrumentationRegistry.getContext());
+        final TestContext context = new TestContext(application);
         final TextView textView = new TextView(context);
         final LinkSpan linkSpan = new LinkSpan("test_id");
 
@@ -47,8 +43,7 @@ public class LinkSpanTest {
 
     @Test
     public void testNonImplementingContext() {
-        final Context context = InstrumentationRegistry.getContext();
-        final TextView textView = new TextView(context);
+        final TextView textView = new TextView(application);
         final LinkSpan linkSpan = new LinkSpan("test_id");
 
         linkSpan.onClick(textView);
@@ -61,7 +56,7 @@ public class LinkSpanTest {
 
         public LinkSpan clickedSpan = null;
 
-        public TestContext(Context base) {
+        TestContext(Context base) {
             super(base);
         }
 

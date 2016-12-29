@@ -9,9 +9,9 @@ apply from: 'standalone-rules.gradle'
 // Add targets for tests
 android.sourceSets {
     androidTest {
-        manifest.srcFile 'test/AndroidManifest.xml'
-        java.srcDirs = ['test/src']
-        res.srcDirs = ['test/res']
+        manifest.srcFile 'test/instrumentation/AndroidManifest.xml'
+        java.srcDirs = ['test/instrumentation/src']
+        res.srcDirs = ['test/instrumentation/res']
 
         dependencies {
             androidTestCompile 'com.android.support.test:rules:0.5'
@@ -35,6 +35,17 @@ android.sourceSets {
     androidTestGingerbreadCompat {
         java.srcDirs = ['full-support/test/src', 'eclair-mr1/test/src']
         res.srcDirs = ['full-support/test/res']
+    }
+
+    test {
+        java.srcDirs = ['test/robotest/src']
+
+        dependencies {
+            testCompile 'org.robolectric:robolectric:3.+'
+            testCompile 'org.robolectric:shadows-core:3.+'
+            testCompile 'junit:junit:4.+'
+            testCompile 'org.mockito:mockito-core:1.9.5'
+        }
     }
 }
 android.defaultConfig.testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
