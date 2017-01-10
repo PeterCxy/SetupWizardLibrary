@@ -47,15 +47,6 @@ android {
                 }
             }
 
-            // Compatibility build that provides the L layout for SDK versions ICS+
-            icsCompat {
-                minSdkVersion 14
-                dependencies {
-                    icsCompatCompile deps['support-annotations']
-                    icsCompatCompile deps['support-appcompat-v7']
-                }
-            }
-
             // Deprecated. Use gingerbreadCompat instead.
             eclairMr1Compat {
                 minSdkVersion 7
@@ -88,11 +79,6 @@ android {
         platform {
             java.srcDirs = ['platform/src']
             res.srcDirs = ['platform/res']
-        }
-
-        icsCompat {
-            java.srcDirs = ['eclair-mr1/src']
-            res.srcDirs = ['eclair-mr1/res']
         }
 
         eclairMr1Compat {

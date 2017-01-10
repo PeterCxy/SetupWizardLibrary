@@ -10,7 +10,7 @@
  *
  * And then you can include the :setup-wizard-lib project as one of your dependencies
  *      dependencies {
- *          compile project(path: ':setup-wizard-lib', configuration: 'icsCompatRelease')
+ *          compile project(path: ':setup-wizard-lib', configuration: 'gingerbreadCompatRelease')
  *      }
  */
 
