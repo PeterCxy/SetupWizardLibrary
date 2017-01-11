@@ -42,6 +42,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.android.setupwizardlib.SetupWizardLayout;
+import com.android.setupwizardlib.template.HeaderMixin;
+import com.android.setupwizardlib.template.NavigationBarMixin;
+import com.android.setupwizardlib.template.ProgressBarMixin;
 import com.android.setupwizardlib.view.NavigationBar;
 
 import org.junit.Before;
@@ -224,6 +227,17 @@ public class SetupWizardLayoutTest {
         // SetupWizardLayout shouldn't crash with incompatible Parcelable
 
         assertFalse("Progress bar should not be shown", layout.isProgressBarShown());
+    }
+
+    @Test
+    public void testGetMixins() {
+        final SetupWizardLayout layout = new SetupWizardLayout(mContext);
+        assertNotNull("SetupWizardLayout should have header mixin",
+                layout.getMixin(HeaderMixin.class));
+        assertNotNull("SetupWizardLayout should have progress bar mixin",
+                layout.getMixin(ProgressBarMixin.class));
+        assertNotNull("SetupWizardLayout should have navigation bar mixin",
+                layout.getMixin(NavigationBarMixin.class));
     }
 
     private void assertDefaultTemplateInflated(SetupWizardLayout layout) {

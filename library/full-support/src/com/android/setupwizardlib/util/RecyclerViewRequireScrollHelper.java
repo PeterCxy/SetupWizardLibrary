@@ -40,6 +40,7 @@ public class RecyclerViewRequireScrollHelper extends AbstractRequireScrollHelper
         mRecyclerView = recyclerView;
     }
 
+    @Override
     protected void requireScroll() {
         super.requireScroll();
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {

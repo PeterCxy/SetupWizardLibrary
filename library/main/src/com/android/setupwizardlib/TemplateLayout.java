@@ -28,6 +28,11 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.FrameLayout;
 
+import com.android.setupwizardlib.template.Mixin;
+
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * A generic template class that inflates a template, provided in the constructor or in
  * {@code android:layout} through XML, and adds its children to a "container" in the template. When
@@ -41,6 +46,8 @@ public class TemplateLayout extends FrameLayout {
      * will be added to when {@link #addView(View)} is called.
      */
     private ViewGroup mContainer;
+
+    private Map<Class<? extends Mixin>, Mixin> mMixins = new HashMap<>();
 
     public TemplateLayout(Context context, int template, int containerId) {
         super(context);
@@ -72,6 +79,46 @@ public class TemplateLayout extends FrameLayout {
         inflateTemplate(template, containerId);
 
         a.recycle();
+    }
+
+    /**
+     * Registers a mixin with a given class. This method should be called in the constructor.
+     *
+     * @param cls The class to register the mixin. In most cases, {@code cls} is the same as
+     *            {@code mixin.getClass()}, but {@code cls} can also be a super class of that. In
+     *            the latter case the the mixin must be retrieved using {@code cls} in
+     *            {@link #getMixin(Class)}, not the subclass.
+     * @param mixin The mixin to be registered.
+     * @param <M> The class of the mixin to register. This is the same as {@code cls}
+     */
+    protected <M extends Mixin> void registerMixin(Class<M> cls, M mixin) {
+        mMixins.put(cls, mixin);
+    }
+
+    /**
+     * Same as {@link android.view.View#findViewById(int)}, but may include views that are managed
+     * by this view but not currently added to the view hierarchy. e.g. recycler view or list view
+     * headers that are not currently shown.
+     */
+    public View findManagedViewById(int id) {
+        return findViewById(id);
+    }
+
+    /**
+     * Get a {@link Mixin} from this template registered earlier in
+     * {@link #registerMixin(Class, Mixin)}.
+     *
+     * @param cls The class marker of Mixin being requested. The actual Mixin returned may be a
+     *            subclass of this marker. Note that this must be the same class as registered in
+     *            {@link #registerMixin(Class, Mixin)}, which is not necessarily the
+     *            same as the concrete class of the instance returned by this method.
+     * @param <M> The type of the class marker.
+     * @return The mixin marked by {@code cls}, or null if the template does not have a matching
+     *         mixin.
+     */
+    @SuppressWarnings("unchecked")
+    public <M extends Mixin> M getMixin(Class<M> cls) {
+        return (M) mMixins.get(cls);
     }
 
     @Override

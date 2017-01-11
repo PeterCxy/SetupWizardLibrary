@@ -39,6 +39,10 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.android.setupwizardlib.GlifLayout;
+import com.android.setupwizardlib.template.ColoredHeaderMixin;
+import com.android.setupwizardlib.template.HeaderMixin;
+import com.android.setupwizardlib.template.IconMixin;
+import com.android.setupwizardlib.template.ProgressBarMixin;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -158,6 +162,18 @@ public class GlifLayoutTest {
         GlifLayout layout = new GlifLayout(mContext, R.layout.test_template);
         layout.setProgressBarShown(true);
         // This is a no-op because there is no progress bar stub
+    }
+
+    @Test
+    public void testMixins() {
+        GlifLayout layout = new GlifLayout(mContext);
+        final HeaderMixin header = layout.getMixin(HeaderMixin.class);
+        assertTrue("Header should be instance of ColoredHeaderMixin. "
+                + "Found " + header.getClass() + " instead.", header instanceof ColoredHeaderMixin);
+
+        assertNotNull("GlifLayout should have icon mixin", layout.getMixin(IconMixin.class));
+        assertNotNull("GlifLayout should have progress bar mixin",
+                layout.getMixin(ProgressBarMixin.class));
     }
 
     private void assertDefaultTemplateInflated(GlifLayout layout) {

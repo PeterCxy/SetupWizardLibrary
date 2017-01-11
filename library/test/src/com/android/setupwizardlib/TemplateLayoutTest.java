@@ -14,9 +14,10 @@
  * limitations under the License.
  */
 
-package com.android.setupwizardlib.test;
+package com.android.setupwizardlib;
 
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -29,7 +30,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
-import com.android.setupwizardlib.TemplateLayout;
+import com.android.setupwizardlib.template.HeaderMixin;
+import com.android.setupwizardlib.test.R;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -91,5 +93,13 @@ public class TemplateLayoutTest {
         } catch (IllegalArgumentException e) {
             // Expected IllegalArgumentException
         }
+    }
+
+    @Test
+    public void testGetMixin() {
+        TemplateLayout layout = new TemplateLayout(mContext, R.layout.test_template,
+                R.id.suw_layout_content);
+        final HeaderMixin mixin = layout.getMixin(HeaderMixin.class);
+        assertNull("getMixin for a mixin that doesn't exist should return null", mixin);
     }
 }
