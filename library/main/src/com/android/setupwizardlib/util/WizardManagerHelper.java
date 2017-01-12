@@ -51,20 +51,6 @@ public class WizardManagerHelper {
     public static final String THEME_MATERIAL_LIGHT = "material_light";
 
     /**
-     * @deprecated This constant is not used and will not be passed by any released version of setup
-     *             wizard.
-     */
-    @Deprecated
-    public static final String THEME_MATERIAL_BLUE = "material_blue";
-
-    /**
-     * @deprecated This constant is not used and will not be passed by any released version of setup
-     *             wizard.
-     */
-    @Deprecated
-    public static final String THEME_MATERIAL_BLUE_LIGHT = "material_blue_light";
-
-    /**
      * Passed in a setup wizard intent as {@link #EXTRA_THEME}. This is the dark variant of the
      * theme used in setup wizard for NYC.
      */
@@ -204,10 +190,10 @@ public class WizardManagerHelper {
      */
     public static boolean isLightTheme(String theme, boolean def) {
         if (THEME_HOLO_LIGHT.equals(theme) || THEME_MATERIAL_LIGHT.equals(theme)
-                || THEME_MATERIAL_BLUE_LIGHT.equals(theme) || THEME_GLIF_LIGHT.equals(theme)) {
+                || THEME_GLIF_LIGHT.equals(theme)) {
             return true;
         } else if (THEME_HOLO.equals(theme) || THEME_MATERIAL.equals(theme)
-                || THEME_MATERIAL_BLUE.equals(theme) || THEME_GLIF.equals(theme)) {
+                || THEME_GLIF.equals(theme)) {
             return false;
         } else {
             return def;
