@@ -52,6 +52,21 @@ public class ReflectionInflaterTest {
         assertTrue(animations.get(0) instanceof ScaleAnimation);
     }
 
+    @Test
+    public void testDefaultPackage() {
+        final Context context = InstrumentationRegistry.getContext();
+        TestInflater inflater = new TestInflater(context);
+        inflater.setDefaultPackage("android.view.animation.");
+        final Animation result =
+                inflater.inflate(R.xml.reflection_inflater_test_with_default_package);
+
+        assertTrue(result instanceof AnimationSet);
+        final AnimationSet set = (AnimationSet) result;
+        final List<Animation> animations = set.getAnimations();
+        assertEquals(1, animations.size());
+        assertTrue(animations.get(0) instanceof ScaleAnimation);
+    }
+
     private static class TestInflater extends ReflectionInflater<Animation> {
 
         protected TestInflater(@NonNull Context context) {

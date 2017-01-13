@@ -83,7 +83,10 @@ public abstract class ReflectionInflater<T> extends SimpleInflater<T> {
      */
     @NonNull
     public final T createItem(String tagName, String prefix, AttributeSet attrs) {
-        String qualifiedName = prefix != null ? prefix.concat(tagName) : tagName;
+        String qualifiedName = tagName;
+        if (prefix != null && qualifiedName.indexOf('.') == -1) {
+            qualifiedName = prefix.concat(qualifiedName);
+        }
         Constructor constructor = sConstructorMap.get(qualifiedName);
 
         try {
