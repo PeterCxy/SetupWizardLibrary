@@ -40,7 +40,7 @@ import java.io.IOException;
 public abstract class SimpleInflater<T> {
 
     private static final String TAG = "SimpleInflater";
-    private static final boolean DEBUG = true;
+    private static final boolean DEBUG = false;
 
     protected final Resources mResources;
 
