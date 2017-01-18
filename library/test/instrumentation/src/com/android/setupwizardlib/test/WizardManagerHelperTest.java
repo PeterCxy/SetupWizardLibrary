@@ -112,22 +112,6 @@ public class WizardManagerHelperTest {
     }
 
     @Test
-    public void testMaterialBlueIsNotLightTheme() {
-        final Intent intent = new Intent();
-        intent.putExtra("theme", "material_blue");
-        assertFalse("Theme material_blue should not be light theme",
-                WizardManagerHelper.isLightTheme(intent, true));
-    }
-
-    @Test
-    public void testMaterialBlueLightIsLightTheme() {
-        final Intent intent = new Intent();
-        intent.putExtra("theme", "material_blue_light");
-        assertTrue("Theme material_blue_light should be light theme",
-                WizardManagerHelper.isLightTheme(intent, false));
-    }
-
-    @Test
     public void testGlifIsDarkTheme() {
         final Intent intent = new Intent();
         intent.putExtra("theme", "glif");
