@@ -45,6 +45,8 @@ android.sourceSets {
             testCompile 'org.robolectric:shadows-core:3.+'
             testCompile 'junit:junit:4.+'
             testCompile 'org.mockito:mockito-core:1.9.5'
+            // Workaround for https://github.com/robolectric/robolectric/issues/2566
+            testCompile 'org.khronos:opengl-api:gl1.1-android-2.1_r1'
         }
     }
 }
