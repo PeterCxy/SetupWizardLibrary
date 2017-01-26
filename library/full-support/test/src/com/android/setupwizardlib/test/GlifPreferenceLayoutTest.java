@@ -53,20 +53,20 @@ public class GlifPreferenceLayoutTest {
 
     @Test
     public void testDefaultTemplate() {
-        GlifPreferenceLayout layout = new TestLayout(mContext);
+        GlifPreferenceLayout layout = new GlifPreferenceLayout(mContext);
         assertPreferenceTemplateInflated(layout);
     }
 
     @Test
     public void testGetRecyclerView() {
-        GlifPreferenceLayout layout = new TestLayout(mContext);
+        GlifPreferenceLayout layout = new GlifPreferenceLayout(mContext);
         assertPreferenceTemplateInflated(layout);
         assertNotNull("getRecyclerView should not be null", layout.getRecyclerView());
     }
 
     @Test
     public void testOnCreateRecyclerView() {
-        GlifPreferenceLayout layout = new TestLayout(mContext);
+        GlifPreferenceLayout layout = new GlifPreferenceLayout(mContext);
         assertPreferenceTemplateInflated(layout);
         final RecyclerView recyclerView = layout.onCreateRecyclerView(LayoutInflater.from(mContext),
                 layout, null /* savedInstanceState */);
@@ -75,7 +75,7 @@ public class GlifPreferenceLayoutTest {
 
     @Test
     public void testDividerInset() {
-        GlifPreferenceLayout layout = new TestLayout(mContext);
+        GlifPreferenceLayout layout = new GlifPreferenceLayout(mContext);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             layout.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
         }
@@ -96,24 +96,9 @@ public class GlifPreferenceLayoutTest {
         assertTrue("@id/suw_layout_content should be a ViewGroup",
                 contentContainer instanceof ViewGroup);
 
-        if (layout instanceof TestLayout) {
-            assertNotNull("Header text view should not be null",
-                    ((TestLayout) layout).findManagedViewById(R.id.suw_layout_title));
-            assertNotNull("Icon view should not be null",
-                    ((TestLayout) layout).findManagedViewById(R.id.suw_layout_icon));
-        }
-    }
-
-    // Make some methods public for testing
-    public static class TestLayout extends GlifPreferenceLayout {
-
-        public TestLayout(Context context) {
-            super(context);
-        }
-
-        @Override
-        public View findManagedViewById(int id) {
-            return super.findManagedViewById(id);
-        }
+        assertNotNull("Header text view should not be null",
+                layout.findManagedViewById(R.id.suw_layout_title));
+        assertNotNull("Icon view should not be null",
+                layout.findManagedViewById(R.id.suw_layout_icon));
     }
 }
