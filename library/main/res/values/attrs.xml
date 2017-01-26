@@ -54,11 +54,6 @@
         <attr name="suwColorPrimary" />
     </declare-styleable>
 
-    <declare-styleable name="SuwGlifListLayout">
-        <attr name="android:entries" />
-        <attr name="suwDividerInset" />
-    </declare-styleable>
-
     <declare-styleable name="SuwStatusBarBackgroundLayout">
         <attr name="suwStatusBarBackground" format="color|reference" />
     </declare-styleable>
@@ -81,14 +76,6 @@
     <declare-styleable name="SuwTemplateLayout">
         <attr name="android:layout" />
         <attr name="suwContainer" format="reference" />
-    </declare-styleable>
-
-    <declare-styleable name="SuwSetupWizardListLayout">
-        <attr name="suwDividerInset" />
-    </declare-styleable>
-
-    <declare-styleable name="SuwSetupWizardItemsLayout">
-        <attr name="android:entries" />
     </declare-styleable>
 
     <declare-styleable name="SuwAbstractItem">
@@ -127,6 +114,11 @@
 
     <declare-styleable name="SuwIconMixin">
         <attr name="android:icon" />
+    </declare-styleable>
+
+    <declare-styleable name="SuwListMixin">
+        <attr name="android:entries" />
+        <attr name="suwDividerInset" />
     </declare-styleable>
 
 </resources>

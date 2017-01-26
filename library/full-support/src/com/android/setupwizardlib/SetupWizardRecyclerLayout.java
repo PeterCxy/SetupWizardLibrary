@@ -41,7 +41,7 @@ import com.android.setupwizardlib.view.NavigationBar;
  * {@code android:entries} can also be used to specify an
  * {@link com.android.setupwizardlib.items.ItemHierarchy} to be used with this layout in XML.
  *
- * @see SetupWizardItemsLayout
+ * @see SetupWizardListLayout
  */
 public class SetupWizardRecyclerLayout extends SetupWizardLayout {
 

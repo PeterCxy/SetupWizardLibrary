@@ -27,7 +27,7 @@ import android.widget.TextView;
 import com.android.setupwizardlib.R;
 
 /**
- * Definition of an item in SetupWizardItemsLayout. An item is usually defined in XML and inflated
+ * Definition of an item in an {@link ItemHierarchy}. An item is usually defined in XML and inflated
  * using {@link ItemInflater}.
  */
 public class Item extends AbstractItem {

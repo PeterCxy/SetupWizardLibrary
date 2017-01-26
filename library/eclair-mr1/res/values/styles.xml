@@ -86,6 +86,7 @@
         <item name="colorPrimary">@color/suw_color_accent_glif_dark</item>
         <item name="listPreferredItemPaddingLeft">?attr/suwMarginSides</item>
         <item name="listPreferredItemPaddingRight">?attr/suwMarginSides</item>
+        <item name="suwDividerInset">@dimen/suw_items_glif_icon_divider_inset</item>
         <item name="suwItemDescriptionStyle">@style/SuwItemContainer.Description.Glif</item>
         <item name="suwListItemIconColor">@color/suw_list_item_icon_color_dark</item>
         <item name="suwMarginSides">@dimen/suw_glif_margin_sides</item>
@@ -112,6 +113,7 @@
         <item name="colorPrimary">@color/suw_color_accent_glif_light</item>
         <item name="listPreferredItemPaddingLeft">?attr/suwMarginSides</item>
         <item name="listPreferredItemPaddingRight">?attr/suwMarginSides</item>
+        <item name="suwDividerInset">@dimen/suw_items_glif_icon_divider_inset</item>
         <item name="suwItemDescriptionStyle">@style/SuwItemContainer.Description.Glif</item>
         <item name="suwListItemIconColor">@color/suw_list_item_icon_color_light</item>
         <item name="suwMarginSides">@dimen/suw_glif_margin_sides</item>
