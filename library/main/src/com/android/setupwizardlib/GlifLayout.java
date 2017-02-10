@@ -33,6 +33,7 @@ import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.android.setupwizardlib.template.ButtonFooterMixin;
 import com.android.setupwizardlib.template.ColoredHeaderMixin;
 import com.android.setupwizardlib.template.HeaderMixin;
 import com.android.setupwizardlib.template.IconMixin;
@@ -93,6 +94,7 @@ public class GlifLayout extends TemplateLayout {
         registerMixin(HeaderMixin.class, new ColoredHeaderMixin(this, attrs, defStyleAttr));
         registerMixin(IconMixin.class, new IconMixin(this, attrs, defStyleAttr));
         registerMixin(ProgressBarMixin.class, new ProgressBarMixin(this));
+        registerMixin(ButtonFooterMixin.class, new ButtonFooterMixin(this));
 
         TypedArray a = getContext().obtainStyledAttributes(attrs,
                 R.styleable.SuwGlifLayout, defStyleAttr, 0);
