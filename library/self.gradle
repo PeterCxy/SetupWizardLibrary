@@ -1,11 +1,8 @@
 /**
  * This self.gradle build file is only run when built in ub-setupwizard-* branches.
  */
-
 apply plugin: 'dist'
-
 apply from: 'standalone-rules.gradle'
-
 // Add targets for tests
 android.sourceSets {
     androidTest {
@@ -21,6 +18,10 @@ android.sourceSets {
             androidTestCompile 'junit:junit:4.+'
             androidTestCompile 'org.mockito:mockito-core:1.9.5'
         }
+    }
+
+    androidTestPlatform {
+        java.srcDirs = ['platform/test/src']
     }
 
     androidTestGingerbreadCompat {
@@ -42,7 +43,6 @@ android.sourceSets {
     }
 }
 android.defaultConfig.testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
 android.lintOptions {
     abortOnError true
     htmlReport true
@@ -51,12 +51,10 @@ android.lintOptions {
     warningsAsErrors true
     xmlReport false
 }
-
 // Run lint for all variants
 android.libraryVariants.all { variant ->
     variant.assemble.dependsOn(tasks.findByName('lint'))
 }
-
 // Output all test APKs to the distribution folder
 def distTask = tasks.findByName('dist')
 if (distTask) {

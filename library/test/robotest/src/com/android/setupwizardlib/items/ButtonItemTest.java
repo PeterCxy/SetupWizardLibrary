@@ -14,52 +14,59 @@
  * limitations under the License.
  */
 
-package com.android.setupwizardlib.test;
+package com.android.setupwizardlib.items;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.same;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
+import static org.robolectric.RuntimeEnvironment.application;
 
-import android.support.test.InstrumentationRegistry;
-import android.support.test.annotation.UiThreadTest;
-import android.support.test.filters.SmallTest;
-import android.support.test.rule.UiThreadTestRule;
-import android.support.test.runner.AndroidJUnit4;
+import android.content.Context;
 import android.text.TextUtils;
+import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
+import com.android.setupwizardlib.BuildConfig;
 import com.android.setupwizardlib.R;
-import com.android.setupwizardlib.items.ButtonItem;
+import com.android.setupwizardlib.items.ButtonItem.OnClickListener;
+import com.android.setupwizardlib.robolectric.SuwLibRobolectricTestRunner;
 
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.robolectric.annotation.Config;
 
-@SmallTest
-@RunWith(AndroidJUnit4.class)
+@RunWith(SuwLibRobolectricTestRunner.class)
+@Config(
+        constants = BuildConfig.class,
+        sdk = { Config.OLDEST_SDK, Config.NEWEST_SDK },
+        shadows = {
+        })
 public class ButtonItemTest {
 
-    // These tests need to be run on UI thread because button uses ValueAnimator
-    @Rule
-    public UiThreadTestRule mUiThreadTestRule = new UiThreadTestRule();
-
     private ViewGroup mParent;
+    private Context mContext;
 
     @Before
-    public void setUp() throws Exception {
-        mParent = new LinearLayout(InstrumentationRegistry.getContext());
+    public void setUp() {
+        mContext = new ContextThemeWrapper(application, R.style.SuwThemeGlif_Light);
+        mParent = new LinearLayout(mContext);
     }
 
     @Test
-    @UiThreadTest
     public void testDefaultItem() {
         ButtonItem item = new ButtonItem();
 
@@ -72,12 +79,11 @@ public class ButtonItemTest {
     }
 
     @Test
-    @UiThreadTest
     public void testOnBindView() {
         ButtonItem item = new ButtonItem();
 
         try {
-            item.onBindView(new View(InstrumentationRegistry.getContext()));
+            item.onBindView(new View(mContext));
             fail("Calling onBindView on ButtonItem should throw UnsupportedOperationException");
         } catch (UnsupportedOperationException e) {
             // pass
@@ -85,7 +91,6 @@ public class ButtonItemTest {
     }
 
     @Test
-    @UiThreadTest
     public void testCreateButton() {
         TestButtonItem item = new TestButtonItem();
         final Button button = item.createButton(mParent);
@@ -95,7 +100,6 @@ public class ButtonItemTest {
     }
 
     @Test
-    @UiThreadTest
     public void testButtonItemSetsItsId() {
         TestButtonItem item = new TestButtonItem();
         final int id = 12345;
@@ -105,12 +109,11 @@ public class ButtonItemTest {
     }
 
     @Test
-    @UiThreadTest
     public void testCreateButtonTwice() {
         TestButtonItem item = new TestButtonItem();
         final Button button = item.createButton(mParent);
 
-        FrameLayout frameLayout = new FrameLayout(InstrumentationRegistry.getContext());
+        FrameLayout frameLayout = new FrameLayout(mContext);
         frameLayout.addView(button);
 
         final Button button2 = item.createButton(mParent);
@@ -119,7 +122,6 @@ public class ButtonItemTest {
     }
 
     @Test
-    @UiThreadTest
     public void testSetEnabledTrue() {
         TestButtonItem item = new TestButtonItem();
         item.setEnabled(true);
@@ -130,7 +132,6 @@ public class ButtonItemTest {
     }
 
     @Test
-    @UiThreadTest
     public void testSetEnabledFalse() {
         TestButtonItem item = new TestButtonItem();
         item.setEnabled(false);
@@ -141,7 +142,6 @@ public class ButtonItemTest {
     }
 
     @Test
-    @UiThreadTest
     public void testSetText() {
         TestButtonItem item = new TestButtonItem();
         item.setText("lorem ipsum");
@@ -152,39 +152,28 @@ public class ButtonItemTest {
     }
 
     @Test
-    @UiThreadTest
     public void testSetTheme() {
         TestButtonItem item = new TestButtonItem();
-        item.setTheme(12345);
+        item.setTheme(R.style.SuwButtonItem_Colored);
 
         final Button button = item.createButton(mParent);
-        assertEquals("ButtonItem theme should be 12345", 12345, item.getTheme());
-        button.getContext().getTheme();
+        assertEquals("ButtonItem theme should be SuwButtonItem.Colored",
+                R.style.SuwButtonItem_Colored, item.getTheme());
+        assertNotNull(button.getContext().getTheme());
     }
 
     @Test
-    @UiThreadTest
     public void testOnClickListener() {
         TestButtonItem item = new TestButtonItem();
-        final TestOnClickListener listener = new TestOnClickListener();
+        final OnClickListener listener = mock(OnClickListener.class);
         item.setOnClickListener(listener);
 
-        assertNull("Clicked item should be null before clicking", listener.clickedItem);
+        verify(listener, never()).onClick(any(ButtonItem.class));
 
         final Button button = item.createButton(mParent);
         button.performClick();
 
-        assertSame("Clicked item should be set", item, listener.clickedItem);
-    }
-
-    private static class TestOnClickListener implements ButtonItem.OnClickListener {
-
-        public ButtonItem clickedItem = null;
-
-        @Override
-        public void onClick(ButtonItem item) {
-            clickedItem = item;
-        }
+        verify(listener).onClick(same(item));
     }
 
     private static class TestButtonItem extends ButtonItem {

@@ -21,4 +21,8 @@
 
     <uses-sdk tools:overrideLibrary="android.support.test,android.app,android.support.test.rule" />
 
+    <application>
+        <activity android:name=".util.DrawingTestActivity" />
+    </application>
+
 </manifest>
