@@ -47,25 +47,6 @@ android {
                 }
             }
 
-            // Deprecated. Use gingerbreadCompat instead.
-            eclairMr1Compat {
-                minSdkVersion 7
-                dependencies {
-                    eclairMr1CompatCompile deps['support-annotations']
-                    eclairMr1CompatCompile deps['support-appcompat-v7']
-                }
-            }
-
-            // Deprecated. Use gingerbreadCompat instead.
-            fullSupport {
-                minSdkVersion 7
-                dependencies {
-                    fullSupportCompile deps['support-annotations']
-                    fullSupportCompile deps['support-appcompat-v7']
-                    fullSupportCompile deps['support-recyclerview-v7']
-                }
-            }
-
             // Provides backwards compatibility for Gingerbread or above, using support libraries.
             gingerbreadCompat {
                 minSdkVersion 9
@@ -79,16 +60,6 @@ android {
         platform {
             java.srcDirs = ['platform/src']
             res.srcDirs = ['platform/res']
-        }
-
-        eclairMr1Compat {
-            java.srcDirs = ['eclair-mr1/src']
-            res.srcDirs = ['eclair-mr1/res']
-        }
-
-        fullSupport {
-            java.srcDirs = ['eclair-mr1/src', 'full-support/src']
-            res.srcDirs = ['eclair-mr1/res', 'full-support/res']
         }
 
         gingerbreadCompat {
