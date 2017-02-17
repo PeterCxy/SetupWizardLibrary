@@ -21,6 +21,8 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Build.VERSION_CODES;
 import android.support.annotation.Keep;
+import android.support.annotation.LayoutRes;
+import android.support.annotation.StyleRes;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,6 +31,7 @@ import android.view.ViewTreeObserver;
 import android.widget.FrameLayout;
 
 import com.android.setupwizardlib.template.Mixin;
+import com.android.setupwizardlib.util.FallbackThemeWrapper;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -152,9 +155,36 @@ public class TemplateLayout extends FrameLayout {
      *                 specified.
      * @return Root of the inflated layout.
      */
-    protected View onInflateTemplate(LayoutInflater inflater, int template) {
+    protected View onInflateTemplate(LayoutInflater inflater, @LayoutRes int template) {
+        return inflateTemplate(inflater, 0, template);
+    }
+
+    /**
+     * Inflate the template using the given inflater and theme. The fallback theme will be applied
+     * to the theme without overriding the values already defined in the theme, but simply providing
+     * default values for values which have not been defined. This allows templates to add
+     * additional required theme attributes without breaking existing clients.
+     *
+     * <p>In general, clients should still set the activity theme to the corresponding theme in
+     * setup wizard lib, so that the content area gets the correct styles as well.
+     *
+     * @param inflater A LayoutInflater to inflate the template.
+     * @param fallbackTheme A fallback theme to apply to the template. If the values defined in the
+     *                      fallback theme is already defined in the original theme, the value in
+     *                      the original theme takes precedence.
+     * @param template The layout template to be inflated.
+     * @return Root of the inflated layout.
+     *
+     * @see FallbackThemeWrapper
+     */
+    protected final View inflateTemplate(LayoutInflater inflater, @StyleRes int fallbackTheme,
+            @LayoutRes int template) {
         if (template == 0) {
             throw new IllegalArgumentException("android:layout not specified for TemplateLayout");
+        }
+        if (fallbackTheme != 0) {
+            inflater = LayoutInflater.from(
+                    new FallbackThemeWrapper(inflater.getContext(), fallbackTheme));
         }
         return inflater.inflate(template, this, false);
     }

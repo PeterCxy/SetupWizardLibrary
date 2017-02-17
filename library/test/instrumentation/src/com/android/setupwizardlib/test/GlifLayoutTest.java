@@ -21,7 +21,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
@@ -31,7 +30,6 @@ import android.support.test.InstrumentationRegistry;
 import android.support.test.filters.SmallTest;
 import android.support.test.runner.AndroidJUnit4;
 import android.view.ContextThemeWrapper;
-import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -129,18 +127,11 @@ public class GlifLayoutTest {
     }
 
     @Test
-    public void testWrongTheme() {
-        // Test the error message when using the wrong theme
+    public void testNonGlifTheme() {
         mContext = new ContextThemeWrapper(InstrumentationRegistry.getContext(),
                 android.R.style.Theme);
-        try {
-            new GlifLayout(mContext);
-            fail("Should have thrown InflateException");
-        } catch (InflateException e) {
-            assertEquals("Exception message should mention correct theme to use",
-                    "Unable to inflate layout. Are you using @style/SuwThemeGlif "
-                            + "(or its descendant) as your theme?", e.getMessage());
-        }
+        new GlifLayout(mContext);
+        // Inflating with a non-GLIF theme should not crash
     }
 
     @Test
