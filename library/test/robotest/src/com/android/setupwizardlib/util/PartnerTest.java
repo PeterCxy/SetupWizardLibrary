@@ -34,22 +34,24 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.ResolveInfo;
 import android.content.res.Resources;
 
-import com.android.setupwizardlib.BaseRobolectricTest;
+import com.android.setupwizardlib.BuildConfig;
 import com.android.setupwizardlib.R;
+import com.android.setupwizardlib.robolectric.SuwLibRobolectricTestRunner;
 import com.android.setupwizardlib.util.Partner.ResourceEntry;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
+import org.robolectric.annotation.Config;
 import org.robolectric.res.builder.DefaultPackageManager;
 import org.robolectric.shadows.ShadowResources;
 
 import java.util.Arrays;
 
-@RunWith(RobolectricTestRunner.class)
-public class PartnerTest extends BaseRobolectricTest {
+@RunWith(SuwLibRobolectricTestRunner.class)
+@Config(constants = BuildConfig.class)
+public class PartnerTest {
 
     private static final String ACTION_PARTNER_CUSTOMIZATION =
             "com.android.setupwizard.action.PARTNER_CUSTOMIZATION";
