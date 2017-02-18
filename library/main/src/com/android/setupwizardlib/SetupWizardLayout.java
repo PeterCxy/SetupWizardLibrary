@@ -33,7 +33,6 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
-import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -169,14 +168,7 @@ public class SetupWizardLayout extends TemplateLayout {
         if (template == 0) {
             template = R.layout.suw_template;
         }
-        try {
-            return super.onInflateTemplate(inflater, template);
-        } catch (RuntimeException e) {
-            // Versions before M throws RuntimeException for unsuccessful attribute resolution
-            // Versions M+ will throw an InflateException (which extends from RuntimeException)
-            throw new InflateException("Unable to inflate layout. Are you using "
-                    + "@style/SuwThemeMaterial (or its descendant) as your theme?", e);
-        }
+        return inflateTemplate(inflater, R.style.SuwThemeMaterial_Light, template);
     }
 
     @Override

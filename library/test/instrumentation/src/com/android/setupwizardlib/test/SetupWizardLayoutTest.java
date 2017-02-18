@@ -22,7 +22,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -35,7 +34,6 @@ import android.support.test.runner.AndroidJUnit4;
 import android.util.SparseArray;
 import android.view.AbsSavedState;
 import android.view.ContextThemeWrapper;
-import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -169,18 +167,11 @@ public class SetupWizardLayoutTest {
     }
 
     @Test
-    public void testWrongTheme() {
-        // Test the error message when using the wrong theme
+    public void testNonMaterialTheme() {
         mContext = new ContextThemeWrapper(InstrumentationRegistry.getContext(),
                 android.R.style.Theme);
-        try {
-            new SetupWizardLayout(mContext);
-            fail("Should have thrown InflateException");
-        } catch (InflateException e) {
-            assertEquals("Exception message should mention correct theme to use",
-                    "Unable to inflate layout. Are you using @style/SuwThemeMaterial "
-                            + "(or its descendant) as your theme?", e.getMessage());
-        }
+        new SetupWizardLayout(mContext);
+        // Inflating with a non-Material theme should not crash
     }
 
     @Test
