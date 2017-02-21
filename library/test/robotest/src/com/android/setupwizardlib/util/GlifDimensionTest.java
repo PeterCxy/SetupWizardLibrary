@@ -22,6 +22,8 @@ import static org.robolectric.RuntimeEnvironment.application;
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
+import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.ContextThemeWrapper;
 
 import com.android.setupwizardlib.BuildConfig;
@@ -73,5 +75,41 @@ public class GlifDimensionTest {
                         + "suw_items_icon_container_width = suw_items_glif_icon_divider_inset",
                 marginSides + res.getDimensionPixelSize(R.dimen.suw_items_icon_container_width),
                 res.getDimensionPixelSize(R.dimen.suw_items_glif_icon_divider_inset));
+    }
+
+    @Test
+    public void testButtonMargin() {
+        assertButtonMargin();
+    }
+
+    @Config(qualifiers = "sw600dp")
+    @Test
+    public void testButtonMarginSw600dp() {
+        assertButtonMargin();
+    }
+
+    private void assertButtonMargin() {
+        final Resources res = mContext.getResources();
+
+        final TypedArray a = mContext.obtainStyledAttributes(new int[]{R.attr.suwMarginSides});
+        final int marginSides = a.getDimensionPixelSize(0, 0);
+        a.recycle();
+
+        assertEquals(
+                "Dimensions should satisfy constraint: ?attr/suwMarginSides - "
+                        + "4dp (internal padding of button) = suw_glif_button_margin_end",
+                marginSides - dp2Px(4),
+                res.getDimensionPixelSize(R.dimen.suw_glif_button_margin_end));
+
+        assertEquals(
+                "Dimensions should satisfy constraint: ?attr/suwMarginSides - "
+                        + "suw_glif_button_padding = suw_glif_button_margin_start",
+                marginSides - res.getDimensionPixelSize(R.dimen.suw_glif_button_padding),
+                res.getDimensionPixelSize(R.dimen.suw_glif_button_margin_start));
+    }
+
+    private int dp2Px(float dp) {
+        DisplayMetrics displayMetrics = mContext.getResources().getDisplayMetrics();
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, displayMetrics);
     }
 }
