@@ -17,8 +17,10 @@
 package com.android.setupwizardlib.items;
 
 import android.content.res.TypedArray;
+import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
+import android.support.annotation.VisibleForTesting;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -93,7 +95,7 @@ public class RecyclerItemAdapter extends RecyclerView.Adapter<ItemViewHolder>
                     + " background=" + background);
         } else {
             final Drawable[] layers = { background, selectableItemBackground };
-            view.setBackgroundDrawable(new LayerDrawable(layers));
+            view.setBackgroundDrawable(new PatchedLayerDrawable(layers));
         }
 
         typedArray.recycle();
@@ -142,5 +144,35 @@ public class RecyclerItemAdapter extends RecyclerView.Adapter<ItemViewHolder>
 
     public void setOnItemSelectedListener(OnItemSelectedListener listener) {
         mListener = listener;
+    }
+
+    /**
+     * Before Lollipop, LayerDrawable always return true in getPadding, even if the children layers
+     * do not have any padding. Patch the implementation so that getPadding returns false if the
+     * padding is empty.
+     *
+     * When getPadding is true, the padding of the view will be replaced by the padding of the
+     * drawable when {@link View#setBackgroundDrawable(Drawable)} is called. This patched class
+     * makes sure layer drawables without padding does not clear out original padding on the view.
+     */
+    @VisibleForTesting
+    static class PatchedLayerDrawable extends LayerDrawable {
+
+        /**
+         * {@inheritDoc}
+         */
+        PatchedLayerDrawable(Drawable[] layers) {
+            super(layers);
+        }
+
+        @Override
+        public boolean getPadding(Rect padding) {
+            final boolean superHasPadding = super.getPadding(padding);
+            return superHasPadding
+                    && !(padding.left == 0
+                            && padding.top == 0
+                            && padding.right == 0
+                            && padding.bottom == 0);
+        }
     }
 }

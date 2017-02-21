@@ -14,18 +14,21 @@
  * limitations under the License.
  */
 
-package com.android.setupwizardlib.test;
+package com.android.setupwizardlib.items;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
 
+import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.ShapeDrawable;
+import android.graphics.drawable.shapes.RectShape;
 import android.support.test.filters.SmallTest;
 import android.support.test.runner.AndroidJUnit4;
 
-import com.android.setupwizardlib.items.Item;
-import com.android.setupwizardlib.items.ItemGroup;
-import com.android.setupwizardlib.items.ItemHierarchy;
-import com.android.setupwizardlib.items.RecyclerItemAdapter;
+import com.android.setupwizardlib.items.RecyclerItemAdapter.PatchedLayerDrawable;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -68,5 +71,27 @@ public class RecyclerItemAdapterTest {
         RecyclerItemAdapter adapter = new RecyclerItemAdapter(mItemGroup);
         ItemHierarchy root = adapter.getRootItemHierarchy();
         assertSame("Root item hierarchy should be mItemGroup", mItemGroup, root);
+    }
+
+    @Test
+    public void testPatchedLayerDrawableNoPadding() {
+        ShapeDrawable child = new ShapeDrawable(new RectShape());
+        child.setPadding(0, 0, 0, 0);
+        PatchedLayerDrawable drawable = new PatchedLayerDrawable(new Drawable[] { child });
+
+        Rect padding = new Rect();
+        assertFalse("Patched layer drawable should not have padding", drawable.getPadding(padding));
+        assertEquals(new Rect(0, 0, 0, 0), padding);
+    }
+
+    @Test
+    public void testPatchedLayerDrawableWithPadding() {
+        ShapeDrawable child = new ShapeDrawable(new RectShape());
+        child.setPadding(10, 10, 10, 10);
+        PatchedLayerDrawable drawable = new PatchedLayerDrawable(new Drawable[] { child });
+
+        Rect padding = new Rect();
+        assertTrue("Patched layer drawable should have padding", drawable.getPadding(padding));
+        assertEquals(new Rect(10, 10, 10, 10), padding);
     }
 }
