@@ -12,6 +12,9 @@
 #   include frameworks/opt/setupwizard/library/common-gingerbread.mk
 #
 
+# Path to directory of setup wizard lib (e.g. frameworks/opt/setupwizard/library)
+suwlib_dir := $(dir $(lastword $(MAKEFILE_LIST)))
+
 ifneq ($(LOCAL_USE_AAPT2),true)
 
 # Check that LOCAL_RESOURCE_DIR is defined
@@ -27,9 +30,9 @@ endif
 # Include setup wizard library, if not already included
 ifeq (,$(findstring setup-wizard-lib-gingerbread-compat,$(LOCAL_STATIC_JAVA_LIBRARIES)))
 LOCAL_RESOURCE_DIR += \
-    $(call my-dir)/main/res \
-    $(call my-dir)/eclair-mr1/res \
-    $(call my-dir)/full-support/res
+    $(suwlib_dir)/main/res \
+    $(suwlib_dir)/eclair-mr1/res \
+    $(suwlib_dir)/full-support/res
 LOCAL_AAPT_FLAGS += --extra-packages com.android.setupwizardlib
 LOCAL_STATIC_JAVA_LIBRARIES += setup-wizard-lib-gingerbread-compat
 endif
@@ -65,4 +68,3 @@ ifeq (,$(findstring android-support-v7-recyclerview,$(LOCAL_STATIC_ANDROID_LIBRA
 endif
 
 endif # LOCAL_USE_AAPT2
-
