@@ -89,6 +89,7 @@
         <item name="android:windowDisablePreview">true</item>
         <item name="android:windowSoftInputMode">adjustResize</item>
 
+        <item name="suwColorPrimary">?android:attr/colorPrimary</item>
         <item name="suwDividerInset">@dimen/suw_items_glif_icon_divider_inset</item>
         <item name="suwItemDescriptionStyle">@style/SuwItemContainer.Description.Glif</item>
         <item name="suwListItemIconColor">@color/suw_list_item_icon_color_dark</item>
@@ -113,6 +114,7 @@
         <item name="android:windowDisablePreview">true</item>
         <item name="android:windowSoftInputMode">adjustResize</item>
 
+        <item name="suwColorPrimary">?android:attr/colorPrimary</item>
         <item name="suwDividerInset">@dimen/suw_items_glif_icon_divider_inset</item>
         <item name="suwItemDescriptionStyle">@style/SuwItemContainer.Description.Glif</item>
         <item name="suwListItemIconColor">@color/suw_list_item_icon_color_light</item>

@@ -16,7 +16,6 @@
 
 package com.android.setupwizardlib;
 
-import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.ColorStateList;
@@ -25,6 +24,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Build.VERSION_CODES;
 import android.support.annotation.LayoutRes;
+import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -101,17 +101,11 @@ public class GlifLayout extends TemplateLayout {
 
         ColorStateList primaryColor =
                 a.getColorStateList(R.styleable.SuwGlifLayout_suwColorPrimary);
-
-        a.recycle();
-
-        if (primaryColor == null && Build.VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP) {
-            a = getContext().obtainStyledAttributes(attrs,
-                    R.styleable.SuwGlifLayoutV21, defStyleAttr, 0);
-            primaryColor = a.getColorStateList(R.styleable.SuwGlifLayoutV21_android_colorPrimary);
-            a.recycle();
+        if (primaryColor != null) {
+            setPrimaryColor(primaryColor);
         }
 
-        setPrimaryColor(primaryColor);
+        a.recycle();
     }
 
     @Override
@@ -169,7 +163,11 @@ public class GlifLayout extends TemplateLayout {
         return getMixin(IconMixin.class).getIcon();
     }
 
-    public void setPrimaryColor(ColorStateList color) {
+    /**
+     * Sets the primary color of this layout, which will be used to determine the color of the
+     * progress bar and the background pattern.
+     */
+    public void setPrimaryColor(@NonNull ColorStateList color) {
         mPrimaryColor = color;
         setGlifPatternColor(color);
         getMixin(ProgressBarMixin.class).setColor(color);
@@ -179,20 +177,19 @@ public class GlifLayout extends TemplateLayout {
         return mPrimaryColor;
     }
 
-    @SuppressLint("InlinedApi")  // View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN is guarded by SDK check
-    private void setGlifPatternColor(ColorStateList color) {
+    private void setGlifPatternColor(@NonNull ColorStateList color) {
+        final View patternBg = findManagedViewById(R.id.suw_pattern_bg);
+        if (patternBg != null) {
+            final GlifPatternDrawable background =
+                    new GlifPatternDrawable(color.getDefaultColor());
+            if (patternBg instanceof StatusBarBackgroundLayout) {
+                ((StatusBarBackgroundLayout) patternBg).setStatusBarBackground(background);
+            } else {
+                patternBg.setBackgroundDrawable(background);
+            }
+        }
         if (Build.VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP) {
             setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
-            final View patternBg = findManagedViewById(R.id.suw_pattern_bg);
-            if (patternBg != null) {
-                final GlifPatternDrawable background =
-                        new GlifPatternDrawable(color.getDefaultColor());
-                if (patternBg instanceof StatusBarBackgroundLayout) {
-                    ((StatusBarBackgroundLayout) patternBg).setStatusBarBackground(background);
-                } else {
-                    patternBg.setBackground(background);
-                }
-            }
         }
     }
 
