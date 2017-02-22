@@ -19,8 +19,10 @@ package com.android.setupwizardlib.template;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
+import static org.mockito.AdditionalAnswers.delegatesTo;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 
@@ -66,7 +68,7 @@ public class ListMixinTest {
         mTemplateLayout = spy(new TemplateLayout(mContext, R.layout.test_template,
                 R.id.suw_layout_content));
 
-        mListView = spy(new ListView(mContext));
+        mListView = mock(ListView.class, delegatesTo(new ListView(mContext)));
         doReturn(1).when(mAdapter).getViewTypeCount();
 
         doReturn(mListView).when(mTemplateLayout)

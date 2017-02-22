@@ -19,7 +19,9 @@ package com.android.setupwizardlib.template;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
+import static org.mockito.AdditionalAnswers.delegatesTo;
 import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 
 import android.content.Context;
@@ -64,7 +66,7 @@ public class RecyclerMixinTest {
         mTemplateLayout = spy(new TemplateLayout(mContext, R.layout.test_template,
                 R.id.suw_layout_content));
 
-        mRecyclerView = spy(new RecyclerView(mContext));
+        mRecyclerView = mock(RecyclerView.class, delegatesTo(new RecyclerView(mContext)));
 
         doReturn(true).when(mTemplateLayout).isLayoutDirectionResolved();
     }
