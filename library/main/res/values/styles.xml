@@ -136,9 +136,7 @@
 
     <style name="SuwButtonItem" />
 
-    <style name="SuwButtonItem.Colored">
-        <item name="android:buttonStyle">@style/SuwGlifButton.Primary</item>
-    </style>
+    <style name="SuwButtonItem.Colored" parent="SuwGlifButton.Primary" />
 
     <!-- Items styles -->
 
