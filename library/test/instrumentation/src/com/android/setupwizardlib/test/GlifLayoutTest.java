@@ -23,12 +23,16 @@ import static org.junit.Assert.assertTrue;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.os.Build.VERSION;
+import android.os.Build.VERSION_CODES;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.filters.SmallTest;
 import android.support.test.runner.AndroidJUnit4;
 import android.view.ContextThemeWrapper;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -74,6 +78,27 @@ public class GlifLayoutTest {
         GlifLayout layout = new GlifLayout(mContext, R.layout.test_template);
         layout.setProgressBarShown(true);
         // This is a no-op because there is no progress bar stub
+    }
+
+    @Test
+    public void testGlifPixelTheme() {
+        mContext = new ContextThemeWrapper(InstrumentationRegistry.getContext(),
+                R.style.SuwThemeGlifPixel_Light);
+        final GlifLayout glifLayout = new GlifLayout(mContext);
+        final TextView titleView = (TextView) glifLayout.findManagedViewById(R.id.suw_layout_title);
+        if (VERSION.SDK_INT >= VERSION_CODES.JELLY_BEAN_MR1) {
+            assertEquals(View.TEXT_ALIGNMENT_GRAVITY, titleView.getTextAlignment());
+        }
+        assertEquals("Title text should be center aligned on GLIF Pixel theme",
+                Gravity.CENTER_HORIZONTAL, titleView.getGravity() & Gravity.CENTER_HORIZONTAL);
+
+        if (VERSION.SDK_INT >= VERSION_CODES.N) {
+            // LinearLayout.getGravity is only available on versions >= N
+            final View iconView = glifLayout.findManagedViewById(R.id.suw_layout_icon);
+            final LinearLayout parent = (LinearLayout) iconView.getParent();
+            assertEquals("Icon should be center aligned on GLIF Pixel theme",
+                    Gravity.CENTER_HORIZONTAL, parent.getGravity() & Gravity.CENTER_HORIZONTAL);
+        }
     }
 
     private void assertDefaultTemplateInflated(GlifLayout layout) {

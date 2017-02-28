@@ -14,25 +14,30 @@
  * limitations under the License.
  */
 
-package com.android.setupwizardlib.test;
+package com.android.setupwizardlib.util;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.robolectric.RuntimeEnvironment.application;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
-import android.support.test.InstrumentationRegistry;
-import android.support.test.filters.SmallTest;
-import android.support.test.runner.AndroidJUnit4;
+import android.os.Build.VERSION_CODES;
+import android.provider.Settings;
+import android.provider.Settings.Global;
+import android.provider.Settings.Secure;
 
-import com.android.setupwizardlib.util.WizardManagerHelper;
+import com.android.setupwizardlib.BuildConfig;
+import com.android.setupwizardlib.robolectric.SuwLibRobolectricTestRunner;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.robolectric.annotation.Config;
 
-@RunWith(AndroidJUnit4.class)
-@SmallTest
+@RunWith(SuwLibRobolectricTestRunner.class)
+@Config(constants = BuildConfig.class, sdk = Config.NEWEST_SDK)
 public class WizardManagerHelperTest {
 
     @Test
@@ -132,6 +137,26 @@ public class WizardManagerHelperTest {
     }
 
     @Test
+    public void testGlifPixelIsDarkTheme() {
+        final Intent intent = new Intent();
+        intent.putExtra("theme", "glif_pixel");
+        assertFalse("Theme glif_pixel should be dark theme",
+                WizardManagerHelper.isLightTheme(intent, false));
+        assertFalse("Theme glif_pixel should be dark theme",
+                WizardManagerHelper.isLightTheme(intent, true));
+    }
+
+    @Test
+    public void testGlifPixelLightIsLightTheme() {
+        final Intent intent = new Intent();
+        intent.putExtra("theme", "glif_pixel_light");
+        assertTrue("Theme glif_pixel_light should be light theme",
+                WizardManagerHelper.isLightTheme(intent, false));
+        assertTrue("Theme glif_pixel_light should be light theme",
+                WizardManagerHelper.isLightTheme(intent, true));
+    }
+
+    @Test
     public void testIsLightThemeDefault() {
         final Intent intent = new Intent();
         intent.putExtra("theme", "abracadabra");
@@ -166,25 +191,42 @@ public class WizardManagerHelperTest {
                 WizardManagerHelper.isLightTheme("abracadabra", false));
     }
 
-    /**
-     * Test for {@link WizardManagerHelper#isUserSetupComplete(android.content.Context)}
-     */
+    @TargetApi(VERSION_CODES.JELLY_BEAN_MR1)
     @Test
     public void testIsUserSetupComplete() {
-        // TODO (b/32975598): Move to Robolectric to test with different SDK versions, and inject
-        // values to Settings.Secure.
-        WizardManagerHelper.isUserSetupComplete(InstrumentationRegistry.getTargetContext());
-        // Stub: only test that no exception is thrown
+        Settings.Secure.putInt(application.getContentResolver(), Global.DEVICE_PROVISIONED, 1);
+        Settings.Secure.putInt(application.getContentResolver(), "user_setup_complete", 1);
+        assertTrue(WizardManagerHelper.isUserSetupComplete(application));
+
+        Settings.Secure.putInt(application.getContentResolver(), "user_setup_complete", 0);
+        assertFalse(WizardManagerHelper.isUserSetupComplete(application));
     }
 
-    /**
-     * Test for {@link WizardManagerHelper#isDeviceProvisioned(android.content.Context)}
-     */
+    @Test
+    @Config(sdk = VERSION_CODES.JELLY_BEAN)
+    public void testIsUserSetupCompleteCompat() {
+        Settings.Secure.putInt(application.getContentResolver(), Secure.DEVICE_PROVISIONED, 1);
+        assertTrue(WizardManagerHelper.isUserSetupComplete(application));
+
+        Settings.Secure.putInt(application.getContentResolver(), Secure.DEVICE_PROVISIONED, 0);
+        assertFalse(WizardManagerHelper.isUserSetupComplete(application));
+    }
+
+    @TargetApi(VERSION_CODES.JELLY_BEAN_MR1)
     @Test
     public void testIsDeviceProvisioned() {
-        // TODO: Move to Robolectric to test with different SDK versions, and inject values to
-        // Settings.Secure / Global.
-        WizardManagerHelper.isDeviceProvisioned(InstrumentationRegistry.getTargetContext());
-        // Stub: only test that no exception is thrown
+        Settings.Secure.putInt(application.getContentResolver(), Global.DEVICE_PROVISIONED, 1);
+        assertTrue(WizardManagerHelper.isDeviceProvisioned(application));
+        Settings.Secure.putInt(application.getContentResolver(), Global.DEVICE_PROVISIONED, 0);
+        assertFalse(WizardManagerHelper.isDeviceProvisioned(application));
+    }
+
+    @Test
+    @Config(sdk = VERSION_CODES.JELLY_BEAN)
+    public void testIsDeviceProvisionedCompat() {
+        Settings.Secure.putInt(application.getContentResolver(), Secure.DEVICE_PROVISIONED, 1);
+        assertTrue(WizardManagerHelper.isDeviceProvisioned(application));
+        Settings.Secure.putInt(application.getContentResolver(), Secure.DEVICE_PROVISIONED, 0);
+        assertFalse(WizardManagerHelper.isDeviceProvisioned(application));
     }
 }

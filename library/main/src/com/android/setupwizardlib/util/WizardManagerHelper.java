@@ -52,15 +52,27 @@ public class WizardManagerHelper {
 
     /**
      * Passed in a setup wizard intent as {@link #EXTRA_THEME}. This is the dark variant of the
-     * theme used in setup wizard for NYC.
+     * theme used in setup wizard for Nougat MR1.
      */
     public static final String THEME_GLIF = "glif";
 
     /**
      * Passed in a setup wizard intent as {@link #EXTRA_THEME}. This is the default theme used in
-     * setup wizard for NYC.
+     * setup wizard for Nougat MR1.
      */
     public static final String THEME_GLIF_LIGHT = "glif_light";
+
+    /**
+     * Passed in a setup wizard intent as {@link #EXTRA_THEME}. This is the dark variant of the
+     * theme used in setup wizard for O DR.
+     */
+    public static final String THEME_GLIF_PIXEL = "glif_pixel";
+
+    /**
+     * Passed in a setup wizard intent as {@link #EXTRA_THEME}. This is the default theme used in
+     * setup wizard for O DR.
+     */
+    public static final String THEME_GLIF_PIXEL_LIGHT = "glif_pixel_light";
 
     /**
      * Get an intent that will invoke the next step of setup wizard.
@@ -190,10 +202,10 @@ public class WizardManagerHelper {
      */
     public static boolean isLightTheme(String theme, boolean def) {
         if (THEME_HOLO_LIGHT.equals(theme) || THEME_MATERIAL_LIGHT.equals(theme)
-                || THEME_GLIF_LIGHT.equals(theme)) {
+                || THEME_GLIF_LIGHT.equals(theme) || THEME_GLIF_PIXEL_LIGHT.equals(theme)) {
             return true;
         } else if (THEME_HOLO.equals(theme) || THEME_MATERIAL.equals(theme)
-                || THEME_GLIF.equals(theme)) {
+                || THEME_GLIF.equals(theme) || THEME_GLIF_PIXEL.equals(theme)) {
             return false;
         } else {
             return def;

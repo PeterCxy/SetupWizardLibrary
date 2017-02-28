@@ -52,9 +52,7 @@ import org.robolectric.annotation.Config;
 @RunWith(SuwLibRobolectricTestRunner.class)
 @Config(
         constants = BuildConfig.class,
-        sdk = { Config.OLDEST_SDK, Config.NEWEST_SDK },
-        shadows = {
-        })
+        sdk = { Config.OLDEST_SDK, Config.NEWEST_SDK })
 public class ButtonItemTest {
 
     private ViewGroup mParent;

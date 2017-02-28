@@ -22,7 +22,7 @@ import android.support.annotation.StyleRes;
 import android.view.ContextThemeWrapper;
 
 /**
- * Same as {@link ContextThemeWrapper}, but the base context's theme attributes take precendence
+ * Same as {@link ContextThemeWrapper}, but the base context's theme attributes take precedence
  * over the wrapper context's. This is used to provide default values for theme attributes
  * referenced in layouts, to remove the risk of crashing the client because of using the wrong
  * theme.

@@ -19,6 +19,14 @@
 
     <!-- General styles -->
 
+    <style name="SuwThemeGlifPixel" parent="SuwThemeGlif">
+        <item name="suwGlifHeaderGravity">center_horizontal</item>
+    </style>
+
+    <style name="SuwThemeGlifPixel.Light" parent="SuwThemeGlif.Light">
+        <item name="suwGlifHeaderGravity">center_horizontal</item>
+    </style>
+
     <style name="Animation.SuwWindowAnimation" parent="@android:style/Animation.Activity">
         <item name="android:activityOpenEnterAnimation">@anim/suw_slide_next_in</item>
         <item name="android:activityOpenExitAnimation">@anim/suw_slide_next_out</item>
@@ -50,6 +58,8 @@
     <!-- Ignore UnusedResources: Used by clients -->
     <style name="SuwDescription.Glif" parent="SuwDescription" tools:ignore="UnusedResources">
         <item name="android:layout_marginTop">@dimen/suw_description_glif_margin_top</item>
+        <item name="android:gravity">?attr/suwGlifHeaderGravity</item>
+        <item name="android:textAlignment" tools:targetApi="jelly_bean_mr1">gravity</item>
     </style>
 
     <style name="TextAppearance.SuwDescription.Light" parent="TextAppearance.SuwDescription">
@@ -156,6 +166,11 @@
         <item name="android:paddingTop">@dimen/suw_items_verbose_padding_vertical</item>
     </style>
 
+    <style name="SuwItemTitle.Description" parent="SuwItemTitle">
+        <item name="android:gravity">?attr/suwGlifHeaderGravity</item>
+        <item name="android:textAlignment" tools:targetApi="jelly_bean_mr1">gravity</item>
+    </style>
+
     <style name="SuwItemTitle.Verbose" parent="SuwItemTitle">
         <item name="android:textAppearance">@style/TextAppearance.SuwGlifBody</item>
     </style>
@@ -168,11 +183,16 @@
     <!-- GLIF layout -->
 
     <style name="SuwGlifHeaderTitle" parent="SuwBaseHeaderTitle">
+        <item name="android:gravity">?attr/suwGlifHeaderGravity</item>
         <item name="android:layout_marginBottom">@dimen/suw_glif_header_title_margin_bottom</item>
         <item name="android:layout_marginLeft">?attr/suwMarginSides</item>
         <item name="android:layout_marginRight">?attr/suwMarginSides</item>
         <item name="android:layout_marginTop">@dimen/suw_glif_header_title_margin_top</item>
+        <item name="android:textAlignment" tools:targetApi="jelly_bean_mr1">gravity</item>
         <item name="android:textColor">?android:attr/textColorPrimary</item>
+    </style>
+    <style name="SuwGlifHeaderContainer">
+        <item name="android:gravity">?attr/suwGlifHeaderGravity</item>
     </style>
 
     <style name="SuwGlifIcon">

@@ -91,6 +91,7 @@
 
         <item name="suwColorPrimary">?android:attr/colorPrimary</item>
         <item name="suwDividerInset">@dimen/suw_items_glif_icon_divider_inset</item>
+        <item name="suwGlifHeaderGravity">start</item>
         <item name="suwItemDescriptionStyle">@style/SuwItemContainer.Description.Glif</item>
         <item name="suwListItemIconColor">@color/suw_list_item_icon_color_dark</item>
         <item name="suwMarginSides">@dimen/suw_glif_margin_sides</item>
@@ -116,6 +117,7 @@
 
         <item name="suwColorPrimary">?android:attr/colorPrimary</item>
         <item name="suwDividerInset">@dimen/suw_items_glif_icon_divider_inset</item>
+        <item name="suwGlifHeaderGravity">start</item>
         <item name="suwItemDescriptionStyle">@style/SuwItemContainer.Description.Glif</item>
         <item name="suwListItemIconColor">@color/suw_list_item_icon_color_light</item>
         <item name="suwMarginSides">@dimen/suw_glif_margin_sides</item>
