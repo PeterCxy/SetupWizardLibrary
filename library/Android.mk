@@ -26,7 +26,12 @@ include $(BUILD_STATIC_JAVA_LIBRARY)
 
 include $(CLEAR_VARS)
 
+ifeq ($(TARGET_BUILD_APPS),)
+# Use AAPT2 only when TARGET_BUILD_APPS is empty because AAPT2 is not compatible with the current
+# setup of prebuilt support libs used in unbundled builds. b/29836407
 LOCAL_USE_AAPT2 := true
+endif
+
 LOCAL_MANIFEST_FILE := main/AndroidManifest.xml
 LOCAL_MODULE := setup-wizard-lib-gingerbread-compat
 LOCAL_RESOURCE_DIR := \
@@ -35,9 +40,29 @@ LOCAL_RESOURCE_DIR := \
     $(LOCAL_PATH)/full-support/res
 LOCAL_SDK_VERSION := current
 LOCAL_SRC_FILES := $(call all-java-files-under, main/src eclair-mr1/src full-support/src)
+
+ifdef LOCAL_USE_AAPT2
+
 LOCAL_SHARED_ANDROID_LIBRARIES := \
     android-support-v4 \
     android-support-v7-appcompat \
     android-support-v7-recyclerview
+
+else
+
+LOCAL_AAPT_FLAGS := --auto-add-overlay \
+    --extra-packages android.support.v7.appcompat \
+    --extra-packages android.support.v7.recyclerview
+
+LOCAL_RESOURCE_DIR += \
+    frameworks/support/v7/appcompat/res \
+    frameworks/support/v7/recyclerview/res
+
+LOCAL_JAVA_LIBRARIES := \
+    android-support-v4 \
+    android-support-v7-appcompat \
+    android-support-v7-recyclerview
+
+endif
 
 include $(BUILD_STATIC_JAVA_LIBRARY)
