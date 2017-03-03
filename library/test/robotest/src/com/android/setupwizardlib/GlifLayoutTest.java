@@ -16,16 +16,21 @@
 
 package com.android.setupwizardlib;
 
+import static org.hamcrest.Matchers.instanceOf;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.robolectric.RuntimeEnvironment.application;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.IdRes;
 import android.view.ContextThemeWrapper;
@@ -39,6 +44,7 @@ import com.android.setupwizardlib.template.ColoredHeaderMixin;
 import com.android.setupwizardlib.template.HeaderMixin;
 import com.android.setupwizardlib.template.IconMixin;
 import com.android.setupwizardlib.template.ProgressBarMixin;
+import com.android.setupwizardlib.view.StatusBarBackgroundLayout;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -123,9 +129,66 @@ public class GlifLayoutTest {
                     ColorStateList.valueOf(Color.RED), progressBar.getProgressBackgroundTintList());
         }
 
-        final View patternBg = layout.findManagedViewById(R.id.suw_pattern_bg);
-        final GlifPatternDrawable background = (GlifPatternDrawable) patternBg.getBackground();
-        assertEquals(Color.RED, background.getColor());
+        assertEquals(Color.RED, ((GlifPatternDrawable) getTabletBackground(layout)).getColor());
+    }
+
+    @Test
+    public void testSetBackgroundBaseColor() {
+        GlifLayout layout = new GlifLayout(mContext);
+        layout.setPrimaryColor(ColorStateList.valueOf(Color.BLUE));
+        layout.setBackgroundBaseColor(ColorStateList.valueOf(Color.RED));
+
+        assertEquals(Color.RED, ((GlifPatternDrawable) getPhoneBackground(layout)).getColor());
+        assertEquals(Color.RED, layout.getBackgroundBaseColor().getDefaultColor());
+    }
+
+    @Config(qualifiers = "sw600dp")
+    @Test
+    public void testSetBackgroundBaseColorTablet() {
+        GlifLayout layout = new GlifLayout(mContext);
+        layout.setPrimaryColor(ColorStateList.valueOf(Color.BLUE));
+        layout.setBackgroundBaseColor(ColorStateList.valueOf(Color.RED));
+
+        assertEquals(Color.RED, ((GlifPatternDrawable) getTabletBackground(layout)).getColor());
+        assertEquals(Color.RED, layout.getBackgroundBaseColor().getDefaultColor());
+    }
+
+    @Test
+    public void testSetBackgroundPatternedTrue() {
+        GlifLayout layout = new GlifLayout(mContext);
+        layout.setBackgroundPatterned(true);
+
+        assertThat(getPhoneBackground(layout), instanceOf(GlifPatternDrawable.class));
+        assertTrue("Background should be patterned", layout.isBackgroundPatterned());
+    }
+
+    @Test
+    public void testSetBackgroundPatternedFalse() {
+        GlifLayout layout = new GlifLayout(mContext);
+        layout.setBackgroundPatterned(false);
+
+        assertThat(getPhoneBackground(layout), instanceOf(ColorDrawable.class));
+        assertFalse("Background should not be patterned", layout.isBackgroundPatterned());
+    }
+
+    @Config(qualifiers = "sw600dp")
+    @Test
+    public void testSetBackgroundPatternedTrueTablet() {
+        GlifLayout layout = new GlifLayout(mContext);
+        layout.setBackgroundPatterned(true);
+
+        assertThat(getTabletBackground(layout), instanceOf(GlifPatternDrawable.class));
+        assertTrue("Background should be patterned", layout.isBackgroundPatterned());
+    }
+
+    @Config(qualifiers = "sw600dp")
+    @Test
+    public void testSetBackgroundPatternedFalseTablet() {
+        GlifLayout layout = new GlifLayout(mContext);
+        layout.setBackgroundPatterned(false);
+
+        assertThat(getTabletBackground(layout), instanceOf(ColorDrawable.class));
+        assertFalse("Background should not be patterned", layout.isBackgroundPatterned());
     }
 
     @Test
@@ -159,6 +222,17 @@ public class GlifLayoutTest {
         assertNotNull("GlifLayout should have icon mixin", layout.getMixin(IconMixin.class));
         assertNotNull("GlifLayout should have progress bar mixin",
                 layout.getMixin(ProgressBarMixin.class));
+    }
+
+    private Drawable getPhoneBackground(GlifLayout layout) {
+        final StatusBarBackgroundLayout patternBg =
+                (StatusBarBackgroundLayout) layout.findManagedViewById(R.id.suw_pattern_bg);
+        return patternBg.getStatusBarBackground();
+    }
+
+    private Drawable getTabletBackground(GlifLayout layout) {
+        final View patternBg = layout.findManagedViewById(R.id.suw_pattern_bg);
+        return patternBg.getBackground();
     }
 
     private void assertDefaultTemplateInflated(GlifLayout layout) {

@@ -20,11 +20,13 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Build.VERSION_CODES;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -63,6 +65,14 @@ public class GlifLayout extends TemplateLayout {
     private static final String TAG = "GlifLayout";
 
     private ColorStateList mPrimaryColor;
+
+    private boolean mBackgroundPatterned = true;
+
+    /**
+     * The color of the background. If null, the color will inherit from mPrimaryColor.
+     */
+    @Nullable
+    private ColorStateList mBackgroundBaseColor;
 
     public GlifLayout(Context context) {
         this(context, 0, 0);
@@ -104,6 +114,14 @@ public class GlifLayout extends TemplateLayout {
         if (primaryColor != null) {
             setPrimaryColor(primaryColor);
         }
+
+        ColorStateList backgroundColor =
+                a.getColorStateList(R.styleable.SuwGlifLayout_suwBackgroundBaseColor);
+        setBackgroundBaseColor(backgroundColor);
+
+        boolean backgroundPatterned =
+                a.getBoolean(R.styleable.SuwGlifLayout_suwBackgroundPatterned, true);
+        setBackgroundPatterned(backgroundPatterned);
 
         a.recycle();
     }
@@ -169,7 +187,7 @@ public class GlifLayout extends TemplateLayout {
      */
     public void setPrimaryColor(@NonNull ColorStateList color) {
         mPrimaryColor = color;
-        setGlifPatternColor(color);
+        updateBackground();
         getMixin(ProgressBarMixin.class).setColor(color);
     }
 
@@ -177,11 +195,56 @@ public class GlifLayout extends TemplateLayout {
         return mPrimaryColor;
     }
 
-    private void setGlifPatternColor(@NonNull ColorStateList color) {
+    /**
+     * Sets the base color of the background view, which is the status bar for phones and the full-
+     * screen background for tablets. If {@link #isBackgroundPatterned()} is true, the pattern will
+     * be drawn with this color.
+     *
+     * @param color The color to use as the base color of the background. If {@code null},
+     *              {@link #getPrimaryColor()} will be used.
+     */
+    public void setBackgroundBaseColor(@Nullable ColorStateList color) {
+        mBackgroundBaseColor = color;
+        updateBackground();
+    }
+
+    /**
+     * @return The base color of the background. {@code null} indicates the background will be drawn
+     *         with {@link #getPrimaryColor()}.
+     */
+    @Nullable
+    public ColorStateList getBackgroundBaseColor() {
+        return mBackgroundBaseColor;
+    }
+
+    /**
+     * Sets whether the background should be {@link GlifPatternDrawable}. If {@code false}, the
+     * background will be a solid color.
+     */
+    public void setBackgroundPatterned(boolean patterned) {
+        mBackgroundPatterned = patterned;
+        updateBackground();
+    }
+
+    /**
+     * @return True if this view uses {@link GlifPatternDrawable} as background.
+     */
+    public boolean isBackgroundPatterned() {
+        return mBackgroundPatterned;
+    }
+
+    private void updateBackground() {
         final View patternBg = findManagedViewById(R.id.suw_pattern_bg);
         if (patternBg != null) {
-            final GlifPatternDrawable background =
-                    new GlifPatternDrawable(color.getDefaultColor());
+            int backgroundColor = 0;
+            if (mBackgroundBaseColor != null) {
+                backgroundColor = mBackgroundBaseColor.getDefaultColor();
+            } else if (mPrimaryColor != null) {
+                backgroundColor = mPrimaryColor.getDefaultColor();
+            }
+            Drawable background = mBackgroundPatterned
+                    ? new GlifPatternDrawable(backgroundColor)
+                    : new ColorDrawable(backgroundColor);
             if (patternBg instanceof StatusBarBackgroundLayout) {
                 ((StatusBarBackgroundLayout) patternBg).setStatusBarBackground(background);
             } else {
