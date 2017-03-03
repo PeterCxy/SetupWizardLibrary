@@ -106,6 +106,12 @@ public class GlifLayoutTest {
                 Integer.toHexString(glifLayout.getBackgroundBaseColor().getDefaultColor()));
         assertFalse("GLIF Pixel theme shuold not have patterned background",
                 glifLayout.isBackgroundPatterned());
+
+        if (VERSION.SDK_INT >= VERSION_CODES.M) {
+            // Scroll indicators are only available on versions >= M
+            assertEquals(View.SCROLL_INDICATOR_TOP | View.SCROLL_INDICATOR_BOTTOM,
+                    glifLayout.getScrollView().getScrollIndicators());
+        }
     }
 
     private void assertDefaultTemplateInflated(GlifLayout layout) {

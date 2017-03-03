@@ -49,6 +49,26 @@
     <attr name="suwNavBarTextColor" format="color" />
     <attr name="suwNavBarTheme" format="reference" />
 
+    <!-- Values copied from frameworks/base/core/res/res/values/attrs.xml -->
+    <attr name="suwScrollIndicators">
+        <!-- No scroll indicators are displayed. -->
+        <flag name="none" value="0x00" />
+        <!-- Displays top scroll indicator when view can be scrolled up. -->
+        <flag name="top" value="0x01" />
+        <!-- Displays bottom scroll indicator when vew can be scrolled down. -->
+        <flag name="bottom" value="0x02" />
+        <!-- Displays left scroll indicator when vew can be scrolled left. -->
+        <flag name="left" value="0x04" />
+        <!-- Displays right scroll indicator when vew can be scrolled right. -->
+        <flag name="right" value="0x08" />
+        <!-- Displays right scroll indicator when vew can be scrolled in the
+             start direction. -->
+        <flag name="start" value="0x10" />
+        <!-- Displays right scroll indicator when vew can be scrolled in the
+             end direction. -->
+        <flag name="end" value="0x20" />
+    </attr>
+
     <!-- Custom view attributes -->
     <attr name="suwColorPrimary" format="color" />
     <attr name="suwHeader" format="reference" />
