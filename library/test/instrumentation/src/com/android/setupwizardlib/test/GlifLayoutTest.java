@@ -17,6 +17,7 @@
 package com.android.setupwizardlib.test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -99,6 +100,12 @@ public class GlifLayoutTest {
             assertEquals("Icon should be center aligned on GLIF Pixel theme",
                     Gravity.CENTER_HORIZONTAL, parent.getGravity() & Gravity.CENTER_HORIZONTAL);
         }
+
+        assertEquals("Status bar color should be white in GLIF Pixel theme",
+                "fffafafa",
+                Integer.toHexString(glifLayout.getBackgroundBaseColor().getDefaultColor()));
+        assertFalse("GLIF Pixel theme shuold not have patterned background",
+                glifLayout.isBackgroundPatterned());
     }
 
     private void assertDefaultTemplateInflated(GlifLayout layout) {

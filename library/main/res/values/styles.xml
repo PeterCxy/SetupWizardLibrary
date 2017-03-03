@@ -20,10 +20,18 @@
     <!-- General styles -->
 
     <style name="SuwThemeGlifPixel" parent="SuwThemeGlif">
+        <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
+
+        <item name="suwBackgroundBaseColor">?android:attr/colorBackground</item>
+        <item name="suwBackgroundPatterned">false</item>
         <item name="suwGlifHeaderGravity">center_horizontal</item>
     </style>
 
     <style name="SuwThemeGlifPixel.Light" parent="SuwThemeGlif.Light">
+        <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
+
+        <item name="suwBackgroundBaseColor">?android:attr/colorBackground</item>
+        <item name="suwBackgroundPatterned">false</item>
         <item name="suwGlifHeaderGravity">center_horizontal</item>
     </style>
 

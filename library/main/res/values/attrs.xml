@@ -69,6 +69,8 @@
 
     <declare-styleable name="SuwGlifLayout">
         <attr name="suwColorPrimary" />
+        <attr name="suwBackgroundPatterned" format="boolean" />
+        <attr name="suwBackgroundBaseColor" format="color" />
     </declare-styleable>
 
     <declare-styleable name="SuwStatusBarBackgroundLayout">
