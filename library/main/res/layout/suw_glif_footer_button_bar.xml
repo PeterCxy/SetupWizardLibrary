@@ -15,24 +15,8 @@
     limitations under the License.
 -->
 
-<!--
-    The left and right paddings are asymmetric because left buttons are borderless buttons which
-    aligns the text label.
-    Ignore RtlHardcoded: Padding left/right will be overridden by padding start/end when both are
-        available.
-    Ignore UnusedAttribute: optical bounds is introduced in JB MR2. Fallback to default behavior.
--->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/suw_footer_button_bar"
+    style="@style/SuwGlifButtonBar"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:gravity="center_vertical"
-    android:minHeight="@dimen/suw_glif_footer_min_height"
-    android:orientation="horizontal"
-    android:paddingBottom="@dimen/suw_glif_footer_bottom_padding"
-    android:paddingEnd="@dimen/suw_glif_button_margin_end"
-    android:paddingLeft="@dimen/suw_glif_button_margin_start"
-    android:paddingRight="@dimen/suw_glif_button_margin_end"
-    android:paddingStart="@dimen/suw_glif_button_margin_start"
-    tools:ignore="RtlHardcoded,UnusedAttribute" />
+    android:layout_height="wrap_content" />
