@@ -39,8 +39,8 @@ public abstract class ReflectionInflater<T> extends SimpleInflater<T> {
 
     /* static section */
 
-    private static final Class[] CONSTRUCTOR_SIGNATURE =
-            new Class[] {Context.class, AttributeSet.class};
+    private static final Class<?>[] CONSTRUCTOR_SIGNATURE =
+            new Class<?>[] {Context.class, AttributeSet.class};
 
     private static final HashMap<String, Constructor<?>> sConstructorMap = new HashMap<>();
 
@@ -87,13 +87,16 @@ public abstract class ReflectionInflater<T> extends SimpleInflater<T> {
         if (prefix != null && qualifiedName.indexOf('.') == -1) {
             qualifiedName = prefix.concat(qualifiedName);
         }
-        Constructor constructor = sConstructorMap.get(qualifiedName);
+        @SuppressWarnings("unchecked") // qualifiedName should correspond to a subclass of T
+        Constructor<? extends T> constructor =
+                (Constructor<? extends T>) sConstructorMap.get(qualifiedName);
 
         try {
             if (constructor == null) {
-                // Class not found in the cache, see if it's real,
-                // and try to add it
-                Class<?> clazz = mContext.getClassLoader().loadClass(qualifiedName);
+                // Class not found in the cache, see if it's real, and try to add it
+                @SuppressWarnings("unchecked") // qualifiedName should correspond to a subclass of T
+                Class<? extends T> clazz =
+                        (Class<? extends T>) mContext.getClassLoader().loadClass(qualifiedName);
                 constructor = clazz.getConstructor(CONSTRUCTOR_SIGNATURE);
                 constructor.setAccessible(true);
                 sConstructorMap.put(tagName, constructor);
@@ -101,8 +104,7 @@ public abstract class ReflectionInflater<T> extends SimpleInflater<T> {
 
             mTempConstructorArgs[0] = mContext;
             mTempConstructorArgs[1] = attrs;
-            // noinspection unchecked
-            final T item = (T) constructor.newInstance(mTempConstructorArgs);
+            final T item = constructor.newInstance(mTempConstructorArgs);
             mTempConstructorArgs[0] = null;
             mTempConstructorArgs[1] = null;
             return item;

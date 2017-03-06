@@ -20,7 +20,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Build;
-import android.support.annotation.VisibleForTesting;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -59,12 +58,15 @@ public class HeaderRecyclerView extends RecyclerView {
 
     /**
      * An adapter that can optionally add one header item to the RecyclerView.
+     *
+     * @param <CVH> Type of the content view holder. i.e. view holder type of the wrapped adapter.
      */
-    public static class HeaderAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    public static class HeaderAdapter<CVH extends ViewHolder>
+            extends RecyclerView.Adapter<ViewHolder> {
 
         private static final int HEADER_VIEW_TYPE = Integer.MAX_VALUE;
 
-        private RecyclerView.Adapter mAdapter;
+        private RecyclerView.Adapter<CVH> mAdapter;
         private View mHeader;
 
         private final AdapterDataObserver mObserver = new AdapterDataObserver() {
@@ -111,7 +113,7 @@ public class HeaderRecyclerView extends RecyclerView {
             }
         };
 
-        public HeaderAdapter(RecyclerView.Adapter adapter) {
+        public HeaderAdapter(RecyclerView.Adapter<CVH> adapter) {
             mAdapter = adapter;
             mAdapter.registerAdapterDataObserver(mObserver);
             setHasStableIds(mAdapter.hasStableIds());
@@ -142,20 +144,23 @@ public class HeaderRecyclerView extends RecyclerView {
         }
 
         @Override
-        @SuppressWarnings("unchecked")
+        @SuppressWarnings("unchecked") // Non-header position always return type CVH
         public void onBindViewHolder(ViewHolder holder, int position) {
             if (mHeader != null) {
                 position--;
             }
 
             if (holder instanceof HeaderViewHolder) {
+                if (mHeader == null) {
+                    throw new IllegalStateException("HeaderViewHolder cannot find mHeader");
+                }
                 if (mHeader.getParent() != null) {
                     ((ViewGroup) mHeader.getParent()).removeView(mHeader);
                 }
                 FrameLayout mHeaderParent = (FrameLayout) holder.itemView;
                 mHeaderParent.addView(mHeader);
             } else {
-                mAdapter.onBindViewHolder(holder, position);
+                mAdapter.onBindViewHolder((CVH) holder, position);
             }
         }
 
@@ -194,8 +199,7 @@ public class HeaderRecyclerView extends RecyclerView {
             mHeader = header;
         }
 
-        @VisibleForTesting
-        public RecyclerView.Adapter getWrappedAdapter() {
+        public RecyclerView.Adapter<CVH> getWrappedAdapter() {
             return mAdapter;
         }
     }
@@ -266,6 +270,7 @@ public class HeaderRecyclerView extends RecyclerView {
     }
 
     @Override
+    @SuppressWarnings("rawtypes,unchecked") // RecyclerView.setAdapter uses raw type :(
     public void setAdapter(Adapter adapter) {
         if (mHeader != null && adapter != null) {
             final HeaderAdapter headerAdapter = new HeaderAdapter(adapter);

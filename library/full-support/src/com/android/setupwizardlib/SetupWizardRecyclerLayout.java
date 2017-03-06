@@ -20,6 +20,7 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.Adapter;
+import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -76,14 +77,14 @@ public class SetupWizardRecyclerLayout extends SetupWizardLayout {
     /**
      * @see RecyclerMixin#getAdapter()
      */
-    public Adapter getAdapter() {
+    public Adapter<? extends ViewHolder> getAdapter() {
         return mRecyclerMixin.getAdapter();
     }
 
     /**
      * @see RecyclerMixin#setAdapter(Adapter)
      */
-    public void setAdapter(Adapter adapter) {
+    public void setAdapter(Adapter<? extends ViewHolder> adapter) {
         mRecyclerMixin.setAdapter(adapter);
     }
 
