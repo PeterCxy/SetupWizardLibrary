@@ -31,6 +31,7 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewStub;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -123,6 +124,11 @@ public class GlifLayout extends TemplateLayout {
                 a.getBoolean(R.styleable.SuwGlifLayout_suwBackgroundPatterned, true);
         setBackgroundPatterned(backgroundPatterned);
 
+        final int footer = a.getResourceId(R.styleable.SuwGlifLayout_suwFooter, 0);
+        if (footer != 0) {
+            inflateFooter(footer);
+        }
+
         a.recycle();
     }
 
@@ -140,6 +146,19 @@ public class GlifLayout extends TemplateLayout {
             containerId = R.id.suw_layout_content;
         }
         return super.findContainer(containerId);
+    }
+
+    /**
+     * Sets the footer of the layout, which is at the bottom of the content area outside the
+     * scrolling container. The footer can only be inflated once per layout.
+     *
+     * @param footer The layout to be inflated as footer.
+     * @return The root of the inflated footer view.
+     */
+    public View inflateFooter(@LayoutRes int footer) {
+        ViewStub footerStub = (ViewStub) findManagedViewById(R.id.suw_layout_footer);
+        footerStub.setLayoutResource(footer);
+        return footerStub.inflate();
     }
 
     public ScrollView getScrollView() {

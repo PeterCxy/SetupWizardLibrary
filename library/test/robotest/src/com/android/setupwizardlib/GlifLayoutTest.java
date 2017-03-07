@@ -49,6 +49,7 @@ import com.android.setupwizardlib.view.StatusBarBackgroundLayout;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.robolectric.Robolectric;
 import org.robolectric.annotation.Config;
 
 @RunWith(SuwLibRobolectricTestRunner.class)
@@ -222,6 +223,32 @@ public class GlifLayoutTest {
         assertNotNull("GlifLayout should have icon mixin", layout.getMixin(IconMixin.class));
         assertNotNull("GlifLayout should have progress bar mixin",
                 layout.getMixin(ProgressBarMixin.class));
+    }
+
+    @Test
+    public void testInflateFooter() {
+        GlifLayout layout = new GlifLayout(mContext);
+
+        final View view = layout.inflateFooter(android.R.layout.simple_list_item_1);
+        assertEquals(android.R.id.text1, view.getId());
+        assertNotNull(layout.findViewById(android.R.id.text1));
+    }
+
+    @Config(qualifiers = "sw600dp")
+    @Test
+    public void testInflateFooterTablet() {
+        testInflateFooter();
+    }
+
+    @Test
+    public void testFooterXml() {
+        GlifLayout layout = new GlifLayout(
+                mContext,
+                Robolectric.buildAttributeSet()
+                        .addAttribute(R.attr.suwFooter, "@android:layout/simple_list_item_1")
+                        .build());
+
+        assertNotNull(layout.findViewById(android.R.id.text1));
     }
 
     private Drawable getPhoneBackground(GlifLayout layout) {
