@@ -19,8 +19,8 @@ package com.android.setupwizardlib.template;
 /**
  * Marker interface to indicate Mixin classes.
  *
- * @see TemplateLayout#registerMixin(Class, Mixin)
- * @see TemplateLayout#getMixin(Class)
+ * @see com.android.setupwizardlib.TemplateLayout#registerMixin(Class, Mixin)
+ * @see com.android.setupwizardlib.TemplateLayout#getMixin(Class)
  */
 public interface Mixin {
 }

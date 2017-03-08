@@ -116,6 +116,7 @@ public class Item extends AbstractItem {
         return mVisible;
     }
 
+    @Override
     public int getViewId() {
         return getId();
     }

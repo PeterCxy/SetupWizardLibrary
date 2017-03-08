@@ -26,6 +26,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.Adapter;
+import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -155,10 +156,11 @@ public class RecyclerMixin implements Mixin {
      *
      * @return The adapter, or {@code null} if the recycler view has no adapter.
      */
-    public Adapter getAdapter() {
-        final RecyclerView.Adapter adapter = mRecyclerView.getAdapter();
+    public <VH extends ViewHolder> Adapter<VH> getAdapter() {
+        @SuppressWarnings("unchecked") // RecyclerView.getAdapter returns raw type :(
+        final RecyclerView.Adapter<VH> adapter = (Adapter<VH>) mRecyclerView.getAdapter();
         if (adapter instanceof HeaderRecyclerView.HeaderAdapter) {
-            return ((HeaderRecyclerView.HeaderAdapter) adapter).getWrappedAdapter();
+            return ((HeaderRecyclerView.HeaderAdapter<VH>) adapter).getWrappedAdapter();
         }
         return adapter;
     }
@@ -166,7 +168,7 @@ public class RecyclerMixin implements Mixin {
     /**
      * Sets the adapter on the recycler view in this layout.
      */
-    public void setAdapter(Adapter adapter) {
+    public void setAdapter(Adapter<? extends ViewHolder> adapter) {
         mRecyclerView.setAdapter(adapter);
     }
 

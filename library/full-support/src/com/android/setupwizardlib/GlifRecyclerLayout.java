@@ -22,6 +22,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Build.VERSION_CODES;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.Adapter;
+import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -128,14 +129,14 @@ public class GlifRecyclerLayout extends GlifLayout {
     /**
      * @see RecyclerMixin#setAdapter(Adapter)
      */
-    public void setAdapter(Adapter adapter) {
+    public void setAdapter(Adapter<? extends ViewHolder> adapter) {
         mRecyclerMixin.setAdapter(adapter);
     }
 
     /**
      * @see RecyclerMixin#getAdapter()
      */
-    public Adapter getAdapter() {
+    public Adapter<? extends ViewHolder> getAdapter() {
         return mRecyclerMixin.getAdapter();
     }
 
