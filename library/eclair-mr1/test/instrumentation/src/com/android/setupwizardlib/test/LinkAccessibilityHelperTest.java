@@ -260,7 +260,7 @@ public class LinkAccessibilityHelperTest {
 
     private static class TestLinkAccessibilityHelper extends LinkAccessibilityHelper {
 
-        public TestLinkAccessibilityHelper(TextView view) {
+        TestLinkAccessibilityHelper(TextView view) {
             super(view);
         }
 

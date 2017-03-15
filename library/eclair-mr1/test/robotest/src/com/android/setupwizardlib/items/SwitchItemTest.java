@@ -14,30 +14,33 @@
  * limitations under the License.
  */
 
-package com.android.setupwizardlib.test;
+package com.android.setupwizardlib.items;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.robolectric.RuntimeEnvironment.application;
 
-import android.content.Context;
-import android.support.test.InstrumentationRegistry;
-import android.support.test.filters.SmallTest;
-import android.support.test.runner.AndroidJUnit4;
+import android.annotation.TargetApi;
+import android.os.Build.VERSION_CODES;
 import android.support.v7.widget.SwitchCompat;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.setupwizardlib.BuildConfig;
 import com.android.setupwizardlib.R;
-import com.android.setupwizardlib.items.SwitchItem;
+import com.android.setupwizardlib.robolectric.SuwLibRobolectricTestRunner;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.robolectric.annotation.Config;
 
-@RunWith(AndroidJUnit4.class)
-@SmallTest
+@RunWith(SuwLibRobolectricTestRunner.class)
+@Config(constants = BuildConfig.class, sdk = { Config.OLDEST_SDK, Config.NEWEST_SDK })
 public class SwitchItemTest {
 
     private SwitchCompat mSwitch;
@@ -87,13 +90,13 @@ public class SwitchItemTest {
         assertTrue("Switch should be checked", mSwitch.isChecked());
         mSwitch.setChecked(false);
 
-        assertTrue("Listener should be called", listener.called);
-        assertFalse("Listener should not be checked", listener.checked);
+        assertTrue("Listener should be called", listener.mCalled);
+        assertFalse("Listener should not be checked", listener.mChecked);
 
         mSwitch.setChecked(true);
 
-        assertTrue("Listener should be called", listener.called);
-        assertTrue("Listener should be checked", listener.checked);
+        assertTrue("Listener should be called", listener.mCalled);
+        assertTrue("Listener should be checked", listener.mChecked);
     }
 
     @Test
@@ -146,13 +149,13 @@ public class SwitchItemTest {
         assertTrue("Switch should be checked", mSwitch.isChecked());
         item.setChecked(false);
 
-        assertTrue("Listener should be called", listener.called);
-        assertFalse("Listener should not be checked", listener.checked);
+        assertTrue("Listener should be called", listener.mCalled);
+        assertFalse("Listener should not be checked", listener.mChecked);
 
         item.setChecked(true);
 
-        assertTrue("Listener should be called", listener.called);
-        assertTrue("Listener should be checked", listener.checked);
+        assertTrue("Listener should be called", listener.mCalled);
+        assertTrue("Listener should be checked", listener.mChecked);
     }
 
     @Test
@@ -172,27 +175,42 @@ public class SwitchItemTest {
         assertFalse("Switch should be unchecked", mSwitch.isChecked());
     }
 
-    private ViewGroup createLayout() {
-        Context context = InstrumentationRegistry.getContext();
-        ViewGroup root = new FrameLayout(context);
+    @TargetApi(VERSION_CODES.JELLY_BEAN_MR1)
+    @Config(minSdk = VERSION_CODES.JELLY_BEAN_MR1)
+    @Test
+    public void testAccessibility() {
+        SwitchItem item = new SwitchItem();
+        item.setTitle("TestTitle");
+        item.setSummary("TestSummary");
 
-        TextView titleView = new TextView(context);
+        View view = LayoutInflater.from(application).inflate(R.layout.suw_items_switch, null);
+        item.onBindView(view);
+
+        final View titleView = view.findViewById(R.id.suw_items_title);
+        assertEquals("Title view should label for switch",
+                R.id.suw_items_switch, titleView.getLabelFor());
+    }
+
+    private ViewGroup createLayout() {
+        ViewGroup root = new FrameLayout(application);
+
+        TextView titleView = new TextView(application);
         titleView.setId(R.id.suw_items_title);
         root.addView(titleView);
 
-        TextView summaryView = new TextView(context);
+        TextView summaryView = new TextView(application);
         summaryView.setId(R.id.suw_items_summary);
         root.addView(summaryView);
 
-        FrameLayout iconContainer = new FrameLayout(context);
+        FrameLayout iconContainer = new FrameLayout(application);
         iconContainer.setId(R.id.suw_items_icon_container);
         root.addView(iconContainer);
 
-        ImageView iconView = new ImageView(context);
+        ImageView iconView = new ImageView(application);
         iconView.setId(R.id.suw_items_icon);
         iconContainer.addView(iconView);
 
-        mSwitch = new SwitchCompat(context);
+        mSwitch = new SwitchCompat(application);
         mSwitch.setId(R.id.suw_items_switch);
         root.addView(mSwitch);
 
@@ -201,13 +219,13 @@ public class SwitchItemTest {
 
     private static class TestOnCheckedChangeListener implements SwitchItem.OnCheckedChangeListener {
 
-        public boolean called = false;
-        public boolean checked = false;
+        boolean mCalled = false;
+        boolean mChecked = false;
 
         @Override
         public void onCheckedChange(SwitchItem item, boolean isChecked) {
-            called = true;
-            checked = isChecked;
+            mCalled = true;
+            mChecked = isChecked;
         }
     }
 }

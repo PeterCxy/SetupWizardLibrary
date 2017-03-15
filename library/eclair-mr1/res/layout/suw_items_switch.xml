@@ -51,6 +51,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="start"
+            android:labelFor="@+id/suw_items_switch"
             android:textAlignment="viewStart"
             tools:ignore="UnusedAttribute" />
 

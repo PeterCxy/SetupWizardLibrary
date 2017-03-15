@@ -25,7 +25,7 @@ android.sourceSets {
     }
 
     androidTestGingerbreadCompat {
-        java.srcDirs = ['full-support/test/src', 'eclair-mr1/test/src']
+        java.srcDirs = ['full-support/test/src', 'eclair-mr1/test/instrumentation/src']
         res.srcDirs = ['full-support/test/res']
     }
 
@@ -40,6 +40,10 @@ android.sourceSets {
             // Workaround for https://github.com/robolectric/robolectric/issues/2566
             testCompile 'org.khronos:opengl-api:gl1.1-android-2.1_r1'
         }
+    }
+
+    testGingerbreadCompat {
+        java.srcDirs = ['eclair-mr1/test/robotest/src']
     }
 }
 android.defaultConfig.testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
