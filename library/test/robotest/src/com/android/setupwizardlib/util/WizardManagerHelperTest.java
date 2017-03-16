@@ -25,6 +25,7 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Build.VERSION_CODES;
+import android.os.Bundle;
 import android.provider.Settings;
 import android.provider.Settings.Global;
 import android.provider.Settings.Secure;
@@ -189,6 +190,39 @@ public class WizardManagerHelperTest {
                 WizardManagerHelper.isLightTheme("abracadabra", true));
         assertFalse("isLightTheme should return default value false",
                 WizardManagerHelper.isLightTheme("abracadabra", false));
+    }
+
+    @Test
+    public void testCopyWizardManagerIntent() {
+        Bundle wizardBundle = new Bundle();
+        wizardBundle.putString("foo", "bar");
+        Intent originalIntent = new Intent()
+                .putExtra(WizardManagerHelper.EXTRA_THEME, "test_theme")
+                .putExtra(WizardManagerHelper.EXTRA_WIZARD_BUNDLE, wizardBundle)
+                .putExtra(WizardManagerHelper.EXTRA_IS_FIRST_RUN, true)
+                // Script URI and Action ID are kept for backwards compatibility
+                .putExtra(WizardManagerHelper.EXTRA_SCRIPT_URI, "test_script_uri")
+                .putExtra(WizardManagerHelper.EXTRA_ACTION_ID, "test_action_id");
+
+        Intent intent = new Intent("test.intent.action");
+        WizardManagerHelper.copyWizardManagerExtras(originalIntent, intent);
+
+        assertEquals("Intent action should be kept", "test.intent.action", intent.getAction());
+        assertEquals("EXTRA_THEME should be copied",
+                "test_theme", intent.getStringExtra(WizardManagerHelper.EXTRA_THEME));
+        Bundle copiedWizardBundle =
+                intent.getParcelableExtra(WizardManagerHelper.EXTRA_WIZARD_BUNDLE);
+        assertEquals("Wizard bundle should be copied", "bar", copiedWizardBundle.getString("foo"));
+
+        assertTrue("EXTRA_IS_FIRST_RUN should be copied",
+                intent.getBooleanExtra(WizardManagerHelper.EXTRA_IS_FIRST_RUN, false));
+
+        // Script URI and Action ID are replaced by Wizard Bundle in M, but are kept for backwards
+        // compatibility
+        assertEquals("EXTRA_SCRIPT_URI should be copied",
+                "test_script_uri", intent.getStringExtra(WizardManagerHelper.EXTRA_SCRIPT_URI));
+        assertEquals("EXTRA_ACTION_ID should be copied",
+                "test_action_id", intent.getStringExtra(WizardManagerHelper.EXTRA_ACTION_ID));
     }
 
     @TargetApi(VERSION_CODES.JELLY_BEAN_MR1)

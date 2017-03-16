@@ -21,23 +21,24 @@ import android.content.Intent;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 import android.provider.Settings;
+import android.support.annotation.VisibleForTesting;
 
 public class WizardManagerHelper {
 
     private static final String ACTION_NEXT = "com.android.wizard.NEXT";
 
-    /*
-     * EXTRA_SCRIPT_URI and EXTRA_ACTION_ID will be removed once all outstanding references have
-     * transitioned to using EXTRA_WIZARD_BUNDLE.
-     */
-    @Deprecated
-    private static final String EXTRA_SCRIPT_URI = "scriptUri";
-    @Deprecated
-    private static final String EXTRA_ACTION_ID = "actionId";
+    // EXTRA_SCRIPT_URI and EXTRA_ACTION_ID are used in setup wizard in versions before M and are
+    // kept for backwards compatibility.
+    @VisibleForTesting
+    static final String EXTRA_SCRIPT_URI = "scriptUri";
+    @VisibleForTesting
+    static final String EXTRA_ACTION_ID = "actionId";
 
-    private static final String EXTRA_WIZARD_BUNDLE = "wizardBundle";
+    @VisibleForTesting
+    static final String EXTRA_WIZARD_BUNDLE = "wizardBundle";
     private static final String EXTRA_RESULT_CODE = "com.android.setupwizard.ResultCode";
-    private static final String EXTRA_IS_FIRST_RUN = "firstRun";
+    @VisibleForTesting
+    static final String EXTRA_IS_FIRST_RUN = "firstRun";
 
     public static final String EXTRA_THEME = "theme";
     public static final String EXTRA_USE_IMMERSIVE_MODE = "useImmersiveMode";
@@ -121,6 +122,7 @@ public class WizardManagerHelper {
      */
     public static void copyWizardManagerExtras(Intent srcIntent, Intent dstIntent) {
         dstIntent.putExtra(EXTRA_WIZARD_BUNDLE, srcIntent.getBundleExtra(EXTRA_WIZARD_BUNDLE));
+        dstIntent.putExtra(EXTRA_THEME, srcIntent.getStringExtra(EXTRA_THEME));
         dstIntent.putExtra(EXTRA_IS_FIRST_RUN,
                 srcIntent.getBooleanExtra(EXTRA_IS_FIRST_RUN, false));
         dstIntent.putExtra(EXTRA_SCRIPT_URI, srcIntent.getStringExtra(EXTRA_SCRIPT_URI));
