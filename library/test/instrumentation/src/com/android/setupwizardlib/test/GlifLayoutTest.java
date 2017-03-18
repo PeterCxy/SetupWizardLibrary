@@ -82,6 +82,19 @@ public class GlifLayoutTest {
     }
 
     @Test
+    public void testGlifTheme() {
+        mContext = new ContextThemeWrapper(InstrumentationRegistry.getContext(),
+                R.style.SuwThemeGlif_Light);
+        final GlifLayout glifLayout = new GlifLayout(mContext);
+
+        if (VERSION.SDK_INT >= VERSION_CODES.M) {
+            // Scroll indicators are only available on versions >= M
+            assertEquals(View.SCROLL_INDICATOR_BOTTOM,
+                    glifLayout.getScrollView().getScrollIndicators());
+        }
+    }
+
+    @Test
     public void testGlifPixelTheme() {
         mContext = new ContextThemeWrapper(InstrumentationRegistry.getContext(),
                 R.style.SuwThemeGlifPixel_Light);
