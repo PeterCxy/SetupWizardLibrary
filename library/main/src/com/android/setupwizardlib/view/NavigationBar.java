@@ -35,7 +35,7 @@ import com.android.setupwizardlib.R;
  * next button. By default, the more button is hidden, and typically the next button will be hidden
  * if the more button is shown.
  *
- * @see com.android.setupwizardlib.util.RequireScrollHelper
+ * @see com.android.setupwizardlib.template.RequireScrollMixin
  */
 public class NavigationBar extends LinearLayout implements View.OnClickListener {
 

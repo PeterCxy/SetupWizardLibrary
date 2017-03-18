@@ -42,8 +42,8 @@ import android.widget.TextView;
 import com.android.setupwizardlib.template.HeaderMixin;
 import com.android.setupwizardlib.template.NavigationBarMixin;
 import com.android.setupwizardlib.template.ProgressBarMixin;
-import com.android.setupwizardlib.util.RequireScrollHelper;
-import com.android.setupwizardlib.view.BottomScrollView;
+import com.android.setupwizardlib.template.RequireScrollMixin;
+import com.android.setupwizardlib.template.ScrollViewScrollHandlingDelegate;
 import com.android.setupwizardlib.view.Illustration;
 import com.android.setupwizardlib.view.NavigationBar;
 
@@ -82,6 +82,14 @@ public class SetupWizardLayout extends TemplateLayout {
         registerMixin(HeaderMixin.class, new HeaderMixin(this, attrs, defStyleAttr));
         registerMixin(ProgressBarMixin.class, new ProgressBarMixin(this));
         registerMixin(NavigationBarMixin.class, new NavigationBarMixin(this));
+        final RequireScrollMixin requireScrollMixin = new RequireScrollMixin(this);
+        registerMixin(RequireScrollMixin.class, requireScrollMixin);
+
+        final ScrollView scrollView = getScrollView();
+        if (scrollView != null) {
+            requireScrollMixin.setScrollHandlingDelegate(
+                    new ScrollViewScrollHandlingDelegate(requireScrollMixin, scrollView));
+        }
 
         final TypedArray a = getContext().obtainStyledAttributes(attrs,
                 R.styleable.SuwSetupWizardLayout, defStyleAttr, 0);
@@ -156,11 +164,7 @@ public class SetupWizardLayout extends TemplateLayout {
         final SavedState ss = (SavedState) state;
         super.onRestoreInstanceState(ss.getSuperState());
         final boolean isProgressBarShown = ss.mIsProgressBarShown;
-        if (isProgressBarShown) {
-            showProgressBar();
-        } else {
-            hideProgressBar();
-        }
+        setProgressBarShown(isProgressBarShown);
     }
 
     @Override
@@ -189,13 +193,12 @@ public class SetupWizardLayout extends TemplateLayout {
     }
 
     public void requireScrollToBottom() {
+        final RequireScrollMixin requireScrollMixin = getMixin(RequireScrollMixin.class);
         final NavigationBar navigationBar = getNavigationBar();
-        final ScrollView scrollView = getScrollView();
-        if (navigationBar != null && (scrollView instanceof BottomScrollView)) {
-            RequireScrollHelper.requireScroll(navigationBar, (BottomScrollView) scrollView);
+        if (navigationBar != null) {
+            requireScrollMixin.requireScrollWithNavigationBar(navigationBar);
         } else {
-            Log.e(TAG, "Both suw_layout_navigation_bar and suw_bottom_scroll_view must exist in"
-                    + " the template to require scrolling.");
+            Log.e(TAG, "Cannot require scroll. Navigation bar is null.");
         }
     }
 

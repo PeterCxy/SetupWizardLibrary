@@ -43,7 +43,7 @@ android.sourceSets {
     }
 
     testGingerbreadCompat {
-        java.srcDirs = ['eclair-mr1/test/robotest/src']
+        java.srcDirs = ['eclair-mr1/test/robotest/src', 'full-support/test/robotest/src']
     }
 }
 android.defaultConfig.testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
