@@ -38,6 +38,7 @@ import com.android.setupwizardlib.items.ItemInflater;
 import com.android.setupwizardlib.items.RecyclerItemAdapter;
 import com.android.setupwizardlib.util.DrawableLayoutDirectionHelper;
 import com.android.setupwizardlib.view.HeaderRecyclerView;
+import com.android.setupwizardlib.view.HeaderRecyclerView.HeaderAdapter;
 
 /**
  * A {@link Mixin} for interacting with templates with recycler views. This mixin constructor takes
@@ -156,11 +157,11 @@ public class RecyclerMixin implements Mixin {
      *
      * @return The adapter, or {@code null} if the recycler view has no adapter.
      */
-    public <VH extends ViewHolder> Adapter<VH> getAdapter() {
+    public Adapter<? extends ViewHolder> getAdapter() {
         @SuppressWarnings("unchecked") // RecyclerView.getAdapter returns raw type :(
-        final RecyclerView.Adapter<VH> adapter = (Adapter<VH>) mRecyclerView.getAdapter();
-        if (adapter instanceof HeaderRecyclerView.HeaderAdapter) {
-            return ((HeaderRecyclerView.HeaderAdapter<VH>) adapter).getWrappedAdapter();
+        final RecyclerView.Adapter<? extends ViewHolder> adapter = mRecyclerView.getAdapter();
+        if (adapter instanceof HeaderAdapter) {
+            return ((HeaderAdapter<? extends ViewHolder>) adapter).getWrappedAdapter();
         }
         return adapter;
     }
