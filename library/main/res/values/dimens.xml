@@ -129,9 +129,4 @@
     <dimen name="suw_progress_bar_margin_vertical">-7dp</dimen>
     <dimen name="suw_glif_progress_bar_margin_vertical">7dp</dimen>
 
-    <!-- Ignore UnusedResources: This should be moved to eclar-mr1 as it's only used there -->
-    <dimen name="suw_switch_padding_start" tools:ignore="UnusedResources">16dp</dimen>
-    <!-- Ignore UnusedResources: This should be moved to eclar-mr1 as it's only used there -->
-    <dimen name="suw_switch_padding_end" tools:ignore="UnusedResources">0dp</dimen>
-
 </resources>

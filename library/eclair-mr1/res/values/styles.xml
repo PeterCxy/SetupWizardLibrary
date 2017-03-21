@@ -161,6 +161,11 @@
         <item name="android:paddingStart" tools:ignore="NewApi">@dimen/suw_switch_padding_start</item>
     </style>
 
+    <style name="SuwSwitchStyle.Divided" parent="SuwSwitchStyle">
+        <item name="android:paddingEnd" tools:ignore="NewApi">?attr/listPreferredItemPaddingRight</item>
+        <item name="android:paddingRight">?attr/listPreferredItemPaddingRight</item>
+    </style>
+
     <!-- Button styles -->
 
     <style name="SuwGlifButton.Primary" parent="Widget.AppCompat.Button.Colored">
