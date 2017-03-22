@@ -39,6 +39,13 @@ public class RecyclerItemAdapter extends RecyclerView.Adapter<ItemViewHolder>
 
     private static final String TAG = "RecyclerItemAdapter";
 
+    /**
+     * A view tag set by {@link View#setTag(Object)}. If set on the root view of a layout, it will
+     * not create the default background for the list item. This means the item will not have ripple
+     * touch feedback by default.
+     */
+    public static final String TAG_NO_BACKGROUND = "noBackground";
+
     public interface OnItemSelectedListener {
         void onItemSelected(IItem item);
     }
@@ -77,28 +84,31 @@ public class RecyclerItemAdapter extends RecyclerView.Adapter<ItemViewHolder>
         final View view = inflater.inflate(viewType, parent, false);
         final ItemViewHolder viewHolder = new ItemViewHolder(view);
 
-        final TypedArray typedArray = parent.getContext()
-                .obtainStyledAttributes(R.styleable.SuwRecyclerItemAdapter);
-        Drawable selectableItemBackground = typedArray.getDrawable(
-                R.styleable.SuwRecyclerItemAdapter_android_selectableItemBackground);
-        if (selectableItemBackground == null) {
-            selectableItemBackground = typedArray.getDrawable(
-                    R.styleable.SuwRecyclerItemAdapter_selectableItemBackground);
+        final Object viewTag = view.getTag();
+        if (!TAG_NO_BACKGROUND.equals(viewTag)) {
+            final TypedArray typedArray = parent.getContext()
+                    .obtainStyledAttributes(R.styleable.SuwRecyclerItemAdapter);
+            Drawable selectableItemBackground = typedArray.getDrawable(
+                    R.styleable.SuwRecyclerItemAdapter_android_selectableItemBackground);
+            if (selectableItemBackground == null) {
+                selectableItemBackground = typedArray.getDrawable(
+                        R.styleable.SuwRecyclerItemAdapter_selectableItemBackground);
+            }
+
+            final Drawable background = typedArray.getDrawable(
+                    R.styleable.SuwRecyclerItemAdapter_android_colorBackground);
+
+            if (selectableItemBackground == null || background == null) {
+                Log.e(TAG, "Cannot resolve required attributes."
+                        + " selectableItemBackground=" + selectableItemBackground
+                        + " background=" + background);
+            } else {
+                final Drawable[] layers = {background, selectableItemBackground};
+                view.setBackgroundDrawable(new PatchedLayerDrawable(layers));
+            }
+
+            typedArray.recycle();
         }
-
-        final Drawable background = typedArray.getDrawable(
-                R.styleable.SuwRecyclerItemAdapter_android_colorBackground);
-
-        if (selectableItemBackground == null || background == null) {
-            Log.e(TAG, "Cannot resolve required attributes."
-                    + " selectableItemBackground=" + selectableItemBackground
-                    + " background=" + background);
-        } else {
-            final Drawable[] layers = { background, selectableItemBackground };
-            view.setBackgroundDrawable(new PatchedLayerDrawable(layers));
-        }
-
-        typedArray.recycle();
 
         view.setOnClickListener(new View.OnClickListener() {
             @Override

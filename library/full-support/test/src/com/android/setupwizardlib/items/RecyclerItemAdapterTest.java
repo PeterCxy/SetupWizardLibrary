@@ -18,6 +18,8 @@ package com.android.setupwizardlib.items;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
@@ -25,10 +27,13 @@ import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.RectShape;
+import android.support.test.InstrumentationRegistry;
 import android.support.test.filters.SmallTest;
 import android.support.test.runner.AndroidJUnit4;
+import android.widget.FrameLayout;
 
 import com.android.setupwizardlib.items.RecyclerItemAdapter.PatchedLayerDrawable;
+import com.android.setupwizardlib.test.R;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -93,5 +98,26 @@ public class RecyclerItemAdapterTest {
         Rect padding = new Rect();
         assertTrue("Patched layer drawable should have padding", drawable.getPadding(padding));
         assertEquals(new Rect(10, 10, 10, 10), padding);
+    }
+
+    @Test
+    public void testCreateViewHolder() {
+        RecyclerItemAdapter adapter = new RecyclerItemAdapter(mItemGroup);
+        FrameLayout parent = new FrameLayout(InstrumentationRegistry.getContext());
+
+        final ItemViewHolder viewHolder =
+                adapter.onCreateViewHolder(parent, R.layout.test_list_item);
+        assertNotNull("Background should be set", viewHolder.itemView.getBackground());
+        assertEquals("foobar", viewHolder.itemView.getTag());
+    }
+
+    @Test
+    public void testCreateViewHolderNoBcakground() {
+        RecyclerItemAdapter adapter = new RecyclerItemAdapter(mItemGroup);
+        FrameLayout parent = new FrameLayout(InstrumentationRegistry.getContext());
+
+        final ItemViewHolder viewHolder =
+                adapter.onCreateViewHolder(parent, R.layout.test_list_item_no_background);
+        assertNull("Background should be null", viewHolder.itemView.getBackground());
     }
 }
