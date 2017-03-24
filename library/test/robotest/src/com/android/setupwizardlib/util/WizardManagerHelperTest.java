@@ -29,8 +29,10 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.provider.Settings.Global;
 import android.provider.Settings.Secure;
+import android.support.annotation.StyleRes;
 
 import com.android.setupwizardlib.BuildConfig;
+import com.android.setupwizardlib.R;
 import com.android.setupwizardlib.robolectric.SuwLibRobolectricTestRunner;
 
 import org.junit.Test;
@@ -190,6 +192,61 @@ public class WizardManagerHelperTest {
                 WizardManagerHelper.isLightTheme("abracadabra", true));
         assertFalse("isLightTheme should return default value false",
                 WizardManagerHelper.isLightTheme("abracadabra", false));
+    }
+
+    @Test
+    public void testGetThemeResGlifPixelLight() {
+        assertEquals(R.style.SuwThemeGlifPixel_Light,
+                WizardManagerHelper.getThemeRes("glif_pixel_light", 0));
+    }
+
+    @Test
+    public void testGetThemeResGlifPixel() {
+        assertEquals(R.style.SuwThemeGlifPixel,
+                WizardManagerHelper.getThemeRes("glif_pixel", 0));
+    }
+
+    @Test
+    public void testGetThemeResGlifLight() {
+        assertEquals(R.style.SuwThemeGlif_Light,
+                WizardManagerHelper.getThemeRes("glif_light", 0));
+    }
+
+    @Test
+    public void testGetThemeResGlif() {
+        assertEquals(R.style.SuwThemeGlif,
+                WizardManagerHelper.getThemeRes("glif", 0));
+    }
+
+    @Test
+    public void testGetThemeResMaterialLight() {
+        assertEquals(R.style.SuwThemeMaterial_Light,
+                WizardManagerHelper.getThemeRes("material_light", 0));
+    }
+
+    @Test
+    public void testGetThemeResMaterial() {
+        assertEquals(R.style.SuwThemeMaterial,
+                WizardManagerHelper.getThemeRes("material", 0));
+    }
+
+    @Test
+    public void testGetThemeResDefault() {
+        @StyleRes int def = 123;
+        assertEquals(def, WizardManagerHelper.getThemeRes("abracadabra", def));
+    }
+
+    @Test
+    public void testGetThemeResNull() {
+        @StyleRes int def = 123;
+        assertEquals(def, WizardManagerHelper.getThemeRes((String) null, def));
+    }
+
+    @Test
+    public void testGetThemeResFromIntent() {
+        Intent intent = new Intent();
+        intent.putExtra(WizardManagerHelper.EXTRA_THEME, "material");
+        assertEquals(R.style.SuwThemeMaterial, WizardManagerHelper.getThemeRes(intent, 0));
     }
 
     @Test
