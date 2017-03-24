@@ -25,8 +25,8 @@ android.sourceSets {
     }
 
     androidTestGingerbreadCompat {
-        java.srcDirs = ['full-support/test/src', 'eclair-mr1/test/instrumentation/src']
-        res.srcDirs = ['full-support/test/res']
+        java.srcDirs = ['full-support/test/instrumentation/src', 'eclair-mr1/test/instrumentation/src']
+        res.srcDirs = ['full-support/test/instrumentation/res']
     }
 
     test {

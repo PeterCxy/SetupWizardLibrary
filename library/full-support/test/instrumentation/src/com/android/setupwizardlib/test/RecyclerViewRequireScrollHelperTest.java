@@ -99,7 +99,7 @@ public class RecyclerViewRequireScrollHelperTest {
 
         public OnScrollListener listener;
 
-        public TestRecyclerView(Context context) {
+        TestRecyclerView(Context context) {
             super(context);
         }
 
@@ -133,7 +133,7 @@ public class RecyclerViewRequireScrollHelperTest {
 
     private static class TestNavigationBar extends NavigationBar {
 
-        public TestNavigationBar(Context context) {
+        TestNavigationBar(Context context) {
             super(context);
         }
 
