@@ -18,10 +18,14 @@ package com.android.setupwizardlib.util;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources.Theme;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 import android.provider.Settings;
+import android.support.annotation.StyleRes;
 import android.support.annotation.VisibleForTesting;
+
+import com.android.setupwizardlib.R;
 
 public class WizardManagerHelper {
 
@@ -212,5 +216,60 @@ public class WizardManagerHelper {
         } else {
             return def;
         }
+    }
+
+    /**
+     * Gets the theme style resource defined by this library for the theme specified in the given
+     * intent. For example, for THEME_GLIF_LIGHT, the theme @style/SuwThemeGlif.Light is returned.
+     *
+     * @param intent The intent passed by setup wizard, or one with the theme propagated along using
+     *               {@link #copyWizardManagerExtras(Intent, Intent)}.
+     * @return The style corresponding to the theme in the given intent, or {@code defaultTheme} if
+     *         the given theme is not recognized.
+     *
+     * @see #getThemeRes(String, int)
+     */
+    public static @StyleRes int getThemeRes(Intent intent, @StyleRes int defaultTheme) {
+        final String theme = intent.getStringExtra(EXTRA_THEME);
+        return getThemeRes(theme, defaultTheme);
+    }
+
+    /**
+     * Gets the theme style resource defined by this library for the given theme name. For example,
+     * for THEME_GLIF_LIGHT, the theme @style/SuwThemeGlif.Light is returned.
+     *
+     * <p>If you require extra theme attributes but want to ensure forward compatibility with new
+     * themes added here, consider overriding {@link android.app.Activity#onApplyThemeResource} in
+     * your activity and call {@link Theme#applyStyle(int, boolean)} using your theme overlay.
+     *
+     * <pre>{@code
+     * protected void onApplyThemeResource(Theme theme, int resid, boolean first) {
+     *     super.onApplyThemeResource(theme, resid, first);
+     *     theme.applyStyle(R.style.MyThemeOverlay, true);
+     * }
+     * }</pre>
+     *
+     * @param theme The string representation of the theme.
+     * @return The style corresponding to the given {@code theme}, or {@code defaultTheme} if the
+     *         given theme is not recognized.
+     */
+    public static @StyleRes int getThemeRes(String theme, @StyleRes int defaultTheme) {
+        if (theme != null) {
+            switch (theme) {
+                case THEME_GLIF_PIXEL_LIGHT:
+                    return R.style.SuwThemeGlifPixel_Light;
+                case THEME_GLIF_PIXEL:
+                    return R.style.SuwThemeGlifPixel;
+                case THEME_GLIF_LIGHT:
+                    return R.style.SuwThemeGlif_Light;
+                case THEME_GLIF:
+                    return R.style.SuwThemeGlif;
+                case THEME_MATERIAL_LIGHT:
+                    return R.style.SuwThemeMaterial_Light;
+                case THEME_MATERIAL:
+                    return R.style.SuwThemeMaterial;
+            }
+        }
+        return defaultTheme;
     }
 }
