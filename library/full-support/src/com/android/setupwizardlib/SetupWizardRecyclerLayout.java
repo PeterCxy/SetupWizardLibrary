@@ -22,14 +22,13 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.Adapter;
 import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.android.setupwizardlib.template.RecyclerMixin;
-import com.android.setupwizardlib.util.RecyclerViewRequireScrollHelper;
-import com.android.setupwizardlib.view.NavigationBar;
+import com.android.setupwizardlib.template.RecyclerViewScrollHandlingDelegate;
+import com.android.setupwizardlib.template.RequireScrollMixin;
 
 /**
  * A setup wizard layout for use with {@link android.support.v7.widget.RecyclerView}.
@@ -66,6 +65,11 @@ public class SetupWizardRecyclerLayout extends SetupWizardLayout {
     private void init(Context context, AttributeSet attrs, int defStyleAttr) {
         mRecyclerMixin.parseAttributes(attrs, defStyleAttr);
         registerMixin(RecyclerMixin.class, mRecyclerMixin);
+
+
+        final RequireScrollMixin requireScrollMixin = getMixin(RequireScrollMixin.class);
+        requireScrollMixin.setScrollHandlingDelegate(
+                new RecyclerViewScrollHandlingDelegate(requireScrollMixin, getRecyclerView()));
     }
 
     @Override
@@ -132,18 +136,6 @@ public class SetupWizardRecyclerLayout extends SetupWizardLayout {
             }
         }
         return super.findViewById(id);
-    }
-
-    @Override
-    public void requireScrollToBottom() {
-        final NavigationBar navigationBar = getNavigationBar();
-        final RecyclerView recyclerView = getRecyclerView();
-        if (navigationBar != null && recyclerView != null) {
-            RecyclerViewRequireScrollHelper.requireScroll(navigationBar, recyclerView);
-        } else {
-            Log.e(TAG, "Both suw_layout_navigation_bar and suw_recycler_view must exist in"
-                    + " the template to require scrolling.");
-        }
     }
 
     /**

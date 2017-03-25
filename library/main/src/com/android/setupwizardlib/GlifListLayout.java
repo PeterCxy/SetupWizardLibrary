@@ -28,6 +28,8 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import com.android.setupwizardlib.template.ListMixin;
+import com.android.setupwizardlib.template.ListViewScrollHandlingDelegate;
+import com.android.setupwizardlib.template.RequireScrollMixin;
 
 /**
  * A GLIF themed layout with a ListView. {@code android:entries} can also be used to specify an
@@ -70,6 +72,10 @@ public class GlifListLayout extends GlifLayout {
     private void init(Context context, AttributeSet attrs, int defStyleAttr) {
         mListMixin = new ListMixin(this, attrs, defStyleAttr);
         registerMixin(ListMixin.class, mListMixin);
+
+        final RequireScrollMixin requireScrollMixin = getMixin(RequireScrollMixin.class);
+        requireScrollMixin.setScrollHandlingDelegate(
+                new ListViewScrollHandlingDelegate(requireScrollMixin, getListView()));
     }
 
     @Override

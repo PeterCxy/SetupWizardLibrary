@@ -24,7 +24,7 @@
 
     <!-- Ignore UnusedAttribute: scrollIndicators is new in M. Default to no indicators in older
          versions. -->
-    <ScrollView
+    <com.android.setupwizardlib.view.BottomScrollView
         android:id="@+id/suw_scroll_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -48,7 +48,7 @@
 
         </LinearLayout>
 
-    </ScrollView>
+    </com.android.setupwizardlib.view.BottomScrollView>
 
     <ViewStub
         android:id="@+id/suw_layout_footer"

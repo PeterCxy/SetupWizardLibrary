@@ -21,7 +21,6 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Build.VERSION_CODES;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,8 +28,8 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import com.android.setupwizardlib.template.ListMixin;
-import com.android.setupwizardlib.util.ListViewRequireScrollHelper;
-import com.android.setupwizardlib.view.NavigationBar;
+import com.android.setupwizardlib.template.ListViewScrollHandlingDelegate;
+import com.android.setupwizardlib.template.RequireScrollMixin;
 
 public class SetupWizardListLayout extends SetupWizardLayout {
 
@@ -65,6 +64,10 @@ public class SetupWizardListLayout extends SetupWizardLayout {
     private void init(Context context, AttributeSet attrs, int defStyleAttr) {
         mListMixin = new ListMixin(this, attrs, defStyleAttr);
         registerMixin(ListMixin.class, mListMixin);
+
+        final RequireScrollMixin requireScrollMixin = getMixin(RequireScrollMixin.class);
+        requireScrollMixin.setScrollHandlingDelegate(
+                new ListViewScrollHandlingDelegate(requireScrollMixin, getListView()));
     }
 
     @Override
@@ -99,18 +102,6 @@ public class SetupWizardListLayout extends SetupWizardLayout {
 
     public ListAdapter getAdapter() {
         return mListMixin.getAdapter();
-    }
-
-    @Override
-    public void requireScrollToBottom() {
-        final NavigationBar navigationBar = getNavigationBar();
-        final ListView listView = getListView();
-        if (navigationBar != null && listView != null) {
-            ListViewRequireScrollHelper.requireScroll(navigationBar, listView);
-        } else {
-            Log.e(TAG, "Both suw_layout_navigation_bar and list must exist in"
-                    + " the template to require scrolling.");
-        }
     }
 
     /**

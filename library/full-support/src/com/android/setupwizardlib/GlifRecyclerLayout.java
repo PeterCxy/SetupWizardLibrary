@@ -29,6 +29,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.android.setupwizardlib.template.RecyclerMixin;
+import com.android.setupwizardlib.template.RecyclerViewScrollHandlingDelegate;
+import com.android.setupwizardlib.template.RequireScrollMixin;
 
 /**
  * A GLIF themed layout with a RecyclerView. {@code android:entries} can also be used to specify an
@@ -65,6 +67,10 @@ public class GlifRecyclerLayout extends GlifLayout {
     private void init(Context context, AttributeSet attrs, int defStyleAttr) {
         mRecyclerMixin.parseAttributes(attrs, defStyleAttr);
         registerMixin(RecyclerMixin.class, mRecyclerMixin);
+
+        final RequireScrollMixin requireScrollMixin = getMixin(RequireScrollMixin.class);
+        requireScrollMixin.setScrollHandlingDelegate(
+                new RecyclerViewScrollHandlingDelegate(requireScrollMixin, getRecyclerView()));
     }
 
     @Override

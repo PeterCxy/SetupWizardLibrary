@@ -41,6 +41,8 @@ import com.android.setupwizardlib.template.ColoredHeaderMixin;
 import com.android.setupwizardlib.template.HeaderMixin;
 import com.android.setupwizardlib.template.IconMixin;
 import com.android.setupwizardlib.template.ProgressBarMixin;
+import com.android.setupwizardlib.template.RequireScrollMixin;
+import com.android.setupwizardlib.template.ScrollViewScrollHandlingDelegate;
 import com.android.setupwizardlib.view.StatusBarBackgroundLayout;
 
 /**
@@ -106,6 +108,14 @@ public class GlifLayout extends TemplateLayout {
         registerMixin(IconMixin.class, new IconMixin(this, attrs, defStyleAttr));
         registerMixin(ProgressBarMixin.class, new ProgressBarMixin(this));
         registerMixin(ButtonFooterMixin.class, new ButtonFooterMixin(this));
+        final RequireScrollMixin requireScrollMixin = new RequireScrollMixin(this);
+        registerMixin(RequireScrollMixin.class, requireScrollMixin);
+
+        final ScrollView scrollView = getScrollView();
+        if (scrollView != null) {
+            requireScrollMixin.setScrollHandlingDelegate(
+                    new ScrollViewScrollHandlingDelegate(requireScrollMixin, scrollView));
+        }
 
         TypedArray a = getContext().obtainStyledAttributes(attrs,
                 R.styleable.SuwGlifLayout, defStyleAttr, 0);
