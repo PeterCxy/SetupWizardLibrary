@@ -23,13 +23,16 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import android.content.Context;
 import android.content.res.ColorStateList;
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.filters.SmallTest;
 import android.support.test.runner.AndroidJUnit4;
+import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.widget.ProgressBar;
 
@@ -48,7 +51,10 @@ public class ProgressBarMixinTest {
 
     @Before
     public void setUp() {
-        mTemplateLayout = new TemplateLayout(InstrumentationRegistry.getContext(),
+        Context context = new ContextThemeWrapper(InstrumentationRegistry.getContext(),
+                R.style.SuwThemeMaterial_Light);
+        mTemplateLayout = new TemplateLayout(
+                context,
                 R.layout.test_progress_bar_template, R.id.suw_layout_content);
     }
 
@@ -130,5 +136,22 @@ public class ProgressBarMixinTest {
                     progressBar.getProgressBackgroundTintList());
         }
         // this method is a no-op on versions < lollipop. Just check that it doesn't crash.
+    }
+
+    @Test
+    public void testDeterminateProgressBarNullTint() {
+        ProgressBarMixin mixin = new ProgressBarMixin(mTemplateLayout);
+        mixin.setShown(true);
+        mixin.peekProgressBar().setIndeterminate(false);
+
+        mixin.setColor(null);
+
+        if (VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP) {
+            ProgressBar progressBar = (ProgressBar) mTemplateLayout.findViewById(
+                    R.id.suw_layout_progress);
+            assertEquals(null, progressBar.getProgressBackgroundTintList());
+            progressBar.draw(new Canvas());
+        }
+        // setColor is a no-op on versions < lollipop. Just check that it doesn't crash.
     }
 }

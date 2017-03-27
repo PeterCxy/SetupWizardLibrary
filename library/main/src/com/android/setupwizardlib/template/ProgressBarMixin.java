@@ -114,7 +114,15 @@ public class ProgressBarMixin implements Mixin {
             final ProgressBar bar = peekProgressBar();
             if (bar != null) {
                 bar.setIndeterminateTintList(color);
-                bar.setProgressBackgroundTintList(color);
+                if (Build.VERSION.SDK_INT >= VERSION_CODES.M || color != null) {
+                    // There is a bug in Lollipop where setting the progress tint color to null
+                    // will crash with "java.lang.NullPointerException: Attempt to invoke virtual
+                    // method 'int android.graphics.Paint.getAlpha()' on a null object reference"
+                    // at android.graphics.drawable.NinePatchDrawable.draw(:250)
+                    // The bug doesn't affect ProgressBar on M because it uses ShapeDrawable instead
+                    // of NinePatchDrawable. (commit 6a8253fdc9f4574c28b4beeeed90580ffc93734a)
+                    bar.setProgressBackgroundTintList(color);
+                }
             }
         }
     }
