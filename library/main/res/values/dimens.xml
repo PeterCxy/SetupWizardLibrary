@@ -116,7 +116,7 @@
     <dimen name="suw_items_preferred_height">56dp</dimen>
 
     <!-- Navigation bar -->
-    <!-- TODO: Move this dimen to eclair-mr1, or see if it should be in platform style as well -->
+    <!-- TODO: Move this dimen to gingerbread, or see if it should be in platform style as well -->
     <dimen name="suw_navbar_button_drawable_padding" tools:ignore="UnusedResources">6dp</dimen>
     <dimen name="suw_navbar_button_padding_sides">10dp</dimen>
     <dimen name="suw_navbar_height">56dp</dimen>
