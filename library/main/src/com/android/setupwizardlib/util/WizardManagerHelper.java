@@ -268,6 +268,8 @@ public class WizardManagerHelper {
                     return R.style.SuwThemeMaterial_Light;
                 case THEME_MATERIAL:
                     return R.style.SuwThemeMaterial;
+                default:
+                    // fall through
             }
         }
         return defaultTheme;
