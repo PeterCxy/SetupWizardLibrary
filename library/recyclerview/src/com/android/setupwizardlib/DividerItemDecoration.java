@@ -42,6 +42,10 @@ public class DividerItemDecoration extends RecyclerView.ItemDecoration {
 
     /* static section */
 
+    /**
+     * An interface to be implemented by a {@link RecyclerView.ViewHolder} which controls whether
+     * dividers should be shown above and below that item.
+     */
     public interface DividedViewHolder {
 
         /**
