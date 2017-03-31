@@ -124,6 +124,52 @@ public class ItemGroupTest {
     }
 
     @Test
+    public void testNestedGroupClearNotification() {
+        ItemGroup parentGroup = new ItemGroup();
+        ItemGroup childGroup = new ItemGroup();
+        parentGroup.registerObserver(mObserver);
+
+        parentGroup.addChild(CHILD_1);
+        childGroup.addChild(CHILD_2);
+        childGroup.addChild(CHILD_3);
+        parentGroup.addChild(childGroup);
+        parentGroup.addChild(CHILD_4);
+
+        childGroup.clear();
+
+        final InOrder inOrder = inOrder(mObserver);
+        inOrder.verify(mObserver).onItemRangeInserted(eq(parentGroup), eq(0), eq(1));
+        inOrder.verify(mObserver).onItemRangeInserted(eq(parentGroup), eq(1), eq(2));
+        inOrder.verify(mObserver).onItemRangeInserted(eq(parentGroup), eq(3), eq(1));
+        verify(mObserver).onItemRangeRemoved(eq(parentGroup), eq(1), eq(2));
+        verifyNoMoreInteractions(mObserver);
+    }
+
+    @Test
+    public void testNestedGroupRemoveNotification() {
+        ItemGroup parentGroup = new ItemGroup();
+        ItemGroup childGroup = new ItemGroup();
+        parentGroup.registerObserver(mObserver);
+
+        parentGroup.addChild(CHILD_1);
+        childGroup.addChild(CHILD_2);
+        childGroup.addChild(CHILD_3);
+        parentGroup.addChild(childGroup);
+        parentGroup.addChild(CHILD_4);
+
+        childGroup.removeChild(CHILD_3);
+        childGroup.removeChild(CHILD_2);
+
+        final InOrder inOrder = inOrder(mObserver);
+        inOrder.verify(mObserver).onItemRangeInserted(eq(parentGroup), eq(0), eq(1));
+        inOrder.verify(mObserver).onItemRangeInserted(eq(parentGroup), eq(1), eq(2));
+        inOrder.verify(mObserver).onItemRangeInserted(eq(parentGroup), eq(3), eq(1));
+        inOrder.verify(mObserver).onItemRangeRemoved(eq(parentGroup), eq(2), eq(1));
+        inOrder.verify(mObserver).onItemRangeRemoved(eq(parentGroup), eq(1), eq(1));
+        verifyNoMoreInteractions(mObserver);
+    }
+
+    @Test
     public void testNotifyChange() {
         mItemGroup.addChild(CHILD_1);
         mItemGroup.addChild(CHILD_2);

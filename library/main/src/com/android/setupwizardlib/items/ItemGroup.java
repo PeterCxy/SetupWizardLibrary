@@ -193,7 +193,8 @@ public class ItemGroup extends AbstractItemHierarchy implements ItemInflater.Ite
     }
 
     /**
-     * @return The "Item Position" of the given child, or -1 if the child is empty or not found.
+     * @return The "Item Position" of the given child, or -1 if the child is not found. If the given
+     *         child is empty, position of the next visible item is returned.
      */
     private int getChildPosition(ItemHierarchy child) {
         // Check the identity of the child rather than using .equals(), because here we want
@@ -204,7 +205,14 @@ public class ItemGroup extends AbstractItemHierarchy implements ItemInflater.Ite
     private int getChildPosition(int childIndex) {
         updateDataIfNeeded();
         if (childIndex != -1) {
-            return mHierarchyStart.get(childIndex, -1);
+            int childPos = -1;
+            int childCount = mChildren.size();
+            for (int i = childIndex; childPos < 0 && i < childCount; i++) {
+                // Find the position of the first visible child after childIndex. This is required
+                // when removing the last item from a nested ItemGroup.
+                childPos = mHierarchyStart.get(i, -1);
+            }
+            return childPos;
         }
         return -1;
     }
