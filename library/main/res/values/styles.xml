@@ -19,7 +19,7 @@
 
     <!-- General styles -->
 
-    <style name="SuwThemeGlifPixel" parent="SuwThemeGlif">
+    <style name="SuwThemeGlifV2" parent="SuwThemeGlif">
         <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
 
         <item name="suwBackgroundBaseColor">?android:attr/colorBackground</item>
@@ -28,7 +28,10 @@
         <item name="suwScrollIndicators">top|bottom</item>
     </style>
 
-    <style name="SuwThemeGlifPixel.Light" parent="SuwThemeGlif.Light">
+    <!-- Deprecated. Use SuwThemeGlifV2 instead -->
+    <style name="SuwThemeGlifPixel" parent="SuwThemeGlifV2" />
+
+    <style name="SuwThemeGlifV2.Light" parent="SuwThemeGlif.Light">
         <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
 
         <item name="suwBackgroundBaseColor">?android:attr/colorBackground</item>
@@ -36,6 +39,9 @@
         <item name="suwGlifHeaderGravity">center_horizontal</item>
         <item name="suwScrollIndicators">top|bottom</item>
     </style>
+
+    <!-- Deprecated. Use SuwThemeGlifV2.Light instead -->
+    <style name="SuwThemeGlifPixel.Light" parent="SuwThemeGlifV2.Light" />
 
     <style name="Animation.SuwWindowAnimation" parent="@android:style/Animation.Activity">
         <item name="android:activityOpenEnterAnimation">@anim/suw_slide_next_in</item>

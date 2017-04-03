@@ -71,13 +71,25 @@ public class WizardManagerHelper {
      * Passed in a setup wizard intent as {@link #EXTRA_THEME}. This is the dark variant of the
      * theme used in setup wizard for O DR.
      */
-    public static final String THEME_GLIF_PIXEL = "glif_pixel";
+    public static final String THEME_GLIF_V2 = "glif_v2";
+
+    /**
+     * @deprecated Use {@link #THEME_GLIF_V2} instead.
+     */
+    @Deprecated
+    public static final String THEME_GLIF_PIXEL = THEME_GLIF_V2;
 
     /**
      * Passed in a setup wizard intent as {@link #EXTRA_THEME}. This is the default theme used in
      * setup wizard for O DR.
      */
-    public static final String THEME_GLIF_PIXEL_LIGHT = "glif_pixel_light";
+    public static final String THEME_GLIF_V2_LIGHT = "glif_v2_light";
+
+    /**
+     * @deprecated Use {@link #THEME_GLIF_V2_LIGHT} instead.
+     */
+    @Deprecated
+    public static final String THEME_GLIF_PIXEL_LIGHT = THEME_GLIF_V2_LIGHT;
 
     /**
      * Get an intent that will invoke the next step of setup wizard.
@@ -208,10 +220,10 @@ public class WizardManagerHelper {
      */
     public static boolean isLightTheme(String theme, boolean def) {
         if (THEME_HOLO_LIGHT.equals(theme) || THEME_MATERIAL_LIGHT.equals(theme)
-                || THEME_GLIF_LIGHT.equals(theme) || THEME_GLIF_PIXEL_LIGHT.equals(theme)) {
+                || THEME_GLIF_LIGHT.equals(theme) || THEME_GLIF_V2_LIGHT.equals(theme)) {
             return true;
         } else if (THEME_HOLO.equals(theme) || THEME_MATERIAL.equals(theme)
-                || THEME_GLIF.equals(theme) || THEME_GLIF_PIXEL.equals(theme)) {
+                || THEME_GLIF.equals(theme) || THEME_GLIF_V2.equals(theme)) {
             return false;
         } else {
             return def;
@@ -256,10 +268,10 @@ public class WizardManagerHelper {
     public static @StyleRes int getThemeRes(String theme, @StyleRes int defaultTheme) {
         if (theme != null) {
             switch (theme) {
-                case THEME_GLIF_PIXEL_LIGHT:
-                    return R.style.SuwThemeGlifPixel_Light;
-                case THEME_GLIF_PIXEL:
-                    return R.style.SuwThemeGlifPixel;
+                case THEME_GLIF_V2_LIGHT:
+                    return R.style.SuwThemeGlifV2_Light;
+                case THEME_GLIF_V2:
+                    return R.style.SuwThemeGlifV2;
                 case THEME_GLIF_LIGHT:
                     return R.style.SuwThemeGlif_Light;
                 case THEME_GLIF:
