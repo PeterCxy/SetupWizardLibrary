@@ -37,6 +37,7 @@
         <item name="listPreferredItemPaddingRight">?attr/suwMarginSides</item>
         <item name="suwCardBackground">@drawable/suw_card_bg_dark</item>
         <item name="suwItemDescriptionStyle">@style/SuwItemContainer.Description</item>
+        <item name="suwItemDescriptionTitleStyle">@style/SuwItemTitle</item>
         <item name="suwListItemIconColor">@color/suw_list_item_icon_color_dark</item>
         <item name="suwMarginSides">@dimen/suw_layout_margin_sides</item>
         <item name="suwNavBarTheme">@style/SuwNavBarThemeDark</item>
@@ -61,6 +62,7 @@
         <item name="listPreferredItemPaddingRight">?attr/suwMarginSides</item>
         <item name="suwCardBackground">@drawable/suw_card_bg_light</item>
         <item name="suwItemDescriptionStyle">@style/SuwItemContainer.Description</item>
+        <item name="suwItemDescriptionTitleStyle">@style/SuwItemTitle</item>
         <item name="suwListItemIconColor">@color/suw_list_item_icon_color_light</item>
         <item name="suwMarginSides">@dimen/suw_layout_margin_sides</item>
         <item name="suwNavBarTheme">@style/SuwNavBarThemeLight</item>
@@ -90,6 +92,7 @@
         <item name="suwDividerInset">@dimen/suw_items_glif_icon_divider_inset</item>
         <item name="suwGlifHeaderGravity">start</item>
         <item name="suwItemDescriptionStyle">@style/SuwItemContainer.Description.Glif</item>
+        <item name="suwItemDescriptionTitleStyle">@style/SuwItemTitle.GlifDescription</item>
         <item name="suwListItemIconColor">@color/suw_list_item_icon_color_dark</item>
         <item name="suwMarginSides">@dimen/suw_glif_margin_sides</item>
         <item name="suwScrollIndicators">bottom</item>
@@ -120,6 +123,7 @@
         <item name="suwDividerInset">@dimen/suw_items_glif_icon_divider_inset</item>
         <item name="suwGlifHeaderGravity">start</item>
         <item name="suwItemDescriptionStyle">@style/SuwItemContainer.Description.Glif</item>
+        <item name="suwItemDescriptionTitleStyle">@style/SuwItemTitle.GlifDescription</item>
         <item name="suwListItemIconColor">@color/suw_list_item_icon_color_light</item>
         <item name="suwMarginSides">@dimen/suw_glif_margin_sides</item>
         <item name="suwScrollIndicators">bottom</item>

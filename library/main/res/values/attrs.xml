@@ -74,6 +74,7 @@
     <attr name="suwHeader" format="reference" />
     <attr name="suwDividerInset" format="dimension|reference" />
     <attr name="suwItemDescriptionStyle" format="reference" />
+    <attr name="suwItemDescriptionTitleStyle" format="reference" />
 
     <declare-styleable name="SuwIllustration">
         <attr name="suwAspectRatio" format="float" />

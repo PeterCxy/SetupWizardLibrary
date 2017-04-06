@@ -211,7 +211,7 @@
         <item name="android:paddingTop">@dimen/suw_items_verbose_padding_vertical</item>
     </style>
 
-    <style name="SuwItemTitle.Description" parent="SuwItemTitle">
+    <style name="SuwItemTitle.GlifDescription" parent="SuwItemTitle">
         <item name="android:gravity">?attr/suwGlifHeaderGravity</item>
         <item name="android:textAlignment" tools:targetApi="jelly_bean_mr1">gravity</item>
     </style>
