@@ -33,6 +33,8 @@ import android.content.pm.ActivityInfo;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.ResolveInfo;
 import android.content.res.Resources;
+import android.os.Build.VERSION;
+import android.os.Build.VERSION_CODES;
 
 import com.android.setupwizardlib.BuildConfig;
 import com.android.setupwizardlib.R;
@@ -48,9 +50,10 @@ import org.robolectric.res.builder.DefaultPackageManager;
 import org.robolectric.shadows.ShadowResources;
 
 import java.util.Arrays;
+import java.util.Collections;
 
 @RunWith(SuwLibRobolectricTestRunner.class)
-@Config(constants = BuildConfig.class)
+@Config(constants = BuildConfig.class, sdk = { Config.OLDEST_SDK, Config.NEWEST_SDK })
 public class PartnerTest {
 
     private static final String ACTION_PARTNER_CUSTOMIZATION =
@@ -77,8 +80,8 @@ public class PartnerTest {
         mPackageManager.addResolveInfoForIntent(
                 new Intent(ACTION_PARTNER_CUSTOMIZATION),
                 Arrays.asList(
-                        createResolveInfo("foo.bar", false),
-                        createResolveInfo("test.partner.package", true))
+                        createResolveInfo("foo.bar", false, true),
+                        createResolveInfo("test.partner.package", true, true))
         );
 
         Partner partner = Partner.get(mContext);
@@ -96,8 +99,8 @@ public class PartnerTest {
         mPackageManager.addResolveInfoForIntent(
                 new Intent(ACTION_PARTNER_CUSTOMIZATION),
                 Arrays.asList(
-                        createResolveInfo("foo.bar", false),
-                        createResolveInfo("test.partner.package", false))
+                        createResolveInfo("foo.bar", false, true),
+                        createResolveInfo("test.partner.package", false, true))
         );
 
         Partner partner = Partner.get(mContext);
@@ -113,8 +116,8 @@ public class PartnerTest {
         mPackageManager.addResolveInfoForIntent(
                 new Intent(ACTION_PARTNER_CUSTOMIZATION),
                 Arrays.asList(
-                        createResolveInfo("foo.bar", false),
-                        createResolveInfo("test.partner.package", true))
+                        createResolveInfo("foo.bar", false, true),
+                        createResolveInfo("test.partner.package", true, true))
         );
 
         ResourceEntry entry = Partner.getResourceEntry(mContext, R.integer.suwTransitionDuration);
@@ -128,8 +131,8 @@ public class PartnerTest {
         mPackageManager.addResolveInfoForIntent(
                 new Intent(ACTION_PARTNER_CUSTOMIZATION),
                 Arrays.asList(
-                        createResolveInfo("foo.bar", false),
-                        createResolveInfo("test.partner.package", true))
+                        createResolveInfo("foo.bar", false, true),
+                        createResolveInfo("test.partner.package", true, true))
         );
 
         ResourceEntry entry = Partner.getResourceEntry(mContext, R.color.suw_color_accent_dark);
@@ -138,7 +141,22 @@ public class PartnerTest {
         assertFalse("Partner value should come from fallback", entry.isOverlay);
     }
 
-    private ResolveInfo createResolveInfo(String packageName, boolean isSystem) {
+    @Test
+    public void testNotDirectBootAware() {
+        mPackageManager.addResolveInfoForIntent(
+                new Intent(ACTION_PARTNER_CUSTOMIZATION),
+                Collections.singletonList(createResolveInfo("test.partner.package", true, false)));
+
+        ResourceEntry entry = Partner.getResourceEntry(mContext, R.color.suw_color_accent_dark);
+        int partnerValue = entry.resources.getColor(entry.id);
+        assertEquals("Partner value should default to 0xff448aff", 0xff448aff, partnerValue);
+        assertFalse("Partner value should come from fallback", entry.isOverlay);
+    }
+
+    private ResolveInfo createResolveInfo(
+            String packageName,
+            boolean isSystem,
+            boolean directBootAware) {
         ResolveInfo info = new ResolveInfo();
         info.resolvePackageName = packageName;
         ActivityInfo activityInfo = new ActivityInfo();
@@ -148,6 +166,9 @@ public class PartnerTest {
         activityInfo.applicationInfo = appInfo;
         activityInfo.packageName = packageName;
         activityInfo.name = packageName;
+        if (VERSION.SDK_INT >= VERSION_CODES.N) {
+            activityInfo.directBootAware = directBootAware;
+        }
         info.activityInfo = activityInfo;
         return info;
     }
