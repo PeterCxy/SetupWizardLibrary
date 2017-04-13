@@ -17,11 +17,6 @@
 package com.android.setupwizardlib.view;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
-import android.os.Build.VERSION;
-import android.os.Build.VERSION_CODES;
-import android.support.v4.view.ViewCompat;
-import android.support.v7.widget.AppCompatTextView;
 import android.text.Annotation;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -30,17 +25,21 @@ import android.text.style.ClickableSpan;
 import android.text.style.TextAppearanceSpan;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.view.MotionEvent;
+import android.widget.TextView;
 
 import com.android.setupwizardlib.span.LinkSpan;
 import com.android.setupwizardlib.span.SpanHelper;
-import com.android.setupwizardlib.util.LinkAccessibilityHelper;
 
 /**
  * An extension of TextView that automatically replaces the annotation tags as specified in
  * {@link SpanHelper#replaceSpan(android.text.Spannable, Object, Object)}
+ *
+ * <p>Note: The accessibility interaction for ClickableSpans (and therefore LinkSpans) are built
+ * into platform in O, although the interaction paradigm is different. (See b/17726921). In this
+ * platform version, the links are exposed in the Local Context Menu of TalkBack instead of
+ * accessible directly through swiping.
  */
-public class RichTextView extends AppCompatTextView {
+public class RichTextView extends TextView {
 
     /* static section */
 
@@ -88,21 +87,12 @@ public class RichTextView extends AppCompatTextView {
 
     /* non-static section */
 
-    private LinkAccessibilityHelper mAccessibilityHelper;
-
     public RichTextView(Context context) {
         super(context);
-        init();
     }
 
     public RichTextView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init();
-    }
-
-    private void init() {
-        mAccessibilityHelper = new LinkAccessibilityHelper(this);
-        ViewCompat.setAccessibilityDelegate(this, mAccessibilityHelper);
     }
 
     @Override
@@ -137,31 +127,5 @@ public class RichTextView extends AppCompatTextView {
             return spans.length > 0;
         }
         return false;
-    }
-
-    @Override
-    protected boolean dispatchHoverEvent(MotionEvent event) {
-        if (mAccessibilityHelper != null && mAccessibilityHelper.dispatchHoverEvent(event)) {
-            return true;
-        }
-        return super.dispatchHoverEvent(event);
-    }
-
-    @Override
-    protected void drawableStateChanged() {
-        super.drawableStateChanged();
-
-        if (VERSION.SDK_INT >= VERSION_CODES.JELLY_BEAN_MR1) {
-            // b/26765507 causes drawableStart and drawableEnd to not get the right state on M. As a
-            // workaround, set the state on those drawables directly.
-            final int[] state = getDrawableState();
-            for (Drawable drawable : getCompoundDrawablesRelative()) {
-                if (drawable != null) {
-                    if (drawable.setState(state)) {
-                        invalidateDrawable(drawable);
-                    }
-                }
-            }
-        }
     }
 }
