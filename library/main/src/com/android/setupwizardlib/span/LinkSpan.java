@@ -17,8 +17,10 @@
 package com.android.setupwizardlib.span;
 
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.graphics.Typeface;
 import android.os.Build;
+import android.support.annotation.Nullable;
 import android.text.TextPaint;
 import android.text.style.ClickableSpan;
 import android.util.Log;
@@ -63,14 +65,30 @@ public class LinkSpan extends ClickableSpan {
 
     @Override
     public void onClick(View view) {
-        final Context context = view.getContext();
-        if (context instanceof OnClickListener) {
-            ((OnClickListener) context).onClick(this);
+        final OnClickListener listener = getListenerFromContext(view.getContext());
+        if (listener != null) {
+            listener.onClick(this);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                 view.cancelPendingInputEvents();
             }
         } else {
             Log.w(TAG, "Dropping click event. No listener attached.");
+        }
+    }
+
+    @Nullable
+    private OnClickListener getListenerFromContext(@Nullable Context context) {
+        while (true) {
+            if (context instanceof OnClickListener) {
+                return (OnClickListener) context;
+            } else if (context instanceof ContextWrapper) {
+                // Unwrap any context wrapper, in base the base context implements onClickListener.
+                // ContextWrappers cannot have circular base contexts, so at some point this will
+                // reach the one of the other cases and return.
+                context = ((ContextWrapper) context).getBaseContext();
+            } else {
+                return null;
+            }
         }
     }
 
