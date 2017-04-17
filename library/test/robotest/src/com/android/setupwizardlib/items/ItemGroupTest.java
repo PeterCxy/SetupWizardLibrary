@@ -170,6 +170,69 @@ public class ItemGroupTest {
     }
 
     @Test
+    public void testNestedGroupClear() {
+        ItemGroup parentGroup = new ItemGroup();
+        ItemGroup childGroup = new ItemGroup();
+        parentGroup.registerObserver(mObserver);
+
+        parentGroup.addChild(CHILD_1);
+        childGroup.addChild(CHILD_2);
+        childGroup.addChild(CHILD_3);
+        parentGroup.addChild(childGroup);
+
+        childGroup.clear();
+
+        final InOrder inOrder = inOrder(mObserver);
+        inOrder.verify(mObserver).onItemRangeInserted(eq(parentGroup), eq(0), eq(1));
+        inOrder.verify(mObserver).onItemRangeInserted(eq(parentGroup), eq(1), eq(2));
+        inOrder.verify(mObserver).onItemRangeRemoved(eq(parentGroup), eq(1), eq(2));
+        verifyNoMoreInteractions(mObserver);
+    }
+
+    @Test
+    public void testNestedGroupRemoveLastChild() {
+        ItemGroup parentGroup = new ItemGroup();
+        ItemGroup childGroup1 = new ItemGroup();
+        ItemGroup childGroup2 = new ItemGroup();
+        parentGroup.registerObserver(mObserver);
+
+        childGroup1.addChild(CHILD_1);
+        childGroup1.addChild(CHILD_2);
+        parentGroup.addChild(childGroup1);
+        childGroup2.addChild(CHILD_3);
+        childGroup2.addChild(CHILD_4);
+        parentGroup.addChild(childGroup2);
+
+        childGroup2.removeChild(CHILD_4);
+        childGroup2.removeChild(CHILD_3);
+
+        final InOrder inOrder = inOrder(mObserver);
+        inOrder.verify(mObserver).onItemRangeInserted(eq(parentGroup), eq(0), eq(2));
+        inOrder.verify(mObserver).onItemRangeInserted(eq(parentGroup), eq(2), eq(2));
+        inOrder.verify(mObserver).onItemRangeRemoved(eq(parentGroup), eq(3), eq(1));
+        inOrder.verify(mObserver).onItemRangeRemoved(eq(parentGroup), eq(2), eq(1));
+        verifyNoMoreInteractions(mObserver);
+    }
+
+    @Test
+    public void testNestedGroupClearOnlyChild() {
+        ItemGroup parentGroup = new ItemGroup();
+        ItemGroup childGroup = new ItemGroup();
+        parentGroup.registerObserver(mObserver);
+
+        childGroup.addChild(CHILD_1);
+        childGroup.addChild(CHILD_2);
+        parentGroup.addChild(childGroup);
+
+        childGroup.clear();
+
+        final InOrder inOrder = inOrder(mObserver);
+        inOrder.verify(mObserver).onItemRangeInserted(eq(parentGroup), eq(0), eq(2));
+        inOrder.verify(mObserver).onItemRangeRemoved(eq(parentGroup), eq(0), eq(2));
+        verifyNoMoreInteractions(mObserver);
+    }
+
+    @Test
     public void testNotifyChange() {
         mItemGroup.addChild(CHILD_1);
         mItemGroup.addChild(CHILD_2);

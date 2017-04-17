@@ -212,6 +212,12 @@ public class ItemGroup extends AbstractItemHierarchy implements ItemInflater.Ite
                 // when removing the last item from a nested ItemGroup.
                 childPos = mHierarchyStart.get(i, -1);
             }
+            if (childPos < 0) {
+                // If the last item in a group is being removed, there will be no visible item.
+                // In that case return the count instead, since that is where the item would have
+                // been if the child is not empty.
+                childPos = getCount();
+            }
             return childPos;
         }
         return -1;
