@@ -33,6 +33,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 
 import com.android.setupwizardlib.span.LinkSpan;
+import com.android.setupwizardlib.span.LinkSpan.OnLinkClickListener;
 import com.android.setupwizardlib.span.SpanHelper;
 import com.android.setupwizardlib.util.LinkAccessibilityHelper;
 
@@ -40,7 +41,7 @@ import com.android.setupwizardlib.util.LinkAccessibilityHelper;
  * An extension of TextView that automatically replaces the annotation tags as specified in
  * {@link SpanHelper#replaceSpan(android.text.Spannable, Object, Object)}
  */
-public class RichTextView extends AppCompatTextView {
+public class RichTextView extends AppCompatTextView implements OnLinkClickListener {
 
     /* static section */
 
@@ -89,6 +90,7 @@ public class RichTextView extends AppCompatTextView {
     /* non-static section */
 
     private LinkAccessibilityHelper mAccessibilityHelper;
+    private OnLinkClickListener mOnLinkClickListener;
 
     public RichTextView(Context context) {
         super(context);
@@ -163,5 +165,21 @@ public class RichTextView extends AppCompatTextView {
                 }
             }
         }
+    }
+
+    public void setOnLinkClickListener(OnLinkClickListener listener) {
+        mOnLinkClickListener = listener;
+    }
+
+    public OnLinkClickListener getOnLinkClickListener() {
+        return mOnLinkClickListener;
+    }
+
+    @Override
+    public boolean onLinkClick(LinkSpan span) {
+        if (mOnLinkClickListener != null) {
+            return mOnLinkClickListener.onLinkClick(span);
+        }
+        return false;
     }
 }
