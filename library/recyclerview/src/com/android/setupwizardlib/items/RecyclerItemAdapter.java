@@ -109,8 +109,11 @@ public class RecyclerItemAdapter extends RecyclerView.Adapter<ItemViewHolder>
                         R.styleable.SuwRecyclerItemAdapter_selectableItemBackground);
             }
 
-            final Drawable background = typedArray.getDrawable(
-                    R.styleable.SuwRecyclerItemAdapter_android_colorBackground);
+            Drawable background = view.getBackground();
+            if (background == null) {
+                background = typedArray.getDrawable(
+                        R.styleable.SuwRecyclerItemAdapter_android_colorBackground);
+            }
 
             if (selectableItemBackground == null || background == null) {
                 Log.e(TAG, "Cannot resolve required attributes."
