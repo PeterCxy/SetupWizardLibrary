@@ -166,7 +166,7 @@
 
     <!-- Use this style with a Button not a TextView, so that TalkBack will announce it as a
          button. -->
-    <style name="SuwGlifButton.Tertiary" parent="SuwGlifButton.Secondary">
+    <style name="SuwGlifButton.BaseTertiary" parent="SuwGlifButton.Secondary">
         <!-- This style can be applied to a button either as a "style" in XML, or as a theme in
              ContextThemeWrapper. These self-referencing attributes make sure this is applied as
              both to the button. -->
@@ -175,9 +175,12 @@
 
         <item name="android:background">@null</item>
         <item name="android:fontFamily" tools:targetApi="jelly_bean">sans-serif</item>
+        <item name="android:layout_gravity">?attr/suwGlifHeaderGravity</item>
         <item name="android:padding">0dp</item>
         <item name="android:textAllCaps" tools:targetApi="ice_cream_sandwich">false</item>
     </style>
+
+    <style name="SuwGlifButton.Tertiary" parent="SuwGlifButton.BaseTertiary" />
 
     <!-- The start and end paddings are asymmetric because start buttons are borderless buttons
          which aligns the text label. -->
