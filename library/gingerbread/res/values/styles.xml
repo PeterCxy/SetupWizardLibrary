@@ -180,7 +180,6 @@
         <item name="buttonStyle">@style/SuwGlifButton.Primary</item>
 
         <!-- Values used in styles -->
-        <item name="android:minWidth">0dp</item>
         <item name="android:paddingLeft">@dimen/suw_glif_button_padding</item>
         <item name="android:paddingRight">@dimen/suw_glif_button_padding</item>
     </style>
