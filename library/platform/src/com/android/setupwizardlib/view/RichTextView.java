@@ -28,6 +28,7 @@ import android.util.Log;
 import android.widget.TextView;
 
 import com.android.setupwizardlib.span.LinkSpan;
+import com.android.setupwizardlib.span.LinkSpan.OnLinkClickListener;
 import com.android.setupwizardlib.span.SpanHelper;
 
 /**
@@ -39,7 +40,7 @@ import com.android.setupwizardlib.span.SpanHelper;
  * platform version, the links are exposed in the Local Context Menu of TalkBack instead of
  * accessible directly through swiping.
  */
-public class RichTextView extends TextView {
+public class RichTextView extends TextView implements OnLinkClickListener {
 
     /* static section */
 
@@ -87,6 +88,8 @@ public class RichTextView extends TextView {
 
     /* non-static section */
 
+    private OnLinkClickListener mOnLinkClickListener;
+
     public RichTextView(Context context) {
         super(context);
     }
@@ -125,6 +128,22 @@ public class RichTextView extends TextView {
             final ClickableSpan[] spans =
                     ((Spanned) text).getSpans(0, text.length(), ClickableSpan.class);
             return spans.length > 0;
+        }
+        return false;
+    }
+
+    public void setOnLinkClickListener(OnLinkClickListener listener) {
+        mOnLinkClickListener = listener;
+    }
+
+    public OnLinkClickListener getOnLinkClickListener() {
+        return mOnLinkClickListener;
+    }
+
+    @Override
+    public boolean onLinkClick(LinkSpan span) {
+        if (mOnLinkClickListener != null) {
+            return mOnLinkClickListener.onLinkClick(span);
         }
         return false;
     }

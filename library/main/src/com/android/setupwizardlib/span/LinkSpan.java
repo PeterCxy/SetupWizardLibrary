@@ -28,8 +28,8 @@ import android.view.View;
 
 /**
  * A clickable span that will listen for click events and send it back to the context. To use this
- * class, implement {@link com.android.setupwizardlib.span.LinkSpan.OnClickListener} in your
- * context (typically your Activity).
+ * class, implement {@link OnLinkClickListener} in your TextView, or use
+ * {@link com.android.setupwizardlib.view.RichTextView#setOnClickListener(View.OnClickListener)}.
  *
  * <p />Note on accessibility: For TalkBack to be able to traverse and interact with the links, you
  * should use {@code LinkAccessibilityHelper} in your {@code TextView} subclass. Optionally you can
@@ -51,8 +51,27 @@ public class LinkSpan extends ClickableSpan {
     private static final Typeface TYPEFACE_MEDIUM =
             Typeface.create("sans-serif-medium", Typeface.NORMAL);
 
+    /**
+     * @deprecated Use {@link OnLinkClickListener}
+     */
+    @Deprecated
     public interface OnClickListener {
         void onClick(LinkSpan span);
+    }
+
+    /**
+     * Listener that is invoked when a link span is clicked. If the containing view of this span
+     * implements this interface, this will be invoked when the link is clicked.
+     */
+    public interface OnLinkClickListener {
+
+        /**
+         * Called when a link has been clicked.
+         *
+         * @param span The span that was clicked.
+         * @return True if the click was handled, stopping further propagation of the click event.
+         */
+        boolean onLinkClick(LinkSpan span);
     }
 
     /* non-static section */
@@ -65,9 +84,7 @@ public class LinkSpan extends ClickableSpan {
 
     @Override
     public void onClick(View view) {
-        final OnClickListener listener = getListenerFromContext(view.getContext());
-        if (listener != null) {
-            listener.onClick(this);
+        if (dispatchClick(view)) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                 view.cancelPendingInputEvents();
             }
@@ -76,8 +93,27 @@ public class LinkSpan extends ClickableSpan {
         }
     }
 
+    private boolean dispatchClick(View view) {
+        boolean handled = false;
+        if (view instanceof OnLinkClickListener) {
+            handled = ((OnLinkClickListener) view).onLinkClick(this);
+        }
+        if (!handled) {
+            final OnClickListener listener = getLegacyListenerFromContext(view.getContext());
+            if (listener != null) {
+                listener.onClick(this);
+                handled = true;
+            }
+        }
+        return handled;
+    }
+
+    /**
+     * @deprecated Deprecated together with {@link OnClickListener}
+     */
     @Nullable
-    private OnClickListener getListenerFromContext(@Nullable Context context) {
+    @Deprecated
+    private OnClickListener getLegacyListenerFromContext(@Nullable Context context) {
         while (true) {
             if (context instanceof OnClickListener) {
                 return (OnClickListener) context;
