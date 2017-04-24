@@ -20,10 +20,12 @@
     <!-- SwitchItem -->
     <dimen name="suw_switch_padding_start">16dp</dimen>
     <dimen name="suw_switch_padding_end">0dp</dimen>
+    <dimen name="suw_switch_padding_top">39dp</dimen>
     <dimen name="suw_switch_divider_height">32dp</dimen>
+    <dimen name="suw_switch_divider_padding_top">36dp</dimen>
     <dimen name="suw_switch_content_padding_end">16dp</dimen>
 
     <!-- ExpandableSwithItem -->
-    <dimen name="suw_expand_arrow_drawable_padding">6dp</dimen>
+    <dimen name="suw_expand_arrow_drawable_padding">4dp</dimen>
 
 </resources>

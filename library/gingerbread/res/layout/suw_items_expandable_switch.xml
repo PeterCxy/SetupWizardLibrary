@@ -94,7 +94,8 @@
         android:id="@+id/suw_items_switch_divider"
         android:layout_width="1dp"
         android:layout_height="@dimen/suw_switch_divider_height"
-        android:layout_gravity="center_vertical"
+        android:layout_gravity="top"
+        android:layout_marginTop="@dimen/suw_switch_divider_padding_top"
         android:background="?android:attr/listDivider" />
 
     <android.support.v7.widget.SwitchCompat
@@ -102,6 +103,8 @@
         style="@style/SuwSwitchStyle.Divided"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_gravity="center_vertical" />
+        android:layout_gravity="top"
+        android:gravity="top"
+        android:paddingTop="@dimen/suw_switch_padding_top" />
 
 </LinearLayout>
