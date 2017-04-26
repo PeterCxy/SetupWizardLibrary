@@ -28,6 +28,8 @@
     <declare-styleable name="SuwRecyclerMixin">
         <attr name="android:entries" />
         <attr name="suwDividerInset" />
+        <attr name="suwDividerInsetEnd" />
+        <attr name="suwDividerInsetStart" />
         <attr name="suwHasStableIds" />
     </declare-styleable>
 

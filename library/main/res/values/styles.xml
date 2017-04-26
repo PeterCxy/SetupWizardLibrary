@@ -24,6 +24,9 @@
 
         <item name="suwBackgroundBaseColor">?android:attr/colorBackground</item>
         <item name="suwBackgroundPatterned">false</item>
+        <item name="suwDividerInsetEnd">?attr/suwMarginSides</item>
+        <item name="suwDividerInsetStart">?attr/suwMarginSides</item>
+        <item name="suwDividerInsetStartNoIcon">?attr/suwMarginSides</item>
         <item name="suwGlifHeaderGravity">center_horizontal</item>
         <item name="suwScrollIndicators">top|bottom</item>
     </style>
@@ -36,6 +39,9 @@
 
         <item name="suwBackgroundBaseColor">?android:attr/colorBackground</item>
         <item name="suwBackgroundPatterned">false</item>
+        <item name="suwDividerInsetEnd">?attr/suwMarginSides</item>
+        <item name="suwDividerInsetStart">?attr/suwMarginSides</item>
+        <item name="suwDividerInsetStartNoIcon">?attr/suwMarginSides</item>
         <item name="suwGlifHeaderGravity">center_horizontal</item>
         <item name="suwScrollIndicators">top|bottom</item>
     </style>
