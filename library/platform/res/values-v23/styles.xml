@@ -75,7 +75,7 @@
     <!-- Placeholder for GLIF dark theme, colors are not updated yet -->
     <style name="SuwThemeGlif" parent="android:Theme.Material.NoActionBar">
         <item name="android:colorAccent">@color/suw_color_accent_glif_dark</item>
-        <item name="android:colorPrimary">@color/suw_color_accent_glif_light</item>
+        <item name="android:colorPrimary">@color/suw_color_accent_glif_dark</item>
         <item name="android:indeterminateTint">?android:attr/colorPrimary</item>
         <!-- Specify the indeterminateTintMode to work around a bug in Lollipop -->
         <item name="android:indeterminateTintMode">src_in</item>
@@ -86,7 +86,7 @@
         <item name="android:statusBarColor">?android:attr/colorPrimary</item>
         <item name="android:textAppearanceListItem">@style/TextAppearance.SuwGlifItemTitle</item>
         <item name="android:textAppearanceListItemSmall">@style/TextAppearance.SuwGlifItemSummary</item>
-        <item name="android:textColorLink">@color/suw_link_color_light</item>
+        <item name="android:textColorLink">@color/suw_color_accent_glif_dark</item>
         <item name="android:windowAnimationStyle">@style/Animation.SuwWindowAnimation</item>
         <item name="android:windowDisablePreview">true</item>
         <item name="android:windowSoftInputMode">adjustResize</item>
@@ -102,7 +102,7 @@
     </style>
 
     <style name="SuwThemeGlif.Light" parent="android:Theme.Material.Light.NoActionBar">
-        <item name="android:colorAccent">@color/suw_color_accent_glif_dark</item>
+        <item name="android:colorAccent">@color/suw_color_accent_glif_light</item>
         <item name="android:colorPrimary">@color/suw_color_accent_glif_light</item>
         <item name="android:indeterminateTint">?android:attr/colorPrimary</item>
         <!-- Specify the indeterminateTintMode to work around a bug in Lollipop -->
@@ -114,7 +114,7 @@
         <item name="android:statusBarColor">?android:attr/colorPrimary</item>
         <item name="android:textAppearanceListItem">@style/TextAppearance.SuwGlifItemTitle</item>
         <item name="android:textAppearanceListItemSmall">@style/TextAppearance.SuwGlifItemSummary</item>
-        <item name="android:textColorLink">@color/suw_link_color_light</item>
+        <item name="android:textColorLink">@color/suw_color_accent_glif_light</item>
         <item name="android:windowAnimationStyle">@style/Animation.SuwWindowAnimation</item>
         <item name="android:windowDisablePreview">true</item>
         <item name="android:windowSoftInputMode">adjustResize</item>
