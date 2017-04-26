@@ -20,6 +20,7 @@
     <!-- General styles -->
 
     <style name="SuwThemeGlifV2" parent="SuwThemeGlif">
+        <item name="android:colorBackground">@color/suw_glif_v2_background_color_dark</item>
         <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
 
         <item name="suwBackgroundBaseColor">?android:attr/colorBackground</item>
@@ -32,6 +33,7 @@
     <style name="SuwThemeGlifPixel" parent="SuwThemeGlifV2" />
 
     <style name="SuwThemeGlifV2.Light" parent="SuwThemeGlif.Light">
+        <item name="android:colorBackground">@color/suw_glif_v2_background_color_light</item>
         <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
 
         <item name="suwBackgroundBaseColor">?android:attr/colorBackground</item>
