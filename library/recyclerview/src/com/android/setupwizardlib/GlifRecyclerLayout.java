@@ -164,6 +164,7 @@ public class GlifRecyclerLayout extends GlifLayout {
     /**
      * @deprecated Use {@link #getDividerInsetStart()} instead.
      */
+    @Deprecated
     public int getDividerInset() {
         return mRecyclerMixin.getDividerInset();
     }
