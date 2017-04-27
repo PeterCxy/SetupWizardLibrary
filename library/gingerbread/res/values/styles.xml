@@ -38,6 +38,9 @@
         <item name="listPreferredItemPaddingLeft">?attr/suwMarginSides</item>
         <item name="listPreferredItemPaddingRight">?attr/suwMarginSides</item>
         <item name="suwCardBackground">@drawable/suw_card_bg_dark</item>
+        <item name="suwDividerInsetEnd">0dp</item>
+        <item name="suwDividerInsetStart">@dimen/suw_items_icon_divider_inset</item>
+        <item name="suwDividerInsetStartNoIcon">@dimen/suw_items_text_divider_inset</item>
         <item name="suwItemDescriptionStyle">@style/SuwItemContainer.Description</item>
         <item name="suwItemDescriptionTitleStyle">@style/SuwItemTitle</item>
         <item name="suwListItemIconColor">@color/suw_list_item_icon_color_dark</item>
@@ -65,6 +68,9 @@
         <item name="listPreferredItemPaddingLeft">?attr/suwMarginSides</item>
         <item name="listPreferredItemPaddingRight">?attr/suwMarginSides</item>
         <item name="suwCardBackground">@drawable/suw_card_bg_light</item>
+        <item name="suwDividerInsetEnd">0dp</item>
+        <item name="suwDividerInsetStart">@dimen/suw_items_icon_divider_inset</item>
+        <item name="suwDividerInsetStartNoIcon">@dimen/suw_items_text_divider_inset</item>
         <item name="suwItemDescriptionStyle">@style/SuwItemContainer.Description</item>
         <item name="suwItemDescriptionTitleStyle">@style/SuwItemTitle</item>
         <item name="suwListItemIconColor">@color/suw_list_item_icon_color_light</item>
@@ -93,7 +99,9 @@
         <item name="listPreferredItemPaddingLeft">?attr/suwMarginSides</item>
         <item name="listPreferredItemPaddingRight">?attr/suwMarginSides</item>
         <item name="suwColorPrimary">?attr/colorPrimary</item>
-        <item name="suwDividerInset">@dimen/suw_items_glif_icon_divider_inset</item>
+        <item name="suwDividerInsetEnd">0dp</item>
+        <item name="suwDividerInsetStart">@dimen/suw_items_glif_icon_divider_inset</item>
+        <item name="suwDividerInsetStartNoIcon">@dimen/suw_items_glif_text_divider_inset</item>
         <item name="suwGlifHeaderGravity">start</item>
         <item name="suwItemDescriptionStyle">@style/SuwItemContainer.Description.Glif</item>
         <item name="suwItemDescriptionTitleStyle">@style/SuwItemTitle.GlifDescription</item>
@@ -124,7 +132,9 @@
         <item name="listPreferredItemPaddingLeft">?attr/suwMarginSides</item>
         <item name="listPreferredItemPaddingRight">?attr/suwMarginSides</item>
         <item name="suwColorPrimary">?attr/colorPrimary</item>
-        <item name="suwDividerInset">@dimen/suw_items_glif_icon_divider_inset</item>
+        <item name="suwDividerInsetEnd">0dp</item>
+        <item name="suwDividerInsetStart">@dimen/suw_items_glif_icon_divider_inset</item>
+        <item name="suwDividerInsetStartNoIcon">@dimen/suw_items_glif_text_divider_inset</item>
         <item name="suwGlifHeaderGravity">start</item>
         <item name="suwItemDescriptionStyle">@style/SuwItemContainer.Description.Glif</item>
         <item name="suwItemDescriptionTitleStyle">@style/SuwItemTitle.GlifDescription</item>

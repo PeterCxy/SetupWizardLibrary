@@ -72,7 +72,11 @@
     <!-- Custom view attributes -->
     <attr name="suwColorPrimary" format="color" />
     <attr name="suwHeader" format="reference" />
+    <!-- Deprecated. Use suwDividerInsetStart and suwDividerInsetEnd instead -->
     <attr name="suwDividerInset" format="dimension|reference" />
+    <attr name="suwDividerInsetEnd" format="dimension|reference" />
+    <attr name="suwDividerInsetStart" format="dimension|reference" />
+    <attr name="suwDividerInsetStartNoIcon" format="dimension|reference" />
     <attr name="suwItemDescriptionStyle" format="reference" />
     <attr name="suwItemDescriptionTitleStyle" format="reference" />
 
@@ -160,6 +164,8 @@
     <declare-styleable name="SuwListMixin">
         <attr name="android:entries" />
         <attr name="suwDividerInset" />
+        <attr name="suwDividerInsetEnd" />
+        <attr name="suwDividerInsetStart" />
     </declare-styleable>
 
 </resources>
