@@ -43,6 +43,8 @@ public class WizardManagerHelper {
     private static final String EXTRA_RESULT_CODE = "com.android.setupwizard.ResultCode";
     @VisibleForTesting
     static final String EXTRA_IS_FIRST_RUN = "firstRun";
+    @VisibleForTesting
+    static final String EXTRA_IS_DEFERRED_SETUP = "deferredSetup";
 
     public static final String EXTRA_THEME = "theme";
     public static final String EXTRA_USE_IMMERSIVE_MODE = "useImmersiveMode";
@@ -141,6 +143,8 @@ public class WizardManagerHelper {
         dstIntent.putExtra(EXTRA_THEME, srcIntent.getStringExtra(EXTRA_THEME));
         dstIntent.putExtra(EXTRA_IS_FIRST_RUN,
                 srcIntent.getBooleanExtra(EXTRA_IS_FIRST_RUN, false));
+        dstIntent.putExtra(EXTRA_IS_DEFERRED_SETUP,
+                srcIntent.getBooleanExtra(EXTRA_IS_DEFERRED_SETUP, false));
         dstIntent.putExtra(EXTRA_SCRIPT_URI, srcIntent.getStringExtra(EXTRA_SCRIPT_URI));
         dstIntent.putExtra(EXTRA_ACTION_ID, srcIntent.getStringExtra(EXTRA_ACTION_ID));
     }
@@ -194,6 +198,18 @@ public class WizardManagerHelper {
             return Settings.Secure.getInt(context.getContentResolver(),
                     SETTINGS_GLOBAL_DEVICE_PROVISIONED, 0) == 1;
         }
+    }
+
+    /**
+     * Checks whether an intent is running in the deferred setup wizard flow.
+     *
+     * @param originalIntent The original intent that was used to start the step, usually via
+     *                       {@link android.app.Activity#getIntent()}.
+     * @return true if the intent passed in was running in deferred setup wizard.
+     */
+    public static boolean isDeferredSetupWizard(Intent originalIntent) {
+        return originalIntent != null
+                && originalIntent.getBooleanExtra(EXTRA_IS_DEFERRED_SETUP, false);
     }
 
     /**

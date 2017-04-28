@@ -80,6 +80,14 @@ public class WizardManagerHelperTest {
     }
 
     @Test
+    public void testIsDeferredSetupTrue() {
+        final Intent intent = new Intent();
+        intent.putExtra("deferredSetup", true);
+        assertTrue("Is deferred setup wizard should be true",
+                WizardManagerHelper.isDeferredSetupWizard(intent));
+    }
+
+    @Test
     public void testIsSetupWizardFalse() {
         final Intent intent = new Intent();
         intent.putExtra("firstRun", false);
@@ -257,6 +265,7 @@ public class WizardManagerHelperTest {
                 .putExtra(WizardManagerHelper.EXTRA_THEME, "test_theme")
                 .putExtra(WizardManagerHelper.EXTRA_WIZARD_BUNDLE, wizardBundle)
                 .putExtra(WizardManagerHelper.EXTRA_IS_FIRST_RUN, true)
+                .putExtra(WizardManagerHelper.EXTRA_IS_DEFERRED_SETUP, true)
                 // Script URI and Action ID are kept for backwards compatibility
                 .putExtra(WizardManagerHelper.EXTRA_SCRIPT_URI, "test_script_uri")
                 .putExtra(WizardManagerHelper.EXTRA_ACTION_ID, "test_action_id");
@@ -273,6 +282,8 @@ public class WizardManagerHelperTest {
 
         assertTrue("EXTRA_IS_FIRST_RUN should be copied",
                 intent.getBooleanExtra(WizardManagerHelper.EXTRA_IS_FIRST_RUN, false));
+        assertTrue("EXTRA_IS_DEFERRED_SETUP should be copied",
+                intent.getBooleanExtra(WizardManagerHelper.EXTRA_IS_DEFERRED_SETUP, false));
 
         // Script URI and Action ID are replaced by Wizard Bundle in M, but are kept for backwards
         // compatibility
