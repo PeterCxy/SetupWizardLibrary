@@ -194,6 +194,8 @@
          which aligns the text label. -->
     <style name="SuwGlifButtonBar">
         <item name="android:baselineAligned">false</item>
+        <item name="android:clipChildren">false</item>
+        <item name="android:clipToPadding">false</item>
         <item name="android:gravity">center_vertical</item>
         <item name="android:minHeight">@dimen/suw_glif_footer_min_height</item>
         <item name="android:orientation">horizontal</item>
