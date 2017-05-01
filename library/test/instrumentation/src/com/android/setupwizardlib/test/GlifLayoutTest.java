@@ -115,7 +115,7 @@ public class GlifLayoutTest {
         }
 
         assertEquals("Status bar color should be white in GLIF v2 theme",
-                "fffafafa",
+                "ffffffff",
                 Integer.toHexString(glifLayout.getBackgroundBaseColor().getDefaultColor()));
         assertFalse("GLIF v2 theme shuold not have patterned background",
                 glifLayout.isBackgroundPatterned());

@@ -80,6 +80,7 @@
     </style>
 
     <style name="SuwThemeGlif" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:colorBackground">@color/suw_glif_background_color_dark</item>
         <item name="android:indeterminateTint" tools:ignore="NewApi">?attr/colorControlActivated</item>
         <!-- Specify the indeterminateTintMode to work around a bug in Lollipop -->
         <item name="android:indeterminateTintMode" tools:ignore="NewApi">src_in</item>
@@ -113,6 +114,7 @@
     </style>
 
     <style name="SuwThemeGlif.Light" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:colorBackground">@color/suw_glif_background_color_light</item>
         <item name="android:indeterminateTint" tools:ignore="NewApi">?attr/colorControlActivated</item>
         <!-- Specify the indeterminateTintMode to work around a bug in Lollipop -->
         <item name="android:indeterminateTintMode" tools:ignore="NewApi">src_in</item>
