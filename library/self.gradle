@@ -1,8 +1,10 @@
 /**
  * This self.gradle build file is only run when built in ub-setupwizard-* branches.
  */
-apply plugin: 'dist'
 apply from: 'standalone-rules.gradle'
+apply from: '../tools/gradle/dist-library-instrumentation-tests.gradle'
+apply from: '../tools/gradle/dist-unit-tests.gradle'
+
 // Add targets for tests
 android.sourceSets {
     androidTest {
@@ -62,36 +64,14 @@ android.lintOptions {
 android.libraryVariants.all { variant ->
     variant.assemble.dependsOn(tasks.findByName('lint'))
 }
-def distTask = tasks.findByName('dist')
-if (distTask) {
-    // Output all test APKs to the distribution folder
-    android.testVariants.all { variant ->
-        // Make the dist task depend on the test variant, so the test APK will be built
-        distTask.dependsOn variant.assemble
-        // TODO: remap the different test variants to different file names
-    }
 
-    // Output the Robolectric test results to host-test-reports/*.zip
-    afterEvaluate {
-        android.unitTestVariants.all { variant ->
-            def task = tasks.findByName('test' + variant.name.capitalize())
-            gradle.taskGraph.whenReady { taskGraph ->
-                task.ignoreFailures = taskGraph.hasTask(distTask)
-            }
-
-            // Create a zip file of the XML test reports and dist it to host-test-reports.
-            // The file path and format should match GradleHostBasedTest class in TradeFed.
-            def junitReport = task.reports.junitXml
-            if (junitReport.enabled) {
-                def zipTask = project.tasks.create("zipResultsOf${task.name.capitalize()}", Zip) {
-                    from junitReport.destination
-                    archiveName = task.name + 'Result.zip'
-                    destinationDir = junitReport.destination.parentFile
-                }
-                tasks.dist.dependsOn zipTask
-                zipTask.mustRunAfter task
-                dist.file zipTask.archivePath.path, "host-test-reports/${zipTask.archiveName}"
-            }
-        }
-    }
+// For compatibility with existing continuous test configurations, copy the file to
+// setup-wizard-libTest.apk
+// TODO: Remove this once continuous test configurations are updated to handle the new file name
+task createLegacyTestApk(type: Copy) {
+    from "${project.ext.distDir}/setup-wizard-lib-gingerbreadCompat-debug-androidTest.apk"
+    into "${project.ext.distDir}"
+    rename ('setup-wizard-lib-gingerbreadCompat-debug-androidTest.apk', 'setup-wizard-libTest.apk')
 }
+
+tasks.dist.finalizedBy createLegacyTestApk
