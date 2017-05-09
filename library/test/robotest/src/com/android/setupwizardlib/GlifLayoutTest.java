@@ -241,6 +241,21 @@ public class GlifLayoutTest {
     }
 
     @Test
+    public void testInflateFooterBlankTemplate() {
+        GlifLayout layout = new GlifLayout(mContext, R.layout.suw_glif_blank_template);
+
+        final View view = layout.inflateFooter(android.R.layout.simple_list_item_1);
+        assertEquals(android.R.id.text1, view.getId());
+        assertNotNull(layout.findViewById(android.R.id.text1));
+    }
+
+    @Config(qualifiers = "sw600dp")
+    @Test
+    public void testInflateFooterBlankTemplateTablet() {
+        testInflateFooterBlankTemplate();
+    }
+
+    @Test
     public void testFooterXml() {
         GlifLayout layout = new GlifLayout(
                 mContext,
