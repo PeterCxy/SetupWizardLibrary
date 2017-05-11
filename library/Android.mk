@@ -44,22 +44,28 @@ LOCAL_SRC_FILES := $(call all-java-files-under, main/src eclair-mr1/src full-sup
 ifdef LOCAL_USE_AAPT2
 
 LOCAL_SHARED_ANDROID_LIBRARIES := \
-    android-support-v4 \
+    android-support-annotations \
+    android-support-compat \
+    android-support-core-ui \
     android-support-v7-appcompat \
     android-support-v7-recyclerview
 
 else
 
 LOCAL_AAPT_FLAGS := --auto-add-overlay \
+    --extra-packages android.support.compat \
     --extra-packages android.support.v7.appcompat \
     --extra-packages android.support.v7.recyclerview
 
 LOCAL_RESOURCE_DIR += \
+    frameworks/support/compat/res \
     frameworks/support/v7/appcompat/res \
     frameworks/support/v7/recyclerview/res
 
 LOCAL_JAVA_LIBRARIES := \
-    android-support-v4 \
+    android-support-annotations \
+    android-support-compat \
+    android-support-core-ui \
     android-support-v7-appcompat \
     android-support-v7-recyclerview
 
