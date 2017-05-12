@@ -39,6 +39,7 @@
     </attr>
 
     <attr name="suwCardBackground" format="color|reference" />
+    <attr name="suwFillContentLayoutStyle" format="reference" />
     <attr name="suwDividerCondition">
         <enum name="either" value="0" />
         <enum name="both" value="1" />
@@ -103,9 +104,14 @@
         <attr name="suwStatusBarBackground" format="color|reference" />
     </declare-styleable>
 
-    <declare-styleable name="SuwMaxSizeFrameLayout">
+    <declare-styleable name="SuwIntrinsicSizeFrameLayout">
         <attr name="android:height" />
         <attr name="android:width" />
+    </declare-styleable>
+
+    <declare-styleable name="SuwFillContentLayout">
+        <attr name="android:maxHeight" />
+        <attr name="android:maxWidth" />
     </declare-styleable>
 
     <declare-styleable name="SuwSetupWizardLayout">

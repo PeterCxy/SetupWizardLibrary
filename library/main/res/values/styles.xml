@@ -123,6 +123,21 @@
         <item name="android:gravity">top</item>
     </style>
 
+    <style name="SuwFillContentLayout">
+        <item name="android:minWidth">@dimen/suw_content_illustration_min_width</item>
+        <item name="android:minHeight">@dimen/suw_content_illustration_min_height</item>
+        <item name="android:maxWidth">@dimen/suw_content_illustration_max_width</item>
+        <item name="android:maxHeight">@dimen/suw_content_illustration_max_height</item>
+        <item name="android:paddingTop">@dimen/suw_content_illustration_padding_vertical</item>
+        <item name="android:paddingBottom">@dimen/suw_content_illustration_padding_vertical</item>
+    </style>
+
+    <!-- Ignore UnusedResources: used by clients -->
+    <style name="SuwContentIllustration" tools:ignore="UnusedResources">
+        <item name="android:layout_gravity">center</item>
+        <item name="android:scaleType">fitCenter</item>
+    </style>
+
     <!-- Card layout (for tablets) -->
 
     <style name="SuwBaseCardTitle">
