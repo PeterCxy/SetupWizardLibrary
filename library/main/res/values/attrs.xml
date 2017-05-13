@@ -93,6 +93,10 @@
         <attr name="suwHeader" />
     </declare-styleable>
 
+    <declare-styleable name="SuwIllustrationVideoView">
+        <attr name="suwVideo" format="reference" />
+    </declare-styleable>
+
     <declare-styleable name="SuwGlifLayout">
         <attr name="suwBackgroundPatterned" format="boolean" />
         <attr name="suwBackgroundBaseColor" format="color" />
