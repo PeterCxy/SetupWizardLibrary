@@ -79,31 +79,34 @@ public class LinkAccessibilityHelper extends AccessibilityDelegateCompat {
             mExploreByTouchHelper = new ExploreByTouchHelper(view) {
                 @Override
                 protected int getVirtualViewAt(float x, float y) {
-                    return this.getVirtualViewAt(x, y);
+                    return LinkAccessibilityHelper.this.getVirtualViewAt(x, y);
                 }
 
                 @Override
                 protected void getVisibleVirtualViews(List<Integer> virtualViewIds) {
-                    this.getVisibleVirtualViews(virtualViewIds);
+                    LinkAccessibilityHelper.this.getVisibleVirtualViews(virtualViewIds);
                 }
 
                 @Override
                 protected void onPopulateEventForVirtualView(int virtualViewId,
                         AccessibilityEvent event) {
-                    this.onPopulateEventForVirtualView(virtualViewId, event);
+                    LinkAccessibilityHelper.this
+                            .onPopulateEventForVirtualView(virtualViewId, event);
                 }
 
                 @Override
                 protected void onPopulateNodeForVirtualView(int virtualViewId,
                         AccessibilityNodeInfoCompat infoCompat) {
-                    this.onPopulateNodeForVirtualView(virtualViewId, infoCompat);
+                    LinkAccessibilityHelper.this
+                            .onPopulateNodeForVirtualView(virtualViewId, infoCompat);
 
                 }
 
                 @Override
                 protected boolean onPerformActionForVirtualView(int virtualViewId, int action,
                         Bundle arguments) {
-                    return this.onPerformActionForVirtualView(virtualViewId, action, arguments);
+                    return LinkAccessibilityHelper.this
+                            .onPerformActionForVirtualView(virtualViewId, action, arguments);
                 }
             };
         } else {
