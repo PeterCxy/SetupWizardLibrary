@@ -41,6 +41,7 @@
         <item name="android:windowSoftInputMode">adjustResize</item>
 
         <item name="suwCardBackground">@drawable/suw_card_bg</item>
+        <item name="suwFillContentLayoutStyle">@style/SuwFillContentLayout</item>
         <item name="suwDividerInsetEnd">0dp</item>
         <item name="suwDividerInsetStart">@dimen/suw_items_icon_divider_inset</item>
         <item name="suwDividerInsetStartNoIcon">@dimen/suw_items_text_divider_inset</item>
@@ -68,6 +69,7 @@
         <item name="android:windowSoftInputMode">adjustResize</item>
 
         <item name="suwCardBackground">@drawable/suw_card_bg</item>
+        <item name="suwFillContentLayoutStyle">@style/SuwFillContentLayout</item>
         <item name="suwDividerInsetEnd">0dp</item>
         <item name="suwDividerInsetStart">@dimen/suw_items_icon_divider_inset</item>
         <item name="suwDividerInsetStartNoIcon">@dimen/suw_items_text_divider_inset</item>
@@ -99,6 +101,7 @@
         <item name="android:windowSoftInputMode">adjustResize</item>
 
         <item name="suwColorPrimary">?android:attr/colorPrimary</item>
+        <item name="suwFillContentLayoutStyle">@style/SuwFillContentLayout</item>
         <item name="suwDividerInsetEnd">0dp</item>
         <item name="suwDividerInsetStart">@dimen/suw_items_glif_icon_divider_inset</item>
         <item name="suwDividerInsetStartNoIcon">@dimen/suw_items_glif_text_divider_inset</item>
@@ -130,6 +133,7 @@
         <item name="android:windowSoftInputMode">adjustResize</item>
 
         <item name="suwColorPrimary">?android:attr/colorPrimary</item>
+        <item name="suwFillContentLayoutStyle">@style/SuwFillContentLayout</item>
         <item name="suwDividerInsetEnd">0dp</item>
         <item name="suwDividerInsetStart">@dimen/suw_items_glif_icon_divider_inset</item>
         <item name="suwDividerInsetStartNoIcon">@dimen/suw_items_glif_text_divider_inset</item>

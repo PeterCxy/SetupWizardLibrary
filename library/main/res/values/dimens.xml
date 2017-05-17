@@ -49,6 +49,12 @@
     <dimen name="suw_description_glif_margin_top">3dp</dimen>
     <dimen name="suw_description_glif_margin_bottom_lists">24dp</dimen>
 
+    <dimen name="suw_content_illustration_max_height">312dp</dimen>
+    <dimen name="suw_content_illustration_max_width">312dp</dimen>
+    <dimen name="suw_content_illustration_min_height">172dp</dimen>
+    <dimen name="suw_content_illustration_min_width">172dp</dimen>
+    <dimen name="suw_content_illustration_padding_vertical">24dp</dimen>
+
     <!-- Margin on the start to offset for margin in the drawable -->
     <dimen name="suw_radio_button_margin_start">-6dp</dimen>
     <dimen name="suw_radio_button_margin_top">0dp</dimen>
