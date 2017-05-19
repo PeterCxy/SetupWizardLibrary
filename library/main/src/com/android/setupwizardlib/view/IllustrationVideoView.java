@@ -66,6 +66,12 @@ public class IllustrationVideoView extends TextureView implements Animatable,
         mVideoResId = a.getResourceId(R.styleable.SuwIllustrationVideoView_suwVideo, 0);
         a.recycle();
 
+        // By default the video scales without interpolation, resulting in jagged edges in the
+        // video. This works around it by making the view go through scaling, which will apply
+        // anti-aliasing effects.
+        setScaleX(0.9999999f);
+        setScaleX(0.9999999f);
+
         setSurfaceTextureListener(this);
     }
 
