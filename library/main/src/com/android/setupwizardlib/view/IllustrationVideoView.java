@@ -53,7 +53,7 @@ public class IllustrationVideoView extends TextureView implements Animatable,
 
     protected float mAspectRatio = 1.0f; // initial guess until we know
 
-    @VisibleForTesting MediaPlayer mMediaPlayer;
+    protected MediaPlayer mMediaPlayer;
 
     private @RawRes int mVideoResId = 0;
 
