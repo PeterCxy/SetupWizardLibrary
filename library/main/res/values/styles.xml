@@ -211,7 +211,7 @@
         <item name="android:baselineAligned">false</item>
         <item name="android:clipChildren">false</item>
         <item name="android:clipToPadding">false</item>
-        <item name="android:gravity">center</item>
+        <item name="android:gravity">center_vertical</item>
         <item name="android:minHeight">@dimen/suw_glif_footer_min_height</item>
         <item name="android:orientation">horizontal</item>
         <item name="android:paddingTop">@dimen/suw_glif_footer_padding_vertical</item>
@@ -220,6 +220,10 @@
         <item name="android:paddingLeft">@dimen/suw_glif_button_margin_start</item>
         <item name="android:paddingRight">@dimen/suw_glif_button_margin_end</item>
         <item name="android:paddingStart" tools:ignore="NewApi">@dimen/suw_glif_button_margin_start</item>
+    </style>
+
+    <style name="SuwGlifButtonBar.Stackable" parent="SuwGlifButtonBar">
+        <item name="android:gravity">center</item>
     </style>
 
     <!-- Items styles -->
