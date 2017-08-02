@@ -31,6 +31,7 @@ import android.support.test.annotation.UiThreadTest;
 import android.support.test.filters.SmallTest;
 import android.support.test.rule.UiThreadTestRule;
 import android.support.test.runner.AndroidJUnit4;
+import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -131,7 +132,9 @@ public class SystemBarHelperTest {
     @Test
     public void testShowSystemBarsWindow() {
         final Window window = createWindowWithSystemUiVisibility(0x456);
-        SystemBarHelper.showSystemBars(window, InstrumentationRegistry.getContext());
+        Context context = new ContextThemeWrapper(
+                InstrumentationRegistry.getContext(), android.R.style.Theme);
+        SystemBarHelper.showSystemBars(window, context);
         if (VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP) {
             assertEquals(
                     "DEFAULT_IMMERSIVE_FLAGS should be removed from window's systemUiVisibility",

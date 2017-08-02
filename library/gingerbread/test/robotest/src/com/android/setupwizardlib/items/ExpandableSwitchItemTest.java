@@ -71,6 +71,8 @@ public class ExpandableSwitchItemTest {
         assertEquals("Should be collapsed initially", "TestSummary", mItem.getSummary());
         assertEquals("Summary view should display collapsed summary",
                 "TestSummary", mSummaryView.getText());
+
+        assertFalse("Expandable switch item itself should not be focusable", view.isFocusable());
     }
 
     @Test
