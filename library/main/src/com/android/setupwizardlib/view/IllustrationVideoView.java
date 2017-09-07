@@ -233,4 +233,8 @@ public class IllustrationVideoView extends TextureView implements Animatable,
     public void onSeekComplete(MediaPlayer mp) {
         mp.start();
     }
+
+    public int getCurrentPosition() {
+        return mMediaPlayer == null ? 0 : mMediaPlayer.getCurrentPosition();
+    }
 }
