@@ -38,8 +38,8 @@ android.sourceSets {
         java.srcDirs = ['test/robotest/src']
 
         dependencies {
-            testCompile 'org.robolectric:robolectric:3.+'
-            testCompile 'org.robolectric:shadows-core:3.+'
+            testCompile 'org.robolectric:robolectric:3.4.2'
+            testCompile 'org.robolectric:framework:3.4.2'
             testCompile 'junit:junit:4.+'
             testCompile 'org.mockito:mockito-core:1.9.5'
             // Workaround for https://github.com/robolectric/robolectric/issues/2566
