@@ -14,29 +14,35 @@
  * limitations under the License.
  */
 
-package com.android.setupwizardlib.test;
+package com.android.setupwizardlib.util;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Matchers.same;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 import android.graphics.Rect;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.filters.SmallTest;
 import android.support.test.runner.AndroidJUnit4;
 import android.support.v4.text.BidiFormatter;
 import android.support.v4.view.accessibility.AccessibilityNodeInfoCompat;
+import android.support.v4.view.accessibility.AccessibilityNodeInfoCompat.AccessibilityActionCompat;
 import android.support.v4.widget.ExploreByTouchHelper;
 import android.text.SpannableStringBuilder;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.accessibility.AccessibilityEvent;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.android.setupwizardlib.span.LinkSpan;
-import com.android.setupwizardlib.util.LinkAccessibilityHelper;
+import com.android.setupwizardlib.util.LinkAccessibilityHelper.PreOLinkAccessibilityHelper;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -52,13 +58,12 @@ public class LinkAccessibilityHelperTest {
     private static final LinkSpan LINK_SPAN = new LinkSpan("foobar");
 
     private TextView mTextView;
-    private TestLinkAccessibilityHelper mHelper;
+    private TestPreOLinkAccessibilityHelper mHelper;
 
     private DisplayMetrics mDisplayMetrics;
 
     @Test
     public void testGetVirtualViewAt() {
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.N_MR1) return;
         initTextView();
         final int virtualViewId = mHelper.getVirtualViewAt(dp2Px(15), dp2Px(10));
         assertEquals("Virtual view ID should be 1", 1, virtualViewId);
@@ -66,7 +71,6 @@ public class LinkAccessibilityHelperTest {
 
     @Test
     public void testGetVirtualViewAtHost() {
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.N_MR1) return;
         initTextView();
         final int virtualViewId = mHelper.getVirtualViewAt(dp2Px(100), dp2Px(100));
         assertEquals("Virtual view ID should be INVALID_ID",
@@ -75,7 +79,6 @@ public class LinkAccessibilityHelperTest {
 
     @Test
     public void testGetVisibleVirtualViews() {
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.N_MR1) return;
         initTextView();
         List<Integer> virtualViewIds = new ArrayList<>();
         mHelper.getVisibleVirtualViews(virtualViewIds);
@@ -86,7 +89,6 @@ public class LinkAccessibilityHelperTest {
 
     @Test
     public void testOnPopulateEventForVirtualView() {
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.N_MR1) return;
         initTextView();
         AccessibilityEvent event = AccessibilityEvent.obtain();
         mHelper.onPopulateEventForVirtualView(1, event);
@@ -100,7 +102,6 @@ public class LinkAccessibilityHelperTest {
 
     @Test
     public void testOnPopulateEventForVirtualViewHost() {
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.N_MR1) return;
         initTextView();
         AccessibilityEvent event = AccessibilityEvent.obtain();
         mHelper.onPopulateEventForVirtualView(ExploreByTouchHelper.INVALID_ID, event);
@@ -113,7 +114,6 @@ public class LinkAccessibilityHelperTest {
 
     @Test
     public void testOnPopulateNodeForVirtualView() {
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.N_MR1) return;
         initTextView();
         AccessibilityNodeInfoCompat info = AccessibilityNodeInfoCompat.obtain();
         mHelper.onPopulateNodeForVirtualView(1, info);
@@ -132,7 +132,6 @@ public class LinkAccessibilityHelperTest {
 
     @Test
     public void testNullLayout() {
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.N_MR1) return;
         initTextView();
         // Setting the padding will cause the layout to be null-ed out.
         mTextView.setPadding(1, 1, 1, 1);
@@ -150,7 +149,6 @@ public class LinkAccessibilityHelperTest {
 
     @Test
     public void testRtlLayout() {
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.N_MR1) return;
         SpannableStringBuilder ssb = new SpannableStringBuilder("מכונה בתרגום");
         ssb.setSpan(LINK_SPAN, 1, 2, 0 /* flags */);
         initTextView(ssb);
@@ -170,7 +168,6 @@ public class LinkAccessibilityHelperTest {
 
     @Test
     public void testMultilineLink() {
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.N_MR1) return;
         SpannableStringBuilder ssb = new SpannableStringBuilder(
                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit. "
                 + "Praesent accumsan efficitur eros eu porttitor.");
@@ -192,7 +189,6 @@ public class LinkAccessibilityHelperTest {
 
     @Test
     public void testRtlMultilineLink() {
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.N_MR1) return;
         String iwLoremIpsum = "אחר על רביעי אקטואליה. לוח דת אחרות המקובל רומנית, מיזמים מועמדים "
                 + "האנציקלופדיה בה צ'ט. מתן מה שנורו לערוך ייִדיש, בקר או החול אנתרופולוגיה, עוד "
                 + "דפים המחשב מיזמים ב.";
@@ -216,7 +212,6 @@ public class LinkAccessibilityHelperTest {
 
     @Test
     public void testBidiMultilineLink() {
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.N_MR1) return;
         String iwLoremIpsum = "אחר על רביעי אקטואליה. לוח דת אחרות המקובל רומנית, מיזמים מועמדים "
                 + "האנציקלופדיה בה צ'ט. מתן מה שנורו לערוך ייִדיש, בקר או החול אנתרופולוגיה, עוד "
                 + "דפים המחשב מיזמים ב.";
@@ -243,6 +238,70 @@ public class LinkAccessibilityHelperTest {
         info.recycle();
     }
 
+    @Test
+    public void testMethodDelegation() {
+        initTextView();
+        ExploreByTouchHelper delegate = mock(TestPreOLinkAccessibilityHelper.class);
+        LinkAccessibilityHelper helper = new LinkAccessibilityHelper(delegate);
+
+        AccessibilityEvent accessibilityEvent =
+                AccessibilityEvent.obtain(AccessibilityEvent.TYPE_VIEW_CLICKED);
+
+        helper.sendAccessibilityEvent(mTextView, AccessibilityEvent.TYPE_VIEW_CLICKED);
+        verify(delegate).sendAccessibilityEvent(
+                same(mTextView),
+                eq(AccessibilityEvent.TYPE_VIEW_CLICKED));
+
+        helper.sendAccessibilityEventUnchecked(mTextView, accessibilityEvent);
+        verify(delegate).sendAccessibilityEventUnchecked(same(mTextView), same(accessibilityEvent));
+
+        helper.performAccessibilityAction(
+                mTextView,
+                AccessibilityActionCompat.ACTION_CLICK.getId(),
+                Bundle.EMPTY);
+        verify(delegate).performAccessibilityAction(
+                same(mTextView),
+                eq(AccessibilityActionCompat.ACTION_CLICK.getId()),
+                eq(Bundle.EMPTY));
+
+        helper.dispatchPopulateAccessibilityEvent(
+                mTextView,
+                accessibilityEvent);
+        verify(delegate).dispatchPopulateAccessibilityEvent(
+                same(mTextView),
+                same(accessibilityEvent));
+
+        MotionEvent motionEvent = MotionEvent.obtain(0, 0, 0, 0, 0, 0);
+        helper.dispatchHoverEvent(motionEvent);
+        verify(delegate).dispatchHoverEvent(eq(motionEvent));
+
+        helper.getAccessibilityNodeProvider(mTextView);
+        verify(delegate).getAccessibilityNodeProvider(same(mTextView));
+
+        helper.onInitializeAccessibilityEvent(mTextView, accessibilityEvent);
+        verify(delegate).onInitializeAccessibilityEvent(
+                same(mTextView),
+                eq(accessibilityEvent));
+
+        AccessibilityNodeInfoCompat accessibilityNodeInfo = AccessibilityNodeInfoCompat.obtain();
+        helper.onInitializeAccessibilityNodeInfo(mTextView, accessibilityNodeInfo);
+        verify(delegate).onInitializeAccessibilityNodeInfo(
+                same(mTextView),
+                same(accessibilityNodeInfo));
+
+        helper.onPopulateAccessibilityEvent(mTextView, accessibilityEvent);
+        verify(delegate).onPopulateAccessibilityEvent(
+                same(mTextView),
+                same(accessibilityEvent));
+
+        FrameLayout parent = new FrameLayout(InstrumentationRegistry.getTargetContext());
+        helper.onRequestSendAccessibilityEvent(parent, mTextView, accessibilityEvent);
+        verify(delegate).onRequestSendAccessibilityEvent(
+                same(parent),
+                same(mTextView),
+                same(accessibilityEvent));
+    }
+
     private void initTextView() {
         SpannableStringBuilder ssb = new SpannableStringBuilder("Hello world");
         ssb.setSpan(LINK_SPAN, 1, 2, 0 /* flags */);
@@ -254,7 +313,7 @@ public class LinkAccessibilityHelperTest {
         mTextView.setSingleLine(false);
         mTextView.setText(text);
         mTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
-        mHelper = new TestLinkAccessibilityHelper(mTextView);
+        mHelper = new TestPreOLinkAccessibilityHelper(mTextView);
 
         int measureExactly500dp = View.MeasureSpec.makeMeasureSpec(dp2Px(500),
                 View.MeasureSpec.EXACTLY);
@@ -270,9 +329,9 @@ public class LinkAccessibilityHelperTest {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, mDisplayMetrics);
     }
 
-    private static class TestLinkAccessibilityHelper extends LinkAccessibilityHelper {
+    public static class TestPreOLinkAccessibilityHelper extends PreOLinkAccessibilityHelper {
 
-        TestLinkAccessibilityHelper(TextView view) {
+        TestPreOLinkAccessibilityHelper(TextView view) {
             super(view);
         }
 
