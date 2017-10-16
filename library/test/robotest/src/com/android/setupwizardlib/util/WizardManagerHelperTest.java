@@ -88,6 +88,14 @@ public class WizardManagerHelperTest {
     }
 
     @Test
+    public void testIsPreDeferredSetupTrue() {
+        final Intent intent = new Intent();
+        intent.putExtra("preDeferredSetup", true);
+        assertTrue("Is pre-deferred setup wizard should be true",
+                WizardManagerHelper.isPreDeferredSetupWizard(intent));
+    }
+
+    @Test
     public void testIsSetupWizardFalse() {
         final Intent intent = new Intent();
         intent.putExtra("firstRun", false);

@@ -45,6 +45,8 @@ public class WizardManagerHelper {
     static final String EXTRA_IS_FIRST_RUN = "firstRun";
     @VisibleForTesting
     static final String EXTRA_IS_DEFERRED_SETUP = "deferredSetup";
+    @VisibleForTesting
+    static final String EXTRA_IS_PRE_DEFERRED_SETUP = "preDeferredSetup";
 
     public static final String EXTRA_THEME = "theme";
     public static final String EXTRA_USE_IMMERSIVE_MODE = "useImmersiveMode";
@@ -210,6 +212,18 @@ public class WizardManagerHelper {
     public static boolean isDeferredSetupWizard(Intent originalIntent) {
         return originalIntent != null
                 && originalIntent.getBooleanExtra(EXTRA_IS_DEFERRED_SETUP, false);
+    }
+
+    /**
+     * Checks whether an intent is running in "pre-deferred" setup wizard flow.
+     *
+     * @param originalIntent The original intent that was used to start the step, usually via
+     *                       {@link android.app.Activity#getIntent()}.
+     * @return true if the intent passed in was running in "pre-deferred" setup wizard.
+     */
+    public static boolean isPreDeferredSetupWizard(Intent originalIntent) {
+        return originalIntent != null
+                && originalIntent.getBooleanExtra(EXTRA_IS_PRE_DEFERRED_SETUP, false);
     }
 
     /**
