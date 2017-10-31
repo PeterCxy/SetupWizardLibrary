@@ -274,6 +274,7 @@ public class WizardManagerHelperTest {
                 .putExtra(WizardManagerHelper.EXTRA_WIZARD_BUNDLE, wizardBundle)
                 .putExtra(WizardManagerHelper.EXTRA_IS_FIRST_RUN, true)
                 .putExtra(WizardManagerHelper.EXTRA_IS_DEFERRED_SETUP, true)
+                .putExtra(WizardManagerHelper.EXTRA_IS_PRE_DEFERRED_SETUP, true)
                 // Script URI and Action ID are kept for backwards compatibility
                 .putExtra(WizardManagerHelper.EXTRA_SCRIPT_URI, "test_script_uri")
                 .putExtra(WizardManagerHelper.EXTRA_ACTION_ID, "test_action_id");
@@ -292,6 +293,8 @@ public class WizardManagerHelperTest {
                 intent.getBooleanExtra(WizardManagerHelper.EXTRA_IS_FIRST_RUN, false));
         assertTrue("EXTRA_IS_DEFERRED_SETUP should be copied",
                 intent.getBooleanExtra(WizardManagerHelper.EXTRA_IS_DEFERRED_SETUP, false));
+        assertTrue("EXTRA_IS_PRE_DEFERRED_SETUP should be copied",
+                intent.getBooleanExtra(WizardManagerHelper.EXTRA_IS_PRE_DEFERRED_SETUP, false));
 
         // Script URI and Action ID are replaced by Wizard Bundle in M, but are kept for backwards
         // compatibility

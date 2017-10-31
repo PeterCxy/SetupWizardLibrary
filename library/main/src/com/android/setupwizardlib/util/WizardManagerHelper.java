@@ -27,6 +27,8 @@ import android.support.annotation.VisibleForTesting;
 
 import com.android.setupwizardlib.R;
 
+import java.util.Arrays;
+
 public class WizardManagerHelper {
 
     private static final String ACTION_NEXT = "com.android.wizard.NEXT";
@@ -142,13 +144,14 @@ public class WizardManagerHelper {
      */
     public static void copyWizardManagerExtras(Intent srcIntent, Intent dstIntent) {
         dstIntent.putExtra(EXTRA_WIZARD_BUNDLE, srcIntent.getBundleExtra(EXTRA_WIZARD_BUNDLE));
-        dstIntent.putExtra(EXTRA_THEME, srcIntent.getStringExtra(EXTRA_THEME));
-        dstIntent.putExtra(EXTRA_IS_FIRST_RUN,
-                srcIntent.getBooleanExtra(EXTRA_IS_FIRST_RUN, false));
-        dstIntent.putExtra(EXTRA_IS_DEFERRED_SETUP,
-                srcIntent.getBooleanExtra(EXTRA_IS_DEFERRED_SETUP, false));
-        dstIntent.putExtra(EXTRA_SCRIPT_URI, srcIntent.getStringExtra(EXTRA_SCRIPT_URI));
-        dstIntent.putExtra(EXTRA_ACTION_ID, srcIntent.getStringExtra(EXTRA_ACTION_ID));
+        for (String key : Arrays.asList(
+                EXTRA_IS_FIRST_RUN, EXTRA_IS_DEFERRED_SETUP, EXTRA_IS_PRE_DEFERRED_SETUP)) {
+            dstIntent.putExtra(key, srcIntent.getBooleanExtra(key, false));
+        }
+
+        for (String key : Arrays.asList(EXTRA_THEME, EXTRA_SCRIPT_URI, EXTRA_ACTION_ID)) {
+            dstIntent.putExtra(key, srcIntent.getStringExtra(key));
+        }
     }
 
     /**
