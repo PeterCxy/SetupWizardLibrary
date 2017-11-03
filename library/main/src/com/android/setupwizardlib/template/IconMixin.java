@@ -20,6 +20,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
+import android.view.View;
 import android.widget.ImageView;
 
 import com.android.setupwizardlib.R;
@@ -61,6 +62,7 @@ public class IconMixin implements Mixin {
         final ImageView iconView = getView();
         if (iconView != null) {
             iconView.setImageDrawable(icon);
+            iconView.setVisibility(icon != null ? View.VISIBLE : View.GONE);
         }
     }
 
