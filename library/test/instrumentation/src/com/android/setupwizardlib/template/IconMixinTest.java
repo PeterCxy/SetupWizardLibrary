@@ -31,6 +31,7 @@ import android.support.test.InstrumentationRegistry;
 import android.support.test.filters.SmallTest;
 import android.support.test.runner.AndroidJUnit4;
 import android.util.Xml;
+import android.view.View;
 import android.widget.ImageView;
 
 import com.android.setupwizardlib.TemplateLayout;
@@ -74,6 +75,15 @@ public class IconMixinTest {
         mixin.setIcon(drawable);
 
         assertSame(drawable, mIconView.getDrawable());
+        assertEquals(View.VISIBLE, mIconView.getVisibility());
+    }
+
+    @Test
+    public void setIcon_shouldSetVisibilityToGone_whenIconIsNull() {
+        IconMixin mixin = new IconMixin(mTemplateLayout, null, 0);
+        mixin.setIcon(null);
+
+        assertEquals(View.GONE, mIconView.getVisibility());
     }
 
     @Test
@@ -101,5 +111,6 @@ public class IconMixinTest {
                 .getDrawable(android.R.drawable.ic_menu_add);
         final BitmapDrawable actual = (BitmapDrawable) mIconView.getDrawable();
         assertEquals(expected.getBitmap(), actual.getBitmap());
+        assertEquals(View.VISIBLE, mIconView.getVisibility());
     }
 }
