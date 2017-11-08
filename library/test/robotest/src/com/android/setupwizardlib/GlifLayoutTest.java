@@ -32,6 +32,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.os.Build.VERSION_CODES;
 import android.support.annotation.IdRes;
 import android.view.ContextThemeWrapper;
 import android.view.View;
@@ -264,6 +265,32 @@ public class GlifLayoutTest {
                         .build());
 
         assertNotNull(layout.findViewById(android.R.id.text1));
+    }
+
+    @Config(sdk = { VERSION_CODES.M, Config.NEWEST_SDK })
+    @Test
+    public void createFromXml_shouldSetLayoutFullscreen_whenLayoutFullscreenIsNotSet() {
+        GlifLayout layout = new GlifLayout(
+                mContext,
+                Robolectric.buildAttributeSet()
+                        .build());
+
+        assertEquals(
+                View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN,
+                layout.getSystemUiVisibility() & View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+    }
+
+    @Test
+    public void createFromXml_shouldNotSetLayoutFullscreen_whenLayoutFullscreenIsFalse() {
+        GlifLayout layout = new GlifLayout(
+                mContext,
+                Robolectric.buildAttributeSet()
+                        .addAttribute(R.attr.suwLayoutFullscreen, "false")
+                        .build());
+
+        assertEquals(
+                0,
+                layout.getSystemUiVisibility() & View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
     }
 
     private Drawable getPhoneBackground(GlifLayout layout) {

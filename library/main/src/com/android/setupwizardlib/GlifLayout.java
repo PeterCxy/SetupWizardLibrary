@@ -77,6 +77,8 @@ public class GlifLayout extends TemplateLayout {
     @Nullable
     private ColorStateList mBackgroundBaseColor;
 
+    private boolean mLayoutFullscreen = true;
+
     public GlifLayout(Context context) {
         this(context, 0, 0);
     }
@@ -139,7 +141,13 @@ public class GlifLayout extends TemplateLayout {
             inflateFooter(footer);
         }
 
+        mLayoutFullscreen = a.getBoolean(R.styleable.SuwGlifLayout_suwLayoutFullscreen, true);
+
         a.recycle();
+
+        if (Build.VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP && mLayoutFullscreen) {
+            setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+        }
     }
 
     @Override
@@ -279,9 +287,6 @@ public class GlifLayout extends TemplateLayout {
             } else {
                 patternBg.setBackgroundDrawable(background);
             }
-        }
-        if (Build.VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP) {
-            setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
         }
     }
 
