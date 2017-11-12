@@ -43,8 +43,10 @@ LOCAL_SRC_FILES := $(call all-java-files-under, main/src gingerbread/src recycle
 
 ifdef LOCAL_USE_AAPT2
 
+LOCAL_JAVA_LIBRARIES := \
+    android-support-annotations
+
 LOCAL_SHARED_ANDROID_LIBRARIES := \
-    android-support-annotations \
     android-support-compat \
     android-support-core-ui \
     android-support-v7-appcompat \
