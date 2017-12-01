@@ -51,6 +51,14 @@
     <!-- Deprecated. Use SuwThemeGlifV2.Light instead -->
     <style name="SuwThemeGlifPixel.Light" parent="SuwThemeGlifV2.Light" />
 
+    <style name="SuwThemeGlifV3" parent="SuwThemeGlifV2">
+        <item name="suwButtonColor">@color/suw_glif_v3_footer_button_color</item>
+    </style>
+
+    <style name="SuwThemeGlifV3.Light" parent="SuwThemeGlifV2.Light">
+        <item name="suwButtonColor">@color/suw_glif_v3_footer_button_color</item>
+    </style>
+
     <style name="Animation.SuwWindowAnimation" parent="@android:style/Animation.Activity">
         <item name="android:activityOpenEnterAnimation">@anim/suw_slide_next_in</item>
         <item name="android:activityOpenExitAnimation">@anim/suw_slide_next_out</item>
