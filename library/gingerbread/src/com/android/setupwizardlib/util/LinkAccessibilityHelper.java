@@ -152,6 +152,7 @@ public class LinkAccessibilityHelper extends AccessibilityDelegateCompat {
             mView = view;
         }
 
+        @Override
         protected int getVirtualViewAt(float x, float y) {
             final CharSequence text = mView.getText();
             if (text instanceof Spanned) {
@@ -167,6 +168,7 @@ public class LinkAccessibilityHelper extends AccessibilityDelegateCompat {
             return ExploreByTouchHelper.INVALID_ID;
         }
 
+        @Override
         protected void getVisibleVirtualViews(List<Integer> virtualViewIds) {
             final CharSequence text = mView.getText();
             if (text instanceof Spanned) {
@@ -179,6 +181,7 @@ public class LinkAccessibilityHelper extends AccessibilityDelegateCompat {
             }
         }
 
+        @Override
         protected void onPopulateEventForVirtualView(int virtualViewId, AccessibilityEvent event) {
             final ClickableSpan span = getSpanForOffset(virtualViewId);
             if (span != null) {
@@ -189,6 +192,7 @@ public class LinkAccessibilityHelper extends AccessibilityDelegateCompat {
             }
         }
 
+        @Override
         protected void onPopulateNodeForVirtualView(
                 int virtualViewId,
                 AccessibilityNodeInfoCompat info) {
@@ -210,6 +214,7 @@ public class LinkAccessibilityHelper extends AccessibilityDelegateCompat {
             info.addAction(AccessibilityNodeInfoCompat.ACTION_CLICK);
         }
 
+        @Override
         protected boolean onPerformActionForVirtualView(
                 int virtualViewId,
                 int action,
