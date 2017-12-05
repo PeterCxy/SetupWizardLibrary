@@ -21,6 +21,8 @@
 
     <color name="suw_color_accent_dark">#ff448aff</color>
     <color name="suw_color_accent_light">#ff3367d6</color>
+    <color name="suw_color_background_dark">#ff303030</color>
+    <color name="suw_color_background_light">#fffafafa</color>
     <color name="suw_link_color_dark">#ff448aff</color>
     <color name="suw_link_color_light">#ff3367d6</color>
     <color name="suw_list_item_icon_color_dark">#b3ffffff</color>
