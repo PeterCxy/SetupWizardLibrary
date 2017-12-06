@@ -41,6 +41,7 @@
         <item name="android:windowDisablePreview">true</item>
         <item name="android:windowSoftInputMode">adjustResize</item>
 
+        <item name="suwButtonColor">?android:attr/colorAccent</item>
         <item name="suwCardBackground">@drawable/suw_card_bg</item>
         <item name="suwFillContentLayoutStyle">@style/SuwFillContentLayout</item>
         <item name="suwDividerInsetEnd">0dp</item>
@@ -70,6 +71,7 @@
         <item name="android:windowDisablePreview">true</item>
         <item name="android:windowSoftInputMode">adjustResize</item>
 
+        <item name="suwButtonColor">?android:attr/colorAccent</item>
         <item name="suwCardBackground">@drawable/suw_card_bg</item>
         <item name="suwFillContentLayoutStyle">@style/SuwFillContentLayout</item>
         <item name="suwDividerInsetEnd">0dp</item>
@@ -102,6 +104,7 @@
         <item name="android:windowDisablePreview">true</item>
         <item name="android:windowSoftInputMode">adjustResize</item>
 
+        <item name="suwButtonColor">?android:attr/colorAccent</item>
         <item name="suwColorPrimary">?android:attr/colorPrimary</item>
         <item name="suwFillContentLayoutStyle">@style/SuwFillContentLayout</item>
         <item name="suwDividerInsetEnd">0dp</item>
@@ -134,6 +137,7 @@
         <item name="android:windowDisablePreview">true</item>
         <item name="android:windowSoftInputMode">adjustResize</item>
 
+        <item name="suwButtonColor">?android:attr/colorAccent</item>
         <item name="suwColorPrimary">?android:attr/colorPrimary</item>
         <item name="suwFillContentLayoutStyle">@style/SuwFillContentLayout</item>
         <item name="suwDividerInsetEnd">0dp</item>
