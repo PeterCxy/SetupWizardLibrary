@@ -30,6 +30,8 @@
         <item name="suwDividerInsetStartNoIcon">?attr/suwMarginSides</item>
         <item name="suwGlifHeaderGravity">center_horizontal</item>
         <item name="suwScrollIndicators">top|bottom</item>
+        <item name="suwEditTextBackgroundColor">@color/suw_glif_edittext_bg_light_color</item> <!-- TODO: Change color -->
+        <item name="android:editTextStyle">@style/SuwEditText</item>
     </style>
 
     <!-- Deprecated. Use SuwThemeGlifV2 instead -->
@@ -46,6 +48,8 @@
         <item name="suwDividerInsetStartNoIcon">?attr/suwMarginSides</item>
         <item name="suwGlifHeaderGravity">center_horizontal</item>
         <item name="suwScrollIndicators">top|bottom</item>
+        <item name="suwEditTextBackgroundColor">@color/suw_glif_edittext_bg_light_color</item>
+        <item name="android:editTextStyle">@style/SuwEditText</item>
     </style>
 
     <!-- Deprecated. Use SuwThemeGlifV2.Light instead -->
@@ -315,6 +319,11 @@
         <item name="android:paddingLeft">@dimen/suw_navbar_padding_sides</item>
         <item name="android:paddingRight">@dimen/suw_navbar_padding_sides</item>
         <item name="suwNavBarTextColor">?android:attr/textColorPrimary</item>
+    </style>
+
+
+    <style name="SuwEditText" parent="@android:style/Widget.EditText">
+        <item name="android:minHeight">@dimen/suw_edit_text_min_height</item>
     </style>
 
 </resources>

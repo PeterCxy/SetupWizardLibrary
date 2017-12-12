@@ -135,4 +135,7 @@
     <dimen name="suw_progress_bar_margin_vertical">-7dp</dimen>
     <dimen name="suw_glif_progress_bar_margin_vertical">7dp</dimen>
 
+    <!-- Edit Text dimensions -->
+    <dimen name="suw_edit_text_min_height">56dp</dimen>
+
 </resources>
