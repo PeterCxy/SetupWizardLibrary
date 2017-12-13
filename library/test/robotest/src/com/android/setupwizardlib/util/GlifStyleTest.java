@@ -30,6 +30,7 @@ import android.support.annotation.Nullable;
 import android.view.ContextThemeWrapper;
 import android.widget.Button;
 
+import com.android.setupwizardlib.BuildConfig;
 import com.android.setupwizardlib.R;
 import com.android.setupwizardlib.robolectric.SuwLibRobolectricTestRunner;
 
@@ -40,7 +41,7 @@ import org.robolectric.Robolectric;
 import org.robolectric.annotation.Config;
 
 @RunWith(SuwLibRobolectricTestRunner.class)
-@Config(sdk = {Config.OLDEST_SDK, Config.NEWEST_SDK})
+@Config(constants = BuildConfig.class, sdk = {Config.OLDEST_SDK, Config.NEWEST_SDK})
 public class GlifStyleTest {
 
     private Context mContext;

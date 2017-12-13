@@ -37,6 +37,7 @@ import android.content.res.Resources;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 
+import com.android.setupwizardlib.BuildConfig;
 import com.android.setupwizardlib.R;
 import com.android.setupwizardlib.robolectric.SuwLibRobolectricTestRunner;
 import com.android.setupwizardlib.util.Partner.ResourceEntry;
@@ -56,6 +57,7 @@ import java.util.Collections;
 
 @RunWith(SuwLibRobolectricTestRunner.class)
 @Config(
+        constants = BuildConfig.class,
         sdk = { Config.OLDEST_SDK, Config.NEWEST_SDK },
         shadows = ShadowApplicationPackageManager.class)
 public class PartnerTest {

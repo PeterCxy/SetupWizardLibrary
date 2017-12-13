@@ -23,12 +23,15 @@ import android.content.Context;
 import android.content.ContextWrapper;
 import android.widget.TextView;
 
+import com.android.setupwizardlib.BuildConfig;
 import com.android.setupwizardlib.robolectric.SuwLibRobolectricTestRunner;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.robolectric.annotation.Config;
 
 @RunWith(SuwLibRobolectricTestRunner.class)
+@Config(constants = BuildConfig.class)
 public class LinkSpanTest {
 
     @Test
@@ -65,7 +68,6 @@ public class LinkSpanTest {
         assertSame("Clicked LinkSpan should be passed to setup", linkSpan, context.clickedSpan);
     }
 
-    @SuppressWarnings("deprecation")
     private static class TestContext extends ContextWrapper implements LinkSpan.OnClickListener {
 
         public LinkSpan clickedSpan = null;
