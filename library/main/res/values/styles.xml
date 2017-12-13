@@ -32,6 +32,9 @@
         <item name="suwScrollIndicators">top|bottom</item>
     </style>
 
+    <!-- Deprecated. Use SuwThemeGlifV2 instead -->
+    <style name="SuwThemeGlifPixel" parent="SuwThemeGlifV2" />
+
     <style name="SuwThemeGlifV2.Light" parent="SuwThemeGlif.Light">
         <item name="android:colorBackground">@color/suw_glif_background_color_light</item>
         <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
@@ -44,6 +47,9 @@
         <item name="suwGlifHeaderGravity">center_horizontal</item>
         <item name="suwScrollIndicators">top|bottom</item>
     </style>
+
+    <!-- Deprecated. Use SuwThemeGlifV2.Light instead -->
+    <style name="SuwThemeGlifPixel.Light" parent="SuwThemeGlifV2.Light" />
 
     <style name="SuwThemeGlifV3" parent="SuwThemeGlifV2">
         <item name="suwButtonColor">@color/suw_glif_v3_footer_button_color</item>
@@ -88,10 +94,11 @@
         <item name="android:textAlignment" tools:targetApi="jelly_bean_mr1">gravity</item>
     </style>
 
-    <!-- Ignore UnusedResources: Used by clients -->
-    <style name="TextAppearance.SuwDescription.Secondary"
-        parent="TextAppearance.SuwDescription"
-        tools:ignore="UnusedResources">
+    <style name="TextAppearance.SuwDescription.Light" parent="TextAppearance.SuwDescription">
+        <item name="android:fontFamily" tools:ignore="NewApi">sans-serif-light</item>
+    </style>
+
+    <style name="TextAppearance.SuwDescription.Secondary" parent="TextAppearance.SuwDescription">
         <item name="android:textColor">?android:attr/textColorSecondary</item>
     </style>
 
@@ -204,10 +211,7 @@
         <item name="android:textAllCaps" tools:targetApi="ice_cream_sandwich">false</item>
     </style>
 
-    <!-- Ignore UnusedResources: used by clients -->
-    <style name="SuwGlifButton.Tertiary"
-        parent="SuwGlifButton.BaseTertiary"
-        tools:ignore="UnusedResources" />
+    <style name="SuwGlifButton.Tertiary" parent="SuwGlifButton.BaseTertiary" />
 
     <!-- The start and end paddings are asymmetric because start buttons are borderless buttons
          which aligns the text label. -->

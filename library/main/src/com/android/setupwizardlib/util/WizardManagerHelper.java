@@ -80,10 +80,22 @@ public class WizardManagerHelper {
     public static final String THEME_GLIF_V2 = "glif_v2";
 
     /**
+     * @deprecated Use {@link #THEME_GLIF_V2} instead.
+     */
+    @Deprecated
+    public static final String THEME_GLIF_PIXEL = THEME_GLIF_V2;
+
+    /**
      * Passed in a setup wizard intent as {@link #EXTRA_THEME}. This is the default theme used in
      * setup wizard for O DR.
      */
     public static final String THEME_GLIF_V2_LIGHT = "glif_v2_light";
+
+    /**
+     * @deprecated Use {@link #THEME_GLIF_V2_LIGHT} instead.
+     */
+    @Deprecated
+    public static final String THEME_GLIF_PIXEL_LIGHT = THEME_GLIF_V2_LIGHT;
 
     /**
      * Passed in a setup wizard intent as {@link #EXTRA_THEME}. This is the dark variant of the
