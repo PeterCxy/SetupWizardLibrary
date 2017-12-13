@@ -31,7 +31,6 @@ import android.provider.Settings.Global;
 import android.provider.Settings.Secure;
 import android.support.annotation.StyleRes;
 
-import com.android.setupwizardlib.BuildConfig;
 import com.android.setupwizardlib.R;
 import com.android.setupwizardlib.robolectric.SuwLibRobolectricTestRunner;
 
@@ -44,7 +43,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @RunWith(SuwLibRobolectricTestRunner.class)
-@Config(constants = BuildConfig.class, sdk = Config.NEWEST_SDK)
+@Config(sdk = Config.NEWEST_SDK)
 public class WizardManagerHelperTest {
 
     @Test

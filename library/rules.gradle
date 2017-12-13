@@ -21,9 +21,12 @@ android {
             res.srcDirs = ['main/res']
         }
 
+        flavorDimensions 'compat'
+
         productFlavors {
             // Platform version that will not include the compatibility libraries
             platform {
+                dimension 'compat'
                 minSdkVersion 23
 
                 dependencies {
@@ -43,16 +46,17 @@ android {
                     //          deps = ['project-name': 'com.example.group:project-name:1.0.0']
                     //      }
                     //
-                    platformCompile deps['support-annotations']
+                    platformImplementation deps['support-annotations']
                 }
             }
 
             // Provides backwards compatibility for Gingerbread or above, using support libraries.
             gingerbreadCompat {
+                dimension 'compat'
                 minSdkVersion 9
                 dependencies {
-                    gingerbreadCompatCompile deps['support-appcompat-v7']
-                    gingerbreadCompatCompile deps['support-recyclerview-v7']
+                    gingerbreadCompatImplementation deps['support-appcompat-v7']
+                    gingerbreadCompatImplementation deps['support-recyclerview-v7']
                 }
             }
         }
