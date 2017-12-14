@@ -13,52 +13,28 @@ android {
 
     publishNonDefault true
 
+    flavorDimensions 'compat'
+
+    productFlavors {
+        // Platform version that will not include the compatibility libraries
+        platform {
+            dimension 'compat'
+            minSdkVersion 23
+        }
+
+        // Provides backwards compatibility for Gingerbread or above, using support libraries.
+        gingerbreadCompat {
+            dimension 'compat'
+            minSdkVersion 9
+        }
+    }
+
     sourceSets {
         main {
             manifest.srcFile 'main/AndroidManifest.xml'
             java.srcDirs = ['main/src']
             resources.srcDirs = ['main/src']
             res.srcDirs = ['main/res']
-        }
-
-        flavorDimensions 'compat'
-
-        productFlavors {
-            // Platform version that will not include the compatibility libraries
-            platform {
-                dimension 'compat'
-                minSdkVersion 23
-
-                dependencies {
-                    // Read the dependencies from the "deps" map in the extra properties.
-                    //
-                    // For builds in the Android tree we want to build the dependencies from source
-                    // for reproducible builds, for example in build.gradle define something like
-                    // this:
-                    //      ext {
-                    //          deps = ['project-name': project(':project-path')]
-                    //      }
-                    //
-                    // For standalone project clients, since the source may not be available, we
-                    // fetch the dependencies from maven. For example in standalone.gradle define
-                    // something like this:
-                    //      ext {
-                    //          deps = ['project-name': 'com.example.group:project-name:1.0.0']
-                    //      }
-                    //
-                    platformImplementation deps['support-annotations']
-                }
-            }
-
-            // Provides backwards compatibility for Gingerbread or above, using support libraries.
-            gingerbreadCompat {
-                dimension 'compat'
-                minSdkVersion 9
-                dependencies {
-                    gingerbreadCompatImplementation deps['support-appcompat-v7']
-                    gingerbreadCompatImplementation deps['support-recyclerview-v7']
-                }
-            }
         }
 
         platform {
@@ -71,4 +47,27 @@ android {
             res.srcDirs = ['gingerbread/res', 'recyclerview/res']
         }
     }
+}
+
+dependencies {
+    // Read the dependencies from the "deps" map in the extra properties.
+    //
+    // For builds in the Android tree we want to build the dependencies from source
+    // for reproducible builds, for example in build.gradle define something like
+    // this:
+    //      ext {
+    //          deps = ['project-name': project(':project-path')]
+    //      }
+    //
+    // For standalone project clients, since the source may not be available, we
+    // fetch the dependencies from maven. For example in standalone.gradle define
+    // something like this:
+    //      ext {
+    //          deps = ['project-name': 'com.example.group:project-name:1.0.0']
+    //      }
+    //
+    platformCompile deps['support-annotations']
+
+    gingerbreadCompatCompile deps['support-appcompat-v7']
+    gingerbreadCompatCompile deps['support-recyclerview-v7']
 }
