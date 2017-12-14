@@ -93,4 +93,9 @@
         <item name="suwNavBarButtonBackground">@drawable/suw_navbar_btn_bg</item>
     </style>
 
+    <style name="SuwEditText" parent="@android:style/Widget.Material.EditText">
+        <item name="android:minHeight">@dimen/suw_edit_text_min_height</item>
+        <item name="android:background">@drawable/suw_edittext_bg</item>
+    </style>
+
 </resources>
