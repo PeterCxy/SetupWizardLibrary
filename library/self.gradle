@@ -22,7 +22,7 @@ android.sourceSets {
         }
     }
 
-    androidTestPlatform {
+    androidTestPlatformDeprecated {
         java.srcDirs = ['platform/test/src']
     }
 
