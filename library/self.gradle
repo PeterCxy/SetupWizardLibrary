@@ -67,14 +67,3 @@ android.lintOptions {
 android.libraryVariants.all { variant ->
     variant.assemble.dependsOn(tasks.findByName('lint'))
 }
-
-// For compatibility with existing continuous test configurations, copy the file to
-// setup-wizard-libTest.apk
-// TODO: Remove this once continuous test configurations are updated to handle the new file name
-task createLegacyTestApk(type: Copy) {
-    from "${project.ext.distDir}/setup-wizard-lib-gingerbreadCompat-debug-androidTest.apk"
-    into "${project.ext.distDir}"
-    rename ('setup-wizard-lib-gingerbreadCompat-debug-androidTest.apk', 'setup-wizard-libTest.apk')
-}
-
-tasks.dist.finalizedBy createLegacyTestApk
