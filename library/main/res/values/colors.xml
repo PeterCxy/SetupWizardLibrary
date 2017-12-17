@@ -45,5 +45,6 @@
     <color name="suw_glif_background_color_dark">#ff000000</color>
     <color name="suw_glif_background_color_light">#ffffffff</color>
     <color name="suw_glif_v3_footer_button_color">#ff1a73e8</color>
+    <color name="suw_glif_edittext_bg_light_color">#F1F3F4</color>
 
 </resources>

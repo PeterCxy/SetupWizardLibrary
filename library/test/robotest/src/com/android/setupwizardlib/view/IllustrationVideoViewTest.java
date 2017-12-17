@@ -31,7 +31,6 @@ import android.os.Build.VERSION_CODES;
 import android.support.annotation.RawRes;
 import android.view.Surface;
 
-import com.android.setupwizardlib.BuildConfig;
 import com.android.setupwizardlib.R;
 import com.android.setupwizardlib.robolectric.SuwLibRobolectricTestRunner;
 import com.android.setupwizardlib.view.IllustrationVideoViewTest.ShadowMockMediaPlayer;
@@ -54,7 +53,6 @@ import org.robolectric.util.ReflectionHelpers;
 
 @RunWith(SuwLibRobolectricTestRunner.class)
 @Config(
-        constants = BuildConfig.class,
         sdk = Config.NEWEST_SDK,
         shadows = {
                 ShadowMockMediaPlayer.class,
