@@ -277,4 +277,8 @@
         <item name="suwNavBarButtonBackground">@drawable/suw_navbar_btn_bg_light</item>
     </style>
 
+
+    <style name="SuwAlertDialogTheme" parent="Theme.AppCompat.Dialog.Alert" />
+
+    <style name="SuwAlertDialogTheme.Light" parent="Theme.AppCompat.Light.Dialog.Alert" />
 </resources>
