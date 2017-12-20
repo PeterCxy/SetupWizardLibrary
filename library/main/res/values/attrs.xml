@@ -20,7 +20,6 @@
     <!-- Theme attributes -->
     <attr name="suwLayoutTheme" format="reference" />
     <attr name="suwMarginSides" format="dimension|reference" />
-    <attr name="suwButtonColor" format="color" />
     <attr name="suwEditTextBackgroundColor" format="color" />
 
     <!-- Subset of values in "gravity" in frameworks/base/core/res/res/values/attrs.xml. Only
