@@ -30,7 +30,7 @@
         <item name="suwDividerInsetStartNoIcon">?attr/suwMarginSides</item>
         <item name="suwGlifHeaderGravity">center_horizontal</item>
         <item name="suwScrollIndicators">top|bottom</item>
-        <item name="suwEditTextBackgroundColor">@color/suw_glif_edittext_bg_light_color</item> <!-- TODO: Change color -->
+        <item name="suwEditTextBackgroundColor">@color/suw_glif_edit_text_bg_light_color</item> <!-- TODO: Change color -->
         <item name="android:editTextStyle">@style/SuwEditText</item>
         <item name="android:alertDialogTheme" tools:targetApi="honeycomb">@style/SuwAlertDialogTheme</item>
     </style>
@@ -46,17 +46,9 @@
         <item name="suwDividerInsetStartNoIcon">?attr/suwMarginSides</item>
         <item name="suwGlifHeaderGravity">center_horizontal</item>
         <item name="suwScrollIndicators">top|bottom</item>
-        <item name="suwEditTextBackgroundColor">@color/suw_glif_edittext_bg_light_color</item>
+        <item name="suwEditTextBackgroundColor">@color/suw_glif_edit_text_bg_light_color</item>
         <item name="android:editTextStyle">@style/SuwEditText</item>
         <item name="android:alertDialogTheme" tools:targetApi="honeycomb">@style/SuwAlertDialogTheme.Light</item>
-    </style>
-
-    <style name="SuwThemeGlifV3" parent="SuwThemeGlifV2">
-        <item name="suwButtonColor">@color/suw_glif_v3_footer_button_color</item>
-    </style>
-
-    <style name="SuwThemeGlifV3.Light" parent="SuwThemeGlifV2.Light">
-        <item name="suwButtonColor">@color/suw_glif_v3_footer_button_color</item>
     </style>
 
     <style name="Animation.SuwWindowAnimation" parent="@android:style/Animation.Activity">
