@@ -1,3 +1,4 @@
+# DEPRECATED: This variant is no longer maintained. Use common-gingerbread instead
 #
 # Include this make file to build your application against this module.
 #
@@ -9,7 +10,7 @@
 #   LOCAL_RESOURCE_DIR := \
 #        $(LOCAL_PATH)/res
 #
-#   include frameworks/opt/setupwizard/library/common.mk
+#   include frameworks/opt/setupwizard/library/common-platform-deprecated.mk
 #
 
 # Path to directory of setup wizard lib (e.g. frameworks/opt/setupwizard/library)
