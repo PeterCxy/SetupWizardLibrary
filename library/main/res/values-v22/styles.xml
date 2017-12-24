@@ -19,5 +19,5 @@
 
     <style name="SuwAlertDialogTheme" parent="android:Theme.DeviceDefault.Dialog.Alert" />
 
-    <style name="SuwAlertDialogTheme.Light" parent="android:Theme.DeviceDefault.Light.Dialog" />
+    <style name="SuwAlertDialogTheme.Light" parent="android:Theme.DeviceDefault.Light.Dialog.Alert" />
 </resources>
