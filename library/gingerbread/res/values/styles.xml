@@ -109,6 +109,7 @@
         <item name="suwDividerInsetStart">@dimen/suw_items_glif_icon_divider_inset</item>
         <item name="suwDividerInsetStartNoIcon">@dimen/suw_items_glif_text_divider_inset</item>
         <item name="suwGlifHeaderGravity">start</item>
+        <item name="suwGlifIconStyle">@style/SuwGlifIcon</item>
         <item name="suwItemDescriptionStyle">@style/SuwItemContainer.Description.Glif</item>
         <item name="suwItemDescriptionTitleStyle">@style/SuwItemTitle.GlifDescription</item>
         <item name="suwListItemIconColor">@color/suw_list_item_icon_color_dark</item>
@@ -144,6 +145,7 @@
         <item name="suwDividerInsetStart">@dimen/suw_items_glif_icon_divider_inset</item>
         <item name="suwDividerInsetStartNoIcon">@dimen/suw_items_glif_text_divider_inset</item>
         <item name="suwGlifHeaderGravity">start</item>
+        <item name="suwGlifIconStyle">@style/SuwGlifIcon</item>
         <item name="suwItemDescriptionStyle">@style/SuwItemContainer.Description.Glif</item>
         <item name="suwItemDescriptionTitleStyle">@style/SuwItemTitle.GlifDescription</item>
         <item name="suwListItemIconColor">@color/suw_list_item_icon_color_light</item>
