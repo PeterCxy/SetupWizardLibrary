@@ -13,8 +13,8 @@ android.sourceSets {
         res.srcDirs = ['test/instrumentation/res']
 
         dependencies {
-            androidTestImplementation 'com.android.support.test:rules:0.5'
-            androidTestImplementation 'com.android.support.test:runner:0.5'
+            androidTestImplementation 'com.android.support.test:rules:1.0.0'
+            androidTestImplementation 'com.android.support.test:runner:1.0.0'
             androidTestImplementation 'com.google.dexmaker:dexmaker:1.2'
             androidTestImplementation 'com.google.dexmaker:dexmaker-mockito:1.2'
             androidTestImplementation 'junit:junit:4.+'
