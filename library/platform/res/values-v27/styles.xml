@@ -155,6 +155,8 @@
 
     <style name="SuwThemeGlifV3.Light" parent="SuwThemeGlifV2.Light">
         <item name="android:colorAccent">@color/suw_color_accent_glif_v3</item>
+        <item name="android:navigationBarColor">@color/suw_glif_v3_nav_bar_color_light</item>
+        <item name="android:windowLightNavigationBar">true</item>
     </style>
 
     <!-- Button styles -->
