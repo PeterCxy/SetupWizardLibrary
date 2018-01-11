@@ -103,7 +103,7 @@ public class TemplateLayout extends FrameLayout {
      * by this view but not currently added to the view hierarchy. e.g. recycler view or list view
      * headers that are not currently shown.
      */
-    public View findManagedViewById(int id) {
+    public <T extends View> T findManagedViewById(int id) {
         return findViewById(id);
     }
 

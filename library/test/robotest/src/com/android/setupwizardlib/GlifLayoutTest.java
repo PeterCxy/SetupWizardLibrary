@@ -267,6 +267,47 @@ public class GlifLayoutTest {
         assertNotNull(layout.findViewById(android.R.id.text1));
     }
 
+    @Test
+    public void inflateStickyHeader_shouldAddViewToLayout() {
+        GlifLayout layout = new GlifLayout(mContext);
+
+        final View view = layout.inflateStickyHeader(android.R.layout.simple_list_item_1);
+        assertEquals(android.R.id.text1, view.getId());
+        assertNotNull(layout.findViewById(android.R.id.text1));
+    }
+
+    @Config(qualifiers = "sw600dp")
+    @Test
+    public void inflateStickyHeader_whenOnTablets_shouldAddViewToLayout() {
+        inflateStickyHeader_shouldAddViewToLayout();
+    }
+
+    @Test
+    public void inflateStickyHeader_whenInXml_shouldAddViewToLayout() {
+        GlifLayout layout = new GlifLayout(
+                mContext,
+                Robolectric.buildAttributeSet()
+                        .addAttribute(R.attr.suwStickyHeader, "@android:layout/simple_list_item_1")
+                        .build());
+
+        assertNotNull(layout.findViewById(android.R.id.text1));
+    }
+
+    @Test
+    public void inflateStickyHeader_whenOnBlankTemplate_shouldAddViewToLayout() {
+        GlifLayout layout = new GlifLayout(mContext, R.layout.suw_glif_blank_template);
+
+        final View view = layout.inflateStickyHeader(android.R.layout.simple_list_item_1);
+        assertEquals(android.R.id.text1, view.getId());
+        assertNotNull(layout.findViewById(android.R.id.text1));
+    }
+
+    @Config(qualifiers = "sw600dp")
+    @Test
+    public void inflateStickyHeader_whenOnBlankTemplateTablet_shouldAddViewToLayout() {
+        inflateStickyHeader_whenOnBlankTemplate_shouldAddViewToLayout();
+    }
+
     @Config(sdk = { VERSION_CODES.M, Config.NEWEST_SDK })
     @Test
     public void createFromXml_shouldSetLayoutFullscreen_whenLayoutFullscreenIsNotSet() {
