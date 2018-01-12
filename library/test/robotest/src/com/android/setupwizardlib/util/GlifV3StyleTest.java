@@ -16,16 +16,20 @@
 
 package com.android.setupwizardlib.util;
 
+import static com.google.common.truth.Truth.assertThat;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import android.app.Activity;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
+import android.widget.Button;
 
 import com.android.setupwizardlib.R;
 import com.android.setupwizardlib.robolectric.SuwLibRobolectricTestRunner;
@@ -54,6 +58,19 @@ public class GlifV3StyleTest {
                     Color.BLACK);
         }
         // Nav bar color is not customizable pre-L
+    }
+
+    @Test
+    public void buttonWithGlifV3_shouldBeGoogleSans() {
+        GlifThemeActivity activity = Robolectric.setupActivity(GlifThemeActivity.class);
+        Button button = new Button(
+                activity,
+                Robolectric.buildAttributeSet()
+                        .setStyleAttribute("@style/SuwGlifButton.Primary")
+                        .build());
+        assertThat(button.getTypeface()).isEqualTo(Typeface.create("google-sans", 0));
+        // Button should not be all caps
+        assertThat(button.getTransformationMethod()).isNull();
     }
 
     private static class GlifThemeActivity extends Activity {
