@@ -127,10 +127,10 @@ public class SetupWizardRecyclerLayout extends SetupWizardLayout {
     }
 
     @Override
-    public View findManagedViewById(int id) {
+    public <T extends View> T findManagedViewById(int id) {
         final View header = mRecyclerMixin.getHeader();
         if (header != null) {
-            final View view = header.findViewById(id);
+            final T view = header.findViewById(id);
             if (view != null) {
                 return view;
             }

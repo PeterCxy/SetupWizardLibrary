@@ -23,7 +23,7 @@
 
     <ImageView
         android:id="@+id/suw_layout_icon"
-        style="@style/SuwGlifIcon"
+        style="?attr/suwGlifIconStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:contentDescription="@null"
