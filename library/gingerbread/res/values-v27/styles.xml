@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-    Copyright (C) 2015 The Android Open Source Project
+    Copyright (C) 2018 Google Inc.
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -17,17 +17,11 @@
 
 <resources>
 
-    <!-- The duration (in milliseconds) of activity transitions -->
-    <integer name="suwTransitionDuration">300</integer>
-
-    <!-- Whether to use tablet layout -->
-    <bool name="suwUseTabletLayout">false</bool>
-
-    <!-- ID used with setTag(int, Object) to store the original weight of a view inside
-         ButtonBarLayout -->
-    <item name="suw_original_weight" type="id" />
-
-    <!-- Secondary font for use with headings, title, and other non-body text -->
-    <string name="suwFontSecondary" translatable="false">google-sans</string>
-
+    <!-- Not needed for dark theme, as default nav bar bg color is black. We need a separate style
+         override here since windowLightNavigationBar is new in v27, and these two styles need to be
+         applied together as a unit. -->
+    <style name="SuwThemeGlifV3.Light" parent="SuwBaseThemeGlifV3.Light">
+        <item name="android:navigationBarColor">@color/suw_glif_v3_nav_bar_color_light</item>
+        <item name="android:windowLightNavigationBar">true</item>
+    </style>
 </resources>

@@ -32,6 +32,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 import android.support.annotation.IdRes;
 import android.view.ContextThemeWrapper;
@@ -308,17 +309,18 @@ public class GlifLayoutTest {
         inflateStickyHeader_whenOnBlankTemplate_shouldAddViewToLayout();
     }
 
-    @Config(sdk = { VERSION_CODES.M, Config.NEWEST_SDK })
+    @Config(minSdk = Config.OLDEST_SDK, maxSdk = Config.NEWEST_SDK)
     @Test
     public void createFromXml_shouldSetLayoutFullscreen_whenLayoutFullscreenIsNotSet() {
         GlifLayout layout = new GlifLayout(
                 mContext,
                 Robolectric.buildAttributeSet()
                         .build());
-
-        assertEquals(
-                View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN,
-                layout.getSystemUiVisibility() & View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+        if (VERSION.SDK_INT >= VERSION_CODES.M) {
+            assertEquals(
+                    View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN,
+                    layout.getSystemUiVisibility() & View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+        }
     }
 
     @Test

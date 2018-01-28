@@ -40,6 +40,8 @@
     </attr>
     <attr name="suwGlifIconStyle" format="reference" />
 
+    <attr name="suwButtonAllCaps" format="boolean" />
+    <attr name="suwButtonFontFamily" format="string|reference" />
     <attr name="suwCardBackground" format="color|reference" />
     <attr name="suwDividerCondition">
         <enum name="either" value="0" />
