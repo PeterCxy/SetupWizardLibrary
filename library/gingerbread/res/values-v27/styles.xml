@@ -22,6 +22,7 @@
          applied together as a unit. -->
     <style name="SuwThemeGlifV3.Light" parent="SuwBaseThemeGlifV3.Light">
         <item name="android:navigationBarColor">@color/suw_glif_v3_nav_bar_color_light</item>
+        <item name="android:navigationBarDividerColor">@color/suw_glif_v3_nav_bar_divider_color_light</item>
         <item name="android:windowLightNavigationBar">true</item>
     </style>
 </resources>
