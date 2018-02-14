@@ -27,6 +27,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 import android.support.annotation.AnyRes;
+import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.StringRes;
 import android.support.annotation.VisibleForTesting;
@@ -73,6 +74,15 @@ public class Partner {
     public static String getString(Context context, @StringRes int id) {
         final ResourceEntry entry = getResourceEntry(context, id);
         return entry.resources.getString(entry.id);
+    }
+
+    /**
+     * Convenience method to get color from partner overlay, or if not available, the color from
+     * the original context.
+     */
+    public static int getColor(Context context, @ColorRes int id) {
+        final ResourceEntry resourceEntry = getResourceEntry(context, id);
+        return resourceEntry.resources.getColor(resourceEntry.id);
     }
 
     /**
