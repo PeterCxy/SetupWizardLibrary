@@ -132,6 +132,20 @@ public class PartnerTest {
     }
 
     @Test
+    public void getColor_shouldReturnPartnerValueIfPresent() {
+        final int expectedPartnerColor = 1111;
+        doReturn(12345).when(mPartnerResources)
+                .getIdentifier(eq("suw_color_accent_dark"), eq("color"), anyString());
+        doReturn(expectedPartnerColor).when(mPartnerResources).getColor(eq(12345));
+        mPackageManager.addResolveInfoForIntent(
+                new Intent(ACTION_PARTNER_CUSTOMIZATION),
+                Arrays.asList(createResolveInfo("test.partner.package", true, true)));
+        final int foundColor = Partner.getColor(mContext, R.color.suw_color_accent_dark);
+        assertEquals("Partner color should be overlayed to: " + expectedPartnerColor,
+                expectedPartnerColor, foundColor);
+    }
+
+    @Test
     public void testLoadDefaultValue() {
         mPackageManager.addResolveInfoForIntent(
                 new Intent(ACTION_PARTNER_CUSTOMIZATION),
