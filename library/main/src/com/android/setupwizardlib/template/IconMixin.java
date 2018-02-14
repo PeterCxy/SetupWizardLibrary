@@ -19,6 +19,7 @@ package com.android.setupwizardlib.template;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.DrawableRes;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
@@ -45,8 +46,8 @@ public class IconMixin implements Mixin {
         final TypedArray a =
                 context.obtainStyledAttributes(attrs, R.styleable.SuwIconMixin, defStyleAttr, 0);
 
-        final Drawable icon = a.getDrawable(R.styleable.SuwIconMixin_android_icon);
-        if (icon != null) {
+        final @DrawableRes int icon = a.getResourceId(R.styleable.SuwIconMixin_android_icon, 0);
+        if (icon != 0) {
             setIcon(icon);
         }
 
@@ -63,6 +64,21 @@ public class IconMixin implements Mixin {
         if (iconView != null) {
             iconView.setImageDrawable(icon);
             iconView.setVisibility(icon != null ? View.VISIBLE : View.GONE);
+        }
+    }
+
+    /**
+     * Sets the icon on this layout. The icon can also be set in XML using {@code android:icon}.
+     *
+     * @param icon A drawable icon resource.
+     */
+    public void setIcon(@DrawableRes int icon) {
+        final ImageView iconView = getView();
+        if (iconView != null) {
+            // Note: setImageResource on the ImageView is overridden in AppCompatImageView for
+            // support lib users, which enables vector drawable compat to work on versions pre-L.
+            iconView.setImageResource(icon);
+            iconView.setVisibility(icon != 0 ? View.VISIBLE : View.GONE);
         }
     }
 
