@@ -166,13 +166,13 @@
     <style name="SuwThemeGlifV3" parent="SuwThemeGlifV2">
         <item name="colorAccent">@color/suw_color_accent_glif_v3</item>
         <item name="suwButtonAllCaps">false</item>
-        <item name="suwButtonFontFamily">@string/suwFontSecondary</item>
+        <item name="suwButtonFontFamily">@string/suwFontSecondaryMedium</item>
     </style>
 
     <style name="SuwBaseThemeGlifV3.Light" parent="SuwThemeGlifV2.Light">
         <item name="colorAccent">@color/suw_color_accent_glif_v3</item>
         <item name="suwButtonAllCaps">false</item>
-        <item name="suwButtonFontFamily">@string/suwFontSecondary</item>
+        <item name="suwButtonFontFamily">@string/suwFontSecondaryMedium</item>
     </style>
     <style name="SuwThemeGlifV3.Light" parent="SuwBaseThemeGlifV3.Light" />
 

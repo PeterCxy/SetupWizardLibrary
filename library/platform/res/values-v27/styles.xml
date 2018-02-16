@@ -161,7 +161,7 @@
         <item name="android:colorAccent">@color/suw_color_accent_glif_v3</item>
 
         <item name="suwButtonAllCaps">false</item>
-        <item name="suwButtonFontFamily">@string/suwFontSecondary</item>
+        <item name="suwButtonFontFamily">@string/suwFontSecondaryMedium</item>
     </style>
 
     <style name="SuwThemeGlifV3.Light" parent="SuwThemeGlifV2.Light">
@@ -171,7 +171,7 @@
         <item name="android:windowLightNavigationBar">true</item>
 
         <item name="suwButtonAllCaps">false</item>
-        <item name="suwButtonFontFamily">@string/suwFontSecondary</item>
+        <item name="suwButtonFontFamily">@string/suwFontSecondaryMedium</item>
     </style>
 
     <!-- Button styles -->
