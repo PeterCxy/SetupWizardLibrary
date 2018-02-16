@@ -15,14 +15,16 @@
     limitations under the License.
 -->
 
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Not needed for dark theme, as default nav bar bg color is black. We need a separate style
          override here since windowLightNavigationBar is new in v27, and these two styles need to be
          applied together as a unit. -->
     <style name="SuwThemeGlifV3.Light" parent="SuwBaseThemeGlifV3.Light">
         <item name="android:navigationBarColor">@color/suw_glif_v3_nav_bar_color_light</item>
-        <item name="android:navigationBarDividerColor">@color/suw_glif_v3_nav_bar_divider_color_light</item>
-        <item name="android:windowLightNavigationBar">true</item>
+        <!-- Ignore NewApi: For some reason lint seems to think this API is new in v28 (b/73514594) -->
+        <item name="android:navigationBarDividerColor" tools:ignore="NewApi">@color/suw_glif_v3_nav_bar_divider_color_light</item>
+        <!-- Ignore NewApi: For some reason lint seems to think this API is new in v28 (b/73514594) -->
+        <item name="android:windowLightNavigationBar" tools:ignore="NewApi">true</item>
     </style>
 </resources>
