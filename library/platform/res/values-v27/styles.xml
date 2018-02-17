@@ -17,7 +17,7 @@
 
 <!-- These styles are only included in the platform build, to make sure that they do not
      override the corresponding styles in the compatibility build. -->
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- General styles -->
 
@@ -167,8 +167,10 @@
     <style name="SuwThemeGlifV3.Light" parent="SuwThemeGlifV2.Light">
         <item name="android:colorAccent">@color/suw_color_accent_glif_v3</item>
         <item name="android:navigationBarColor">@color/suw_glif_v3_nav_bar_color_light</item>
-        <item name="android:navigationBarDividerColor">@color/suw_glif_v3_nav_bar_divider_color_light</item>
-        <item name="android:windowLightNavigationBar">true</item>
+        <!-- Ignore NewApi: For some reason lint seems to think this API is new in v28 (b/73514594) -->
+        <item name="android:navigationBarDividerColor" tools:ignore="NewApi">@color/suw_glif_v3_nav_bar_divider_color_light</item>
+        <!-- Ignore NewApi: For some reason lint seems to think this API is new in v28 (b/73514594) -->
+        <item name="android:windowLightNavigationBar" tools:ignore="NewApi">true</item>
 
         <item name="suwButtonAllCaps">false</item>
         <item name="suwButtonFontFamily">@string/suwFontSecondaryMedium</item>
