@@ -107,6 +107,8 @@ public class GlifRecyclerLayout extends GlifLayout {
     }
 
     @Override
+    // Returning generic type is the common pattern used for findViewBy* methods
+    @SuppressWarnings("TypeParameterUnusedInFormals")
     public <T extends View> T findManagedViewById(int id) {
         final View header = mRecyclerMixin.getHeader();
         if (header != null) {
