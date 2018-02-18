@@ -29,5 +29,6 @@
 
     <!-- Secondary font for use with headings, title, and other non-body text -->
     <string name="suwFontSecondary" translatable="false">google-sans</string>
+    <string name="suwFontSecondaryMedium" translatable="false">google-sans-medium</string>
 
 </resources>
