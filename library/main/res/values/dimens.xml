@@ -20,6 +20,7 @@
     <!-- General -->
     <dimen name="suw_layout_margin_sides">40dp</dimen>
 
+    <dimen name="suw_glif_button_corner_radius">2dp</dimen>
     <!-- Calculated by (suw_glif_margin_sides - 4dp internal padding of button) -->
     <dimen name="suw_glif_button_margin_end">20dp</dimen>
     <!-- Calculated by (suw_glif_margin_sides - suw_glif_button_padding) -->
@@ -29,6 +30,8 @@
     <dimen name="suw_glif_footer_min_height">72dp</dimen>
     <dimen name="suw_glif_margin_sides">24dp</dimen>
     <dimen name="suw_glif_margin_top">48dp</dimen>
+
+    <dimen name="suw_glif_v3_button_corner_radius">4dp</dimen>
 
     <!-- Content styles -->
     <dimen name="suw_check_box_line_spacing_extra">4sp</dimen>

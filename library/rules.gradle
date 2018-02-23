@@ -19,6 +19,7 @@ android {
         // DEPRECATED: Platform version that will not include the compatibility libraries
         platformDeprecated {
             dimension 'compat'
+            // TODO(yukl): Bump this file to v28 once we can properly test that
             minSdkVersion 27
         }
 
