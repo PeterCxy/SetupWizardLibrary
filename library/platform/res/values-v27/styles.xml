@@ -15,6 +15,7 @@
     limitations under the License.
 -->
 
+<!-- TODO(yukl): Bump this file to v28 once we can properly test that -->
 <!-- These styles are only included in the platform build, to make sure that they do not
      override the corresponding styles in the compatibility build. -->
 <resources xmlns:tools="http://schemas.android.com/tools">
@@ -107,6 +108,7 @@
         <item name="android:windowSoftInputMode">adjustResize</item>
 
         <item name="suwButtonAllCaps">true</item>
+        <item name="suwButtonCornerRadius">@dimen/suw_glif_button_corner_radius</item>
         <item name="suwButtonFontFamily">sans-serif</item>
         <item name="suwColorPrimary">?android:attr/colorPrimary</item>
         <item name="suwFillContentLayoutStyle">@style/SuwFillContentLayout</item>
@@ -142,6 +144,7 @@
         <item name="android:windowSoftInputMode">adjustResize</item>
 
         <item name="suwButtonAllCaps">true</item>
+        <item name="suwButtonCornerRadius">@dimen/suw_glif_button_corner_radius</item>
         <item name="suwButtonFontFamily">sans-serif</item>
         <item name="suwColorPrimary">?android:attr/colorPrimary</item>
         <item name="suwFillContentLayoutStyle">@style/SuwFillContentLayout</item>
@@ -161,6 +164,7 @@
         <item name="android:colorAccent">@color/suw_color_accent_glif_v3</item>
 
         <item name="suwButtonAllCaps">false</item>
+        <item name="suwButtonCornerRadius">@dimen/suw_glif_v3_button_corner_radius</item>
         <item name="suwButtonFontFamily">@string/suwFontSecondaryMedium</item>
     </style>
 
@@ -173,6 +177,7 @@
         <item name="android:windowLightNavigationBar" tools:ignore="NewApi">true</item>
 
         <item name="suwButtonAllCaps">false</item>
+        <item name="suwButtonCornerRadius">@dimen/suw_glif_v3_button_corner_radius</item>
         <item name="suwButtonFontFamily">@string/suwFontSecondaryMedium</item>
     </style>
 
@@ -189,6 +194,9 @@
         <item name="android:paddingLeft">@dimen/suw_glif_button_padding</item>
         <item name="android:paddingRight">@dimen/suw_glif_button_padding</item>
         <item name="android:textAllCaps">?attr/suwButtonAllCaps</item>
+
+        <!-- Values used in themes -->
+        <item name="android:buttonCornerRadius" tools:ignore="NewApi">?attr/suwButtonCornerRadius</item>
     </style>
 
     <style name="SuwGlifButton.Secondary" parent="android:Widget.Material.Button.Borderless.Colored">
@@ -206,6 +214,7 @@
         <item name="android:textAllCaps">?attr/suwButtonAllCaps</item>
 
         <!-- Values used in themes -->
+        <item name="android:buttonCornerRadius" tools:ignore="NewApi">?attr/suwButtonCornerRadius</item>
         <item name="android:colorControlHighlight">@color/suw_flat_button_highlight</item>
     </style>
 
