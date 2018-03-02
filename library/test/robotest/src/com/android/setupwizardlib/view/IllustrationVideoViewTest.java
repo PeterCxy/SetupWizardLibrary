@@ -18,6 +18,7 @@ package com.android.setupwizardlib.view;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.verify;
@@ -33,6 +34,8 @@ import android.view.Surface;
 
 import com.android.setupwizardlib.R;
 import com.android.setupwizardlib.robolectric.SuwLibRobolectricTestRunner;
+import com.android.setupwizardlib.shadow.ShadowLog;
+import com.android.setupwizardlib.shadow.ShadowLog.TerribleFailure;
 import com.android.setupwizardlib.view.IllustrationVideoViewTest.ShadowMockMediaPlayer;
 import com.android.setupwizardlib.view.IllustrationVideoViewTest.ShadowSurface;
 
@@ -55,6 +58,7 @@ import org.robolectric.util.ReflectionHelpers;
 @Config(
         sdk = Config.NEWEST_SDK,
         shadows = {
+                ShadowLog.class,
                 ShadowMockMediaPlayer.class,
                 ShadowSurface.class
         })
@@ -73,6 +77,17 @@ public class IllustrationVideoViewTest {
     @After
     public void tearDown() {
         ShadowMockMediaPlayer.reset();
+    }
+
+    @Test
+    public void nullMediaPlayer_shouldThrowWtf() {
+        ShadowMockMediaPlayer.sMediaPlayer = null;
+        try {
+            createDefaultView();
+            fail("WTF should be thrown for null media player");
+        } catch (TerribleFailure e) {
+            // pass
+        }
     }
 
     @Test
