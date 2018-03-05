@@ -60,9 +60,9 @@ LOCAL_AAPT_FLAGS := --auto-add-overlay \
     --extra-packages android.support.v7.recyclerview
 
 LOCAL_RESOURCE_DIR += \
-    frameworks/support/compat/res \
-    frameworks/support/v7/appcompat/res \
-    frameworks/support/v7/recyclerview/res
+    prebuilts/sdk/current/supportcompat/res \
+    prebuilts/sdk/current/supportv7/appcompat/res \
+    prebuilts/sdk/current/supportv7/recyclerview/res
 
 LOCAL_JAVA_LIBRARIES := \
     android-support-annotations \
