@@ -41,14 +41,14 @@ endif
 
 # Include support-v7-appcompat, if not already included
 ifeq (,$(findstring android-support-v7-appcompat,$(LOCAL_STATIC_JAVA_LIBRARIES)))
-LOCAL_RESOURCE_DIR += frameworks/support/v7/appcompat/res
+LOCAL_RESOURCE_DIR += prebuilts/sdk/current/support/v7/appcompat/res
 LOCAL_AAPT_FLAGS += --extra-packages android.support.v7.appcompat
 LOCAL_STATIC_JAVA_LIBRARIES += android-support-v7-appcompat
 endif
 
 # Include support-v7-recyclerview, if not already included
 ifeq (,$(findstring android-support-v7-recyclerview,$(LOCAL_STATIC_JAVA_LIBRARIES)))
-LOCAL_RESOURCE_DIR += frameworks/support/v7/recyclerview/res
+LOCAL_RESOURCE_DIR += prebuilts/sdk/current/support/v7/recyclerview/res
 LOCAL_AAPT_FLAGS += --extra-packages android.support.v7.recyclerview
 LOCAL_STATIC_JAVA_LIBRARIES += android-support-v7-recyclerview
 endif
