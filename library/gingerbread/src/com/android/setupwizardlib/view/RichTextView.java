@@ -130,6 +130,17 @@ public class RichTextView extends AppCompatTextView implements OnLinkClickListen
         // as individual TextViews consume touch events and thereby reducing the focus window
         // shown by Talkback. Disable focus if there are no links
         setFocusable(hasLinks);
+        // Do not "reveal" (i.e. scroll to) this view when this view is focused. Since this view is
+        // focusable in touch mode, we may be focused when the screen is first shown, and starting
+        // a screen halfway scrolled down is confusing to the user.
+        if (VERSION.SDK_INT >= VERSION_CODES.N_MR1) {
+            setRevealOnFocusHint(false);
+            // setRevealOnFocusHint is a new API added in SDK 25. For lower SDK versions, do not
+            // call setFocusableInTouchMode. We won't get touch effect on those earlier versions,
+            // but the link will still work, and will prevent the scroll view from starting halfway
+            // down the page.
+            setFocusableInTouchMode(hasLinks);
+        }
     }
 
     private boolean hasLinks(CharSequence text) {
