@@ -195,10 +195,10 @@
         <item name="android:buttonStyle">@style/SuwGlifButton.Tertiary</item>
         <item name="android:theme">@style/SuwGlifButton.Tertiary</item>
 
-        <item name="android:background">@null</item>
         <item name="android:fontFamily" tools:targetApi="jelly_bean">sans-serif</item>
         <item name="android:layout_gravity">?attr/suwGlifHeaderGravity</item>
-        <item name="android:padding">0dp</item>
+        <item name="android:layout_marginLeft">@dimen/suw_glif_negative_button_padding</item>
+        <item name="android:layout_marginRight">@dimen/suw_glif_negative_button_padding</item>
         <!-- Always lowercase instead of reading attr/suwButtonAllCaps, since this is a tertiary
              button -->
         <item name="android:textAllCaps" tools:targetApi="ice_cream_sandwich">false</item>
