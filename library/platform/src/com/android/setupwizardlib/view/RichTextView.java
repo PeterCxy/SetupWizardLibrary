@@ -121,6 +121,11 @@ public class RichTextView extends TextView implements OnLinkClickListener {
         // as individual TextViews consume touch events and thereby reducing the focus window
         // shown by Talkback. Disable focus if there are no links
         setFocusable(hasLinks);
+        // Do not "reveal" (i.e. scroll to) this view when this view is focused. Since this view is
+        // focusable in touch mode, we may be focused when the screen is first shown, and starting
+        // a screen halfway scrolled down is confusing to the user.
+        setRevealOnFocusHint(false);
+        setFocusableInTouchMode(hasLinks);
     }
 
     private boolean hasLinks(CharSequence text) {
