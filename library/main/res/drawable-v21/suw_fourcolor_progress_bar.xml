@@ -26,37 +26,44 @@
     <aapt:attr name="android:drawable">
         <vector android:width="823dp" android:height="823dp" android:viewportHeight="823"
             android:viewportWidth="823">
-            <group android:name="blue1" android:translateX="411.5" android:translateY="411.5">
-                <path android:name="blue1_path"
+            <group android:name="red" android:translateX="411.5" android:translateY="411.5">
+                <path android:name="red_path"
                     android:pathData="M0 -395 C218,-395 395,-218 395,0 C395,218 218,395 0,395 C-218,395 -395,218 -395,0 C-395,-218 -218,-395 0,-395c "
-                    android:strokeAlpha="1" android:strokeColor="#4688f1"
+                    android:strokeAlpha="1" android:strokeColor="#ea4335"
                     android:strokeLineCap="round" android:strokeLineJoin="round"
                     android:strokeWidth="27" />
             </group>
-            <group android:name="blue2" android:translateX="411.5" android:translateY="411.5">
-                <path android:name="blue2_path"
-                    android:pathData=" M0 -395 C218,-395 395,-218 395,0 C395,218 218,395 0,395 C-218,395 -395,218 -395,0 C-395,-218 -218,-395 0,-395c "
-                    android:strokeAlpha="1" android:strokeColor="#7dacf4"
+            <group android:name="yellow" android:translateX="411.5" android:translateY="411.5">
+                <path android:name="yellow_path"
+                    android:pathData="M0 -395 C218,-395 395,-218 395,0 C395,218 218,395 0,395 C-218,395 -395,218 -395,0 C-395,-218 -218,-395 0,-395c "
+                    android:strokeAlpha="1" android:strokeColor="#fbbc04"
                     android:strokeLineCap="round" android:strokeLineJoin="round"
                     android:strokeWidth="28" />
             </group>
-            <group android:name="blue3" android:translateX="411.5" android:translateY="411.5">
-                <path android:name="blue3_path"
-                    android:pathData=" M0 -395 C218,-395 395,-218 395,0 C395,218 218,395 0,395 C-218,395 -395,218 -395,0 C-395,-218 -218,-395 0,-395c "
-                    android:strokeAlpha="1" android:strokeColor="#c7dbfb"
+            <group android:name="green" android:translateX="411.5" android:translateY="411.5">
+                <path android:name="green_path"
+                    android:pathData="M0 -395 C218,-395 395,-218 395,0 C395,218 218,395 0,395 C-218,395 -395,218 -395,0 C-395,-218 -218,-395 0,-395c "
+                    android:strokeAlpha="1" android:strokeColor="#34a853"
                     android:strokeLineCap="round" android:strokeLineJoin="round"
                     android:strokeWidth="29" />
             </group>
-            <group android:name="blue4" android:translateX="411.5" android:translateY="411.5">
-                <path android:name="blue4_path"
-                    android:pathData=" M0 -395 C218,-395 395,-218 395,0 C395,218 218,395 0,395 C-218,395 -395,218 -395,0 C-395,-218 -218,-395 0,-395c "
-                    android:strokeAlpha="1" android:strokeColor="#e8f0fd"
+            <group android:name="blue" android:translateX="411.5" android:translateY="411.5">
+                <path android:name="blue_path"
+                    android:pathData="M0 -395 C218,-395 395,-218 395,0 C395,218 218,395 0,395 C-218,395 -395,218 -395,0 C-395,-218 -218,-395 0,-395c "
+                    android:strokeAlpha="1" android:strokeColor="#4285f4"
+                    android:strokeLineCap="round" android:strokeLineJoin="round"
+                    android:strokeWidth="30" />
+            </group>
+            <!-- gray -->
+            <group android:translateX="411.5" android:translateY="411.5">
+                <path android:pathData="M0 -395 C218,-395 395,-218 395,0 C395,218 218,395 0,395 C-218,395 -395,218 -395,0 C-395,-218 -218,-395 0,-395c "
+                    android:strokeAlpha="1" android:strokeColor="#1f9aa0a6"
                     android:strokeLineCap="round" android:strokeLineJoin="round"
                     android:strokeWidth="30" />
             </group>
         </vector>
     </aapt:attr>
-    <target android:name="blue1_path">
+    <target android:name="red_path">
         <aapt:attr name="android:animation">
             <objectAnimator android:duration="1983" android:propertyName="trimPathStart"
                 android:repeatCount="infinite" android:valueFrom="0" android:valueTo="1"
@@ -67,7 +74,7 @@
             </objectAnimator>
         </aapt:attr>
     </target>
-    <target android:name="blue1_path">
+    <target android:name="red_path">
         <aapt:attr name="android:animation">
             <objectAnimator android:duration="1983" android:propertyName="trimPathEnd"
                 android:repeatCount="infinite" android:valueFrom="0" android:valueTo="1"
@@ -78,7 +85,7 @@
             </objectAnimator>
         </aapt:attr>
     </target>
-    <target android:name="blue1">
+    <target android:name="red">
         <aapt:attr name="android:animation">
             <objectAnimator android:duration="1983" android:propertyName="rotation"
                 android:repeatCount="infinite" android:valueFrom="0" android:valueTo="355"
@@ -89,7 +96,7 @@
             </objectAnimator>
         </aapt:attr>
     </target>
-    <target android:name="blue2_path">
+    <target android:name="yellow_path">
         <aapt:attr name="android:animation">
             <objectAnimator android:duration="1983" android:propertyName="trimPathStart"
                 android:repeatCount="infinite" android:valueFrom="0" android:valueTo="1"
@@ -100,7 +107,7 @@
             </objectAnimator>
         </aapt:attr>
     </target>
-    <target android:name="blue2_path">
+    <target android:name="yellow_path">
         <aapt:attr name="android:animation">
             <objectAnimator android:duration="1983" android:propertyName="trimPathEnd"
                 android:repeatCount="infinite" android:valueFrom="0" android:valueTo="1"
@@ -111,7 +118,7 @@
             </objectAnimator>
         </aapt:attr>
     </target>
-    <target android:name="blue2">
+    <target android:name="yellow">
         <aapt:attr name="android:animation">
             <objectAnimator android:duration="1983" android:propertyName="rotation"
                 android:repeatCount="infinite" android:valueFrom="0" android:valueTo="355"
@@ -122,7 +129,7 @@
             </objectAnimator>
         </aapt:attr>
     </target>
-    <target android:name="blue3_path">
+    <target android:name="green_path">
         <aapt:attr name="android:animation">
             <objectAnimator android:duration="1983" android:propertyName="trimPathStart"
                 android:repeatCount="infinite" android:valueFrom="0" android:valueTo="1"
@@ -133,7 +140,7 @@
             </objectAnimator>
         </aapt:attr>
     </target>
-    <target android:name="blue3_path">
+    <target android:name="green_path">
         <aapt:attr name="android:animation">
             <objectAnimator android:duration="1983" android:propertyName="trimPathEnd"
                 android:repeatCount="infinite" android:valueFrom="0" android:valueTo="1"
@@ -144,7 +151,7 @@
             </objectAnimator>
         </aapt:attr>
     </target>
-    <target android:name="blue3">
+    <target android:name="green">
         <aapt:attr name="android:animation">
             <set android:ordering="together">
                 <objectAnimator android:duration="1983" android:propertyName="rotation"
@@ -158,7 +165,7 @@
             </set>
         </aapt:attr>
     </target>
-    <target android:name="blue4_path">
+    <target android:name="blue_path">
         <aapt:attr name="android:animation">
             <objectAnimator android:duration="1983" android:propertyName="trimPathStart"
                 android:repeatCount="infinite" android:valueFrom="0" android:valueTo="1"
@@ -169,7 +176,7 @@
             </objectAnimator>
         </aapt:attr>
     </target>
-    <target android:name="blue4_path">
+    <target android:name="blue_path">
         <aapt:attr name="android:animation">
             <objectAnimator android:duration="1983" android:propertyName="trimPathEnd"
                 android:repeatCount="infinite" android:valueFrom="0" android:valueTo="1"
@@ -180,7 +187,7 @@
             </objectAnimator>
         </aapt:attr>
     </target>
-    <target android:name="blue4">
+    <target android:name="blue">
         <aapt:attr name="android:animation">
             <objectAnimator android:duration="1983" android:propertyName="rotation"
                 android:repeatCount="infinite" android:valueFrom="0" android:valueTo="355"

@@ -45,6 +45,7 @@
     <style name="SuwBase.ProgressBarLarge" parent="@android:style/Widget.Material.ProgressBar.Large" />
 
     <style name="SuwFourColorIndeterminateProgressBar" parent="SuwBase.ProgressBarLarge">
+        <item name="android:padding">@dimen/suw_glif_fourcolor_progress_bar_padding</item>
         <item name="android:layout_gravity">center</item>
         <item name="android:indeterminate">true</item>
         <item name="android:indeterminateDrawable">@drawable/suw_fourcolor_progress_bar</item>
