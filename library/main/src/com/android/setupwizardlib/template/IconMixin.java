@@ -91,6 +91,24 @@ public class IconMixin implements Mixin {
     }
 
     /**
+     * Sets the content description of the icon view
+     */
+    public void setContentDescription(CharSequence description) {
+        final ImageView iconView = getView();
+        if (iconView != null) {
+            iconView.setContentDescription(description);
+        }
+    }
+
+    /**
+     * @return The content description of the icon view
+     */
+    public CharSequence getContentDescription() {
+        final ImageView iconView = getView();
+        return iconView != null ? iconView.getContentDescription() : null;
+    }
+
+    /**
      * @return The ImageView responsible for displaying the icon.
      */
     protected ImageView getView() {
