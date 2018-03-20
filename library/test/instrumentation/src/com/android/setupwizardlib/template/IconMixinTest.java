@@ -127,4 +127,18 @@ public class IconMixinTest {
         assertEquals(expected.getBitmap(), actual.getBitmap());
         assertEquals(View.VISIBLE, mIconView.getVisibility());
     }
+
+    @Test
+    public void setContentDescription_shouldSetContentDescriptionOnIconView() {
+        IconMixin mixin = new IconMixin(mTemplateLayout, null, 0);
+        mixin.setContentDescription("hello world");
+        assertThat(mIconView.getContentDescription()).isEqualTo("hello world");
+    }
+
+    @Test
+    public void getContentDescription_shouldReturnContentDescriptionFromView() {
+        IconMixin mixin = new IconMixin(mTemplateLayout, null, 0);
+        mIconView.setContentDescription("aloha");
+        assertThat(mixin.getContentDescription()).isEqualTo("aloha");
+    }
 }
