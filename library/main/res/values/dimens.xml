@@ -142,5 +142,6 @@
 
     <!-- Edit Text dimensions -->
     <dimen name="suw_edit_text_min_height">56dp</dimen>
+    <dimen name="suw_edit_text_padding_horizontal">12dp</dimen>
 
 </resources>
