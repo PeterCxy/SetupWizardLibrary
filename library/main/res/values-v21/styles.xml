@@ -94,8 +94,10 @@
     </style>
 
     <style name="SuwEditText" parent="@android:style/Widget.Material.EditText">
-        <item name="android:minHeight">@dimen/suw_edit_text_min_height</item>
         <item name="android:background">@drawable/suw_edittext_bg</item>
+        <item name="android:minHeight">@dimen/suw_edit_text_min_height</item>
+        <item name="android:paddingLeft">@dimen/suw_edit_text_padding_horizontal</item>
+        <item name="android:paddingRight">@dimen/suw_edit_text_padding_horizontal</item>
     </style>
 
 </resources>
