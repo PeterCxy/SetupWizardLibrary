@@ -16,11 +16,16 @@
 
 package com.android.setupwizardlib.span;
 
+import static com.google.common.truth.Truth.assertThat;
+
 import static org.junit.Assert.assertSame;
 import static org.robolectric.RuntimeEnvironment.application;
 
 import android.content.Context;
 import android.content.ContextWrapper;
+import android.text.Selection;
+import android.text.SpannableStringBuilder;
+import android.text.method.LinkMovementMethod;
 import android.widget.TextView;
 
 import com.android.setupwizardlib.robolectric.SuwLibRobolectricTestRunner;
@@ -32,7 +37,7 @@ import org.junit.runner.RunWith;
 public class LinkSpanTest {
 
     @Test
-    public void testOnClick() {
+    public void onClick_shouldCallListenerOnContext() {
         final TestContext context = new TestContext(application);
         final TextView textView = new TextView(context);
         final LinkSpan linkSpan = new LinkSpan("test_id");
@@ -43,7 +48,7 @@ public class LinkSpanTest {
     }
 
     @Test
-    public void testNonImplementingContext() {
+    public void onClick_contextDoesNotImplementOnClickListener_shouldBeNoOp() {
         final TextView textView = new TextView(application);
         final LinkSpan linkSpan = new LinkSpan("test_id");
 
@@ -54,7 +59,7 @@ public class LinkSpanTest {
     }
 
     @Test
-    public void testWrappedListener() {
+    public void onClick_contextWrapsOnClickListener_shouldCallWrappedListener() {
         final TestContext context = new TestContext(application);
         final Context wrapperContext = new ContextWrapper(context);
         final TextView textView = new TextView(wrapperContext);
@@ -63,6 +68,27 @@ public class LinkSpanTest {
 
         linkSpan.onClick(textView);
         assertSame("Clicked LinkSpan should be passed to setup", linkSpan, context.clickedSpan);
+    }
+
+    @Test
+    public void onClick_shouldClearSelection() {
+        final TestContext context = new TestContext(application);
+        final TextView textView = new TextView(context);
+        textView.setMovementMethod(LinkMovementMethod.getInstance());
+        textView.setFocusable(true);
+        textView.setFocusableInTouchMode(true);
+        final LinkSpan linkSpan = new LinkSpan("test_id");
+
+        SpannableStringBuilder text = new SpannableStringBuilder("Lorem ipsum dolor sit");
+        textView.setText(text);
+        text.setSpan(linkSpan, /* start= */ 0, /* end= */ 5, /* flags= */ 0);
+        // Simulate the touch effect set by TextView when touched.
+        Selection.setSelection(text, /* start= */ 0, /* end= */ 5);
+
+        linkSpan.onClick(textView);
+
+        assertThat(Selection.getSelectionStart(textView.getText())).isEqualTo(0);
+        assertThat(Selection.getSelectionEnd(textView.getText())).isEqualTo(0);
     }
 
     @SuppressWarnings("deprecation")

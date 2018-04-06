@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.android.setupwizardlib.test;
+package com.android.setupwizardlib.view;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -24,29 +24,30 @@ import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
+import static org.robolectric.RuntimeEnvironment.application;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.ContextWrapper;
-import android.support.test.InstrumentationRegistry;
-import android.support.test.filters.SmallTest;
-import android.support.test.runner.AndroidJUnit4;
+import android.os.Build.VERSION;
+import android.os.Build.VERSION_CODES;
 import android.text.Annotation;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.TextAppearanceSpan;
 
+import com.android.setupwizardlib.robolectric.SuwLibRobolectricTestRunner;
 import com.android.setupwizardlib.span.LinkSpan;
 import com.android.setupwizardlib.span.LinkSpan.OnLinkClickListener;
-import com.android.setupwizardlib.view.RichTextView;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.robolectric.annotation.Config;
 
 import java.util.Arrays;
 
-@RunWith(AndroidJUnit4.class)
-@SmallTest
+@RunWith(SuwLibRobolectricTestRunner.class)
+@Config(sdk = { Config.OLDEST_SDK, Config.NEWEST_SDK })
 public class RichTextViewTest {
 
     @Test
@@ -55,7 +56,7 @@ public class RichTextViewTest {
         SpannableStringBuilder ssb = new SpannableStringBuilder("Hello world");
         ssb.setSpan(link, 1, 2, 0 /* flags */);
 
-        RichTextView textView = new RichTextView(InstrumentationRegistry.getContext());
+        RichTextView textView = new RichTextView(application);
         textView.setText(ssb);
 
         final CharSequence text = textView.getText();
@@ -77,7 +78,7 @@ public class RichTextViewTest {
         SpannableStringBuilder ssb = new SpannableStringBuilder("Hello world");
         ssb.setSpan(link, 1, 2, 0 /* flags */);
 
-        RichTextView textView = new RichTextView(InstrumentationRegistry.getContext());
+        RichTextView textView = new RichTextView(application);
         textView.setText(ssb);
 
         OnLinkClickListener listener = mock(OnLinkClickListener.class);
@@ -99,7 +100,7 @@ public class RichTextViewTest {
         SpannableStringBuilder ssb = new SpannableStringBuilder("Hello world");
         ssb.setSpan(link, 1, 2, 0 /* flags */);
 
-        TestContext context = spy(new TestContext(InstrumentationRegistry.getTargetContext()));
+        TestContext context = spy(new TestContext(application));
         RichTextView textView = new RichTextView(context);
         textView.setText(ssb);
 
@@ -116,7 +117,7 @@ public class RichTextViewTest {
         SpannableStringBuilder ssb = new SpannableStringBuilder("Hello world");
         ssb.setSpan(link, 1, 2, 0 /* flags */);
 
-        RichTextView textView = new RichTextView(InstrumentationRegistry.getContext());
+        RichTextView textView = new RichTextView(application);
         textView.setText(ssb);
 
         final CharSequence text = textView.getText();
@@ -137,7 +138,7 @@ public class RichTextViewTest {
         SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder("Linked");
         spannableStringBuilder.setSpan(testLink, 0, 3, 0);
 
-        RichTextView view = new RichTextView(InstrumentationRegistry.getContext());
+        RichTextView view = new RichTextView(application);
         view.setText(spannableStringBuilder);
 
         assertTrue("TextView should be focusable since it contains spans", view.isFocusable());
@@ -147,7 +148,7 @@ public class RichTextViewTest {
     @SuppressLint("SetTextI18n")  // It's OK. This is just a test.
     @Test
     public void testTextContainingNoLinksAreNotFocusable() {
-        RichTextView textView = new RichTextView(InstrumentationRegistry.getContext());
+        RichTextView textView = new RichTextView(application);
         textView.setText("Thou shall not be focusable!");
 
         assertFalse("TextView should not be focusable since it does not contain any span",
@@ -160,16 +161,23 @@ public class RichTextViewTest {
     @SuppressLint("SetTextI18n")  // It's OK. This is just a test.
     @Test
     public void testRichTextViewFocusChangesWithTextChange() {
-        RichTextView textView = new RichTextView(InstrumentationRegistry.getContext());
+        RichTextView textView = new RichTextView(application);
         textView.setText("Thou shall not be focusable!");
 
         assertFalse(textView.isFocusable());
+        assertFalse(textView.isFocusableInTouchMode());
 
         SpannableStringBuilder spannableStringBuilder =
                 new SpannableStringBuilder("I am focusable");
         spannableStringBuilder.setSpan(new Annotation("link", "focus:on_me"), 0, 1, 0);
         textView.setText(spannableStringBuilder);
         assertTrue(textView.isFocusable());
+        if (VERSION.SDK_INT >= VERSION_CODES.N_MR1) {
+            assertTrue(textView.isFocusableInTouchMode());
+            assertFalse(textView.getRevealOnFocusHint());
+        } else {
+            assertFalse(textView.isFocusableInTouchMode());
+        }
     }
 
     public static class TestContext extends ContextWrapper implements LinkSpan.OnClickListener {
