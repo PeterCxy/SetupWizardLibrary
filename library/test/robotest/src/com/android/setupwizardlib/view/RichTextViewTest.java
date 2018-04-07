@@ -16,14 +16,11 @@
 
 package com.android.setupwizardlib.view;
 
-import static com.google.common.truth.Truth.assertThat;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
@@ -38,12 +35,10 @@ import android.text.Annotation;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.TextAppearanceSpan;
-import android.view.MotionEvent;
 
 import com.android.setupwizardlib.robolectric.SuwLibRobolectricTestRunner;
 import com.android.setupwizardlib.span.LinkSpan;
 import com.android.setupwizardlib.span.LinkSpan.OnLinkClickListener;
-import com.android.setupwizardlib.view.TouchableMovementMethod.TouchableLinkMovementMethod;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -66,8 +61,6 @@ public class RichTextViewTest {
 
         final CharSequence text = textView.getText();
         assertTrue("Text should be spanned", text instanceof Spanned);
-
-        assertThat(textView.getMovementMethod()).isInstanceOf(TouchableLinkMovementMethod.class);
 
         Object[] spans = ((Spanned) text).getSpans(0, text.length(), Annotation.class);
         assertEquals("Annotation should be removed " + Arrays.toString(spans), 0, spans.length);
@@ -116,44 +109,6 @@ public class RichTextViewTest {
         spans[0].onClick(textView);
 
         verify(context).onClick(eq(spans[0]));
-    }
-
-    @Test
-    public void onTouchEvent_clickOnLinks_shouldReturnTrue() {
-        Annotation link = new Annotation("link", "foobar");
-        SpannableStringBuilder ssb = new SpannableStringBuilder("Hello world");
-        ssb.setSpan(link, 0, 2, 0 /* flags */);
-
-        RichTextView textView = new RichTextView(application);
-        textView.setText(ssb);
-
-        TouchableLinkMovementMethod mockMovementMethod = mock(TouchableLinkMovementMethod.class);
-        textView.setMovementMethod(mockMovementMethod);
-
-        MotionEvent motionEvent =
-                MotionEvent.obtain(123, 22, MotionEvent.ACTION_DOWN, 0, 0, 0);
-        doReturn(motionEvent).when(mockMovementMethod).getLastTouchEvent();
-        doReturn(true).when(mockMovementMethod).isLastTouchEventHandled();
-        assertThat(textView.onTouchEvent(motionEvent)).isTrue();
-    }
-
-    @Test
-    public void onTouchEvent_clickOutsideLinks_shouldReturnFalse() {
-        Annotation link = new Annotation("link", "foobar");
-        SpannableStringBuilder ssb = new SpannableStringBuilder("Hello world");
-        ssb.setSpan(link, 0, 2, 0 /* flags */);
-
-        RichTextView textView = new RichTextView(application);
-        textView.setText(ssb);
-
-        TouchableLinkMovementMethod mockMovementMethod = mock(TouchableLinkMovementMethod.class);
-        textView.setMovementMethod(mockMovementMethod);
-
-        MotionEvent motionEvent =
-                MotionEvent.obtain(123, 22, MotionEvent.ACTION_DOWN, 0, 0, 0);
-        doReturn(motionEvent).when(mockMovementMethod).getLastTouchEvent();
-        doReturn(false).when(mockMovementMethod).isLastTouchEventHandled();
-        assertThat(textView.onTouchEvent(motionEvent)).isFalse();
     }
 
     @Test
