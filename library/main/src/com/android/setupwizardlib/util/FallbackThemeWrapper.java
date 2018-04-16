@@ -18,8 +18,9 @@ package com.android.setupwizardlib.util;
 
 import android.content.Context;
 import android.content.res.Resources.Theme;
-import android.support.annotation.StyleRes;
 import android.view.ContextThemeWrapper;
+
+import androidx.annotation.StyleRes;
 
 /**
  * Same as {@link ContextThemeWrapper}, but the base context's theme attributes take precedence

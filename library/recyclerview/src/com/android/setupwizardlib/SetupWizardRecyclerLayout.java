@@ -18,20 +18,21 @@ package com.android.setupwizardlib;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.RecyclerView.Adapter;
-import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView.Adapter;
+import androidx.recyclerview.widget.RecyclerView.ViewHolder;
 
 import com.android.setupwizardlib.template.RecyclerMixin;
 import com.android.setupwizardlib.template.RecyclerViewScrollHandlingDelegate;
 import com.android.setupwizardlib.template.RequireScrollMixin;
 
 /**
- * A setup wizard layout for use with {@link android.support.v7.widget.RecyclerView}.
+ * A setup wizard layout for use with {@link androidx.recyclerview.widget.RecyclerView}.
  * {@code android:entries} can also be used to specify an
  * {@link com.android.setupwizardlib.items.ItemHierarchy} to be used with this layout in XML.
  *

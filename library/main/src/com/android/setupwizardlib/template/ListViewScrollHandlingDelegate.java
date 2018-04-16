@@ -16,12 +16,13 @@
 
 package com.android.setupwizardlib.template;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.util.Log;
 import android.widget.AbsListView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.android.setupwizardlib.template.RequireScrollMixin.ScrollHandlingDelegate;
 

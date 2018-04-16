@@ -29,8 +29,9 @@ import android.content.Context;
 import android.graphics.SurfaceTexture;
 import android.media.MediaPlayer;
 import android.os.Build.VERSION_CODES;
-import android.support.annotation.RawRes;
 import android.view.Surface;
+
+import androidx.annotation.RawRes;
 
 import com.android.setupwizardlib.R;
 import com.android.setupwizardlib.robolectric.SuwLibRobolectricTestRunner;

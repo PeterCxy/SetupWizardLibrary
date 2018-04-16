@@ -18,11 +18,12 @@ package com.android.setupwizardlib.items;
 
 import android.content.res.Resources;
 import android.content.res.XmlResourceParser;
-import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.Xml;
 import android.view.InflateException;
+
+import androidx.annotation.NonNull;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
