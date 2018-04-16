@@ -18,10 +18,11 @@ package com.android.setupwizardlib.items;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.support.v7.widget.SwitchCompat;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.CompoundButton;
+
+import androidx.appcompat.widget.SwitchCompat;
 
 import com.android.setupwizardlib.R;
 

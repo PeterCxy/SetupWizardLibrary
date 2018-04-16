@@ -19,13 +19,14 @@ package com.android.setupwizardlib.view;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Build;
-import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.accessibility.AccessibilityEvent;
 import android.widget.FrameLayout;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.setupwizardlib.DividerItemDecoration;
 import com.android.setupwizardlib.R;

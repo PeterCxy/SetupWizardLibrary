@@ -18,7 +18,6 @@ package com.android.setupwizardlib.items;
 
 import static org.junit.Assert.assertTrue;
 
-import android.support.annotation.StyleRes;
 import android.support.test.annotation.UiThreadTest;
 import android.support.test.filters.SmallTest;
 import android.support.test.rule.UiThreadTestRule;
@@ -26,6 +25,8 @@ import android.support.test.runner.AndroidJUnit4;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+
+import androidx.annotation.StyleRes;
 
 import com.android.setupwizardlib.R;
 import com.android.setupwizardlib.test.util.DrawingTestHelper;

@@ -21,12 +21,13 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.os.Build.VERSION_CODES;
-import android.support.annotation.StyleableRes;
 import android.util.AttributeSet;
 import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+
+import androidx.annotation.StyleableRes;
 
 import com.android.setupwizardlib.R;
 

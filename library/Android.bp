@@ -5,7 +5,7 @@
 android_library {
     name: "setup-wizard-lib",
 
-    libs: ["android-support-annotations"],
+    libs: ["androidx.annotation_annotation"],
     manifest: "main/AndroidManifest.xml",
     resource_dirs: [
         "main/res",
@@ -40,11 +40,11 @@ android_library {
     ],
 
     libs: [
-        "android-support-annotations",
-        "android-support-compat",
-        "android-support-core-ui",
-        "android-support-v7-appcompat",
-        "android-support-v7-recyclerview",
+        "androidx.annotation_annotation",
+        "androidx.core_core",
+        "androidx.legacy_legacy-support-core-ui",
+        "androidx.appcompat_appcompat",
+        "androidx.recyclerview_recyclerview",
     ],
 
     min_sdk_version: "14",

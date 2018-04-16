@@ -23,9 +23,10 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.os.Build;
-import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.widget.Button;
+
+import androidx.annotation.NonNull;
 
 /**
  * Button for navigation bar, which includes tinting of its compound drawables to be used for dark

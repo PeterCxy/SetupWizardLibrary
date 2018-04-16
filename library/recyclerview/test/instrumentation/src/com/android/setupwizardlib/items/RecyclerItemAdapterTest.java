@@ -35,8 +35,9 @@ import android.graphics.drawable.shapes.RectShape;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.filters.SmallTest;
 import android.support.test.runner.AndroidJUnit4;
-import android.support.v7.widget.RecyclerView.AdapterDataObserver;
 import android.widget.FrameLayout;
+
+import androidx.recyclerview.widget.RecyclerView.AdapterDataObserver;
 
 import com.android.setupwizardlib.items.RecyclerItemAdapter.PatchedLayerDrawable;
 import com.android.setupwizardlib.test.R;

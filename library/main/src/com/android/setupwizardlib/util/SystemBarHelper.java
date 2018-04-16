@@ -24,13 +24,14 @@ import android.content.res.TypedArray;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 import android.os.Handler;
-import android.support.annotation.RequiresPermission;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowInsets;
 import android.view.WindowManager;
+
+import androidx.annotation.RequiresPermission;
 
 /**
  * A helper class to manage the system navigation bar and status bar. This will add various

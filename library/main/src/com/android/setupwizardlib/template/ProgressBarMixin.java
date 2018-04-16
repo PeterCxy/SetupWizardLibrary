@@ -19,10 +19,11 @@ package com.android.setupwizardlib.template;
 import android.content.res.ColorStateList;
 import android.os.Build;
 import android.os.Build.VERSION_CODES;
-import android.support.annotation.Nullable;
 import android.view.View;
 import android.view.ViewStub;
 import android.widget.ProgressBar;
+
+import androidx.annotation.Nullable;
 
 import com.android.setupwizardlib.R;
 import com.android.setupwizardlib.TemplateLayout;
