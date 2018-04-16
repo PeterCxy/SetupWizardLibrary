@@ -19,10 +19,11 @@ package com.android.setupwizardlib.template;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.DrawableRes;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
+
+import androidx.annotation.DrawableRes;
 
 import com.android.setupwizardlib.R;
 import com.android.setupwizardlib.TemplateLayout;

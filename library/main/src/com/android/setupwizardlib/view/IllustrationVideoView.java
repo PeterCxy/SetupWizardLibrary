@@ -23,14 +23,15 @@ import android.graphics.SurfaceTexture;
 import android.graphics.drawable.Animatable;
 import android.media.MediaPlayer;
 import android.os.Build.VERSION_CODES;
-import android.support.annotation.Nullable;
-import android.support.annotation.RawRes;
-import android.support.annotation.VisibleForTesting;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Surface;
 import android.view.TextureView;
 import android.view.View;
+
+import androidx.annotation.Nullable;
+import androidx.annotation.RawRes;
+import androidx.annotation.VisibleForTesting;
 
 import com.android.setupwizardlib.R;
 

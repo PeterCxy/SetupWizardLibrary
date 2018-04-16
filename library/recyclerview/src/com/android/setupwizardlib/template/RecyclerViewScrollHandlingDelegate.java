@@ -16,10 +16,11 @@
 
 package com.android.setupwizardlib.template;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.setupwizardlib.template.RequireScrollMixin.ScrollHandlingDelegate;
 

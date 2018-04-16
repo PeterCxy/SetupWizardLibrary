@@ -20,7 +20,6 @@ import android.content.Context;
 import android.content.ContextWrapper;
 import android.graphics.Typeface;
 import android.os.Build;
-import android.support.annotation.Nullable;
 import android.text.Selection;
 import android.text.Spannable;
 import android.text.TextPaint;
@@ -28,6 +27,8 @@ import android.text.style.ClickableSpan;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+
+import androidx.annotation.Nullable;
 
 /**
  * A clickable span that will listen for click events and send it back to the context. To use this

@@ -20,8 +20,6 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
-import android.support.v4.view.ViewCompat;
-import android.support.v7.widget.AppCompatTextView;
 import android.text.Annotation;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -31,6 +29,9 @@ import android.text.style.TextAppearanceSpan;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
+
+import androidx.appcompat.widget.AppCompatTextView;
+import androidx.core.view.ViewCompat;
 
 import com.android.setupwizardlib.span.LinkSpan;
 import com.android.setupwizardlib.span.LinkSpan.OnLinkClickListener;

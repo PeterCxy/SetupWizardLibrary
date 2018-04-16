@@ -21,16 +21,17 @@ import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.IntDef;
-import android.support.v4.view.ViewCompat;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
+
+import androidx.annotation.IntDef;
+import androidx.core.view.ViewCompat;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 /**
- * An {@link android.support.v7.widget.RecyclerView.ItemDecoration} for RecyclerView to draw
+ * An {@link androidx.recyclerview.widget.RecyclerView.ItemDecoration} for RecyclerView to draw
  * dividers between items. This ItemDecoration will draw the drawable specified by
  * {@link #setDivider(android.graphics.drawable.Drawable)} as the divider in between each item by
  * default, and the behavior of whether the divider is shown can be customized by subclassing

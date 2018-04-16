@@ -22,8 +22,9 @@ import android.content.res.Resources.Theme;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 import android.provider.Settings;
-import android.support.annotation.StyleRes;
-import android.support.annotation.VisibleForTesting;
+
+import androidx.annotation.StyleRes;
+import androidx.annotation.VisibleForTesting;
 
 import com.android.setupwizardlib.R;
 
