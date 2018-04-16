@@ -17,9 +17,10 @@
 package com.android.setupwizardlib;
 
 import android.content.Context;
-import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.widget.ListAdapter;
+
+import androidx.annotation.Nullable;
 
 import com.android.setupwizardlib.items.ItemAdapter;
 

@@ -19,12 +19,6 @@ package com.android.setupwizardlib.util;
 import android.graphics.Rect;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.VisibleForTesting;
-import android.support.v4.view.AccessibilityDelegateCompat;
-import android.support.v4.view.accessibility.AccessibilityNodeInfoCompat;
-import android.support.v4.view.accessibility.AccessibilityNodeProviderCompat;
-import android.support.v4.widget.ExploreByTouchHelper;
 import android.text.Layout;
 import android.text.Spanned;
 import android.text.style.ClickableSpan;
@@ -34,6 +28,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.accessibility.AccessibilityEvent;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.VisibleForTesting;
+import androidx.core.view.AccessibilityDelegateCompat;
+import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
+import androidx.core.view.accessibility.AccessibilityNodeProviderCompat;
+import androidx.customview.widget.ExploreByTouchHelper;
 
 import java.util.List;
 
@@ -63,7 +64,7 @@ import java.util.List;
  * </pre>
  *
  * @see com.android.setupwizardlib.view.RichTextView
- * @see android.support.v4.widget.ExploreByTouchHelper
+ * @see androidx.customview.widget.ExploreByTouchHelper
  */
 public class LinkAccessibilityHelper extends AccessibilityDelegateCompat {
 

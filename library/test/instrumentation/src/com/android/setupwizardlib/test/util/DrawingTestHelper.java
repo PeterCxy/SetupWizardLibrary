@@ -24,10 +24,11 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.support.annotation.StyleRes;
 import android.support.test.InstrumentationRegistry;
 import android.view.View;
 import android.view.View.MeasureSpec;
+
+import androidx.annotation.StyleRes;
 
 public class DrawingTestHelper {
 

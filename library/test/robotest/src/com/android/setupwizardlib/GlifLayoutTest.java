@@ -34,12 +34,13 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
-import android.support.annotation.IdRes;
 import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
+
+import androidx.annotation.IdRes;
 
 import com.android.setupwizardlib.robolectric.SuwLibRobolectricTestRunner;
 import com.android.setupwizardlib.template.ColoredHeaderMixin;

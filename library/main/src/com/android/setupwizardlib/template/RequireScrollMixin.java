@@ -18,12 +18,13 @@ package com.android.setupwizardlib.template;
 
 import android.os.Handler;
 import android.os.Looper;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.StringRes;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
 
 import com.android.setupwizardlib.TemplateLayout;
 import com.android.setupwizardlib.view.NavigationBar;
