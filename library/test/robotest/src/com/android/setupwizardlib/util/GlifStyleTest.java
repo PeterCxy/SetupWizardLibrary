@@ -38,6 +38,7 @@ import com.android.setupwizardlib.R;
 import com.android.setupwizardlib.robolectric.SuwLibRobolectricTestRunner;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
@@ -54,6 +55,7 @@ public class GlifStyleTest {
         mContext = new ContextThemeWrapper(application, R.style.SuwThemeGlif_Light);
     }
 
+    @Ignore("b/78472674")
     @Test
     public void testSuwGlifButtonTertiary() {
         Button button = new Button(
