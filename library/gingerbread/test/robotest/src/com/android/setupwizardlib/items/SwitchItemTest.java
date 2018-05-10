@@ -16,12 +16,15 @@
 
 package com.android.setupwizardlib.items;
 
+import static com.google.common.truth.Truth.assertThat;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.robolectric.RuntimeEnvironment.application;
 
 import android.annotation.TargetApi;
+import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,6 +38,7 @@ import androidx.appcompat.widget.SwitchCompat;
 import com.android.setupwizardlib.R;
 import com.android.setupwizardlib.robolectric.SuwLibRobolectricTestRunner;
 
+import org.junit.Assume;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.annotation.Config;
@@ -44,6 +48,15 @@ import org.robolectric.annotation.Config;
 public class SwitchItemTest {
 
     private SwitchCompat mSwitch;
+
+    @Test
+    public void testLayout() {
+        Assume.assumeTrue(VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP);
+        SwitchItem item = new SwitchItem();
+        LayoutInflater inflater = LayoutInflater.from(application);
+        ViewGroup layout = (ViewGroup) inflater.inflate(item.getDefaultLayoutResource(), null);
+        assertThat(layout.getClipToPadding()).isFalse();
+    }
 
     @Test
     public void testChecked() {
