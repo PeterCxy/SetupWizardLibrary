@@ -31,6 +31,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.widget.SwitchCompat;
@@ -41,6 +42,7 @@ import com.android.setupwizardlib.robolectric.SuwLibRobolectricTestRunner;
 import org.junit.Assume;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.robolectric.Robolectric;
 import org.robolectric.annotation.Config;
 
 @RunWith(SuwLibRobolectricTestRunner.class)
@@ -50,11 +52,24 @@ public class SwitchItemTest {
     private SwitchCompat mSwitch;
 
     @Test
-    public void testLayout() {
+    public void defaultLayout_baselineAligned_shouldBeFalse() {
         Assume.assumeTrue(VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP);
-        SwitchItem item = new SwitchItem();
         LayoutInflater inflater = LayoutInflater.from(application);
-        ViewGroup layout = (ViewGroup) inflater.inflate(item.getDefaultLayoutResource(), null);
+        SwitchItem item = new SwitchItem();
+        LinearLayout layout = (LinearLayout) inflater.inflate(item.getDefaultLayoutResource(),
+                null);
+        assertThat(layout.isBaselineAligned()).isFalse();
+    }
+
+    @Test
+    public void verboseLayout_clipPadding_shouldBeFalse() {
+        Assume.assumeTrue(VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP);
+        LayoutInflater inflater = LayoutInflater.from(application);
+        SwitchItem item = new SwitchItem(application,
+                Robolectric.buildAttributeSet()
+                        .addAttribute(android.R.attr.layout, "@layout/suw_items_switch_verbose")
+                        .build());
+        ViewGroup layout = (ViewGroup) inflater.inflate(item.getLayoutResource(), null);
         assertThat(layout.getClipToPadding()).isFalse();
     }
 

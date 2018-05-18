@@ -17,17 +17,20 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    style="@style/SuwItemContainer"
+    style="@style/SuwItemContainer.Verbose"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:baselineAligned="false"
-    android:orientation="horizontal">
+    android:clipToPadding="false"
+    android:orientation="horizontal"
+    tools:ignore="UnusedResources">
+    <!-- Ignore UnusedResources: can be used by clients -->
 
     <FrameLayout
         android:id="@+id/suw_items_icon_container"
         android:layout_width="@dimen/suw_items_icon_container_width"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
+        android:layout_gravity="top"
         android:gravity="start">
 
         <ImageView
@@ -41,13 +44,13 @@
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/suw_items_padding_bottom_extra"
+        android:layout_marginBottom="@dimen/suw_items_verbose_padding_bottom_extra"
         android:layout_weight="1"
         android:orientation="vertical">
 
         <com.android.setupwizardlib.view.RichTextView
             android:id="@+id/suw_items_title"
-            style="@style/SuwItemTitle"
+            style="@style/SuwItemTitle.Verbose"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="start"
