@@ -162,6 +162,22 @@ public class WizardManagerHelperTest {
     }
 
     @Test
+    public void getThemeRes_whenOldestSupportedThemeTakeEffect_shouldReturnDefault() {
+        Intent intent = new Intent();
+        intent.putExtra(WizardManagerHelper.EXTRA_THEME, "material");
+        assertEquals(0,
+                WizardManagerHelper.getThemeRes(intent, 0, WizardManagerHelper.THEME_GLIF_V2));
+    }
+
+    @Test
+    public void getThemeRes_whenOldestSupportedThemeNotTakeEffect_shouldReturnCurrent() {
+        Intent intent = new Intent();
+        intent.putExtra(WizardManagerHelper.EXTRA_THEME, "glif_v3");
+        assertEquals(R.style.SuwThemeGlifV3,
+                WizardManagerHelper.getThemeRes(intent, 0, WizardManagerHelper.THEME_GLIF_V2));
+    }
+
+    @Test
     public void testIsLightThemeDefault() {
         final Intent intent = new Intent();
         intent.putExtra("theme", "abracadabra");
