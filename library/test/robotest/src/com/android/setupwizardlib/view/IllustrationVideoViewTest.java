@@ -181,6 +181,7 @@ public class IllustrationVideoViewTest {
         @RealObject
         private Surface mRealSurface;
 
+        @Override
         public void __constructor__(SurfaceTexture surfaceTexture) {
             // Call the constructor on the real object, so that critical fields such as mLock is
             // initialized properly.
