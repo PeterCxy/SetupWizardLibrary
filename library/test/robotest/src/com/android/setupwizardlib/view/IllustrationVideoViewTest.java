@@ -16,6 +16,8 @@
 
 package com.android.setupwizardlib.view;
 
+import static com.google.common.truth.Truth.assertThat;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
@@ -30,6 +32,7 @@ import android.graphics.SurfaceTexture;
 import android.media.MediaPlayer;
 import android.os.Build.VERSION_CODES;
 import android.view.Surface;
+import android.view.View;
 
 import androidx.annotation.RawRes;
 
@@ -92,6 +95,30 @@ public class IllustrationVideoViewTest {
     }
 
     @Test
+    public void onVisibilityChanged_notVisible_shouldRelease() {
+        createDefaultView();
+        mView.onWindowVisibilityChanged(View.GONE);
+
+        verify(ShadowMockMediaPlayer.sMediaPlayer).release();
+        assertThat(mView.mSurface).isNull();
+        assertThat(mView.mMediaPlayer).isNull();
+    }
+
+    @Test
+    public void onVisibilityChanged_visible_shouldPlay() {
+        createDefaultView();
+
+        mView.onWindowVisibilityChanged(View.GONE);
+        assertThat(mView.mSurface).isNull();
+        assertThat(mView.mMediaPlayer).isNull();
+
+        mView.onWindowVisibilityChanged(View.VISIBLE);
+
+        assertThat(mView.mSurface).isNotNull();
+        assertThat(mView.mMediaPlayer).isNotNull();
+    }
+
+    @Test
     public void testPausedWhenWindowFocusLost() {
         createDefaultView();
         mView.start();
@@ -149,6 +176,7 @@ public class IllustrationVideoViewTest {
                         // Any resource attribute should work, since the media player is mocked
                         .addAttribute(R.attr.suwVideo, "@android:color/white")
                         .build());
+        mView.setSurfaceTexture(mock(SurfaceTexture.class));
         mView.onSurfaceTextureAvailable(mSurfaceTexture, 500, 500);
     }
 
