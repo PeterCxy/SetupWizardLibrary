@@ -44,6 +44,7 @@
 
         <item name="suwButtonAllCaps">true</item>
         <item name="suwButtonFontFamily">sans-serif</item>
+        <item name="suwButtonHighlightAlpha">0.24</item>
         <item name="suwCardBackground">@drawable/suw_card_bg</item>
         <item name="suwFillContentLayoutStyle">@style/SuwFillContentLayout</item>
         <item name="suwDividerInsetEnd">0dp</item>
@@ -75,6 +76,7 @@
 
         <item name="suwButtonAllCaps">true</item>
         <item name="suwButtonFontFamily">sans-serif</item>
+        <item name="suwButtonHighlightAlpha">0.24</item>
         <item name="suwCardBackground">@drawable/suw_card_bg</item>
         <item name="suwFillContentLayoutStyle">@style/SuwFillContentLayout</item>
         <item name="suwDividerInsetEnd">0dp</item>
@@ -110,6 +112,7 @@
         <item name="suwButtonAllCaps">true</item>
         <item name="suwButtonCornerRadius">@dimen/suw_glif_button_corner_radius</item>
         <item name="suwButtonFontFamily">sans-serif-medium</item>
+        <item name="suwButtonHighlightAlpha">0.24</item>
         <item name="suwColorPrimary">?android:attr/colorPrimary</item>
         <item name="suwFillContentLayoutStyle">@style/SuwFillContentLayout</item>
         <item name="suwDividerInsetEnd">0dp</item>
@@ -146,6 +149,7 @@
         <item name="suwButtonAllCaps">true</item>
         <item name="suwButtonCornerRadius">@dimen/suw_glif_button_corner_radius</item>
         <item name="suwButtonFontFamily">sans-serif-medium</item>
+        <item name="suwButtonHighlightAlpha">0.12</item>
         <item name="suwColorPrimary">?android:attr/colorPrimary</item>
         <item name="suwFillContentLayoutStyle">@style/SuwFillContentLayout</item>
         <item name="suwDividerInsetEnd">0dp</item>
