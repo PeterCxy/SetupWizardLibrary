@@ -28,6 +28,7 @@ import android.content.Context;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 import android.os.Bundle;
+import android.util.AttributeSet;
 import android.view.ContextThemeWrapper;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -37,29 +38,21 @@ import androidx.annotation.Nullable;
 import com.android.setupwizardlib.R;
 import com.android.setupwizardlib.robolectric.SuwLibRobolectricTestRunner;
 
-import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
 import org.robolectric.annotation.Config;
+import org.robolectric.util.ReflectionHelpers;
+import org.robolectric.util.ReflectionHelpers.ClassParameter;
 
 @RunWith(SuwLibRobolectricTestRunner.class)
 @Config(sdk = {Config.OLDEST_SDK, Config.NEWEST_SDK})
 public class GlifStyleTest {
 
-    private Context mContext;
-
-    @Before
-    public void setUp() {
-        mContext = new ContextThemeWrapper(application, R.style.SuwThemeGlif_Light);
-    }
-
-    @Ignore("b/78472674")
     @Test
     public void testSuwGlifButtonTertiary() {
-        Button button = new Button(
-                mContext,
+        Button button = createButton(
+                new ContextThemeWrapper(application, R.style.SuwThemeGlif_Light),
                 Robolectric.buildAttributeSet()
                         .setStyleAttribute("@style/SuwGlifButton.Tertiary")
                         .build());
@@ -87,6 +80,22 @@ public class GlifStyleTest {
 
         assertTrue("Progress bar should exist",
                 activity.findViewById(R.id.suw_large_progress_bar) instanceof ProgressBar);
+    }
+
+    private Button createButton(Context context, AttributeSet attrs) {
+        Class<? extends Button> buttonClass;
+        try {
+            // Use AppCompatButton in builds that have them (i.e. gingerbreadCompat)
+            // noinspection unchecked
+            buttonClass = (Class<? extends Button>)
+                     Class.forName("androidx.appcompat.widget.AppCompatButton");
+        } catch (ClassNotFoundException e) {
+            buttonClass = Button.class;
+        }
+        return ReflectionHelpers.callConstructor(
+                buttonClass,
+                ClassParameter.from(Context.class, context),
+                ClassParameter.from(AttributeSet.class, attrs));
     }
 
     private static class GlifThemeActivity extends Activity {

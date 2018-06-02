@@ -204,11 +204,6 @@
         <item name="android:textAllCaps" tools:targetApi="ice_cream_sandwich">false</item>
     </style>
 
-    <!-- Ignore UnusedResources: used by clients -->
-    <style name="SuwGlifButton.Tertiary"
-        parent="SuwGlifButton.BaseTertiary"
-        tools:ignore="UnusedResources" />
-
     <!-- The start and end paddings are asymmetric because start buttons are borderless buttons
          which aligns the text label. -->
     <style name="SuwGlifButtonBar">
