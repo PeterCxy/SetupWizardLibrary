@@ -31,13 +31,13 @@ import android.support.test.runner.AndroidJUnit4;
 import android.text.SpannableStringBuilder;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.accessibility.AccessibilityEvent;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import androidx.core.text.BidiFormatter;
+import androidx.core.view.AccessibilityDelegateCompat;
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat.AccessibilityActionCompat;
 import androidx.customview.widget.ExploreByTouchHelper;
@@ -242,7 +242,7 @@ public class LinkAccessibilityHelperTest {
     @Test
     public void testMethodDelegation() {
         initTextView();
-        ExploreByTouchHelper delegate = mock(TestPreOLinkAccessibilityHelper.class);
+        AccessibilityDelegateCompat delegate = mock(AccessibilityDelegateCompat.class);
         LinkAccessibilityHelper helper = new LinkAccessibilityHelper(delegate);
 
         AccessibilityEvent accessibilityEvent =
@@ -271,10 +271,6 @@ public class LinkAccessibilityHelperTest {
         verify(delegate).dispatchPopulateAccessibilityEvent(
                 same(mTextView),
                 same(accessibilityEvent));
-
-        MotionEvent motionEvent = MotionEvent.obtain(0, 0, 0, 0, 0, 0);
-        helper.dispatchHoverEvent(motionEvent);
-        verify(delegate).dispatchHoverEvent(eq(motionEvent));
 
         helper.getAccessibilityNodeProvider(mTextView);
         verify(delegate).getAccessibilityNodeProvider(same(mTextView));

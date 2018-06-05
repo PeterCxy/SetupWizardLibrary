@@ -137,7 +137,7 @@ public class LinkAccessibilityHelper extends AccessibilityDelegateCompat {
      *
      * @see ExploreByTouchHelper#dispatchHoverEvent(MotionEvent)
      */
-    public final boolean dispatchHoverEvent(MotionEvent event) {
+    public boolean dispatchHoverEvent(MotionEvent event) {
         return mDelegate instanceof ExploreByTouchHelper
                 && ((ExploreByTouchHelper) mDelegate).dispatchHoverEvent(event);
     }
