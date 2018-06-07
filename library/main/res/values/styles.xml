@@ -166,7 +166,7 @@
         <!-- Before Honeycomb, layout_gravity is needed for FrameLayout to apply the margins -->
         <item name="android:layout_gravity">top</item>
         <item name="android:ellipsize">end</item>
-        <item name="android:maxLines">2</item>
+        <item name="android:maxLines">3</item>
         <item name="android:textSize">@dimen/suw_header_title_size</item>
     </style>
 
