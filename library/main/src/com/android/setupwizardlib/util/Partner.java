@@ -91,7 +91,7 @@ public class Partner {
      */
     public static CharSequence getText(Context context, @StringRes int id) {
         final ResourceEntry entry = getResourceEntry(context, id);
-        return entry.resources.getText(id);
+        return entry.resources.getText(entry.id);
     }
 
     /**
