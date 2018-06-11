@@ -283,6 +283,10 @@
     <style name="SuwFourColorIndeterminateProgressBar" parent="SuwBase.ProgressBarLarge">
         <item name="android:layout_gravity">center</item>
         <item name="android:indeterminate">true</item>
+        <item name="android:paddingEnd" tools:targetApi="17" >@dimen/suw_glif_progress_bar_padding</item>
+        <item name="android:paddingLeft">@dimen/suw_glif_progress_bar_padding</item>
+        <item name="android:paddingRight">@dimen/suw_glif_progress_bar_padding</item>
+        <item name="android:paddingStart" tools:targetApi="17" >@dimen/suw_glif_progress_bar_padding</item>
     </style>
 
     <!-- Navigation bar styles -->
