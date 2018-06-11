@@ -18,18 +18,14 @@ package com.android.setupwizardlib.view;
 
 import static com.google.common.truth.Truth.assertThat;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.reset;
-import static org.mockito.Mockito.verify;
 import static org.robolectric.RuntimeEnvironment.application;
 
 import android.annotation.TargetApi;
-import android.content.Context;
+import android.app.Activity;
 import android.graphics.SurfaceTexture;
-import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Build.VERSION_CODES;
 import android.view.Surface;
 import android.view.View;
@@ -39,31 +35,33 @@ import androidx.annotation.RawRes;
 import com.android.setupwizardlib.R;
 import com.android.setupwizardlib.robolectric.SuwLibRobolectricTestRunner;
 import com.android.setupwizardlib.shadow.ShadowLog;
-import com.android.setupwizardlib.shadow.ShadowLog.TerribleFailure;
-import com.android.setupwizardlib.view.IllustrationVideoViewTest.ShadowMockMediaPlayer;
+import com.android.setupwizardlib.shadow.ShadowMediaPlayer;
 import com.android.setupwizardlib.view.IllustrationVideoViewTest.ShadowSurface;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.robolectric.Robolectric;
+import org.robolectric.Shadows;
 import org.robolectric.annotation.Config;
-import org.robolectric.annotation.Implementation;
 import org.robolectric.annotation.Implements;
 import org.robolectric.annotation.RealObject;
 import org.robolectric.shadow.api.Shadow;
-import org.robolectric.shadows.ShadowMediaPlayer;
+import org.robolectric.shadows.ShadowMediaPlayer.InvalidStateBehavior;
+import org.robolectric.shadows.ShadowMediaPlayer.MediaInfo;
+import org.robolectric.shadows.ShadowMediaPlayer.State;
+import org.robolectric.shadows.util.DataSource;
 import org.robolectric.util.ReflectionHelpers;
+import org.robolectric.util.ReflectionHelpers.ClassParameter;
 
 @RunWith(SuwLibRobolectricTestRunner.class)
 @Config(
         sdk = Config.NEWEST_SDK,
         shadows = {
                 ShadowLog.class,
-                ShadowMockMediaPlayer.class,
+                ShadowMediaPlayer.class,
                 ShadowSurface.class
         })
 public class IllustrationVideoViewTest {
@@ -73,33 +71,21 @@ public class IllustrationVideoViewTest {
 
     private IllustrationVideoView mView;
 
+    private ShadowMediaPlayer mShadowMediaPlayer;
+
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-    }
-
-    @After
-    public void tearDown() {
-        ShadowMockMediaPlayer.reset();
-    }
-
-    @Test
-    public void nullMediaPlayer_shouldThrowWtf() {
-        ShadowMockMediaPlayer.sMediaPlayer = null;
-        try {
-            createDefaultView();
-            fail("WTF should be thrown for null media player");
-        } catch (TerribleFailure e) {
-            // pass
-        }
+        addMediaInfo(android.R.color.white);
     }
 
     @Test
     public void onVisibilityChanged_notVisible_shouldRelease() {
+
         createDefaultView();
         mView.onWindowVisibilityChanged(View.GONE);
 
-        verify(ShadowMockMediaPlayer.sMediaPlayer).release();
+        assertThat(mShadowMediaPlayer.getState()).isEqualTo(State.END);
         assertThat(mView.mSurface).isNull();
         assertThat(mView.mMediaPlayer).isNull();
     }
@@ -121,24 +107,22 @@ public class IllustrationVideoViewTest {
     @Test
     public void testPausedWhenWindowFocusLost() {
         createDefaultView();
+        Robolectric.flushForegroundThreadScheduler();
         mView.start();
 
         assertNotNull(mView.mMediaPlayer);
         assertNotNull(mView.mSurface);
 
         mView.onWindowFocusChanged(false);
-        verify(ShadowMockMediaPlayer.getMock()).pause();
+        assertThat(mShadowMediaPlayer.getState()).isEqualTo(State.PAUSED);
     }
 
     @Test
     public void testStartedWhenWindowFocusRegained() {
         testPausedWhenWindowFocusLost();
 
-        // Clear verifications for calls in the other test
-        reset(ShadowMockMediaPlayer.getMock());
-
         mView.onWindowFocusChanged(true);
-        verify(ShadowMockMediaPlayer.getMock()).start();
+        assertThat(mShadowMediaPlayer.getState()).isEqualTo(State.STARTED);
     }
 
     @Test
@@ -150,56 +134,68 @@ public class IllustrationVideoViewTest {
         assertNotNull(mView.mSurface);
 
         mView.onSurfaceTextureDestroyed(mSurfaceTexture);
-        verify(ShadowMockMediaPlayer.getMock()).release();
+        assertThat(mShadowMediaPlayer.getState()).isEqualTo(State.END);
     }
 
     @Test
     public void testXmlSetVideoResId() {
         createDefaultView();
-        assertEquals(android.R.color.white, ShadowMockMediaPlayer.sResId);
+        assertThat(mShadowMediaPlayer.getSourceUri().toString())
+                .isEqualTo("android.resource://com.android.setupwizardlib/"
+                        + android.R.color.white);
     }
 
     @Test
     public void testSetVideoResId() {
+        addMediaInfo(android.R.color.black);
+
         createDefaultView();
 
         @RawRes int black = android.R.color.black;
         mView.setVideoResource(black);
 
-        assertEquals(android.R.color.black, ShadowMockMediaPlayer.sResId);
+        mShadowMediaPlayer = (ShadowMediaPlayer) Shadows.shadowOf(mView.mMediaPlayer);
+
+        assertThat(mShadowMediaPlayer.getSourceUri().toString())
+                .isEqualTo("android.resource://com.android.setupwizardlib/"
+                        + android.R.color.black);
     }
 
     private void createDefaultView() {
         mView = new IllustrationVideoView(
                 application,
                 Robolectric.buildAttributeSet()
-                        // Any resource attribute should work, since the media player is mocked
+                        // Any resource attribute should work, since the DataSource is fake
                         .addAttribute(R.attr.suwVideo, "@android:color/white")
                         .build());
+
+        Activity activity = Robolectric.setupActivity(Activity.class);
+        activity.setContentView(mView);
+        setWindowVisible();
+
         mView.setSurfaceTexture(mock(SurfaceTexture.class));
         mView.onSurfaceTextureAvailable(mSurfaceTexture, 500, 500);
+        mShadowMediaPlayer = (ShadowMediaPlayer) Shadows.shadowOf(mView.mMediaPlayer);
+        mShadowMediaPlayer.setInvalidStateBehavior(InvalidStateBehavior.EMULATE);
     }
 
-    @Implements(MediaPlayer.class)
-    public static class ShadowMockMediaPlayer extends ShadowMediaPlayer {
+    private void setWindowVisible() {
+        Object viewRootImpl = ReflectionHelpers.callInstanceMethod(mView, "getViewRootImpl");
+        ReflectionHelpers.callInstanceMethod(
+                viewRootImpl,
+                "handleAppVisibility",
+                ClassParameter.from(boolean.class, true));
+        assertThat(mView.isAttachedToWindow()).isTrue();
+        assertThat(mView.getWindowVisibility()).isEqualTo(View.VISIBLE);
+    }
 
-        private static MediaPlayer sMediaPlayer = mock(MediaPlayer.class);
-        private static int sResId;
-
-        public static void reset() {
-            sMediaPlayer = mock(MediaPlayer.class);
-            sResId = 0;
-        }
-
-        @Implementation
-        public static MediaPlayer create(Context context, int resId) {
-            sResId = resId;
-            return sMediaPlayer;
-        }
-
-        public static MediaPlayer getMock() {
-            return sMediaPlayer;
-        }
+    private void addMediaInfo(@RawRes int res) {
+        ShadowMediaPlayer.addMediaInfo(
+                DataSource.toDataSource(
+                        application,
+                        Uri.parse("android.resource://com.android.setupwizardlib/" + res),
+                        null),
+                new MediaInfo(5000, 1));
     }
 
     @Implements(Surface.class)
