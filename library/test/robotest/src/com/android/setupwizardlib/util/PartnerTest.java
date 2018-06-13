@@ -16,6 +16,8 @@
 
 package com.android.setupwizardlib.util;
 
+import static com.google.common.truth.Truth.assertThat;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -143,6 +145,19 @@ public class PartnerTest {
         final int foundColor = Partner.getColor(mContext, R.color.suw_color_accent_dark);
         assertEquals("Partner color should be overlayed to: " + expectedPartnerColor,
                 expectedPartnerColor, foundColor);
+    }
+
+    @Test
+    public void getText_shouldReturnPartnerValueIfPresent() {
+        final CharSequence expectedPartnerText = "partner";
+        doReturn(12345).when(mPartnerResources)
+                .getIdentifier(eq("suw_next_button_label"), eq("string"), anyString());
+        doReturn(expectedPartnerText).when(mPartnerResources).getText(eq(12345));
+        mPackageManager.addResolveInfoForIntent(
+                new Intent(ACTION_PARTNER_CUSTOMIZATION),
+                Collections.singletonList(createResolveInfo("test.partner.package", true, true)));
+        final CharSequence partnerText = Partner.getText(mContext, R.string.suw_next_button_label);
+        assertThat(partnerText).isEqualTo(expectedPartnerText);
     }
 
     @Test
