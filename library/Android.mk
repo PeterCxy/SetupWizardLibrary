@@ -15,6 +15,7 @@ LOCAL_RESOURCE_DIR := \
     $(LOCAL_PATH)/platform/res
 LOCAL_SDK_VERSION := current
 LOCAL_SRC_FILES := $(call all-java-files-under, main/src platform/src)
+LOCAL_MIN_SDK_VERSION := 23
 
 include $(BUILD_STATIC_JAVA_LIBRARY)
 
@@ -47,5 +48,7 @@ LOCAL_SHARED_ANDROID_LIBRARIES := \
     android-support-core-ui \
     android-support-v7-appcompat \
     android-support-v7-recyclerview
+
+LOCAL_MIN_SDK_VERSION := 14
 
 include $(BUILD_STATIC_JAVA_LIBRARY)
