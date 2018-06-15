@@ -38,10 +38,6 @@
 
     <!-- Button styles -->
 
-    <style name="SuwGlifButton.Tertiary" parent="SuwGlifButton.BaseTertiary">
-        <item name="android:fontFamily">sans-serif-medium</item>
-    </style>
-
     <style name="SuwBase.ProgressBarLarge" parent="@android:style/Widget.Material.ProgressBar.Large" />
 
     <style name="SuwFourColorIndeterminateProgressBar" parent="SuwBase.ProgressBarLarge">
