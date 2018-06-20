@@ -161,6 +161,35 @@ public class IllustrationVideoViewTest {
                         + android.R.color.black);
     }
 
+    @Test
+    public void prepareVideo_shouldSetAspectRatio() {
+        createDefaultView();
+
+        mShadowMediaPlayer.setVideoSize(720, 1280);
+
+        Robolectric.flushForegroundThreadScheduler();
+        mView.start();
+
+        mView.measure(View.MeasureSpec.makeMeasureSpec(720, View.MeasureSpec.EXACTLY),
+                View.MeasureSpec.makeMeasureSpec(720, View.MeasureSpec.EXACTLY));
+
+        final float aspectRatio = (float) mView.getMeasuredHeight() / mView.getMeasuredWidth();
+        assertThat(aspectRatio).isWithin(0.001f).of(1280f / 720f);
+    }
+
+    @Test
+    public void prepareVideo_zeroHeight_shouldSetAspectRatioToZero() {
+        createDefaultView();
+
+        mShadowMediaPlayer.setVideoSize(720, 0);
+
+        Robolectric.flushForegroundThreadScheduler();
+        mView.start();
+
+        final float aspectRatio = (float) mView.getHeight() / mView.getWidth();
+        assertThat(aspectRatio).isEqualTo(0.0f);
+    }
+
     private void createDefaultView() {
         mView = new IllustrationVideoView(
                 application,

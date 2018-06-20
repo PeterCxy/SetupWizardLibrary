@@ -34,6 +34,15 @@ import java.util.Map;
 @Implements(MediaPlayer.class)
 public class ShadowMediaPlayer extends org.robolectric.shadows.ShadowMediaPlayer {
 
+    private int mVideoWidth;
+    private int mVideoHeight;
+
+    public ShadowMediaPlayer() {
+        super();
+        mVideoWidth = -1;
+        mVideoHeight = -1;
+    }
+
     @Implementation
     public void setDataSource(
             @NonNull Context context,
@@ -47,5 +56,27 @@ public class ShadowMediaPlayer extends org.robolectric.shadows.ShadowMediaPlayer
     @Implementation
     public void seekTo(long msec, int mode) {
         seekTo((int) msec);
+    }
+
+    public void setVideoSize(int width, int height) {
+        if (width < 0) {
+            throw new IllegalArgumentException("Unexpected negative width=" + width);
+        }
+        if (height < 0) {
+            throw new IllegalArgumentException("Unexpected negative height=" + height);
+        }
+
+        mVideoWidth = width;
+        mVideoHeight = height;
+    }
+
+    @Override
+    public int getVideoWidth() {
+        return mVideoWidth;
+    }
+
+    @Override
+    public int getVideoHeight() {
+        return mVideoHeight;
     }
 }

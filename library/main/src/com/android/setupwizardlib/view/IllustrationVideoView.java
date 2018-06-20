@@ -294,9 +294,15 @@ public class IllustrationVideoView extends TextureView implements Animatable,
     public void onPrepared(MediaPlayer mp) {
         mPrepared = true;
         mp.setLooping(shouldLoop());
-        float aspectRatio =
-                (float) mp.getVideoHeight() / mp.getVideoWidth();
-        if (Float.compare(mAspectRatio, aspectRatio) == 0) {
+
+        float aspectRatio = 0.0f;
+        if (mp.getVideoWidth() > 0 && mp.getVideoHeight() > 0) {
+            aspectRatio = (float) mp.getVideoHeight() / mp.getVideoWidth();
+        } else {
+            Log.w(TAG, "Unexpected video size=" + mp.getVideoWidth() + "x"
+                    + mp.getVideoHeight());
+        }
+        if (Float.compare(mAspectRatio, aspectRatio) != 0) {
             mAspectRatio = aspectRatio;
             requestLayout();
         }
