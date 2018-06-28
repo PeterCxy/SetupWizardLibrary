@@ -190,6 +190,64 @@ public class IllustrationVideoViewTest {
         assertThat(aspectRatio).isEqualTo(0.0f);
     }
 
+    @Test
+    public void setVideoResId_resetDiffVideoResFromDiffPackage_videoResShouldBeSet() {
+        // VideoRes default set as android.R.color.white with
+        // default package(com.android.setupwizardlib)
+        createDefaultView();
+
+        // reset different videoRes from different package
+        String newPackageName = "com.android.fakepackage";
+        @RawRes int black = android.R.color.black;
+        addMediaInfo(black, newPackageName);
+        mView.setVideoResource(black, newPackageName);
+
+        // should be reset to black with the new package
+        mShadowMediaPlayer = (ShadowMediaPlayer) Shadows.shadowOf(mView.mMediaPlayer);
+        assertThat(mShadowMediaPlayer.getSourceUri().toString())
+                .isEqualTo("android.resource://" + newPackageName + "/"
+                        + android.R.color.black);
+    }
+
+    @Test
+    public void setVideoResId_resetDiffVideoResFromSamePackage_videoResShouldBeSet() {
+        // VideoRes default set as android.R.color.white with
+        // default package(com.android.setupwizardlib)
+        createDefaultView();
+
+        // reset different videoRes from the same package(default package)
+        String defaultPackageName = "com.android.setupwizardlib";
+        @RawRes int black = android.R.color.black;
+        addMediaInfo(black);
+        mView.setVideoResource(black, defaultPackageName);
+
+        // should be reset to black with the same package(default package)
+        mShadowMediaPlayer = (ShadowMediaPlayer) Shadows.shadowOf(mView.mMediaPlayer);
+        assertThat(mShadowMediaPlayer.getSourceUri().toString())
+                .isEqualTo("android.resource://" + defaultPackageName + "/"
+                        + android.R.color.black);
+    }
+
+    @Test
+    public void setVideoResId_resetSameVideoResFromDifferentPackage_videoResShouldBeSet() {
+        // VideoRes default set as android.R.color.white with
+        // default package(com.android.setupwizardlib)
+        createDefaultView();
+
+
+        // reset same videoRes from different package
+        @RawRes int white = android.R.color.white;
+        String newPackageName = "com.android.fakepackage";
+        addMediaInfo(white, newPackageName);
+        mView.setVideoResource(white, newPackageName);
+
+        // should be white with the new package
+        mShadowMediaPlayer = (ShadowMediaPlayer) Shadows.shadowOf(mView.mMediaPlayer);
+        assertThat(mShadowMediaPlayer.getSourceUri().toString())
+                .isEqualTo("android.resource://" + newPackageName + "/"
+                        + android.R.color.white);
+    }
+
     private void createDefaultView() {
         mView = new IllustrationVideoView(
                 application,
@@ -223,6 +281,15 @@ public class IllustrationVideoViewTest {
                 DataSource.toDataSource(
                         application,
                         Uri.parse("android.resource://com.android.setupwizardlib/" + res),
+                        null),
+                new MediaInfo(5000, 1));
+    }
+
+    private void addMediaInfo(@RawRes int res, String packageName) {
+        ShadowMediaPlayer.addMediaInfo(
+                DataSource.toDataSource(
+                        application,
+                        Uri.parse("android.resource://" + packageName + "/" + res),
                         null),
                 new MediaInfo(5000, 1));
     }

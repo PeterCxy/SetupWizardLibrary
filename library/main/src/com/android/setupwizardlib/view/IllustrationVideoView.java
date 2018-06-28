@@ -72,6 +72,8 @@ public class IllustrationVideoView extends TextureView implements Animatable,
 
     private @RawRes int mVideoResId = 0;
 
+    private String mVideoResPackageName;
+
     @VisibleForTesting Surface mSurface;
 
     private boolean mPrepared;
@@ -80,8 +82,9 @@ public class IllustrationVideoView extends TextureView implements Animatable,
         super(context, attrs);
         final TypedArray a = context.obtainStyledAttributes(attrs,
                 R.styleable.SuwIllustrationVideoView);
-        mVideoResId = a.getResourceId(R.styleable.SuwIllustrationVideoView_suwVideo, 0);
+        final int videoResId = a.getResourceId(R.styleable.SuwIllustrationVideoView_suwVideo, 0);
         a.recycle();
+        setVideoResource(videoResId);
 
         // By default the video scales without interpolation, resulting in jagged edges in the
         // video. This works around it by making the view go through scaling, which will apply
@@ -110,16 +113,30 @@ public class IllustrationVideoView extends TextureView implements Animatable,
                 MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY));
     }
 
+
+    /**
+     * Set the video and video package name to be played by this view.
+     *
+     * @param videoResId Resource ID of the video, typically an MP4 under res/raw.
+     * @param videoResPackageName The package name of videoResId.
+     */
+    public void setVideoResource(@RawRes int videoResId, String videoResPackageName) {
+        if (videoResId != mVideoResId
+                || (videoResPackageName != null && !videoResPackageName.equals(
+                mVideoResPackageName))) {
+            mVideoResId = videoResId;
+            mVideoResPackageName = videoResPackageName;
+            createMediaPlayer();
+        }
+    }
+
     /**
      * Set the video to be played by this view.
      *
      * @param resId Resource ID of the video, typically an MP4 under res/raw.
      */
     public void setVideoResource(@RawRes int resId) {
-        if (resId != mVideoResId) {
-            mVideoResId = resId;
-            createMediaPlayer();
-        }
+        setVideoResource(resId, getContext().getPackageName());
     }
 
     @Override
@@ -152,12 +169,11 @@ public class IllustrationVideoView extends TextureView implements Animatable,
         mMediaPlayer.setOnInfoListener(this);
         mMediaPlayer.setOnErrorListener(this);
 
-        setVideoResourceInternal(mVideoResId);
+        setVideoResourceInternal(mVideoResId, mVideoResPackageName);
     }
 
-    private void setVideoResourceInternal(@RawRes int videoRes) {
-        Uri uri =
-                Uri.parse("android.resource://" + getContext().getPackageName() + "/" + videoRes);
+    private void setVideoResourceInternal(@RawRes int videoRes, String videoResPackageName) {
+        Uri uri = Uri.parse("android.resource://" + videoResPackageName + "/" + videoRes);
         try {
             mMediaPlayer.setDataSource(getContext(), uri);
             mMediaPlayer.prepareAsync();
