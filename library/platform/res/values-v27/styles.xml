@@ -15,9 +15,10 @@
     limitations under the License.
 -->
 
+<!-- TODO(yukl): Bump this file to v28 once we can properly test that -->
 <!-- These styles are only included in the platform build, to make sure that they do not
      override the corresponding styles in the compatibility build. -->
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- General styles -->
 
@@ -26,6 +27,7 @@
          Theme.AppCompat. -->
     <style name="SuwThemeMaterial" parent="android:Theme.Material.NoActionBar">
         <item name="android:colorAccent">@color/suw_color_accent_dark</item>
+        <item name="android:colorBackground">@color/suw_color_background_dark</item>
         <item name="android:indeterminateTint">@color/suw_progress_bar_color_dark</item>
         <!-- Specify the indeterminateTintMode to work around a bug in Lollipop -->
         <item name="android:indeterminateTintMode">src_in</item>
@@ -34,12 +36,14 @@
         <item name="android:listPreferredItemPaddingStart">?attr/suwMarginSides</item>
         <item name="android:navigationBarColor">@android:color/black</item>
         <item name="android:statusBarColor">@android:color/black</item>
-        <item name="android:textAppearanceListItemSmall">@android:style/TextAppearance.Material.Body1</item>
+        <item name="android:textAppearanceListItemSmall">@style/TextAppearance.SuwItemSummary</item>
         <item name="android:textColorLink">@color/suw_link_color_dark</item>
         <item name="android:windowAnimationStyle">@style/Animation.SuwWindowAnimation</item>
         <item name="android:windowDisablePreview">true</item>
         <item name="android:windowSoftInputMode">adjustResize</item>
 
+        <item name="suwButtonAllCaps">true</item>
+        <item name="suwButtonFontFamily">sans-serif</item>
         <item name="suwCardBackground">@drawable/suw_card_bg</item>
         <item name="suwFillContentLayoutStyle">@style/SuwFillContentLayout</item>
         <item name="suwDividerInsetEnd">0dp</item>
@@ -54,6 +58,7 @@
 
     <style name="SuwThemeMaterial.Light" parent="android:Theme.Material.Light.NoActionBar">
         <item name="android:colorAccent">@color/suw_color_accent_light</item>
+        <item name="android:colorBackground">@color/suw_color_background_light</item>
         <item name="android:indeterminateTint">@color/suw_progress_bar_color_light</item>
         <!-- Specify the indeterminateTintMode to work around a bug in Lollipop -->
         <item name="android:indeterminateTintMode">src_in</item>
@@ -62,12 +67,14 @@
         <item name="android:listPreferredItemPaddingStart">?attr/suwMarginSides</item>
         <item name="android:navigationBarColor">@android:color/black</item>
         <item name="android:statusBarColor">@android:color/black</item>
-        <item name="android:textAppearanceListItemSmall">@android:style/TextAppearance.Material.Body1</item>
+        <item name="android:textAppearanceListItemSmall">@style/TextAppearance.SuwItemSummary</item>
         <item name="android:textColorLink">@color/suw_link_color_light</item>
         <item name="android:windowAnimationStyle">@style/Animation.SuwWindowAnimation</item>
         <item name="android:windowDisablePreview">true</item>
         <item name="android:windowSoftInputMode">adjustResize</item>
 
+        <item name="suwButtonAllCaps">true</item>
+        <item name="suwButtonFontFamily">sans-serif</item>
         <item name="suwCardBackground">@drawable/suw_card_bg</item>
         <item name="suwFillContentLayoutStyle">@style/SuwFillContentLayout</item>
         <item name="suwDividerInsetEnd">0dp</item>
@@ -84,7 +91,7 @@
     <style name="SuwThemeGlif" parent="android:Theme.Material.NoActionBar">
         <item name="android:colorAccent">@color/suw_color_accent_glif_dark</item>
         <item name="android:colorBackground">@color/suw_glif_background_color_dark</item>
-        <item name="android:colorPrimary">@color/suw_color_accent_glif_dark</item>
+        <item name="android:colorPrimary">?android:attr/colorAccent</item>
         <item name="android:indeterminateTint">?android:attr/colorPrimary</item>
         <!-- Specify the indeterminateTintMode to work around a bug in Lollipop -->
         <item name="android:indeterminateTintMode">src_in</item>
@@ -100,12 +107,16 @@
         <item name="android:windowDisablePreview">true</item>
         <item name="android:windowSoftInputMode">adjustResize</item>
 
+        <item name="suwButtonAllCaps">true</item>
+        <item name="suwButtonCornerRadius">@dimen/suw_glif_button_corner_radius</item>
+        <item name="suwButtonFontFamily">sans-serif</item>
         <item name="suwColorPrimary">?android:attr/colorPrimary</item>
         <item name="suwFillContentLayoutStyle">@style/SuwFillContentLayout</item>
         <item name="suwDividerInsetEnd">0dp</item>
         <item name="suwDividerInsetStart">@dimen/suw_items_glif_icon_divider_inset</item>
         <item name="suwDividerInsetStartNoIcon">@dimen/suw_items_glif_text_divider_inset</item>
         <item name="suwGlifHeaderGravity">start</item>
+        <item name="suwGlifIconStyle">@style/SuwGlifIcon</item>
         <item name="suwItemDescriptionStyle">@style/SuwItemContainer.Description.Glif</item>
         <item name="suwItemDescriptionTitleStyle">@style/SuwItemTitle.GlifDescription</item>
         <item name="suwListItemIconColor">@color/suw_list_item_icon_color_dark</item>
@@ -116,7 +127,7 @@
     <style name="SuwThemeGlif.Light" parent="android:Theme.Material.Light.NoActionBar">
         <item name="android:colorAccent">@color/suw_color_accent_glif_light</item>
         <item name="android:colorBackground">@color/suw_glif_background_color_light</item>
-        <item name="android:colorPrimary">@color/suw_color_accent_glif_light</item>
+        <item name="android:colorPrimary">?android:attr/colorAccent</item>
         <item name="android:indeterminateTint">?android:attr/colorPrimary</item>
         <!-- Specify the indeterminateTintMode to work around a bug in Lollipop -->
         <item name="android:indeterminateTintMode">src_in</item>
@@ -132,17 +143,42 @@
         <item name="android:windowDisablePreview">true</item>
         <item name="android:windowSoftInputMode">adjustResize</item>
 
+        <item name="suwButtonAllCaps">true</item>
+        <item name="suwButtonCornerRadius">@dimen/suw_glif_button_corner_radius</item>
+        <item name="suwButtonFontFamily">sans-serif</item>
         <item name="suwColorPrimary">?android:attr/colorPrimary</item>
         <item name="suwFillContentLayoutStyle">@style/SuwFillContentLayout</item>
         <item name="suwDividerInsetEnd">0dp</item>
         <item name="suwDividerInsetStart">@dimen/suw_items_glif_icon_divider_inset</item>
         <item name="suwDividerInsetStartNoIcon">@dimen/suw_items_glif_text_divider_inset</item>
         <item name="suwGlifHeaderGravity">start</item>
+        <item name="suwGlifIconStyle">@style/SuwGlifIcon</item>
         <item name="suwItemDescriptionStyle">@style/SuwItemContainer.Description.Glif</item>
         <item name="suwItemDescriptionTitleStyle">@style/SuwItemTitle.GlifDescription</item>
         <item name="suwListItemIconColor">@color/suw_list_item_icon_color_light</item>
         <item name="suwMarginSides">@dimen/suw_glif_margin_sides</item>
         <item name="suwScrollIndicators">bottom</item>
+    </style>
+
+    <style name="SuwThemeGlifV3" parent="SuwThemeGlifV2">
+        <item name="android:colorAccent">@color/suw_color_accent_glif_v3</item>
+
+        <item name="suwButtonAllCaps">false</item>
+        <item name="suwButtonCornerRadius">@dimen/suw_glif_v3_button_corner_radius</item>
+        <item name="suwButtonFontFamily">@string/suwFontSecondaryMedium</item>
+    </style>
+
+    <style name="SuwThemeGlifV3.Light" parent="SuwThemeGlifV2.Light">
+        <item name="android:colorAccent">@color/suw_color_accent_glif_v3</item>
+        <item name="android:navigationBarColor">@color/suw_glif_v3_nav_bar_color_light</item>
+        <!-- Ignore NewApi: For some reason lint seems to think this API is new in v28 (b/73514594) -->
+        <item name="android:navigationBarDividerColor" tools:ignore="NewApi">@color/suw_glif_v3_nav_bar_divider_color_light</item>
+        <!-- Ignore NewApi: For some reason lint seems to think this API is new in v28 (b/73514594) -->
+        <item name="android:windowLightNavigationBar" tools:ignore="NewApi">true</item>
+
+        <item name="suwButtonAllCaps">false</item>
+        <item name="suwButtonCornerRadius">@dimen/suw_glif_v3_button_corner_radius</item>
+        <item name="suwButtonFontFamily">@string/suwFontSecondaryMedium</item>
     </style>
 
     <!-- Button styles -->
@@ -154,8 +190,13 @@
         <item name="android:buttonStyle">@style/SuwGlifButton.Primary</item>
 
         <!-- Values used in styles -->
+        <item name="android:fontFamily">?attr/suwButtonFontFamily</item>
         <item name="android:paddingLeft">@dimen/suw_glif_button_padding</item>
         <item name="android:paddingRight">@dimen/suw_glif_button_padding</item>
+        <item name="android:textAllCaps">?attr/suwButtonAllCaps</item>
+
+        <!-- Values used in themes -->
+        <item name="android:buttonCornerRadius" tools:ignore="NewApi">?attr/suwButtonCornerRadius</item>
     </style>
 
     <style name="SuwGlifButton.Secondary" parent="android:Widget.Material.Button.Borderless.Colored">
@@ -166,11 +207,14 @@
         <item name="android:theme">@style/SuwGlifButton.Secondary</item>
 
         <!-- Values used in styles -->
+        <item name="android:fontFamily">?attr/suwButtonFontFamily</item>
         <item name="android:minWidth">0dp</item>
         <item name="android:paddingLeft">@dimen/suw_glif_button_padding</item>
         <item name="android:paddingRight">@dimen/suw_glif_button_padding</item>
+        <item name="android:textAllCaps">?attr/suwButtonAllCaps</item>
 
         <!-- Values used in themes -->
+        <item name="android:buttonCornerRadius" tools:ignore="NewApi">?attr/suwButtonCornerRadius</item>
         <item name="android:colorControlHighlight">@color/suw_flat_button_highlight</item>
     </style>
 
