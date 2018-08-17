@@ -1,0 +1,7 @@
+android_library {
+    name: "setup-wizard-navbar",
+
+    sdk_version: "current",
+    resource_dirs: ["res"],
+    srcs: ["src/**/*.java"],
+}
