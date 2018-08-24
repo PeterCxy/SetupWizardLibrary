@@ -23,13 +23,13 @@ import org.robolectric.RobolectricTestRunner;
 
 public class SuwLibRobolectricTestRunner extends RobolectricTestRunner {
 
-    public SuwLibRobolectricTestRunner(Class<?> testClass) throws InitializationError {
-        super(testClass);
-    }
+  public SuwLibRobolectricTestRunner(Class<?> testClass) throws InitializationError {
+    super(testClass);
+  }
 
-    @Override
-    protected void runChild(FrameworkMethod method, RunNotifier notifier) {
-        System.out.println("===== Running " + method + " =====");
-        super.runChild(method, notifier);
-    }
+  @Override
+  protected void runChild(FrameworkMethod method, RunNotifier notifier) {
+    System.out.println("===== Running " + method + " =====");
+    super.runChild(method, notifier);
+  }
 }

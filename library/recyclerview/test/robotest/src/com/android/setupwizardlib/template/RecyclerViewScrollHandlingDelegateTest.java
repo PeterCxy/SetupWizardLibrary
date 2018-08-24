@@ -26,9 +26,7 @@ import static org.robolectric.RuntimeEnvironment.application;
 
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.RecyclerView.OnScrollListener;
-
 import com.android.setupwizardlib.robolectric.SuwLibRobolectricTestRunner;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -37,52 +35,51 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.robolectric.annotation.Config;
 
-@Config(sdk = { Config.OLDEST_SDK, Config.NEWEST_SDK })
+@Config(sdk = {Config.OLDEST_SDK, Config.NEWEST_SDK})
 @RunWith(SuwLibRobolectricTestRunner.class)
 public class RecyclerViewScrollHandlingDelegateTest {
 
-    @Mock
-    private RequireScrollMixin mRequireScrollMixin;
+  @Mock private RequireScrollMixin mRequireScrollMixin;
 
-    private RecyclerView mRecyclerView;
-    private RecyclerViewScrollHandlingDelegate mDelegate;
-    private ArgumentCaptor<OnScrollListener> mListenerCaptor;
+  private RecyclerView mRecyclerView;
+  private RecyclerViewScrollHandlingDelegate mDelegate;
+  private ArgumentCaptor<OnScrollListener> mListenerCaptor;
 
-    @Before
-    public void setUp() throws Exception {
-        MockitoAnnotations.initMocks(this);
+  @Before
+  public void setUp() throws Exception {
+    MockitoAnnotations.initMocks(this);
 
-        mRecyclerView = spy(new RecyclerView(application));
-        doReturn(20).when(mRecyclerView).computeVerticalScrollRange();
-        doReturn(0).when(mRecyclerView).computeVerticalScrollExtent();
-        doReturn(0).when(mRecyclerView).computeVerticalScrollOffset();
-        mListenerCaptor = ArgumentCaptor.forClass(OnScrollListener.class);
-        doNothing().when(mRecyclerView).addOnScrollListener(mListenerCaptor.capture());
+    mRecyclerView = spy(new RecyclerView(application));
+    doReturn(20).when(mRecyclerView).computeVerticalScrollRange();
+    doReturn(0).when(mRecyclerView).computeVerticalScrollExtent();
+    doReturn(0).when(mRecyclerView).computeVerticalScrollOffset();
+    mListenerCaptor = ArgumentCaptor.forClass(OnScrollListener.class);
+    doNothing().when(mRecyclerView).addOnScrollListener(mListenerCaptor.capture());
 
-        mDelegate = new RecyclerViewScrollHandlingDelegate(mRequireScrollMixin, mRecyclerView);
-        mRecyclerView.layout(0, 0, 50, 50);
-    }
+    mDelegate = new RecyclerViewScrollHandlingDelegate(mRequireScrollMixin, mRecyclerView);
+    mRecyclerView.layout(0, 0, 50, 50);
+  }
 
-    @Test
-    public void testRequireScroll() {
-        mDelegate.startListening();
-        verify(mRequireScrollMixin).notifyScrollabilityChange(true);
-    }
+  @Test
+  public void testRequireScroll() {
+    mDelegate.startListening();
+    verify(mRequireScrollMixin).notifyScrollabilityChange(true);
+  }
 
-    @Test
-    public void testScrolledToBottom() {
-        mDelegate.startListening();
-        verify(mRequireScrollMixin).notifyScrollabilityChange(true);
+  @Test
+  public void testScrolledToBottom() {
+    mDelegate.startListening();
+    verify(mRequireScrollMixin).notifyScrollabilityChange(true);
 
-        doReturn(20).when(mRecyclerView).computeVerticalScrollOffset();
-        mListenerCaptor.getValue().onScrolled(mRecyclerView, 0, 20);
+    doReturn(20).when(mRecyclerView).computeVerticalScrollOffset();
+    mListenerCaptor.getValue().onScrolled(mRecyclerView, 0, 20);
 
-        verify(mRequireScrollMixin).notifyScrollabilityChange(false);
-    }
+    verify(mRequireScrollMixin).notifyScrollabilityChange(false);
+  }
 
-    @Test
-    public void testClickScrollButton() {
-        mDelegate.pageScrollDown();
-        verify(mRecyclerView).smoothScrollBy(anyInt(), eq(50));
-    }
+  @Test
+  public void testClickScrollButton() {
+    mDelegate.pageScrollDown();
+    verify(mRecyclerView).smoothScrollBy(anyInt(), eq(50));
+  }
 }

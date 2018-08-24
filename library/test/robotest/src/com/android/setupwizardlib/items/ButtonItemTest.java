@@ -38,145 +38,145 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
-
 import com.android.setupwizardlib.R;
 import com.android.setupwizardlib.items.ButtonItem.OnClickListener;
 import com.android.setupwizardlib.robolectric.SuwLibRobolectricTestRunner;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.annotation.Config;
 
 @RunWith(SuwLibRobolectricTestRunner.class)
-@Config(sdk = { Config.OLDEST_SDK, Config.NEWEST_SDK })
+@Config(sdk = {Config.OLDEST_SDK, Config.NEWEST_SDK})
 public class ButtonItemTest {
 
-    private ViewGroup mParent;
-    private Context mContext;
+  private ViewGroup parent;
+  private Context context;
 
-    @Before
-    public void setUp() {
-        mContext = new ContextThemeWrapper(application, R.style.SuwThemeGlif_Light);
-        mParent = new LinearLayout(mContext);
+  @Before
+  public void setUp() {
+    context = new ContextThemeWrapper(application, R.style.SuwThemeGlif_Light);
+    parent = new LinearLayout(context);
+  }
+
+  @Test
+  public void testDefaultItem() {
+    ButtonItem item = new ButtonItem();
+
+    assertTrue("ButtonItem should be enabled by default", item.isEnabled());
+    assertEquals("ButtonItem should return count = 0", 0, item.getCount());
+    assertEquals("ButtonItem should return layout resource = 0", 0, item.getLayoutResource());
+    assertEquals(
+        "Default theme should be @style/SuwButtonItem", R.style.SuwButtonItem, item.getTheme());
+    assertNull("Default text should be null", item.getText());
+  }
+
+  @Test
+  public void testOnBindView() {
+    ButtonItem item = new ButtonItem();
+
+    try {
+      item.onBindView(new View(context));
+      fail("Calling onBindView on ButtonItem should throw UnsupportedOperationException");
+    } catch (UnsupportedOperationException e) {
+      // pass
     }
+  }
 
-    @Test
-    public void testDefaultItem() {
-        ButtonItem item = new ButtonItem();
+  @Test
+  public void testCreateButton() {
+    TestButtonItem item = new TestButtonItem();
+    final Button button = item.createButton(parent);
 
-        assertTrue("ButtonItem should be enabled by default", item.isEnabled());
-        assertEquals("ButtonItem should return count = 0", 0, item.getCount());
-        assertEquals("ButtonItem should return layout resource = 0", 0, item.getLayoutResource());
-        assertEquals("Default theme should be @style/SuwButtonItem", R.style.SuwButtonItem,
-                item.getTheme());
-        assertNull("Default text should be null", item.getText());
+    assertTrue("Default button should be enabled", button.isEnabled());
+    assertTrue("Default button text should be empty", TextUtils.isEmpty(button.getText()));
+  }
+
+  @Test
+  public void testButtonItemSetsItsId() {
+    TestButtonItem item = new TestButtonItem();
+    final int id = 12345;
+    item.setId(id);
+
+    assertEquals("Button's id should be set", id, item.createButton(parent).getId());
+  }
+
+  @Test
+  public void testCreateButtonTwice() {
+    TestButtonItem item = new TestButtonItem();
+    final Button button = item.createButton(parent);
+
+    FrameLayout frameLayout = new FrameLayout(context);
+    frameLayout.addView(button);
+
+    final Button button2 = item.createButton(parent);
+    assertSame("createButton should be reused", button, button2);
+    assertNull("Should be removed from parent after createButton", button2.getParent());
+  }
+
+  @Test
+  public void testSetEnabledTrue() {
+    TestButtonItem item = new TestButtonItem();
+    item.setEnabled(true);
+
+    final Button button = item.createButton(parent);
+    assertTrue("ButtonItem should be enabled", item.isEnabled());
+    assertTrue("Button should be enabled", button.isEnabled());
+  }
+
+  @Test
+  public void testSetEnabledFalse() {
+    TestButtonItem item = new TestButtonItem();
+    item.setEnabled(false);
+
+    final Button button = item.createButton(parent);
+    assertFalse("ButtonItem should be disabled", item.isEnabled());
+    assertFalse("Button should be disabled", button.isEnabled());
+  }
+
+  @Test
+  public void testSetText() {
+    TestButtonItem item = new TestButtonItem();
+    item.setText("lorem ipsum");
+
+    final Button button = item.createButton(parent);
+    assertEquals("ButtonItem text should be \"lorem ipsum\"", "lorem ipsum", item.getText());
+    assertEquals("Button text should be \"lorem ipsum\"", "lorem ipsum", button.getText());
+  }
+
+  @Test
+  public void testSetTheme() {
+    TestButtonItem item = new TestButtonItem();
+    item.setTheme(R.style.SuwButtonItem_Colored);
+
+    final Button button = item.createButton(parent);
+    assertEquals(
+        "ButtonItem theme should be SuwButtonItem.Colored",
+        R.style.SuwButtonItem_Colored,
+        item.getTheme());
+    assertNotNull(button.getContext().getTheme());
+  }
+
+  @Test
+  public void testOnClickListener() {
+    TestButtonItem item = new TestButtonItem();
+    final OnClickListener listener = mock(OnClickListener.class);
+    item.setOnClickListener(listener);
+
+    verify(listener, never()).onClick(any(ButtonItem.class));
+
+    final Button button = item.createButton(parent);
+    button.performClick();
+
+    verify(listener).onClick(same(item));
+  }
+
+  private static class TestButtonItem extends ButtonItem {
+
+    @Override
+    public Button createButton(ViewGroup parent) {
+      // Make this method public for testing
+      return super.createButton(parent);
     }
-
-    @Test
-    public void testOnBindView() {
-        ButtonItem item = new ButtonItem();
-
-        try {
-            item.onBindView(new View(mContext));
-            fail("Calling onBindView on ButtonItem should throw UnsupportedOperationException");
-        } catch (UnsupportedOperationException e) {
-            // pass
-        }
-    }
-
-    @Test
-    public void testCreateButton() {
-        TestButtonItem item = new TestButtonItem();
-        final Button button = item.createButton(mParent);
-
-        assertTrue("Default button should be enabled", button.isEnabled());
-        assertTrue("Default button text should be empty", TextUtils.isEmpty(button.getText()));
-    }
-
-    @Test
-    public void testButtonItemSetsItsId() {
-        TestButtonItem item = new TestButtonItem();
-        final int id = 12345;
-        item.setId(id);
-
-        assertEquals("Button's id should be set", item.createButton(mParent).getId(), id);
-    }
-
-    @Test
-    public void testCreateButtonTwice() {
-        TestButtonItem item = new TestButtonItem();
-        final Button button = item.createButton(mParent);
-
-        FrameLayout frameLayout = new FrameLayout(mContext);
-        frameLayout.addView(button);
-
-        final Button button2 = item.createButton(mParent);
-        assertSame("createButton should be reused", button, button2);
-        assertNull("Should be removed from parent after createButton", button2.getParent());
-    }
-
-    @Test
-    public void testSetEnabledTrue() {
-        TestButtonItem item = new TestButtonItem();
-        item.setEnabled(true);
-
-        final Button button = item.createButton(mParent);
-        assertTrue("ButtonItem should be enabled", item.isEnabled());
-        assertTrue("Button should be enabled", button.isEnabled());
-    }
-
-    @Test
-    public void testSetEnabledFalse() {
-        TestButtonItem item = new TestButtonItem();
-        item.setEnabled(false);
-
-        final Button button = item.createButton(mParent);
-        assertFalse("ButtonItem should be disabled", item.isEnabled());
-        assertFalse("Button should be disabled", button.isEnabled());
-    }
-
-    @Test
-    public void testSetText() {
-        TestButtonItem item = new TestButtonItem();
-        item.setText("lorem ipsum");
-
-        final Button button = item.createButton(mParent);
-        assertEquals("ButtonItem text should be \"lorem ipsum\"", "lorem ipsum", item.getText());
-        assertEquals("Button text should be \"lorem ipsum\"", "lorem ipsum", button.getText());
-    }
-
-    @Test
-    public void testSetTheme() {
-        TestButtonItem item = new TestButtonItem();
-        item.setTheme(R.style.SuwButtonItem_Colored);
-
-        final Button button = item.createButton(mParent);
-        assertEquals("ButtonItem theme should be SuwButtonItem.Colored",
-                R.style.SuwButtonItem_Colored, item.getTheme());
-        assertNotNull(button.getContext().getTheme());
-    }
-
-    @Test
-    public void testOnClickListener() {
-        TestButtonItem item = new TestButtonItem();
-        final OnClickListener listener = mock(OnClickListener.class);
-        item.setOnClickListener(listener);
-
-        verify(listener, never()).onClick(any(ButtonItem.class));
-
-        final Button button = item.createButton(mParent);
-        button.performClick();
-
-        verify(listener).onClick(same(item));
-    }
-
-    private static class TestButtonItem extends ButtonItem {
-
-        @Override
-        public Button createButton(ViewGroup parent) {
-            // Make this method public for testing
-            return super.createButton(parent);
-        }
-    }
+  }
 }

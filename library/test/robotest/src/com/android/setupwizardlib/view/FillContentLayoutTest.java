@@ -21,9 +21,7 @@ import static org.robolectric.RuntimeEnvironment.application;
 
 import android.view.View;
 import android.view.View.MeasureSpec;
-
 import com.android.setupwizardlib.robolectric.SuwLibRobolectricTestRunner;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
@@ -33,55 +31,58 @@ import org.robolectric.annotation.Config;
 @Config(sdk = {Config.OLDEST_SDK, Config.NEWEST_SDK})
 public class FillContentLayoutTest {
 
-    @Test
-    public void testMeasureMinSize() {
-        FillContentLayout layout = new FillContentLayout(
-                application,
-                Robolectric.buildAttributeSet()
-                        .addAttribute(android.R.attr.minWidth, "123dp")
-                        .addAttribute(android.R.attr.minHeight, "123dp")
-                        .build());
-        layout.measure(
-                MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED),
-                MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED));
+  @Test
+  public void testMeasureMinSize() {
+    FillContentLayout layout =
+        new FillContentLayout(
+            application,
+            Robolectric.buildAttributeSet()
+                .addAttribute(android.R.attr.minWidth, "123dp")
+                .addAttribute(android.R.attr.minHeight, "123dp")
+                .build());
+    layout.measure(
+        MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED),
+        MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED));
 
-        assertEquals(123, layout.getMeasuredWidth());
-        assertEquals(123, layout.getMeasuredHeight());
-    }
+    assertEquals(123, layout.getMeasuredWidth());
+    assertEquals(123, layout.getMeasuredHeight());
+  }
 
-    @Test
-    public void testMeasureChildIsSmallerThanMaxSize() {
-        View child = new View(application);
-        FillContentLayout layout = new FillContentLayout(
-                application,
-                Robolectric.buildAttributeSet()
-                        .addAttribute(android.R.attr.maxWidth, "123dp")
-                        .addAttribute(android.R.attr.maxHeight, "123dp")
-                        .build());
-        layout.addView(child);
-        layout.measure(
-                MeasureSpec.makeMeasureSpec(300, MeasureSpec.EXACTLY),
-                MeasureSpec.makeMeasureSpec(300, MeasureSpec.EXACTLY));
+  @Test
+  public void testMeasureChildIsSmallerThanMaxSize() {
+    View child = new View(application);
+    FillContentLayout layout =
+        new FillContentLayout(
+            application,
+            Robolectric.buildAttributeSet()
+                .addAttribute(android.R.attr.maxWidth, "123dp")
+                .addAttribute(android.R.attr.maxHeight, "123dp")
+                .build());
+    layout.addView(child);
+    layout.measure(
+        MeasureSpec.makeMeasureSpec(300, MeasureSpec.EXACTLY),
+        MeasureSpec.makeMeasureSpec(300, MeasureSpec.EXACTLY));
 
-        assertEquals(123, child.getMeasuredWidth());
-        assertEquals(123, child.getMeasuredHeight());
-    }
+    assertEquals(123, child.getMeasuredWidth());
+    assertEquals(123, child.getMeasuredHeight());
+  }
 
-    @Test
-    public void testMeasureChildIsSmallerThanParent() {
-        View child = new View(application);
-        FillContentLayout layout = new FillContentLayout(
-                application,
-                Robolectric.buildAttributeSet()
-                        .addAttribute(android.R.attr.maxWidth, "123dp")
-                        .addAttribute(android.R.attr.maxHeight, "123dp")
-                        .build());
-        layout.addView(child);
-        layout.measure(
-                MeasureSpec.makeMeasureSpec(88, MeasureSpec.EXACTLY),
-                MeasureSpec.makeMeasureSpec(88, MeasureSpec.EXACTLY));
+  @Test
+  public void testMeasureChildIsSmallerThanParent() {
+    View child = new View(application);
+    FillContentLayout layout =
+        new FillContentLayout(
+            application,
+            Robolectric.buildAttributeSet()
+                .addAttribute(android.R.attr.maxWidth, "123dp")
+                .addAttribute(android.R.attr.maxHeight, "123dp")
+                .build());
+    layout.addView(child);
+    layout.measure(
+        MeasureSpec.makeMeasureSpec(88, MeasureSpec.EXACTLY),
+        MeasureSpec.makeMeasureSpec(88, MeasureSpec.EXACTLY));
 
-        assertEquals(88, child.getMeasuredWidth());
-        assertEquals(88, child.getMeasuredHeight());
-    }
+    assertEquals(88, child.getMeasuredWidth());
+    assertEquals(88, child.getMeasuredHeight());
+  }
 }
