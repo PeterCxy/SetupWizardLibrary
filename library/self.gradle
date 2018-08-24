@@ -51,8 +51,8 @@ android.sourceSets {
         java.srcDirs = ['test/robotest/src']
 
         dependencies {
-            testImplementation 'org.robolectric:robolectric:3.6.1'
-            testImplementation 'org.robolectric:shadows-framework:3.6.1'
+            testImplementation 'org.robolectric:robolectric:4.0-alpha-3'
+            testImplementation 'org.robolectric:shadows-framework:4.0-alpha-3'
             testImplementation 'junit:junit:4.+'
             testImplementation 'com.google.truth:truth:0.31'
             testImplementation 'org.mockito:mockito-core:1.9.5'
