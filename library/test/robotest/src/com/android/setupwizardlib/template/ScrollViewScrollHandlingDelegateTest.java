@@ -21,17 +21,17 @@ import static org.mockito.Mockito.verify;
 import static org.robolectric.RuntimeEnvironment.application;
 
 import android.view.View;
-import com.android.setupwizardlib.robolectric.SuwLibRobolectricTestRunner;
 import com.android.setupwizardlib.view.BottomScrollView;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
 @Config(sdk = {Config.OLDEST_SDK, Config.NEWEST_SDK})
-@RunWith(SuwLibRobolectricTestRunner.class)
+@RunWith(RobolectricTestRunner.class)
 public class ScrollViewScrollHandlingDelegateTest {
 
   @Mock private RequireScrollMixin requireScrollMixin;

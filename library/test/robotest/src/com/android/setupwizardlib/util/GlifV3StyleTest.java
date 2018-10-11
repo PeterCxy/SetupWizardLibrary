@@ -17,8 +17,6 @@
 package com.android.setupwizardlib.util;
 
 import static com.google.common.truth.Truth.assertThat;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 import android.app.Activity;
 import android.graphics.Color;
@@ -30,13 +28,13 @@ import androidx.annotation.Nullable;
 import android.view.View;
 import android.widget.Button;
 import com.android.setupwizardlib.R;
-import com.android.setupwizardlib.robolectric.SuwLibRobolectricTestRunner;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
+import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
-@RunWith(SuwLibRobolectricTestRunner.class)
+@RunWith(RobolectricTestRunner.class)
 @Config(minSdk = Config.OLDEST_SDK, maxSdk = Config.NEWEST_SDK)
 public class GlifV3StyleTest {
 
@@ -44,11 +42,11 @@ public class GlifV3StyleTest {
   public void activityWithGlifV3Theme_shouldUseLightNavBarOnV27OrAbove() {
     GlifThemeActivity activity = Robolectric.setupActivity(GlifThemeActivity.class);
     if (VERSION.SDK_INT >= VERSION_CODES.O_MR1) {
-      assertEquals(Color.WHITE, activity.getWindow().getNavigationBarColor());
+      assertThat(activity.getWindow().getNavigationBarColor()).isEqualTo(Color.WHITE);
       int vis = activity.getWindow().getDecorView().getSystemUiVisibility();
-      assertTrue((vis & View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR) != 0);
+      assertThat((vis & View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR) != 0).isTrue();
     } else if (VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP) {
-      assertEquals(Color.BLACK, activity.getWindow().getNavigationBarColor());
+      assertThat(activity.getWindow().getNavigationBarColor()).isEqualTo(Color.BLACK);
     }
     // Nav bar color is not customizable pre-L
   }

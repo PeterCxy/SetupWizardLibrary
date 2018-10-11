@@ -16,24 +16,22 @@
 
 package com.android.setupwizardlib.items;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertSame;
+import static com.google.common.truth.Truth.assertWithMessage;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 
-import com.android.setupwizardlib.robolectric.SuwLibRobolectricTestRunner;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InOrder;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
-@RunWith(SuwLibRobolectricTestRunner.class)
+@RunWith(RobolectricTestRunner.class)
 @Config(sdk = {Config.OLDEST_SDK, Config.NEWEST_SDK})
 public class ItemGroupTest {
 
@@ -58,9 +56,13 @@ public class ItemGroupTest {
     itemGroup.addChild(CHILD_1);
     itemGroup.addChild(CHILD_2);
 
-    assertSame("Item at position 0 should be child1", CHILD_1, itemGroup.getItemAt(0));
-    assertSame("Item at position 1 should be child2", CHILD_2, itemGroup.getItemAt(1));
-    assertEquals("Should have 2 children", 2, itemGroup.getCount());
+    assertWithMessage("Item at position 0 should be child1")
+        .that(itemGroup.getItemAt(0))
+        .isSameAs(CHILD_1);
+    assertWithMessage("Item at position 1 should be child2")
+        .that(itemGroup.getItemAt(1))
+        .isSameAs(CHILD_2);
+    assertWithMessage("Should have 2 children").that(itemGroup.getCount()).isEqualTo(2);
 
     final InOrder inOrder = inOrder(observer);
     inOrder.verify(observer).onItemRangeInserted(eq(itemGroup), eq(0), eq(1));
@@ -75,9 +77,13 @@ public class ItemGroupTest {
 
     itemGroup.removeChild(CHILD_2);
 
-    assertSame("Item at position 0 should be child1", CHILD_1, itemGroup.getItemAt(0));
-    assertSame("Item at position 1 should be child3", CHILD_3, itemGroup.getItemAt(1));
-    assertEquals("Should have 2 children", 2, itemGroup.getCount());
+    assertWithMessage("Item at position 0 should be child1")
+        .that(itemGroup.getItemAt(0))
+        .isSameAs(CHILD_1);
+    assertWithMessage("Item at position 1 should be child3")
+        .that(itemGroup.getItemAt(1))
+        .isSameAs(CHILD_3);
+    assertWithMessage("Should have 2 children").that(itemGroup.getCount()).isEqualTo(2);
 
     verify(observer).onItemRangeRemoved(eq(itemGroup), eq(1), eq(1));
   }
@@ -89,7 +95,7 @@ public class ItemGroupTest {
 
     itemGroup.clear();
 
-    assertEquals("Should have 0 child", 0, itemGroup.getCount());
+    assertWithMessage("Should have 0 child").that(itemGroup.getCount()).isEqualTo(0);
 
     verify(observer).onItemRangeRemoved(eq(itemGroup), eq(0), eq(2));
   }
@@ -106,10 +112,18 @@ public class ItemGroupTest {
     parentGroup.addChild(childGroup);
     parentGroup.addChild(CHILD_4);
 
-    assertSame("Position 0 should be child 1", CHILD_1, parentGroup.getItemAt(0));
-    assertSame("Position 1 should be child 2", CHILD_2, parentGroup.getItemAt(1));
-    assertSame("Position 2 should be child 3", CHILD_3, parentGroup.getItemAt(2));
-    assertSame("Position 3 should be child 4", CHILD_4, parentGroup.getItemAt(3));
+    assertWithMessage("Position 0 should be child 1")
+        .that(parentGroup.getItemAt(0))
+        .isSameAs(CHILD_1);
+    assertWithMessage("Position 1 should be child 2")
+        .that(parentGroup.getItemAt(1))
+        .isSameAs(CHILD_2);
+    assertWithMessage("Position 2 should be child 3")
+        .that(parentGroup.getItemAt(2))
+        .isSameAs(CHILD_3);
+    assertWithMessage("Position 3 should be child 4")
+        .that(parentGroup.getItemAt(3))
+        .isSameAs(CHILD_4);
 
     final InOrder inOrder = inOrder(observer);
     inOrder.verify(observer).onItemRangeInserted(eq(parentGroup), eq(0), eq(1));
@@ -246,8 +260,12 @@ public class ItemGroupTest {
     parentGroup.addChild(childGroup);
     parentGroup.addChild(CHILD_2);
 
-    assertSame("Position 0 should be child 1", CHILD_1, parentGroup.getItemAt(0));
-    assertSame("Position 1 should be child 2", CHILD_2, parentGroup.getItemAt(1));
+    assertWithMessage("Position 0 should be child 1")
+        .that(parentGroup.getItemAt(0))
+        .isSameAs(CHILD_1);
+    assertWithMessage("Position 1 should be child 2")
+        .that(parentGroup.getItemAt(1))
+        .isSameAs(CHILD_2);
   }
 
   @Test
@@ -258,7 +276,9 @@ public class ItemGroupTest {
     itemGroup.addChild(CHILD_1);
     itemGroup.addChild(CHILD_2);
 
-    assertSame("Find item 23456 should return child 2", CHILD_2, itemGroup.findItemById(23456));
+    assertWithMessage("Find item 23456 should return child 2")
+        .that(itemGroup.findItemById(23456))
+        .isSameAs(CHILD_2);
   }
 
   @Test
@@ -269,7 +289,9 @@ public class ItemGroupTest {
     itemGroup.addChild(CHILD_1);
     itemGroup.addChild(CHILD_2);
 
-    assertNull("ID not found should return null", itemGroup.findItemById(56789));
+    assertWithMessage("ID not found should return null")
+        .that(itemGroup.findItemById(56789))
+        .isNull();
   }
 
   /**

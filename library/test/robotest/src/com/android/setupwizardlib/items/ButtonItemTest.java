@@ -16,12 +16,8 @@
 
 package com.android.setupwizardlib.items;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
+import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assertWithMessage;
 import static org.junit.Assert.fail;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.same;
@@ -31,7 +27,6 @@ import static org.mockito.Mockito.verify;
 import static org.robolectric.RuntimeEnvironment.application;
 
 import android.content.Context;
-import android.text.TextUtils;
 import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,13 +35,13 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import com.android.setupwizardlib.R;
 import com.android.setupwizardlib.items.ButtonItem.OnClickListener;
-import com.android.setupwizardlib.robolectric.SuwLibRobolectricTestRunner;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
-@RunWith(SuwLibRobolectricTestRunner.class)
+@RunWith(RobolectricTestRunner.class)
 @Config(sdk = {Config.OLDEST_SDK, Config.NEWEST_SDK})
 public class ButtonItemTest {
 
@@ -63,12 +58,11 @@ public class ButtonItemTest {
   public void testDefaultItem() {
     ButtonItem item = new ButtonItem();
 
-    assertTrue("ButtonItem should be enabled by default", item.isEnabled());
-    assertEquals("ButtonItem should return count = 0", 0, item.getCount());
-    assertEquals("ButtonItem should return layout resource = 0", 0, item.getLayoutResource());
-    assertEquals(
-        "Default theme should be @style/SuwButtonItem", R.style.SuwButtonItem, item.getTheme());
-    assertNull("Default text should be null", item.getText());
+    assertThat(item.isEnabled()).named("enabled").isTrue();
+    assertThat(item.getCount()).named("count").isEqualTo(0);
+    assertThat(item.getLayoutResource()).named("layout resource").isEqualTo(0);
+    assertThat(item.getTheme()).named("theme").isEqualTo(R.style.SuwButtonItem);
+    assertThat(item.getText()).named("text").isNull();
   }
 
   @Test
@@ -88,8 +82,8 @@ public class ButtonItemTest {
     TestButtonItem item = new TestButtonItem();
     final Button button = item.createButton(parent);
 
-    assertTrue("Default button should be enabled", button.isEnabled());
-    assertTrue("Default button text should be empty", TextUtils.isEmpty(button.getText()));
+    assertThat(button.isEnabled()).named("enabled").isTrue();
+    assertThat(button.getText().toString()).isEmpty();
   }
 
   @Test
@@ -98,7 +92,9 @@ public class ButtonItemTest {
     final int id = 12345;
     item.setId(id);
 
-    assertEquals("Button's id should be set", id, item.createButton(parent).getId());
+    assertWithMessage("Button's id should be set")
+        .that(item.createButton(parent).getId())
+        .isEqualTo(id);
   }
 
   @Test
@@ -110,8 +106,10 @@ public class ButtonItemTest {
     frameLayout.addView(button);
 
     final Button button2 = item.createButton(parent);
-    assertSame("createButton should be reused", button, button2);
-    assertNull("Should be removed from parent after createButton", button2.getParent());
+    assertWithMessage("createButton should be reused").that(button2).isSameAs(button);
+    assertWithMessage("Should be removed from parent after createButton")
+        .that(button2.getParent())
+        .isNull();
   }
 
   @Test
@@ -120,8 +118,8 @@ public class ButtonItemTest {
     item.setEnabled(true);
 
     final Button button = item.createButton(parent);
-    assertTrue("ButtonItem should be enabled", item.isEnabled());
-    assertTrue("Button should be enabled", button.isEnabled());
+    assertWithMessage("ButtonItem should be enabled").that(item.isEnabled()).isTrue();
+    assertWithMessage("Button should be enabled").that(button.isEnabled()).isTrue();
   }
 
   @Test
@@ -130,8 +128,8 @@ public class ButtonItemTest {
     item.setEnabled(false);
 
     final Button button = item.createButton(parent);
-    assertFalse("ButtonItem should be disabled", item.isEnabled());
-    assertFalse("Button should be disabled", button.isEnabled());
+    assertWithMessage("ButtonItem should be disabled").that(item.isEnabled()).isFalse();
+    assertWithMessage("Button should be disabled").that(button.isEnabled()).isFalse();
   }
 
   @Test
@@ -140,8 +138,12 @@ public class ButtonItemTest {
     item.setText("lorem ipsum");
 
     final Button button = item.createButton(parent);
-    assertEquals("ButtonItem text should be \"lorem ipsum\"", "lorem ipsum", item.getText());
-    assertEquals("Button text should be \"lorem ipsum\"", "lorem ipsum", button.getText());
+    assertWithMessage("ButtonItem text should be \"lorem ipsum\"")
+        .that(item.getText().toString())
+        .isEqualTo("lorem ipsum");
+    assertWithMessage("Button text should be \"lorem ipsum\"")
+        .that(button.getText().toString())
+        .isEqualTo("lorem ipsum");
   }
 
   @Test
@@ -150,11 +152,10 @@ public class ButtonItemTest {
     item.setTheme(R.style.SuwButtonItem_Colored);
 
     final Button button = item.createButton(parent);
-    assertEquals(
-        "ButtonItem theme should be SuwButtonItem.Colored",
-        R.style.SuwButtonItem_Colored,
-        item.getTheme());
-    assertNotNull(button.getContext().getTheme());
+    assertWithMessage("ButtonItem theme should be SuwButtonItem.Colored")
+        .that(item.getTheme())
+        .isEqualTo(R.style.SuwButtonItem_Colored);
+    assertThat(button.getContext().getTheme()).isNotNull();
   }
 
   @Test

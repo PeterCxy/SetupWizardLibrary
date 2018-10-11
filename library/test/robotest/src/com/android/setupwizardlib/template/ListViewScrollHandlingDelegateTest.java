@@ -25,24 +25,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
-import com.android.setupwizardlib.robolectric.SuwLibRobolectricTestRunner;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.robolectric.RobolectricTestRunner;
 import org.robolectric.Shadows;
 import org.robolectric.annotation.Config;
-import org.robolectric.shadows.ShadowListView;
 
 @Config(sdk = {Config.OLDEST_SDK, Config.NEWEST_SDK})
-@RunWith(SuwLibRobolectricTestRunner.class)
+@RunWith(RobolectricTestRunner.class)
 public class ListViewScrollHandlingDelegateTest {
 
   @Mock private RequireScrollMixin requireScrollMixin;
 
   private ListView listView;
-  private ShadowListView shadowListView;
   private ListViewScrollHandlingDelegate delegate;
 
   @Before
@@ -51,7 +49,6 @@ public class ListViewScrollHandlingDelegateTest {
 
     listView = new TestListView(application);
     delegate = new ListViewScrollHandlingDelegate(requireScrollMixin, listView);
-    shadowListView = Shadows.shadowOf(listView);
 
     listView.layout(0, 0, 50, 50);
   }
@@ -69,7 +66,7 @@ public class ListViewScrollHandlingDelegateTest {
 
     verify(requireScrollMixin).notifyScrollabilityChange(true);
 
-    shadowListView.getOnScrollListener().onScroll(listView, 2, 20, 20);
+    Shadows.shadowOf(listView).getOnScrollListener().onScroll(listView, 2, 20, 20);
 
     verify(requireScrollMixin).notifyScrollabilityChange(false);
   }
@@ -77,7 +74,7 @@ public class ListViewScrollHandlingDelegateTest {
   @Test
   public void testPageScrollDown() throws Throwable {
     delegate.pageScrollDown();
-    assertThat(shadowListView.getLastSmoothScrollByDistance()).isEqualTo(50);
+    assertThat(Shadows.shadowOf(listView).getLastSmoothScrollByDistance()).isEqualTo(50);
   }
 
   private static class TestListView extends ListView {

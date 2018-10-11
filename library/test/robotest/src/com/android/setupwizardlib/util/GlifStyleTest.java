@@ -17,8 +17,6 @@
 package com.android.setupwizardlib.util;
 
 import static com.google.common.truth.Truth.assertThat;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 import static org.robolectric.RuntimeEnvironment.application;
 
 import android.annotation.TargetApi;
@@ -30,18 +28,19 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.ContextThemeWrapper;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import com.android.setupwizardlib.R;
-import com.android.setupwizardlib.robolectric.SuwLibRobolectricTestRunner;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
+import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 import org.robolectric.util.ReflectionHelpers;
 import org.robolectric.util.ReflectionHelpers.ClassParameter;
 
-@RunWith(SuwLibRobolectricTestRunner.class)
+@RunWith(RobolectricTestRunner.class)
 @Config(sdk = {Config.OLDEST_SDK, Config.NEWEST_SDK})
 public class GlifStyleTest {
 
@@ -58,7 +57,8 @@ public class GlifStyleTest {
     if (VERSION.SDK_INT < VERSION_CODES.M) {
       // Robolectric resolved the wrong theme attribute on versions >= M
       // https://github.com/robolectric/robolectric/issues/2940
-      assertEquals("ff4285f4", Integer.toHexString(button.getTextColors().getDefaultColor()));
+      assertThat(Integer.toHexString(button.getTextColors().getDefaultColor()))
+          .isEqualTo("ff4285f4");
     }
   }
 
@@ -67,7 +67,7 @@ public class GlifStyleTest {
   @Test
   public void glifThemeLight_statusBarColorShouldBeTransparent() {
     GlifThemeActivity activity = Robolectric.setupActivity(GlifThemeActivity.class);
-    assertEquals(0x00000000, activity.getWindow().getStatusBarColor());
+    assertThat(activity.getWindow().getStatusBarColor()).isEqualTo(0x00000000);
   }
 
   @Test
@@ -75,9 +75,8 @@ public class GlifStyleTest {
     GlifThemeActivity activity = Robolectric.setupActivity(GlifThemeActivity.class);
     activity.setContentView(R.layout.suw_glif_loading_screen);
 
-    assertTrue(
-        "Progress bar should exist",
-        activity.findViewById(R.id.suw_large_progress_bar) instanceof ProgressBar);
+    assertThat((View) activity.findViewById(R.id.suw_large_progress_bar))
+        .isInstanceOf(ProgressBar.class);
   }
 
   private Button createButton(Context context, AttributeSet attrs) {

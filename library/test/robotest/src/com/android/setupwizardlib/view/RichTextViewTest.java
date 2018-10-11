@@ -17,10 +17,7 @@
 package com.android.setupwizardlib.view;
 
 import static com.google.common.truth.Truth.assertThat;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
+import static com.google.common.truth.Truth.assertWithMessage;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
@@ -37,16 +34,15 @@ import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.TextAppearanceSpan;
 import android.view.MotionEvent;
-import com.android.setupwizardlib.robolectric.SuwLibRobolectricTestRunner;
 import com.android.setupwizardlib.span.LinkSpan;
 import com.android.setupwizardlib.span.LinkSpan.OnLinkClickListener;
 import com.android.setupwizardlib.view.TouchableMovementMethod.TouchableLinkMovementMethod;
-import java.util.Arrays;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
-@RunWith(SuwLibRobolectricTestRunner.class)
+@RunWith(RobolectricTestRunner.class)
 @Config(sdk = {Config.OLDEST_SDK, Config.NEWEST_SDK})
 public class RichTextViewTest {
 
@@ -60,17 +56,19 @@ public class RichTextViewTest {
     textView.setText(ssb);
 
     final CharSequence text = textView.getText();
-    assertTrue("Text should be spanned", text instanceof Spanned);
+    assertThat(text).isInstanceOf(Spanned.class);
 
     assertThat(textView.getMovementMethod()).isInstanceOf(TouchableLinkMovementMethod.class);
 
     Object[] spans = ((Spanned) text).getSpans(0, text.length(), Annotation.class);
-    assertEquals("Annotation should be removed " + Arrays.toString(spans), 0, spans.length);
+    assertThat(spans).isEmpty();
 
     spans = ((Spanned) text).getSpans(0, text.length(), LinkSpan.class);
-    assertEquals("There should be one span " + Arrays.toString(spans), 1, spans.length);
-    assertTrue("The span should be a LinkSpan", spans[0] instanceof LinkSpan);
-    assertEquals("The LinkSpan should have id \"foobar\"", "foobar", ((LinkSpan) spans[0]).getId());
+    assertThat(spans).hasLength(1);
+    assertThat(spans[0]).isInstanceOf(LinkSpan.class);
+    assertWithMessage("The LinkSpan should have id \"foobar\"")
+        .that(((LinkSpan) spans[0]).getId())
+        .isEqualTo("foobar");
   }
 
   @Test
@@ -85,7 +83,7 @@ public class RichTextViewTest {
     OnLinkClickListener listener = mock(OnLinkClickListener.class);
     textView.setOnLinkClickListener(listener);
 
-    assertSame(listener, textView.getOnLinkClickListener());
+    assertThat(textView.getOnLinkClickListener()).isSameAs(listener);
 
     CharSequence text = textView.getText();
     LinkSpan[] spans = ((Spanned) text).getSpans(0, text.length(), LinkSpan.class);
@@ -159,14 +157,14 @@ public class RichTextViewTest {
     textView.setText(ssb);
 
     final CharSequence text = textView.getText();
-    assertTrue("Text should be spanned", text instanceof Spanned);
+    assertThat(text).isInstanceOf(Spanned.class);
 
     Object[] spans = ((Spanned) text).getSpans(0, text.length(), Annotation.class);
-    assertEquals("Annotation should be removed " + Arrays.toString(spans), 0, spans.length);
+    assertThat(spans).isEmpty();
 
     spans = ((Spanned) text).getSpans(0, text.length(), TextAppearanceSpan.class);
-    assertEquals("There should be one span " + Arrays.toString(spans), 1, spans.length);
-    assertTrue("The span should be a TextAppearanceSpan", spans[0] instanceof TextAppearanceSpan);
+    assertThat(spans).hasLength(1);
+    assertThat(spans[0]).isInstanceOf(TextAppearanceSpan.class);
   }
 
   @Test
@@ -178,7 +176,7 @@ public class RichTextViewTest {
     RichTextView view = new RichTextView(application);
     view.setText(spannableStringBuilder);
 
-    assertTrue("TextView should be focusable since it contains spans", view.isFocusable());
+    assertThat(view.isFocusable()).named("view focusable").isTrue();
   }
 
   @SuppressLint("SetTextI18n") // It's OK. This is just a test.
@@ -187,9 +185,7 @@ public class RichTextViewTest {
     RichTextView textView = new RichTextView(application);
     textView.setText("Thou shall not be focusable!");
 
-    assertFalse(
-        "TextView should not be focusable since it does not contain any span",
-        textView.isFocusable());
+    assertThat(textView.isFocusable()).named("view focusable").isFalse();
   }
 
   // Based on the text contents of the text view, the "focusable" property of the element
@@ -200,18 +196,18 @@ public class RichTextViewTest {
     RichTextView textView = new RichTextView(application);
     textView.setText("Thou shall not be focusable!");
 
-    assertFalse(textView.isFocusable());
-    assertFalse(textView.isFocusableInTouchMode());
+    assertThat(textView.isFocusable()).isFalse();
+    assertThat(textView.isFocusableInTouchMode()).isFalse();
 
     SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder("I am focusable");
     spannableStringBuilder.setSpan(new Annotation("link", "focus:on_me"), 0, 1, 0);
     textView.setText(spannableStringBuilder);
-    assertTrue(textView.isFocusable());
+    assertThat(textView.isFocusable()).isTrue();
     if (VERSION.SDK_INT >= VERSION_CODES.N_MR1) {
-      assertTrue(textView.isFocusableInTouchMode());
-      assertFalse(textView.getRevealOnFocusHint());
+      assertThat(textView.isFocusableInTouchMode()).isTrue();
+      assertThat(textView.getRevealOnFocusHint()).isFalse();
     } else {
-      assertFalse(textView.isFocusableInTouchMode());
+      assertThat(textView.isFocusableInTouchMode()).isFalse();
     }
   }
 

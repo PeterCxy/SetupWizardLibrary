@@ -29,15 +29,15 @@ import android.os.Build.VERSION_CODES;
 import com.android.setupwizardlib.R;
 import com.android.setupwizardlib.robolectric.ExternalResources;
 import com.android.setupwizardlib.robolectric.ExternalResources.Resources;
-import com.android.setupwizardlib.robolectric.SuwLibRobolectricTestRunner;
 import com.android.setupwizardlib.util.Partner.ResourceEntry;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.MockitoAnnotations;
+import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
-@RunWith(SuwLibRobolectricTestRunner.class)
+@RunWith(RobolectricTestRunner.class)
 @Config(sdk = {Config.OLDEST_SDK, Config.NEWEST_SDK})
 public class PartnerTest {
 

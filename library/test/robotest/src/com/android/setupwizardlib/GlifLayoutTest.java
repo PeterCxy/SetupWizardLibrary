@@ -16,14 +16,8 @@
 
 package com.android.setupwizardlib;
 
-import static org.hamcrest.Matchers.instanceOf;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
+import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assertWithMessage;
 import static org.robolectric.RuntimeEnvironment.application;
 
 import android.content.Context;
@@ -40,7 +34,6 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import com.android.setupwizardlib.robolectric.SuwLibRobolectricTestRunner;
 import com.android.setupwizardlib.template.ColoredHeaderMixin;
 import com.android.setupwizardlib.template.HeaderMixin;
 import com.android.setupwizardlib.template.IconMixin;
@@ -50,16 +43,17 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
+import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
-@RunWith(SuwLibRobolectricTestRunner.class)
+@RunWith(RobolectricTestRunner.class)
 @Config(sdk = {Config.OLDEST_SDK, Config.NEWEST_SDK})
 public class GlifLayoutTest {
 
   private Context context;
 
   @Before
-  public void setUp() throws Exception {
+  public void setUpContext() {
     context = new ContextThemeWrapper(application, R.style.SuwThemeGlif_Light);
   }
 
@@ -72,9 +66,11 @@ public class GlifLayoutTest {
   @Test
   public void testSetHeaderText() {
     GlifLayout layout = new GlifLayout(context);
-    TextView title = (TextView) layout.findViewById(R.id.suw_layout_title);
+    TextView title = layout.findViewById(R.id.suw_layout_title);
     layout.setHeaderText("Abracadabra");
-    assertEquals("Header text should be \"Abracadabra\"", "Abracadabra", title.getText());
+    assertWithMessage("Header text should be \"Abracadabra\"")
+        .that(title.getText().toString())
+        .isEqualTo("Abracadabra");
   }
 
   @Test
@@ -86,14 +82,15 @@ public class GlifLayoutTest {
     layout.addView(tv);
     assertDefaultTemplateInflated(layout);
     View view = layout.findViewById(testViewId);
-    assertSame("The view added should be the same text view", tv, view);
+    assertThat(view).named("Text view added").isSameAs(tv);
   }
 
   @Test
   public void testGetScrollView() {
     GlifLayout layout = new GlifLayout(context);
-    assertNotNull(
-        "Get scroll view should not be null with default template", layout.getScrollView());
+    assertWithMessage("Get scroll view should not be null with default template")
+        .that(layout.getScrollView())
+        .isNotNull();
   }
 
   @Test
@@ -101,19 +98,18 @@ public class GlifLayoutTest {
     GlifLayout layout = new GlifLayout(context);
     layout.setProgressBarShown(true);
     layout.setPrimaryColor(ColorStateList.valueOf(Color.RED));
-    assertEquals(
-        "Primary color should be red", ColorStateList.valueOf(Color.RED), layout.getPrimaryColor());
+    assertWithMessage("Primary color should be red")
+        .that(layout.getPrimaryColor())
+        .isEqualTo(ColorStateList.valueOf(Color.RED));
 
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-      ProgressBar progressBar = (ProgressBar) layout.findViewById(R.id.suw_layout_progress);
-      assertEquals(
-          "Progress bar should be tinted red",
-          ColorStateList.valueOf(Color.RED),
-          progressBar.getIndeterminateTintList());
-      assertEquals(
-          "Determinate progress bar should also be tinted red",
-          ColorStateList.valueOf(Color.RED),
-          progressBar.getProgressBackgroundTintList());
+      ProgressBar progressBar = layout.findViewById(R.id.suw_layout_progress);
+      assertThat(progressBar.getIndeterminateTintList())
+          .named("indeterminate progress bar tint")
+          .isEqualTo(ColorStateList.valueOf(Color.RED));
+      assertThat(progressBar.getProgressBackgroundTintList())
+          .named("determinate progress bar tint")
+          .isEqualTo(ColorStateList.valueOf(Color.RED));
     }
   }
 
@@ -123,22 +119,21 @@ public class GlifLayoutTest {
     GlifLayout layout = new GlifLayout(context);
     layout.setProgressBarShown(true);
     layout.setPrimaryColor(ColorStateList.valueOf(Color.RED));
-    assertEquals(
-        "Primary color should be red", ColorStateList.valueOf(Color.RED), layout.getPrimaryColor());
+    assertWithMessage("Primary color should be red")
+        .that(layout.getPrimaryColor())
+        .isEqualTo(ColorStateList.valueOf(Color.RED));
 
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-      ProgressBar progressBar = (ProgressBar) layout.findViewById(R.id.suw_layout_progress);
-      assertEquals(
-          "Progress bar should be tinted red",
-          ColorStateList.valueOf(Color.RED),
-          progressBar.getIndeterminateTintList());
-      assertEquals(
-          "Determinate progress bar should also be tinted red",
-          ColorStateList.valueOf(Color.RED),
-          progressBar.getProgressBackgroundTintList());
+      ProgressBar progressBar = layout.findViewById(R.id.suw_layout_progress);
+      assertWithMessage("Progress bar should be tinted red")
+          .that(progressBar.getIndeterminateTintList())
+          .isEqualTo(ColorStateList.valueOf(Color.RED));
+      assertWithMessage("Determinate progress bar should also be tinted red")
+          .that(progressBar.getProgressBackgroundTintList())
+          .isEqualTo(ColorStateList.valueOf(Color.RED));
     }
 
-    assertEquals(Color.RED, ((GlifPatternDrawable) getTabletBackground(layout)).getColor());
+    assertThat(((GlifPatternDrawable) getTabletBackground(layout)).getColor()).isEqualTo(Color.RED);
   }
 
   @Test
@@ -147,8 +142,8 @@ public class GlifLayoutTest {
     layout.setPrimaryColor(ColorStateList.valueOf(Color.BLUE));
     layout.setBackgroundBaseColor(ColorStateList.valueOf(Color.RED));
 
-    assertEquals(Color.RED, ((GlifPatternDrawable) getPhoneBackground(layout)).getColor());
-    assertEquals(Color.RED, layout.getBackgroundBaseColor().getDefaultColor());
+    assertThat(((GlifPatternDrawable) getPhoneBackground(layout)).getColor()).isEqualTo(Color.RED);
+    assertThat(layout.getBackgroundBaseColor().getDefaultColor()).isEqualTo(Color.RED);
   }
 
   @Config(qualifiers = "sw600dp")
@@ -158,8 +153,8 @@ public class GlifLayoutTest {
     layout.setPrimaryColor(ColorStateList.valueOf(Color.BLUE));
     layout.setBackgroundBaseColor(ColorStateList.valueOf(Color.RED));
 
-    assertEquals(Color.RED, ((GlifPatternDrawable) getTabletBackground(layout)).getColor());
-    assertEquals(Color.RED, layout.getBackgroundBaseColor().getDefaultColor());
+    assertThat(((GlifPatternDrawable) getTabletBackground(layout)).getColor()).isEqualTo(Color.RED);
+    assertThat(layout.getBackgroundBaseColor().getDefaultColor()).isEqualTo(Color.RED);
   }
 
   @Test
@@ -167,8 +162,8 @@ public class GlifLayoutTest {
     GlifLayout layout = new GlifLayout(context);
     layout.setBackgroundPatterned(true);
 
-    assertThat(getPhoneBackground(layout), instanceOf(GlifPatternDrawable.class));
-    assertTrue("Background should be patterned", layout.isBackgroundPatterned());
+    assertThat(getPhoneBackground(layout)).isInstanceOf(GlifPatternDrawable.class);
+    assertThat(layout.isBackgroundPatterned()).named("background is patterned").isTrue();
   }
 
   @Test
@@ -176,8 +171,8 @@ public class GlifLayoutTest {
     GlifLayout layout = new GlifLayout(context);
     layout.setBackgroundPatterned(false);
 
-    assertThat(getPhoneBackground(layout), instanceOf(ColorDrawable.class));
-    assertFalse("Background should not be patterned", layout.isBackgroundPatterned());
+    assertThat(getPhoneBackground(layout)).isInstanceOf(ColorDrawable.class);
+    assertThat(layout.isBackgroundPatterned()).named("background is patterned").isFalse();
   }
 
   @Config(qualifiers = "sw600dp")
@@ -186,8 +181,8 @@ public class GlifLayoutTest {
     GlifLayout layout = new GlifLayout(context);
     layout.setBackgroundPatterned(true);
 
-    assertThat(getTabletBackground(layout), instanceOf(GlifPatternDrawable.class));
-    assertTrue("Background should be patterned", layout.isBackgroundPatterned());
+    assertThat(getTabletBackground(layout)).isInstanceOf(GlifPatternDrawable.class);
+    assertThat(layout.isBackgroundPatterned()).named("background is patterned").isTrue();
   }
 
   @Config(qualifiers = "sw600dp")
@@ -196,8 +191,8 @@ public class GlifLayoutTest {
     GlifLayout layout = new GlifLayout(context);
     layout.setBackgroundPatterned(false);
 
-    assertThat(getTabletBackground(layout), instanceOf(ColorDrawable.class));
-    assertFalse("Background should not be patterned", layout.isBackgroundPatterned());
+    assertThat(getTabletBackground(layout)).isInstanceOf(ColorDrawable.class);
+    assertThat(layout.isBackgroundPatterned()).named("background is patterned").isFalse();
   }
 
   @Test
@@ -210,32 +205,32 @@ public class GlifLayoutTest {
   @Test
   public void testPeekProgressBarNull() {
     GlifLayout layout = new GlifLayout(context);
-    assertNull("PeekProgressBar should return null initially", layout.peekProgressBar());
+    assertWithMessage("PeekProgressBar should return null initially")
+        .that(layout.peekProgressBar())
+        .isNull();
   }
 
   @Test
   public void testPeekProgressBar() {
     GlifLayout layout = new GlifLayout(context);
     layout.setProgressBarShown(true);
-    assertNotNull(
-        "Peek progress bar should return the bar after setProgressBarShown(true)",
-        layout.peekProgressBar());
+    assertWithMessage("Peek progress bar should return the bar after setProgressBarShown(true)")
+        .that(layout.peekProgressBar())
+        .isNotNull();
   }
 
   @Test
   public void testMixins() {
     GlifLayout layout = new GlifLayout(context);
     final HeaderMixin header = layout.getMixin(HeaderMixin.class);
-    assertTrue(
-        "Header should be instance of ColoredHeaderMixin. "
-            + "Found "
-            + header.getClass()
-            + " instead.",
-        header instanceof ColoredHeaderMixin);
+    assertThat(header).named("header").isInstanceOf(ColoredHeaderMixin.class);
 
-    assertNotNull("GlifLayout should have icon mixin", layout.getMixin(IconMixin.class));
-    assertNotNull(
-        "GlifLayout should have progress bar mixin", layout.getMixin(ProgressBarMixin.class));
+    assertWithMessage("GlifLayout should have icon mixin")
+        .that(layout.getMixin(IconMixin.class))
+        .isNotNull();
+    assertWithMessage("GlifLayout should have progress bar mixin")
+        .that(layout.getMixin(ProgressBarMixin.class))
+        .isNotNull();
   }
 
   @Test
@@ -243,8 +238,8 @@ public class GlifLayoutTest {
     GlifLayout layout = new GlifLayout(context);
 
     final View view = layout.inflateFooter(android.R.layout.simple_list_item_1);
-    assertEquals(android.R.id.text1, view.getId());
-    assertNotNull(layout.findViewById(android.R.id.text1));
+    assertThat(view.getId()).isEqualTo(android.R.id.text1);
+    assertThat((View) layout.findViewById(android.R.id.text1)).isNotNull();
   }
 
   @Config(qualifiers = "sw600dp")
@@ -258,8 +253,8 @@ public class GlifLayoutTest {
     GlifLayout layout = new GlifLayout(context, R.layout.suw_glif_blank_template);
 
     final View view = layout.inflateFooter(android.R.layout.simple_list_item_1);
-    assertEquals(android.R.id.text1, view.getId());
-    assertNotNull(layout.findViewById(android.R.id.text1));
+    assertThat(view.getId()).isEqualTo(android.R.id.text1);
+    assertThat((View) layout.findViewById(android.R.id.text1)).isNotNull();
   }
 
   @Config(qualifiers = "sw600dp")
@@ -277,7 +272,7 @@ public class GlifLayoutTest {
                 .addAttribute(R.attr.suwFooter, "@android:layout/simple_list_item_1")
                 .build());
 
-    assertNotNull(layout.findViewById(android.R.id.text1));
+    assertThat((View) layout.findViewById(android.R.id.text1)).isNotNull();
   }
 
   @Test
@@ -285,8 +280,8 @@ public class GlifLayoutTest {
     GlifLayout layout = new GlifLayout(context);
 
     final View view = layout.inflateStickyHeader(android.R.layout.simple_list_item_1);
-    assertEquals(android.R.id.text1, view.getId());
-    assertNotNull(layout.findViewById(android.R.id.text1));
+    assertThat(view.getId()).isEqualTo(android.R.id.text1);
+    assertThat((View) layout.findViewById(android.R.id.text1)).isNotNull();
   }
 
   @Config(qualifiers = "sw600dp")
@@ -304,7 +299,7 @@ public class GlifLayoutTest {
                 .addAttribute(R.attr.suwStickyHeader, "@android:layout/simple_list_item_1")
                 .build());
 
-    assertNotNull(layout.findViewById(android.R.id.text1));
+    assertThat((View) layout.findViewById(android.R.id.text1)).isNotNull();
   }
 
   @Test
@@ -312,8 +307,8 @@ public class GlifLayoutTest {
     GlifLayout layout = new GlifLayout(context, R.layout.suw_glif_blank_template);
 
     final View view = layout.inflateStickyHeader(android.R.layout.simple_list_item_1);
-    assertEquals(android.R.id.text1, view.getId());
-    assertNotNull(layout.findViewById(android.R.id.text1));
+    assertThat(view.getId()).isEqualTo(android.R.id.text1);
+    assertThat((View) layout.findViewById(android.R.id.text1)).isNotNull();
   }
 
   @Config(qualifiers = "sw600dp")
@@ -327,9 +322,8 @@ public class GlifLayoutTest {
   public void createFromXml_shouldSetLayoutFullscreen_whenLayoutFullscreenIsNotSet() {
     GlifLayout layout = new GlifLayout(context, Robolectric.buildAttributeSet().build());
     if (VERSION.SDK_INT >= VERSION_CODES.M) {
-      assertEquals(
-          View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN,
-          layout.getSystemUiVisibility() & View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+      assertThat(layout.getSystemUiVisibility() & View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)
+          .isEqualTo(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
     }
   }
 
@@ -342,12 +336,11 @@ public class GlifLayoutTest {
                 .addAttribute(R.attr.suwLayoutFullscreen, "false")
                 .build());
 
-    assertEquals(0, layout.getSystemUiVisibility() & View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+    assertThat(layout.getSystemUiVisibility() & View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN).isEqualTo(0);
   }
 
   private Drawable getPhoneBackground(GlifLayout layout) {
-    final StatusBarBackgroundLayout patternBg =
-        (StatusBarBackgroundLayout) layout.findManagedViewById(R.id.suw_pattern_bg);
+    final StatusBarBackgroundLayout patternBg = layout.findManagedViewById(R.id.suw_pattern_bg);
     return patternBg.getStatusBarBackground();
   }
 
@@ -358,12 +351,14 @@ public class GlifLayoutTest {
 
   private void assertDefaultTemplateInflated(GlifLayout layout) {
     View title = layout.findViewById(R.id.suw_layout_title);
-    assertNotNull("@id/suw_layout_title should not be null", title);
+    assertWithMessage("@id/suw_layout_title should not be null").that(title).isNotNull();
 
     View icon = layout.findViewById(R.id.suw_layout_icon);
-    assertNotNull("@id/suw_layout_icon should not be null", icon);
+    assertWithMessage("@id/suw_layout_icon should not be null").that(icon).isNotNull();
 
     View scrollView = layout.findViewById(R.id.suw_scroll_view);
-    assertTrue("@id/suw_scroll_view should be a ScrollView", scrollView instanceof ScrollView);
+    assertWithMessage("@id/suw_scroll_view should be a ScrollView")
+        .that(scrollView instanceof ScrollView)
+        .isTrue();
   }
 }

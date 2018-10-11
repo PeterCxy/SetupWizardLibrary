@@ -26,17 +26,17 @@ import static org.robolectric.RuntimeEnvironment.application;
 
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.RecyclerView.OnScrollListener;
-import com.android.setupwizardlib.robolectric.SuwLibRobolectricTestRunner;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
 @Config(sdk = {Config.OLDEST_SDK, Config.NEWEST_SDK})
-@RunWith(SuwLibRobolectricTestRunner.class)
+@RunWith(RobolectricTestRunner.class)
 public class RecyclerViewScrollHandlingDelegateTest {
 
   @Mock private RequireScrollMixin mRequireScrollMixin;

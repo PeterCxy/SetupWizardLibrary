@@ -16,18 +16,18 @@
 
 package com.android.setupwizardlib.view;
 
-import static org.junit.Assert.assertEquals;
+import static com.google.common.truth.Truth.assertThat;
 import static org.robolectric.RuntimeEnvironment.application;
 
 import android.view.View;
 import android.view.View.MeasureSpec;
-import com.android.setupwizardlib.robolectric.SuwLibRobolectricTestRunner;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
+import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
-@RunWith(SuwLibRobolectricTestRunner.class)
+@RunWith(RobolectricTestRunner.class)
 @Config(sdk = {Config.OLDEST_SDK, Config.NEWEST_SDK})
 public class FillContentLayoutTest {
 
@@ -44,8 +44,8 @@ public class FillContentLayoutTest {
         MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED),
         MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED));
 
-    assertEquals(123, layout.getMeasuredWidth());
-    assertEquals(123, layout.getMeasuredHeight());
+    assertThat(layout.getMeasuredWidth()).isEqualTo(123);
+    assertThat(layout.getMeasuredHeight()).isEqualTo(123);
   }
 
   @Test
@@ -63,8 +63,8 @@ public class FillContentLayoutTest {
         MeasureSpec.makeMeasureSpec(300, MeasureSpec.EXACTLY),
         MeasureSpec.makeMeasureSpec(300, MeasureSpec.EXACTLY));
 
-    assertEquals(123, child.getMeasuredWidth());
-    assertEquals(123, child.getMeasuredHeight());
+    assertThat(child.getMeasuredWidth()).isEqualTo(123);
+    assertThat(child.getMeasuredHeight()).isEqualTo(123);
   }
 
   @Test
@@ -82,7 +82,7 @@ public class FillContentLayoutTest {
         MeasureSpec.makeMeasureSpec(88, MeasureSpec.EXACTLY),
         MeasureSpec.makeMeasureSpec(88, MeasureSpec.EXACTLY));
 
-    assertEquals(88, child.getMeasuredWidth());
-    assertEquals(88, child.getMeasuredHeight());
+    assertThat(child.getMeasuredWidth()).isEqualTo(88);
+    assertThat(child.getMeasuredHeight()).isEqualTo(88);
   }
 }

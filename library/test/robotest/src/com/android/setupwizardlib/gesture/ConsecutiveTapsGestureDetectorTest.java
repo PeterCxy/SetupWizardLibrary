@@ -23,17 +23,17 @@ import static org.robolectric.RuntimeEnvironment.application;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
-import com.android.setupwizardlib.robolectric.SuwLibRobolectricTestRunner;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InOrder;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
 @Config(sdk = {Config.OLDEST_SDK, Config.NEWEST_SDK})
-@RunWith(SuwLibRobolectricTestRunner.class)
+@RunWith(RobolectricTestRunner.class)
 public class ConsecutiveTapsGestureDetectorTest {
 
   @Mock private ConsecutiveTapsGestureDetector.OnConsecutiveTapsListener listener;

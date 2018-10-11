@@ -17,7 +17,6 @@
 package com.android.setupwizardlib.view;
 
 import static com.google.common.truth.Truth.assertThat;
-import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.mock;
 import static org.robolectric.RuntimeEnvironment.application;
 
@@ -27,13 +26,13 @@ import android.net.Uri;
 import androidx.annotation.RawRes;
 import android.view.View;
 import com.android.setupwizardlib.R;
-import com.android.setupwizardlib.robolectric.SuwLibRobolectricTestRunner;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.robolectric.Robolectric;
+import org.robolectric.RobolectricTestRunner;
 import org.robolectric.Shadows;
 import org.robolectric.annotation.Config;
 import org.robolectric.shadows.ShadowMediaPlayer;
@@ -43,7 +42,7 @@ import org.robolectric.shadows.util.DataSource;
 import org.robolectric.util.ReflectionHelpers;
 import org.robolectric.util.ReflectionHelpers.ClassParameter;
 
-@RunWith(SuwLibRobolectricTestRunner.class)
+@RunWith(RobolectricTestRunner.class)
 @Config(sdk = Config.NEWEST_SDK)
 public class IllustrationVideoViewTest {
 
@@ -70,8 +69,8 @@ public class IllustrationVideoViewTest {
     Robolectric.flushForegroundThreadScheduler();
     view.start();
 
-    assertNotNull(view.mMediaPlayer);
-    assertNotNull(view.surface);
+    assertThat(view.mMediaPlayer).isNotNull();
+    assertThat(view.surface).isNotNull();
 
     view.onWindowFocusChanged(false);
     assertThat(getShadowMediaPlayer().getState()).isEqualTo(ShadowMediaPlayer.State.PAUSED);
@@ -91,8 +90,8 @@ public class IllustrationVideoViewTest {
     createDefaultView();
     view.start();
 
-    assertNotNull(view.mMediaPlayer);
-    assertNotNull(view.surface);
+    assertThat(view.mMediaPlayer).isNotNull();
+    assertThat(view.surface).isNotNull();
 
     // MediaPlayer is set to null after destroy. Retrieve it first before we call destroy.
     ShadowMediaPlayer shadowMediaPlayer = getShadowMediaPlayer();

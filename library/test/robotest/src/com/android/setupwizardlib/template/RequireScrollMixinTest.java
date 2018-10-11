@@ -16,10 +16,8 @@
 
 package com.android.setupwizardlib.template;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
+import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assertWithMessage;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
@@ -34,7 +32,6 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import com.android.setupwizardlib.GlifLayout;
 import com.android.setupwizardlib.TemplateLayout;
-import com.android.setupwizardlib.robolectric.SuwLibRobolectricTestRunner;
 import com.android.setupwizardlib.template.RequireScrollMixin.OnRequireScrollStateChangedListener;
 import com.android.setupwizardlib.template.RequireScrollMixin.ScrollHandlingDelegate;
 import com.android.setupwizardlib.view.NavigationBar;
@@ -43,10 +40,11 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
 @Config(sdk = {Config.OLDEST_SDK, Config.NEWEST_SDK})
-@RunWith(SuwLibRobolectricTestRunner.class)
+@RunWith(RobolectricTestRunner.class)
 public class RequireScrollMixinTest {
 
   @Mock private ScrollHandlingDelegate delegate;
@@ -73,30 +71,31 @@ public class RequireScrollMixinTest {
   public void testScrollStateChangedListener() {
     OnRequireScrollStateChangedListener listener = mock(OnRequireScrollStateChangedListener.class);
     requireScrollMixin.setOnRequireScrollStateChangedListener(listener);
-    assertFalse(
-        "Scrolling should not be required initially", requireScrollMixin.isScrollingRequired());
+    assertWithMessage("Scrolling should not be required initially")
+        .that(requireScrollMixin.isScrollingRequired())
+        .isFalse();
 
     requireScrollMixin.notifyScrollabilityChange(true);
     verify(listener).onRequireScrollStateChanged(true);
-    assertTrue(
-        "Scrolling should be required when there is more content below the fold",
-        requireScrollMixin.isScrollingRequired());
+    assertWithMessage("Scrolling should be required when there is more content below the fold")
+        .that(requireScrollMixin.isScrollingRequired())
+        .isTrue();
 
     requireScrollMixin.notifyScrollabilityChange(false);
     verify(listener).onRequireScrollStateChanged(false);
-    assertFalse(
-        "Scrolling should not be required after scrolling to bottom",
-        requireScrollMixin.isScrollingRequired());
+    assertWithMessage("Scrolling should not be required after scrolling to bottom")
+        .that(requireScrollMixin.isScrollingRequired())
+        .isFalse();
 
     // Once the user has scrolled to the bottom, they should not be forced to scroll down again
     requireScrollMixin.notifyScrollabilityChange(true);
     verifyNoMoreInteractions(listener);
 
-    assertFalse(
-        "Scrolling should not be required after scrolling to bottom once",
-        requireScrollMixin.isScrollingRequired());
+    assertWithMessage("Scrolling should not be required after scrolling to bottom once")
+        .that(requireScrollMixin.isScrollingRequired())
+        .isFalse();
 
-    assertSame(listener, requireScrollMixin.getOnRequireScrollStateChangedListener());
+    assertThat(requireScrollMixin.getOnRequireScrollStateChangedListener()).isSameAs(listener);
   }
 
   @Test
@@ -123,23 +122,23 @@ public class RequireScrollMixinTest {
     requireScrollMixin.requireScrollWithNavigationBar(navigationBar);
 
     requireScrollMixin.notifyScrollabilityChange(true);
-    assertEquals(
-        "More button should be visible",
-        View.VISIBLE,
-        navigationBar.getMoreButton().getVisibility());
-    assertEquals(
-        "Next button should be hidden", View.GONE, navigationBar.getNextButton().getVisibility());
+    assertWithMessage("More button should be visible")
+        .that(navigationBar.getMoreButton().getVisibility())
+        .isEqualTo(View.VISIBLE);
+    assertWithMessage("Next button should be hidden")
+        .that(navigationBar.getNextButton().getVisibility())
+        .isEqualTo(View.GONE);
 
     navigationBar.getMoreButton().performClick();
     verify(delegate).pageScrollDown();
 
     requireScrollMixin.notifyScrollabilityChange(false);
-    assertEquals(
-        "More button should be hidden", View.GONE, navigationBar.getMoreButton().getVisibility());
-    assertEquals(
-        "Next button should be visible",
-        View.VISIBLE,
-        navigationBar.getNextButton().getVisibility());
+    assertWithMessage("More button should be hidden")
+        .that(navigationBar.getMoreButton().getVisibility())
+        .isEqualTo(View.GONE);
+    assertWithMessage("Next button should be visible")
+        .that(navigationBar.getNextButton().getVisibility())
+        .isEqualTo(View.VISIBLE);
   }
 
   @SuppressLint("SetTextI18n") // It's OK for testing
@@ -150,16 +149,18 @@ public class RequireScrollMixinTest {
     OnClickListener wrappedListener = mock(OnClickListener.class);
     requireScrollMixin.requireScrollWithButton(button, "TestMoreLabel", wrappedListener);
 
-    assertEquals("Button label should be kept initially", "OriginalLabel", button.getText());
+    assertWithMessage("Button label should be kept initially")
+        .that(button.getText().toString())
+        .isEqualTo("OriginalLabel");
 
     requireScrollMixin.notifyScrollabilityChange(true);
-    assertEquals("TestMoreLabel", button.getText());
+    assertThat(button.getText().toString()).isEqualTo("TestMoreLabel");
     button.performClick();
     verify(wrappedListener, never()).onClick(eq(button));
     verify(delegate).pageScrollDown();
 
     requireScrollMixin.notifyScrollabilityChange(false);
-    assertEquals("OriginalLabel", button.getText());
+    assertThat(button.getText().toString()).isEqualTo("OriginalLabel");
     button.performClick();
     verify(wrappedListener).onClick(eq(button));
   }

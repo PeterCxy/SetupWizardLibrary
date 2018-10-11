@@ -17,7 +17,7 @@
 package com.android.setupwizardlib.span;
 
 import static com.google.common.truth.Truth.assertThat;
-import static org.junit.Assert.assertSame;
+import static com.google.common.truth.Truth.assertWithMessage;
 import static org.robolectric.RuntimeEnvironment.application;
 
 import android.content.Context;
@@ -26,11 +26,11 @@ import android.text.Selection;
 import android.text.SpannableStringBuilder;
 import android.text.method.LinkMovementMethod;
 import android.widget.TextView;
-import com.android.setupwizardlib.robolectric.SuwLibRobolectricTestRunner;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.robolectric.RobolectricTestRunner;
 
-@RunWith(SuwLibRobolectricTestRunner.class)
+@RunWith(RobolectricTestRunner.class)
 public class LinkSpanTest {
 
   @Test
@@ -41,7 +41,9 @@ public class LinkSpanTest {
 
     linkSpan.onClick(textView);
 
-    assertSame("Clicked LinkSpan should be passed to setup", linkSpan, context.clickedSpan);
+    assertWithMessage("Clicked LinkSpan should be passed to setup")
+        .that(context.clickedSpan)
+        .isSameAs(linkSpan);
   }
 
   @Test
@@ -63,7 +65,9 @@ public class LinkSpanTest {
     final LinkSpan linkSpan = new LinkSpan("test_id");
 
     linkSpan.onClick(textView);
-    assertSame("Clicked LinkSpan should be passed to setup", linkSpan, context.clickedSpan);
+    assertWithMessage("Clicked LinkSpan should be passed to setup")
+        .that(context.clickedSpan)
+        .isSameAs(linkSpan);
   }
 
   @Test

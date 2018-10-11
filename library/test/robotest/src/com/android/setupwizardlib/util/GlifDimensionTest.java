@@ -16,7 +16,7 @@
 
 package com.android.setupwizardlib.util;
 
-import static org.junit.Assert.assertEquals;
+import static com.google.common.truth.Truth.assertWithMessage;
 import static org.robolectric.RuntimeEnvironment.application;
 
 import android.content.Context;
@@ -26,13 +26,13 @@ import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.ContextThemeWrapper;
 import com.android.setupwizardlib.R;
-import com.android.setupwizardlib.robolectric.SuwLibRobolectricTestRunner;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
-@RunWith(SuwLibRobolectricTestRunner.class)
+@RunWith(RobolectricTestRunner.class)
 @Config(sdk = Config.ALL_SDKS)
 public class GlifDimensionTest {
 
@@ -61,17 +61,17 @@ public class GlifDimensionTest {
     final int marginSides = a.getDimensionPixelSize(0, 0);
     a.recycle();
 
-    assertEquals(
-        "Dimensions should satisfy constraint: "
-            + "?attr/suwMarginSides = suw_items_glif_text_divider_inset",
-        marginSides,
-        res.getDimensionPixelSize(R.dimen.suw_items_glif_text_divider_inset));
+    assertWithMessage(
+            "Dimensions should satisfy constraint: "
+                + "?attr/suwMarginSides = suw_items_glif_text_divider_inset")
+        .that(res.getDimensionPixelSize(R.dimen.suw_items_glif_text_divider_inset))
+        .isEqualTo(marginSides);
 
-    assertEquals(
-        "Dimensions should satisfy constraint: ?attr/suwMarginSides + "
-            + "suw_items_icon_container_width = suw_items_glif_icon_divider_inset",
-        marginSides + res.getDimensionPixelSize(R.dimen.suw_items_icon_container_width),
-        res.getDimensionPixelSize(R.dimen.suw_items_glif_icon_divider_inset));
+    assertWithMessage(
+            "Dimensions should satisfy constraint: ?attr/suwMarginSides + "
+                + "suw_items_icon_container_width = suw_items_glif_icon_divider_inset")
+        .that(res.getDimensionPixelSize(R.dimen.suw_items_glif_icon_divider_inset))
+        .isEqualTo(marginSides + res.getDimensionPixelSize(R.dimen.suw_items_icon_container_width));
   }
 
   @Test
@@ -92,17 +92,17 @@ public class GlifDimensionTest {
     final int marginSides = a.getDimensionPixelSize(0, 0);
     a.recycle();
 
-    assertEquals(
-        "Dimensions should satisfy constraint: ?attr/suwMarginSides - "
-            + "4dp (internal padding of button) = suw_glif_button_margin_end",
-        marginSides - dp2Px(4),
-        res.getDimensionPixelSize(R.dimen.suw_glif_button_margin_end));
+    assertWithMessage(
+            "Dimensions should satisfy constraint: ?attr/suwMarginSides - "
+                + "4dp (internal padding of button) = suw_glif_button_margin_end")
+        .that(res.getDimensionPixelSize(R.dimen.suw_glif_button_margin_end))
+        .isEqualTo(marginSides - dp2Px(4));
 
-    assertEquals(
-        "Dimensions should satisfy constraint: ?attr/suwMarginSides - "
-            + "suw_glif_button_padding = suw_glif_button_margin_start",
-        marginSides - res.getDimensionPixelSize(R.dimen.suw_glif_button_padding),
-        res.getDimensionPixelSize(R.dimen.suw_glif_button_margin_start));
+    assertWithMessage(
+            "Dimensions should satisfy constraint: ?attr/suwMarginSides - "
+                + "suw_glif_button_padding = suw_glif_button_margin_start")
+        .that(res.getDimensionPixelSize(R.dimen.suw_glif_button_margin_start))
+        .isEqualTo(marginSides - res.getDimensionPixelSize(R.dimen.suw_glif_button_padding));
   }
 
   private int dp2Px(float dp) {
