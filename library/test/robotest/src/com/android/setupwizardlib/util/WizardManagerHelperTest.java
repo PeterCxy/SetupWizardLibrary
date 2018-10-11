@@ -16,10 +16,12 @@
 
 package com.android.setupwizardlib.util;
 
+import static com.google.common.truth.Truth.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.robolectric.RuntimeEnvironment.application;
+import static org.robolectric.Shadows.shadowOf;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -37,6 +39,7 @@ import java.util.Arrays;
 import java.util.List;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.robolectric.Robolectric;
 import org.robolectric.annotation.Config;
 
 @RunWith(SuwLibRobolectricTestRunner.class)
@@ -344,5 +347,21 @@ public class WizardManagerHelperTest {
     assertTrue(WizardManagerHelper.isDeviceProvisioned(application));
     Settings.Secure.putInt(application.getContentResolver(), Secure.DEVICE_PROVISIONED, 0);
     assertFalse(WizardManagerHelper.isDeviceProvisioned(application));
+  }
+
+  @Test
+  public void applyTheme_glifDayNight_shouldApplyThemeToActivity() {
+    Activity activity =
+        Robolectric.buildActivity(
+                Activity.class,
+                new Intent()
+                    .putExtra(
+                        WizardManagerHelper.EXTRA_THEME, WizardManagerHelper.THEME_GLIF_LIGHT))
+            .setup()
+            .get();
+
+    WizardManagerHelper.applyTheme(activity);
+
+    assertThat(shadowOf(activity).callGetThemeResId()).isEqualTo(R.style.SuwThemeGlif_DayNight);
   }
 }

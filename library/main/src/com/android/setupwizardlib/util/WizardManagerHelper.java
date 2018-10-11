@@ -16,6 +16,7 @@
 
 package com.android.setupwizardlib.util;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources.Theme;
@@ -25,9 +26,13 @@ import android.provider.Settings;
 import androidx.annotation.Nullable;
 import androidx.annotation.StyleRes;
 import androidx.annotation.VisibleForTesting;
-import com.android.setupwizardlib.R;
 import java.util.Arrays;
 
+/**
+ * Helper to interact with Wizard Manager in setup wizard, which should be used when a screen is
+ * shown inside the setup flow. This includes things like parsing extras passed by Wizard Manager,
+ * and invoking Wizard Manager to start the next action.
+ */
 public class WizardManagerHelper {
 
   private static final String ACTION_NEXT = "com.android.wizard.NEXT";
@@ -227,7 +232,7 @@ public class WizardManagerHelper {
   /**
    * Checks the intent whether the extra indicates that the light theme should be used or not. If
    * the theme is not specified in the intent, or the theme specified is unknown, the value def will
-   * be returned.
+   * be returned. Note that day-night themes are not taken into account by this method.
    *
    * @param intent The intent used to start the activity, which the theme extra will be read from.
    * @param def The default value if the theme is not specified.
@@ -240,7 +245,8 @@ public class WizardManagerHelper {
 
   /**
    * Checks whether {@code theme} represents a light or dark theme. If the theme specified is
-   * unknown, the value def will be returned.
+   * unknown, the value def will be returned. Note that day-night themes are not taken into account
+   * by this method.
    *
    * @param theme The theme as specified from an intent sent from setup wizard.
    * @param def The default value if the theme is not known.
@@ -273,10 +279,16 @@ public class WizardManagerHelper {
    * @return The style corresponding to the theme in the given intent, or {@code defaultTheme} if
    *     the given theme is not recognized.
    * @see #getThemeRes(String, int)
+   * @deprecated it is recommended to use {@link ThemeResolver} which allows setting the default
+   *     theme in one place and applying it to multiple screens.
    */
+  @Deprecated
   public static @StyleRes int getThemeRes(Intent intent, @StyleRes int defaultTheme) {
-    final String theme = intent.getStringExtra(EXTRA_THEME);
-    return getThemeRes(theme, defaultTheme, null);
+    return new ThemeResolver.Builder(ThemeResolver.getDefault())
+        .setDefaultTheme(defaultTheme)
+        .setUseDayNight(false)
+        .build()
+        .resolve(intent);
   }
 
   /**
@@ -289,11 +301,18 @@ public class WizardManagerHelper {
    *     the given theme is not recognized. Return the {@code defaultTheme} if the specified theme
    *     is older than the oldest supported one.
    * @see #getThemeRes(String, int)
+   * @deprecated it is recommended to use {@link ThemeResolver} which allows setting the default
+   *     theme and oldest supported theme in one place and applying it to multiple screens.
    */
+  @Deprecated
   public static @StyleRes int getThemeRes(
       Intent intent, @StyleRes int defaultTheme, @Nullable String oldestSupportedTheme) {
-    final String theme = intent.getStringExtra(EXTRA_THEME);
-    return getThemeRes(theme, defaultTheme, oldestSupportedTheme);
+    return new ThemeResolver.Builder(ThemeResolver.getDefault())
+        .setDefaultTheme(defaultTheme)
+        .setUseDayNight(false)
+        .setOldestSupportedTheme(oldestSupportedTheme)
+        .build()
+        .resolve(intent);
   }
 
   /**
@@ -314,93 +333,68 @@ public class WizardManagerHelper {
    * @param theme The string representation of the theme.
    * @return The style corresponding to the given {@code theme}, or {@code defaultTheme} if the
    *     given theme is not recognized.
+   * @deprecated it is recommended to use {@link ThemeResolver} which allows setting the default
+   *     theme in one place and applying it to multiple screens.
    */
-  public static @StyleRes int getThemeRes(String theme, @StyleRes int defaultTheme) {
-    return getThemeRes(theme, defaultTheme, null);
-  }
-
-  /**
-   * Gets the theme style resource defined by this library for the given theme name. For example,
-   * for THEME_GLIF_LIGHT, the theme @style/SuwThemeGlif.Light is returned.
-   *
-   * <p>If you require extra theme attributes but want to ensure forward compatibility with new
-   * themes added here, consider overriding {@link android.app.Activity#onApplyThemeResource} in
-   * your activity and call {@link Theme#applyStyle(int, boolean)} using your theme overlay.
-   *
-   * <pre>{@code
-   * protected void onApplyThemeResource(Theme theme, int resid, boolean first) {
-   *     super.onApplyThemeResource(theme, resid, first);
-   *     theme.applyStyle(R.style.MyThemeOverlay, true);
-   * }
-   * }</pre>
-   *
-   * @param theme The string representation of the theme.
-   * @return The style corresponding to the given {@code theme}, or {@code defaultTheme} if the
-   *     given theme is not recognized.
-   */
+  @Deprecated
   public static @StyleRes int getThemeRes(
       String theme, @StyleRes int defaultTheme, @Nullable String oldestSupportedTheme) {
-    int returnedTheme = defaultTheme;
-    if (theme != null) {
-      switch (theme) {
-        case THEME_GLIF_V3_LIGHT:
-          returnedTheme = R.style.SuwThemeGlifV3_Light;
-          break;
-        case THEME_GLIF_V3:
-          returnedTheme = R.style.SuwThemeGlifV3;
-          break;
-        case THEME_GLIF_V2_LIGHT:
-          returnedTheme = R.style.SuwThemeGlifV2_Light;
-          break;
-        case THEME_GLIF_V2:
-          returnedTheme = R.style.SuwThemeGlifV2;
-          break;
-        case THEME_GLIF_LIGHT:
-          returnedTheme = R.style.SuwThemeGlif_Light;
-          break;
-        case THEME_GLIF:
-          returnedTheme = R.style.SuwThemeGlif;
-          break;
-        case THEME_MATERIAL_LIGHT:
-          returnedTheme = R.style.SuwThemeMaterial_Light;
-          break;
-        case THEME_MATERIAL:
-          returnedTheme = R.style.SuwThemeMaterial;
-          break;
-        default:
-          // fall through
-      }
-
-      // b/79540471 Return the default theme if the specified theme
-      // is older than the oldest supported one.
-      if (oldestSupportedTheme != null
-          && (getThemeVersion(theme) < getThemeVersion(oldestSupportedTheme))) {
-        returnedTheme = defaultTheme;
-      }
-    }
-
-    return returnedTheme;
+    return new ThemeResolver.Builder(ThemeResolver.getDefault())
+        .setDefaultTheme(defaultTheme)
+        .setUseDayNight(false)
+        .setOldestSupportedTheme(oldestSupportedTheme)
+        .build()
+        .resolve(theme);
   }
 
-  private static int getThemeVersion(String theme) {
-    if (theme != null) {
-      switch (theme) {
-        case THEME_GLIF_V3_LIGHT:
-        case THEME_GLIF_V3:
-          return 4;
-        case THEME_GLIF_V2_LIGHT:
-        case THEME_GLIF_V2:
-          return 3;
-        case THEME_GLIF_LIGHT:
-        case THEME_GLIF:
-          return 2;
-        case THEME_MATERIAL_LIGHT:
-        case THEME_MATERIAL:
-          return 1;
-        default:
-          // fall through
-      }
-    }
-    return -1;
+  /**
+   * Gets the theme style resource defined by this library for the given theme name. For example,
+   * for THEME_GLIF_LIGHT, the theme @style/SuwThemeGlif.Light is returned.
+   *
+   * <p>If you require extra theme attributes but want to ensure forward compatibility with new
+   * themes added here, consider overriding {@link android.app.Activity#onApplyThemeResource} in
+   * your activity and call {@link Theme#applyStyle(int, boolean)} using your theme overlay.
+   *
+   * <pre>{@code
+   * protected void onApplyThemeResource(Theme theme, int resid, boolean first) {
+   *     super.onApplyThemeResource(theme, resid, first);
+   *     theme.applyStyle(R.style.MyThemeOverlay, true);
+   * }
+   * }</pre>
+   *
+   * @param theme The string representation of the theme.
+   * @return The style corresponding to the given {@code theme}, or {@code defaultTheme} if the
+   *     given theme is not recognized.
+   * @deprecated it is recommended to use {@link ThemeResolver} which allows setting the default
+   *     theme in one place and applying it to multiple screens.
+   */
+  @Deprecated
+  public static @StyleRes int getThemeRes(@Nullable String theme, @StyleRes int defaultTheme) {
+    return new ThemeResolver.Builder(ThemeResolver.getDefault())
+        .setDefaultTheme(defaultTheme)
+        .setUseDayNight(false)
+        .build()
+        .resolve(theme);
+  }
+
+  /**
+   * Reads the theme from the intent, and applies the theme to the activity as resolved by {@link
+   * ThemeResolver#getDefault()}.
+   *
+   * <p>If you require extra theme attributes, consider overriding {@link
+   * android.app.Activity#onApplyThemeResource} in your activity and call {@link
+   * Theme#applyStyle(int, boolean)} using your theme overlay.
+   *
+   * <pre>{@code
+   * protected void onApplyThemeResource(Theme theme, int resid, boolean first) {
+   *     super.onApplyThemeResource(theme, resid, first);
+   *     theme.applyStyle(R.style.MyThemeOverlay, true);
+   * }
+   * }</pre>
+   *
+   * @param activity the activity to get the intent from and apply the resulting theme to.
+   */
+  public static void applyTheme(Activity activity) {
+    ThemeResolver.getDefault().applyTheme(activity);
   }
 }
