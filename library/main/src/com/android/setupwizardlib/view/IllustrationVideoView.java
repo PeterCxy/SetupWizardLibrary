@@ -65,6 +65,8 @@ public class IllustrationVideoView extends TextureView implements Animatable,
 
     @VisibleForTesting Surface mSurface;
 
+    protected int mWindowVisibility;
+
     public IllustrationVideoView(Context context, AttributeSet attrs) {
         super(context, attrs);
         final TypedArray a = context.obtainStyledAttributes(attrs,
@@ -125,7 +127,7 @@ public class IllustrationVideoView extends TextureView implements Animatable,
      * Creates a media player for the current URI. The media player will be started immediately if
      * the view's window is visible. If there is an existing media player, it will be released.
      */
-    private void createMediaPlayer() {
+    protected void createMediaPlayer() {
         if (mMediaPlayer != null) {
             mMediaPlayer.release();
         }
@@ -150,8 +152,32 @@ public class IllustrationVideoView extends TextureView implements Animatable,
         } else {
             Log.wtf(TAG, "Unable to initialize media player for video view");
         }
-        if (getWindowVisibility() == View.VISIBLE) {
+        if (mWindowVisibility == View.VISIBLE) {
             start();
+        }
+    }
+
+    protected void createSurface() {
+        if (mSurface != null) {
+            mSurface.release();
+            mSurface = null;
+        }
+        // Reattach only if it has been previously released
+        SurfaceTexture surfaceTexture = getSurfaceTexture();
+        if (surfaceTexture != null) {
+            setVisibility(View.INVISIBLE);
+            mSurface = new Surface(surfaceTexture);
+        }
+    }
+
+    @Override
+    protected void onWindowVisibilityChanged(int visibility) {
+        super.onWindowVisibilityChanged(visibility);
+        mWindowVisibility = visibility;
+        if (visibility == View.VISIBLE) {
+            reattach();
+        } else {
+            release();
         }
     }
 
@@ -179,14 +205,34 @@ public class IllustrationVideoView extends TextureView implements Animatable,
         }
     }
 
+    private void reattach() {
+        if (mSurface == null) {
+            initVideo();
+        }
+    }
+
+    private void initVideo() {
+        if (mWindowVisibility != View.VISIBLE) {
+            return;
+        }
+        createSurface();
+        if (mSurface != null) {
+            createMediaPlayer();
+        } else {
+            Log.w("IllustrationVideoView", "Surface creation failed");
+        }
+    }
+
+    protected void onRenderingStart() {
+    }
+
     /* SurfaceTextureListener methods */
 
     @Override
     public void onSurfaceTextureAvailable(SurfaceTexture surfaceTexture, int width, int height) {
         // Keep the view hidden until video starts
         setVisibility(View.INVISIBLE);
-        mSurface = new Surface(surfaceTexture);
-        createMediaPlayer();
+        initVideo();
     }
 
     @Override
@@ -231,6 +277,7 @@ public class IllustrationVideoView extends TextureView implements Animatable,
         if (what == MediaPlayer.MEDIA_INFO_VIDEO_RENDERING_START) {
             // Video available, show view now
             setVisibility(View.VISIBLE);
+            onRenderingStart();
         }
         return false;
     }
