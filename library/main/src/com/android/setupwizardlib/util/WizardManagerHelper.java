@@ -47,6 +47,7 @@ public class WizardManagerHelper {
   @VisibleForTesting static final String EXTRA_IS_FIRST_RUN = "firstRun";
   @VisibleForTesting static final String EXTRA_IS_DEFERRED_SETUP = "deferredSetup";
   @VisibleForTesting static final String EXTRA_IS_PRE_DEFERRED_SETUP = "preDeferredSetup";
+  @VisibleForTesting public static final String EXTRA_IS_SETUP_FLOW = "isSetupFlow";
 
   public static final String EXTRA_THEME = "theme";
   public static final String EXTRA_USE_IMMERSIVE_MODE = "useImmersiveMode";
@@ -143,7 +144,11 @@ public class WizardManagerHelper {
   public static void copyWizardManagerExtras(Intent srcIntent, Intent dstIntent) {
     dstIntent.putExtra(EXTRA_WIZARD_BUNDLE, srcIntent.getBundleExtra(EXTRA_WIZARD_BUNDLE));
     for (String key :
-        Arrays.asList(EXTRA_IS_FIRST_RUN, EXTRA_IS_DEFERRED_SETUP, EXTRA_IS_PRE_DEFERRED_SETUP)) {
+        Arrays.asList(
+            EXTRA_IS_FIRST_RUN,
+            EXTRA_IS_DEFERRED_SETUP,
+            EXTRA_IS_PRE_DEFERRED_SETUP,
+            EXTRA_IS_SETUP_FLOW)) {
       dstIntent.putExtra(key, srcIntent.getBooleanExtra(key, false));
     }
 
