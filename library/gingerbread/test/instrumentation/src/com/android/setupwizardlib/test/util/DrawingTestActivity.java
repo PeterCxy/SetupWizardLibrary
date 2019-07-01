@@ -26,5 +26,4 @@ import androidx.appcompat.app.AppCompatActivity;
  *
  * @see DrawingTestHelper
  */
-public class DrawingTestActivity extends AppCompatActivity {
-}
+public class DrawingTestActivity extends AppCompatActivity {}
