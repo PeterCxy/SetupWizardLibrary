@@ -71,8 +71,8 @@ dependencies {
     //          deps = ['project-name': 'com.example.group:project-name:1.0.0']
     //      }
     //
-    platformDeprecatedCompile deps['support-annotations']
+    platformDeprecatedImplementation deps['support-annotations']
 
-    gingerbreadCompatCompile deps['support-appcompat-v7']
-    gingerbreadCompatCompile deps['support-recyclerview-v7']
+    gingerbreadCompatImplementation deps['support-appcompat-v7']
+    gingerbreadCompatImplementation deps['support-recyclerview-v7']
 }
