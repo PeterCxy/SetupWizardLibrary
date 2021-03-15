@@ -13,6 +13,10 @@ android {
 
     publishNonDefault true
 
+    defaultConfig {
+        vectorDrawables.useSupportLibrary = true
+    }
+
     flavorDimensions 'compat'
 
     productFlavors {
