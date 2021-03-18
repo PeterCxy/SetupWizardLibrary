@@ -26,9 +26,9 @@ ext {
     //      }
     //
     deps = [
-        'support-annotations': 'androidx.annotation:annotation:1.0.0-alpha1',
-        'support-appcompat-v7': 'androidx.appcompat:appcompat:1.0.0-alpha1',
-        'support-recyclerview-v7': 'androidx.recyclerview:recyclerview:1.0.0-alpha1'
+        'support-annotations': 'androidx.annotation:annotation:1.1.0',
+        'support-appcompat-v7': 'androidx.appcompat:appcompat:1.2.0',
+        'support-recyclerview-v7': 'androidx.recyclerview:recyclerview:1.1.0'
     ]
 }
 
