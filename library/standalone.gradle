@@ -18,3 +18,4 @@ apply from: 'standalone-rules.gradle'
 
 android.compileSdkVersion 26
 android.buildToolsVersion '26.0.0'
+android.namespace 'com.android.setupwizardlib'
